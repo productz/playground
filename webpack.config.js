@@ -16,8 +16,7 @@ module.exports = {
         {
             test: /\.js$/, //Check for all js files
             use: [{
-                loader: 'babel-loader',
-                options: { presets: ['es2015'] }
+                loader: 'babel-loader'
             }]
         },
         {
