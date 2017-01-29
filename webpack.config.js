@@ -2,7 +2,6 @@
 var webpack = require('webpack');
 
 module.exports = {
-    context: __dirname + '/src', // `__dirname` is root of project and `src` is source
     entry: {
         app: './src/javascript/index.js',
     },
@@ -35,6 +34,6 @@ module.exports = {
     },
     //To run development server
     devServer: {
-        contentBase: __dirname + '/src',
+        contentBase: __dirname,
     },
 };
