@@ -1,4 +1,21 @@
 {
+  "name": "itechdom-playground",
+  "version": "1.0.0",
+  "description": "experiments",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itechdom/playground.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/itechdom/playground/issues"
+  },
+  "homepage": "https://github.com/itechdom/playground#readme",
   "dependencies": {
     "material-ui": "^0.16.7",
     "react": "^15.4.2",
