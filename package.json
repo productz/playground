@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/itechdom/playground/issues"
   },
-  "homepage": "https://github.com/itechdom/playground#readme"
+  "homepage": "https://github.com/itechdom/playground#readme",
+  "dependencies": {
+    "express": "^4.14.1",
+    "express-graphql": "^0.6.3",
+    "graphql": "^0.9.1"
+  }
 }
