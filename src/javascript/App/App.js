@@ -1,30 +1,95 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
+import { Router, Route, IndexRoute, Link, hashHistory, browserHistory } from 'react-router'
+import {Tabs, Tab} from 'material-ui/Tabs';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import AppBar from 'material-ui/AppBar';
+import FontIcon from 'material-ui/FontIcon';
+import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
-const App = ({children}) => (
-                <MuiThemeProvider>
+injectTapEventPlugin();
+
+const styles = {
+    title: {
+        textAlign: 'center',
+    },
+};
+
+class App extends React.Component{
+    render(){
+        return(
+            <MuiThemeProvider>
                 <div>
-                <header>
-                <h1>Sam Alghanmi: Full Stack Developer</h1>
-                <nav>
-                <ul>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/about">About</Link></li>
-                <li><Link to="/portfolio">Portfolio</Link></li>
-                <li><Link to="/contact">Contact</Link></li>
-                </ul>
-                </nav>
-                </header>
-                <div className="container">
-                {children}
+                    <AppBar
+                    style={{textAlign:"center"}}
+                    title={<span style={styles.title}>Sam Alghanmi: Full Stack Developer</span>}
+                />
+                    <Menu
+                    changeRoute={this.changeRoute}
+                    >
+                    </Menu>
+                    <CardFrame
+                    >
+                        {this.props.children}
+                     </CardFrame>
                 </div>
-                <footer>
-                All Rights Reserved
-                </footer>
-                </div>
-                </MuiThemeProvider>
+            </MuiThemeProvider>
+        );
+    }
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            children: nextProps.children
+        });
+    }
+    changeRoute(tab) {
+        hashHistory.push(tab.props['data-route']);
+    }
+};
+
+const CardFrame = ({children}) => (
+        <Card>
+        <CardHeader
+        />
+        <CardText >
+        {children}
+        </CardText>
+        </Card>
+);
+
+const Menu = ({changeRoute}) => (
+        <Tabs>
+        <Tab
+        icon={<FontIcon className="material-icons">home</FontIcon>}
+        label="Home"
+        data-route="/"
+        onActive={changeRoute}
+        />
+        <Tab
+        icon={<FontIcon className="material-icons">info</FontIcon>}
+        label="About"
+        data-route="/about"
+        onActive={changeRoute}
+        />
+        <Tab
+        icon={<FontIcon className="material-icons">favorite</FontIcon>}
+        label="Portfolio"
+        data-route="/portfolio"
+        onActive={changeRoute}
+        />
+        <Tab
+        icon={<MapsPersonPin />}
+        label="Contact"
+        data-route="/contact"
+        onActive={changeRoute}
+        />
+        </Tabs>
+);
+
+const Footer = () => (
+    <footer>
+    </footer>
 );
 
 const Home = () => (
