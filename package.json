@@ -4,7 +4,9 @@
   "description": "experiments",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/node/index.js",
+    "start:mongo": "./build/scripts/mongo-start.sh"
   },
   "repository": {
     "type": "git",
@@ -26,7 +28,10 @@
     "body-parser": "^1.16.0",
     "express": "^4.14.1",
     "express-graphql": "^0.6.3",
-    "graphql": "^0.9.1"
-  },
-  "devDependencies": {}
+    "graphql": "^0.9.1",
+    "config": "^1.25.1",
+    "jsonwebtoken": "^7.2.1",
+    "mongoose": "^4.8.1",
+    "morgan": "^1.8.0"
+  }
 }
