@@ -1,1 +1,1 @@
-var password = require('./');
+var server = require('./server.js');
