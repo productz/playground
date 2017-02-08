@@ -1,5 +1,6 @@
 'use strict';
 var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -19,11 +20,9 @@ module.exports = {
             }]
         },
         {
-            test: /\.(sass|scss)$/, //Check for sass or scss file names
+            test: /\.(css)$/, //Check for sass or scss file names
             use: [
-                'style-loader',
-                'css-loader',
-                'sass-loader',
+                'css-loader'
             ]
         },
         { 

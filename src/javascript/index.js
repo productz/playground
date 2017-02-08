@@ -1,6 +1,8 @@
 import Rx from 'rxjs';
-import 'raw-loader!animate.css/animate.css';
+import 'animate.css/animate.css';
 import home from 'raw-loader!./home.html';
+import successSound from 'file-loader!./assets/audio/success.wav';
+import errorSound from 'file-loader!./assets/audio/error.wav';
 
 var appElement = document.getElementById('app');
 appElement.innerHTML = home;
@@ -26,7 +28,7 @@ function createObservableFromEvent(element){
 }
 
 function consumeObservable(observable){
-    let observer = Rx.Observer.create(
+    let subscription = observable.subscribe(
             function (data) {
                 console.log('Next: ', data);
                 draw(data);
@@ -38,7 +40,7 @@ function consumeObservable(observable){
                 console.log('Completed');
             }
             ); 
-    let subscription = observable.subscribe(observer);
+    return subscription;
 }
 
 function chainObservables(observable){
@@ -73,6 +75,16 @@ function draw(x=400,y=150){
     },100);
 }
 
-function playSound(sound){
+function initSound(){
 
+}
+
+function playSound(sound){
+    var errorAudio = document.getElementById('error')
+        errorAudio.src = errorSound;
+    errorAudio.play();
+
+    var successAudio = document.getElementById('success')
+        successAudio.src = successSound;
+    successAudio.play();
 }
