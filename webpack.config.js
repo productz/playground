@@ -22,6 +22,7 @@ module.exports = {
         {
             test: /\.(css)$/, //Check for sass or scss file names
             use: [
+                'style-loader',
                 'css-loader'
             ]
         },

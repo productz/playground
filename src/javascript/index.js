@@ -1,16 +1,12 @@
 import Rx from 'rxjs';
 import 'animate.css/animate.css';
+import './assets/styles/home.css';
 import home from 'raw-loader!./home.html';
 import successSound from 'file-loader!./assets/audio/success.wav';
 import errorSound from 'file-loader!./assets/audio/error.wav';
 
 var appElement = document.getElementById('app');
 appElement.innerHTML = home;
-
-var canvasElement = document
-.getElementById('myCanvas');
-var ctx = canvasElement.getContext("2d");
-var count = 0;
 
 let ob = createObservable();
 consumeObservable(ob);
@@ -57,22 +53,13 @@ function destroyObservable(subscription){
 }
 
 function draw(data){
+    let successElement = document.getElementById('success__data');
+    let errorElement = document.getElementById('error__data');
+    if(data.error){
+        return;
+    }
+    return;
 
-}
-
-//drawing circles given a coordinate
-function draw(x=400,y=150){
-    let count = 0;
-    let interval = setInterval(()=>{
-        if(count === 10){
-            clearInterval(interval);
-            ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-        }
-        ctx.beginPath();
-        ctx.arc(x,y,count*100,0,4*Math.PI);
-        ctx.stroke();
-        count++
-    },100);
 }
 
 function initSound(){
