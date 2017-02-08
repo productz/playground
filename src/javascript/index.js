@@ -1,6 +1,6 @@
 import Rx from 'rxjs';
-import 'animate.css/animate.css';
-import home from './home.html';
+import 'raw-loader!animate.css/animate.css';
+import home from 'raw-loader!./home.html';
 
 var appElement = document.getElementById('app');
 appElement.innerHTML = home;

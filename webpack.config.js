@@ -19,7 +19,7 @@ module.exports = {
             }]
         },
         {
-            test: /\.(css|sass|scss)$/, //Check for sass or scss file names
+            test: /\.(sass|scss)$/, //Check for sass or scss file names
             use: [
                 'style-loader',
                 'css-loader',
