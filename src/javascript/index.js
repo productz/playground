@@ -1,3 +1,10 @@
+import Rx from 'rxjs';
+import 'animate.css/animate.css';
+import home from './home.html';
+
+var appElement = document.getElementById('app');
+appElement.innerHTML = home;
+
 var canvasElement = document
 .getElementById('myCanvas');
 var ctx = canvasElement.getContext("2d");
