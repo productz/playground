@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./src/node/index.js",
+    "start:dev": "./node_modules/.bin/nodemon ./src/node/index.js",
     "start:mongo": "./build/scripts/mongo-start.sh"
   },
   "repository": {
@@ -25,5 +26,8 @@
     "jsonwebtoken": "^7.2.1",
     "mongoose": "^4.8.1",
     "morgan": "^1.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
