@@ -15,6 +15,19 @@ const styles = {
     title: {
         textAlign: 'center',
     },
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+    },
+    gridList: {
+        display: 'flex',
+        flexWrap: 'nowrap',
+        overflowX: 'auto',
+    },
+    titleStyle: {
+        color: 'rgb(0, 188, 212)',
+    },
 };
 
 class App extends React.Component{
@@ -51,7 +64,7 @@ class App extends React.Component{
 /**
  * This example demonstrates the horizontal scrollable single-line grid list of images.
  */
-const GridListExampleSingleLine = (tilesData) => (
+const GridListSingleLine = (tilesData) => (
   <div style={styles.root}>
     <GridList style={styles.gridList} cols={2.2}>
       {tilesData.map((tile) => (
