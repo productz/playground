@@ -133,8 +133,12 @@ const Home = () => (
         </article>
 );
 
-const About = () => (
-        <article>
+const About = () => {
+        skills = [
+        {  },
+        {  }
+        ]
+        return (<article>
             <h1>About Me</h1>
             <h2>
             I am full stack developer with 7 years of professional experience. My main stack is composed of JavaScript: React, Angularjs, Redux, Mobx, RxJS, Webpack are some of what I know on the front-end. On the back-end, I am familiar with Node: Express, PostgreSQL on the back-end. I have been focusing my efforts in the last two years on working with Hybrid Mobile apps in React Native. 
@@ -145,8 +149,8 @@ const About = () => (
                 <i className="devicon-amazonwebservices-original"></i>
                 <i className="devicon-php-plain"></i> 
             </div>
-        </article>
-);
+        </article>);
+};
 
 const Portfolio = () => (
     <article>
