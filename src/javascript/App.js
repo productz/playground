@@ -1,6 +1,7 @@
 import React from 'react';
 import {ObservableBox} from './ObservableBox.js';
-import {createObservable,createErrorObservable,createCustomObservable,createObservableFromEvent,createSubject, createHotObservable, consumeObservable} from './rx-examples.js';
+import {createObservable,createErrorObservable,createObservableFromInterval,createCustomObservable,createObservableFromEvent,createSubject, createHotObservable, consumeObservable} from './rx-examples.js';
+import update from 'immutability-helper';
 import Rx from 'rxjs';
 
 export class App extends React.Component {
@@ -21,12 +22,14 @@ export class App extends React.Component {
 
         this.state = {observableHash:{}};
         let ob = createObservable();
-		consumeObservable(ob);
+		//consumeObservable(ob);
 		this.updateHashTable(ob);
 
 
-		//let ob1 = createObservable();
+		let ob1 = createObservableFromInterval();
 		//let sub1 = consumeObservable(ob1)
+		this.updateHashTable(ob1);
+
 
 		//let ob2 = createObservableFromEvent(button);
 		//let sub2 = consumeObservable(ob2);
@@ -47,23 +50,26 @@ export class App extends React.Component {
 		//createHotObservable();
     }
     updateStore(newValue,uniqueId, type){
-    	let currentValue  = this.state.observableHash[uniqueId];
-    	if(currentValue){
-    		currentValue.type = newValue;
-    		this.setState({currentValue});
-    	}
+        let empty = {};
+        if(!this.state.observableHash[uniqueId]){
+            this.state.observableHash[uniqueId] = {};
+        }
+        empty[type] = JSON.stringify(newValue[type]);
+        this.state.observableHash[uniqueId] = update(this.state.observableHash[uniqueId], {$merge: empty});  
+        const newState = update(this.state.observableHash, {$merge: empty});  
+        this.setState({newState});
     }
     updateHashTable(observable){
     	observable.subscribe(
     	(onNext)=>{
     		//current data
-    		this.updateStore(onNext,observable.uniqueId,'onNext');
+    		this.updateStore({onNext},observable.uniqueId,'onNext');
     	},
     	(onError)=>{
-    		this.updateStore(onError,observable.uniqueId,'onError');
+    		this.updateStore({onError},observable.uniqueId,'onError');
     	},
     	()=>{
-    		this.updateStore("onCompleted!",observable.uniqueId,'onCompleted');
+    		this.updateStore({onCompleted:"onCompleted"},observable.uniqueId,'onCompleted');
     	}
     	)
     }
