@@ -33,9 +33,9 @@ export class App extends React.Component {
 
 		//let ob3 = createObservableFromEvent(button);
 		//let sub3 = consumeObservable(ob3);
-
+        
 		let ob4 = createObservableFromInterval();
-		let sub4 = this.updateHashTable(ob4,"interval observable 2");
+		this.updateHashTable(ob2,"interval observable 2")
 
 		//let ob4 = createCustomObservable();
 		//let sub4 = consumeObservable(ob4);
@@ -63,7 +63,7 @@ export class App extends React.Component {
         this.setState({newState});
     }
     updateHashTable(observable,tag){
-    	return observable.subscribe(
+        let subscription = observable.subscribe(
     	(onNext)=>{
     		//current data
     		this.updateStore({onNext},observable.uniqueId,'onNext',tag);
@@ -75,6 +75,7 @@ export class App extends React.Component {
     		this.updateStore({onCompleted:"onCompleted"},observable.uniqueId,'onCompleted',tag);
     	}
     	)
+        return subscription;
     }
     componentDidMount() {
 
