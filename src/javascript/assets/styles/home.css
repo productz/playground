@@ -2,21 +2,37 @@
 body{
     font-size:1em;
 }
+.observable__container{
+}
+.observable{
+    display:flex;
+    flex-direction:row;
+    margin-top:3em;
+    border: 1px solid black;
+}
 .circle{
-    width: 140px;
-   height: 140px;
-   -moz-border-radius: 70px; 
-   -webkit-border-radius: 70px; 
-   border-radius: 70px;
+    width: 240px;
+    height: 240px;
+    -moz-border-radius: 130px; 
+    -webkit-border-radius: 130px; 
+    border-radius: 130px;
+    margin:3em;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+.circle p{
+    color:white;
+    display:flex;
+    justify-content:center;
+    flex-direction:row;
 }
 .flash{
 
 }
 .signal{
     color:#fff;
-    -webkit-box-shadow: 2px 2px 14px -5px rgba(0,0,0,0.75);
-    -moz-box-shadow: 2px 2px 14px -5px rgba(0,0,0,0.75);
-    box-shadow: 2px 2px 14px -5px rgba(0,0,0,0.75); 
+    
 }
 .success{
     background: #006633;
@@ -27,4 +43,20 @@ body{
 .completed{
     background: #0066CC;
 }
+.example-enter {
+    opacity: 0.01;
+}
 
+.example-enter.example-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+
+.example-leave {
+    opacity: 1;
+}
+
+.example-leave.example-leave-active {
+    opacity: 0.01;
+    transition: opacity 300ms ease-in;
+}
