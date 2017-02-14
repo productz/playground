@@ -1,21 +1,17 @@
 import React from 'react';
 
-export function ObservableBox(observableObj){
-
-	let data = observableObj.data;
-	let observable = observableObj.observable;
-
+export function ObservableBox({onNext,onError,onCompleted,obId}){
+      let obsClasses = `observable__${obId} observable`;
    	return (
-   		<div className="{observable.uniqueId}">
-   			{observable.uniqueId}
+   		<div className={obsClasses}>
    			<div className="circle success">
-   				{data.onNext}
+   				{onNext}
    			</div>
    			<div className="circle error">
-   			   	{data.onError}
+   			   {onError}
    			</div>
    			<div className="circle completed">
-   				{data.onCompleted}
+   				{onCompleted}
    			</div>
    		</div>
    	);
