@@ -1,3 +1,4 @@
+"use strict";
 const fs = require('fs');
 let concepts;
 
@@ -42,6 +43,5 @@ fs.readFile('./data/mindmup/Self.site.json', (err, data) => {
   let skills = JSON.parse(data);
   concepts = skills.ideas["1"].ideas["1"];
   traverse(concepts.ideas, concepts);
+  fs.writeFile('./src/javascript/data.json',JSON.stringify(concepts));
 });
-
-export default concepts;

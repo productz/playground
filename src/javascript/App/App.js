@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Router, Route, IndexRoute, Link, hashHistory, browserHistory } from 'react-router'
 import {Tabs, Tab} from 'material-ui/Tabs';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardActions, CardHeader, CardText, GridList, GridTile} from 'material-ui/Card';
 import AppBar from 'material-ui/AppBar';
 import FontIcon from 'material-ui/FontIcon';
 import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import data from '../data.json';
+
 
 injectTapEventPlugin();
 
@@ -75,7 +77,6 @@ const GridListSingleLine = (tilesData) => (
           titleStyle={styles.titleStyle}
           titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
         >
-          <img src={tile.img} />
         </GridTile>
       ))}
     </GridList>
@@ -134,10 +135,7 @@ const Home = () => (
 );
 
 const About = () => {
-        skills = [
-        {  },
-        {  }
-        ]
+        console.log(data);
         return (<article>
             <h1>About Me</h1>
             <h2>
@@ -149,6 +147,21 @@ const About = () => {
                 <i className="devicon-amazonwebservices-original"></i>
                 <i className="devicon-php-plain"></i> 
             </div>
+          <div style={styles.root}>
+            <GridList style={styles.gridList} cols={2.2}>
+              {Object.keys(data.ideas.About.ideas["My Skills"].ideas["Web"].ideas["Front-end"].ideas).map((key) => (
+                let grids = ( <GridTile
+                  key={tile.img}
+                  title={tile.title}
+                  actionIcon={<IconButton><StarBorder color="rgb(0, 188, 212)" /></IconButton>}
+                  titleStyle={styles.titleStyle}
+                  titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
+                >
+                </GridTile>);
+                
+              ))}
+            </GridList>
+          </div>
         </article>);
 };
 
