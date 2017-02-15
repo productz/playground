@@ -138,11 +138,12 @@ const About = () => {
         console.log(data);
         let skill = data.ideas.About.ideas["My Skills"].ideas;
         let skillList = [
-            { Frontend:skill["Web"]["Frontend"].ideas},
-            { Backend:skill["Web"]["Backend"].ideas},
-            { Mobile:skill["Mobile"]["Hybrid"].ideas},
+            { Frontend:skill["Web"].ideas["Frontend"].ideas},
+            { Backend:skill["Web"].ideas["Backend"].ideas},
+            { Mobile:skill["Mobile"].ideas["Hybrid"].ideas},
             { Paradigms:skill["Paradigms"].ideas}
         ];
+        console.log(skillList);
         return (<article>
             <h1>About Me</h1>
             <h2>
