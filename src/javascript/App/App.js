@@ -136,6 +136,13 @@ const Home = () => (
 
 const About = () => {
         console.log(data);
+        let skill = data.ideas.About.ideas["My Skills"].ideas;
+        let skillList = [
+            { Frontend:skill["Web"]["Frontend"].ideas},
+            { Backend:skill["Web"]["Backend"].ideas},
+            { Mobile:skill["Mobile"]["Hybrid"].ideas},
+            { Paradigms:skill["Paradigms"].ideas}
+        ];
         return (<article>
             <h1>About Me</h1>
             <h2>
@@ -149,17 +156,17 @@ const About = () => {
             </div>
           <div style={styles.root}>
             <GridList style={styles.gridList} cols={2.2}>
-              {Object.keys(data.ideas.About.ideas["My Skills"].ideas["Web"].ideas["Front-end"].ideas).map((key) => (
+              {Object.keys(skillList).map((key) => {
                 let grids = ( <GridTile
-                  key={tile.img}
-                  title={tile.title}
+                  key={key}
+                  title="title"
                   actionIcon={<IconButton><StarBorder color="rgb(0, 188, 212)" /></IconButton>}
                   titleStyle={styles.titleStyle}
                   titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
                 >
                 </GridTile>);
-                
-              ))}
+                parseInt(key) ? (<div>{grids}</div>) : (<span></span>)
+              })}
             </GridList>
           </div>
         </article>);
