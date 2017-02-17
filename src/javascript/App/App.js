@@ -126,18 +126,23 @@ const cleanObject = (obj) => {
 const Skills = () => {
         let skill = data.ideas.About.ideas["My Skills"].ideas;
         let skillList = [
-            skill["Web"].ideas["Frontend"].ideas,
-            skill["Web"].ideas["Backend"].ideas,
-            skill["Mobile"].ideas["Hybrid"].ideas,
-            skill["Paradigms"].ideas
+            {category:"Frontend", ideas: skill["Web"].ideas["Frontend"].ideas},
+            {category:"Backend", ideas: skill["Web"].ideas["Backend"].ideas},
+            {category: "Hybrid Mobile", ideas: skill["Mobile"].ideas["Hybrid"].ideas},
+            {category: "On the Side", ideas:skill["On the Side"].ideas}
         ];
         return (<div style={styles.root}>
             <div style={styles.gridList} cols={2.2}>
               {skillList.map((skill,index) => (
+              <div>
+                <h2>
+                {skill.category}
+                </h2>
                 <div key={index}>
-                    {cleanObject(skill).map((subSkill)=>(
+                    {cleanObject(skill.ideas).map((subSkill)=>(
                         subSkill.title
                     ))}
+                </div>
                 </div>
               ))}
             </div>
