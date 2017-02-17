@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Router, Route, IndexRoute, Link, hashHistory, browserHistory } from 'react-router'
 import {Tabs, Tab} from 'material-ui/Tabs';
-import {Card, CardActions, CardHeader, CardText, GridList, GridTile} from 'material-ui/Card';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import AppBar from 'material-ui/AppBar';
 import FontIcon from 'material-ui/FontIcon';
 import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
@@ -63,26 +63,6 @@ class App extends React.Component{
     }
 };
 
-/**
- * This example demonstrates the horizontal scrollable single-line grid list of images.
- */
-const GridListSingleLine = (tilesData) => (
-  <div style={styles.root}>
-    <GridList style={styles.gridList} cols={2.2}>
-      {tilesData.map((tile) => (
-        <GridTile
-          key={tile.img}
-          title={tile.title}
-          actionIcon={<IconButton><StarBorder color="rgb(0, 188, 212)" /></IconButton>}
-          titleStyle={styles.titleStyle}
-          titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
-        >
-        </GridTile>
-      ))}
-    </GridList>
-  </div>
-);
-
 const CardFrame = ({children}) => (
         <Card>
         <CardHeader
@@ -134,16 +114,37 @@ const Home = () => (
         </article>
 );
 
-const About = () => {
-        console.log(data);
+const cleanObject = (obj) => {
+    return Object.keys(obj).map((key)=>{
+        if(parseInt(key)){
+            return obj[key];
+        }
+        return "";
+    })
+}
+
+const Skills = () => {
         let skill = data.ideas.About.ideas["My Skills"].ideas;
         let skillList = [
-            { Frontend:skill["Web"].ideas["Frontend"].ideas},
-            { Backend:skill["Web"].ideas["Backend"].ideas},
-            { Mobile:skill["Mobile"].ideas["Hybrid"].ideas},
-            { Paradigms:skill["Paradigms"].ideas}
+            skill["Web"].ideas["Frontend"].ideas,
+            skill["Web"].ideas["Backend"].ideas,
+            skill["Mobile"].ideas["Hybrid"].ideas,
+            skill["Paradigms"].ideas
         ];
-        console.log(skillList);
+        return (<div style={styles.root}>
+            <div style={styles.gridList} cols={2.2}>
+              {skillList.map((skill,index) => (
+                <div key={index}>
+                    {cleanObject(skill).map((subSkill)=>(
+                        subSkill.title
+                    ))}
+                </div>
+              ))}
+            </div>
+          </div>);   
+}
+
+const About = () => {
         return (<article>
             <h1>About Me</h1>
             <h2>
@@ -155,21 +156,7 @@ const About = () => {
                 <i className="devicon-amazonwebservices-original"></i>
                 <i className="devicon-php-plain"></i> 
             </div>
-          <div style={styles.root}>
-            <GridList style={styles.gridList} cols={2.2}>
-              {Object.keys(skillList).map((key) => {
-                let grids = ( <GridTile
-                  key={key}
-                  title="title"
-                  actionIcon={<IconButton><StarBorder color="rgb(0, 188, 212)" /></IconButton>}
-                  titleStyle={styles.titleStyle}
-                  titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
-                >
-                </GridTile>);
-                parseInt(key) ? (<div>{grids}</div>) : (<span></span>)
-              })}
-            </GridList>
-          </div>
+            {Skills()}
         </article>);
 };
 
