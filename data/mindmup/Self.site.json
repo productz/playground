@@ -10,56 +10,6 @@
           "title": "Concepts",
           "id": "2.34737ef5ea69a483",
           "ideas": {
-            "1": {
-              "title": "Pages",
-              "ideas": {
-                "5": {
-                  "title": "Implementation",
-                  "id": "116.357b7f48db779e53",
-                  "ideas": {
-                    "1": {
-                      "title": "I am trying to convert a numbered object key to arrays",
-                      "id": "118.357b7f48db779e53",
-                      "ideas": {
-                        "1": {
-                          "title": "recursively",
-                          "id": "119.357b7f48db779e53"
-                        }
-                      }
-                    },
-                    "2": {
-                      "title": "go through every object",
-                      "id": "121.357b7f48db779e53",
-                      "ideas": {
-                        "1": {
-                          "title": "convert it to new format",
-                          "id": "122.357b7f48db779e53"
-                        },
-                        "2": {
-                          "title": "add it to the array of the parent",
-                          "id": "123.357b7f48db779e53"
-                        }
-                      },
-                      "attr": {
-                        "collapsed": true
-                      }
-                    }
-                  },
-                  "attr": {
-                    "collapsed": true
-                  }
-                }
-              },
-              "id": "5.34737ef5ea69a483",
-              "attr": {
-                "collapsed": true,
-                "position": [
-                  90,
-                  -108,
-                  1
-                ]
-              }
-            },
             "2": {
               "title": "Portfolio",
               "ideas": {
@@ -133,13 +83,19 @@
               "title": "Contact",
               "ideas": {
                 "1": {
-                  "title": "Email: osamah.net.m@gmail.com",
+                  "title": "Email",
                   "attr": {
                     "style": {
                       "width": 251
                     }
                   },
-                  "id": "16.34737ef5ea69a483"
+                  "id": "16.34737ef5ea69a483",
+                  "ideas": {
+                    "1": {
+                      "title": "osamah.net.m@gmail.com",
+                      "id": "130.62e50382c833386c"
+                    }
+                  }
                 },
                 "2": {
                   "title": "Github",
@@ -162,10 +118,7 @@
                   "id": "19.34737ef5ea69a483"
                 }
               },
-              "id": "15.34737ef5ea69a483",
-              "attr": {
-                "collapsed": true
-              }
+              "id": "15.34737ef5ea69a483"
             },
             "1.5": {
               "title": "Home",
@@ -192,8 +145,7 @@
                 "note": {
                   "index": 230,
                   "text": "I am full stack developer with 7 years of professional experience. My main stack is composed of JavaScript: React, Angularjs, Redux, Mobx, RxJS, Webpack are some of what I know on the front-end. On the back-end, I am familiar with Node: Express, PostgreSQL on the back-end. I have been focusing my efforts in the last year on working with Hybrid Mobile apps in React Native. \n\nI have worked in most settings of software development. I have run my own agency, worked at an agency, in-house on a product team, and freelanced. My diverse background empowers me to bring a unique perspective into any technical issue I am faced with."
-                },
-                "collapsed": true
+                }
               },
               "ideas": {
                 "1": {

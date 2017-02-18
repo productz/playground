@@ -28,7 +28,6 @@ import 'normalize.css';
 import '../Style/main.scss';
 import data from '../data.json';
 
-
 injectTapEventPlugin();
 
 const styles = {
@@ -222,13 +221,25 @@ const Portfolio = () => (
     </div>
 );
 
-const Contact = () => (
-    <article>
-        <h3>
-        Contact
-        </h3>
-    </article>
-);
+const Contact = () => {
+    let contactList = data.ideas.Contact.ideas;
+    let contactEl = (<div style={styles.root} >
+              {cleanObject(contactList).map((contact,index) => (
+              <div>
+                <h2 style={styles.gridTitle}>
+                {contact.title}
+                </h2>
+                <h3>{cleanObject(contact.ideas).map(c => <a href={c.title}>{c.title}</a> )}</h3>
+               </div>
+              ))}
+            </div>);
+            
+    return (<div>
+        <h3>Contact me at:</h3>
+        <div>{contactEl}</div>
+        </div>
+    );
+};
 
 ReactDOM.render(
     <Router history={hashHistory}>
