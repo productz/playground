@@ -1,31 +1,32 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.1.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'application'
+apply plugin: 'org.springframework.boot'
 
-mainClassName = 'hello.HelloWorld'
-
-// tag::repositories[]
-repositories {
-    mavenCentral()
-}
-// end::repositories[]
-
-// tag::jar[]
 jar {
-    baseName = 'gs-gradle'
-    version =  '0.1.0'
+	baseName = 'demo'
+	version = '0.0.1-SNAPSHOT'
 }
-// end::jar[]
 
-// tag::dependencies[]
 sourceCompatibility = 1.8
-targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
 
 dependencies {
-    compile "joda-time:joda-time:2.2"
-    testCompile "junit:junit:4.12"
+	compile('org.springframework.boot:spring-boot-starter')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
-// end::dependencies[]
-
-// tag::wrapper[]
-// end::wrapper[]
