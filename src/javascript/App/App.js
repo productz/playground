@@ -5,7 +5,6 @@ import {
     Router,
     Route,
     IndexRoute,
-    Link,
     hashHistory
 }
 from 'react-router'
@@ -63,6 +62,7 @@ class App extends React.Component {
             <MuiThemeProvider>
                 <div>
                     <AppBar
+                    iconElementLeft={<span></span>}
                     style={{textAlign:"center"}}
                     title={<span style={styles.title}>Sam Alghanmi: Full Stack Developer</span>}
                 />
