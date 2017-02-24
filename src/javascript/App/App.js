@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {fade} from 'material-ui/utils/colorManipulator';
+import pic from '../Style/images/sam.alghanmi.jpg';
 import {
   cyan500, cyan700,
   pinkA200,
   grey100, grey300, grey400, grey500,
   white, darkBlack, fullBlack,
+  deepPurple900,deepPurple600
 } from 'material-ui/styles/colors';
 import {
     Router,
@@ -40,6 +42,17 @@ injectTapEventPlugin();
 const styles = {
     title: {
         textAlign: 'center',
+        fontFamily:'Roboto Slab',
+        margin:'0 0'
+    },
+    subTitle:{
+        fontFamily:'Roboto Slab',
+        margin:'0 0 1em 0'
+    },
+    personalImg:{
+      height:'150px',
+      borderRadius: '100px',
+      boxShadow: '0px 0px 4px 3px rgba(35, 31, 32, 0.51)'  
     },
     root: {
         display: 'flex',
@@ -65,10 +78,10 @@ const styles = {
 };
 
 const muiTheme = getMuiTheme({
-    fontFamily: 'Roboto, sans-serif',
+    fontFamily: 'Roboto,sans-serif',
     palette: {
-        primary1Color: darkBlack,
-        primary2Color: cyan700,
+        primary1Color: deepPurple900,
+        primary2Color: deepPurple600,
         primary3Color: grey400,
         accent1Color: pinkA200,
         accent2Color: grey100,
@@ -82,6 +95,12 @@ const muiTheme = getMuiTheme({
         clockCircleColor: fade(darkBlack, 0.07),
         shadowColor: fullBlack,
     },
+    appBar:{
+      height:'auto'  
+    },
+    tabs:{
+        backgroundColor:deepPurple600
+    }
 });
 
 class App extends React.Component {
@@ -92,7 +111,7 @@ class App extends React.Component {
                     <AppBar
                     iconElementLeft={<span></span>}
                     style={{textAlign:"center"}}
-                    title={<span style={styles.title}>Sam Alghanmi: Full Stack Developer</span>}
+                    title={<div><div><img style={styles.personalImg} src={pic} /></div><h2 style={styles.title}>Sam Alghanmi</h2><h4 style={styles.subTitle}>Full Stack Developer</h4></div>}
                 />
                     <Menu
                     changeRoute={this.changeRoute}
@@ -131,7 +150,9 @@ const CardFrame = ({
 const Menu = ({
     changeRoute
 }) => (
-    <Tabs>
+    <Tabs
+    inkBarStyle={{background: 'white'}}
+    >
         <Tab
         icon={<FontIcon className="material-icons">home</FontIcon>}
         label="Home"
