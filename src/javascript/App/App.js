@@ -54,7 +54,7 @@ const styles = {
       borderRadius: '100px',
       boxShadow: '0px 0px 4px 3px rgba(35, 31, 32, 0.51)'  
     },
-    root: {
+    list: {
         display: 'flex',
         flexWrap: 'wrap',
         flexDirection: 'column',
@@ -107,17 +107,20 @@ class App extends React.Component {
     render() {
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
-                <div>
+                <div className="parent">
                     <AppBar
+                    className="child"
                     iconElementLeft={<span></span>}
                     style={{textAlign:"center"}}
                     title={<div><div><img style={styles.personalImg} src={pic} /></div><h2 style={styles.title}>Sam Alghanmi</h2><h4 style={styles.subTitle}>Full Stack Developer</h4></div>}
                 />
                     <Menu
+                    className="child"
                     changeRoute={this.changeRoute}
                     >
                     </Menu>
                     <CardFrame
+                    className="child"
                     >
                         {this.props.children}
                      </CardFrame>
@@ -216,7 +219,7 @@ const Skills = () => {
         category: "On the Side",
         ideas: skill["On the Side"].ideas
     }];
-    return (<div style={styles.root} >
+    return (<div style={styles.list} >
               {skillList.map((skill,index) => (
               <div>
                 <h2 style={styles.gridTitle}>
@@ -251,7 +254,7 @@ const dialog = ({
 
 const Companies = () => {
     let companyList = data.ideas.Portfolio.ideas;
-    return (<div style={styles.root} >
+    return (<div style={styles.list} >
               {cleanObject(companyList).map((company,index) => (
               <div>
                 <h2 style={styles.gridTitle}>
@@ -264,15 +267,15 @@ const Companies = () => {
 }
 
 const Portfolio = () => (
-    <div>
+    <article>
         <h3>Companies I worked With: </h3>
         {Companies()}
-    </div>
+    </article>
 );
 
 const Contact = () => {
     let contactList = data.ideas.Contact.ideas;
-    let contactEl = (<div style={styles.root} >
+    let contactEl = (<div style={styles.list} >
               {cleanObject(contactList).map((contact,index) => (
               <div>
                 <h2 style={styles.gridTitle}>
@@ -283,10 +286,10 @@ const Contact = () => {
               ))}
             </div>);
             
-    return (<div>
+    return (<article>
         <h3>Contact me at:</h3>
         <div>{contactEl}</div>
-        </div>
+        </article>
     );
 };
 

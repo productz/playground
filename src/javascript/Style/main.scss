@@ -1,3 +1,33 @@
 h3,h4,h5,h6{
     font-weight:normal;
 }
+article{
+    padding:0 9em;
+}
+
+* {
+  box-sizing: border-box;  
+}
+
+.parent {
+  display: flex;
+  flex-direction:column;
+  flex-wrap: wrap;
+}
+
+.child {
+  flex: 1;
+  min-width: 25%;
+}
+
+@media (max-width: 700px) {
+  .child {
+    min-width: 33.33%; 
+  }
+}
+
+@media (max-width: 400px) {
+  .child {
+    min-width: 50%; 
+  }
+}
