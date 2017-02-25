@@ -24,6 +24,7 @@ import {
 }
 from 'material-ui/Tabs';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import Chip from 'material-ui/Chip';
 import AppBar from 'material-ui/AppBar';
 import FontIcon from 'material-ui/FontIcon';
 import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
@@ -37,17 +38,17 @@ injectTapEventPlugin();
 const styles = {
     title: {
         textAlign: 'center',
-        fontFamily:'Roboto Slab',
-        margin:'0 0'
+        fontFamily: 'Roboto Slab',
+        margin: '0 0'
     },
-    subTitle:{
-        fontFamily:'Roboto Slab',
-        margin:'0 0 1em 0'
+    subTitle: {
+        fontFamily: 'Roboto Slab',
+        margin: '0 0 1em 0'
     },
-    personalImg:{
-      height:'150px',
-      borderRadius: '100px',
-      boxShadow: '0px 0px 4px 3px rgba(35, 31, 32, 0.51)'  
+    personalImg: {
+        height: '150px',
+        borderRadius: '100px',
+        boxShadow: '0px 0px 4px 3px rgba(35, 31, 32, 0.51)'
     },
     list: {
         display: 'flex',
@@ -55,20 +56,26 @@ const styles = {
         flexDirection: 'column',
         justifyContent: 'space-between',
     },
-    listItem:{
-        marginBottom:'2em'
+    listItem: {
+        marginBottom: '2em'
     },
     gridList: {
         display: 'flex',
-        flexWrap: 'nowrap',
+        flexWrap: 'wrap',
         flexDirection: 'row',
-        overflowX: 'auto',
+        justifyContent: 'flex-start',
+        paddingBottom:'10px'
     },
     gridTitle: {
-        fontWeight:'bold'
+        fontWeight: 'bold'
+    },
+    gridImage: {
+        width: '300px',
+        minWidth: '',
+        maxWidth: ''
     },
     gridItem: {
-        padding: '0 3em'
+        margin: '10px 0 0 10px'
     },
     titleStyle: {
         color: 'rgb(0, 188, 212)',
@@ -223,11 +230,11 @@ const Skills = () => {
                 <CardTitle style={styles.gridTitle}
                     title={skill.category}                
                 />
-                <CardActions style={styles.gridList} key={index}>
+                <div style={styles.gridList} key={index}>
                     {cleanObject(skill.ideas).map((subSkill)=>(
-                        <span style={styles.gridItem}>{subSkill.title}</span>
+                        <Chip style={styles.gridItem}>{subSkill.title}</Chip>
                     ))}
-                </CardActions>
+                </div>
                </Card>
               ))}
             </div>);
@@ -246,14 +253,15 @@ const About = () => {
 
 const Companies = () => {
     let companyList = data.ideas.Portfolio.ideas;
-    return (<div style={styles.gridList} >
+    return (<div style={styles.list} >
               {cleanObject(companyList).map((company,index) => (
-              <Card>
+              <Card style={styles.listItem}>
+
                 <CardTitle style={styles.gridTitle}
                 title={company.title}
                 />
                 <CardMedia>
-                <img src="images/nature-600-337.jpg" />
+                    <img style={styles.gridImage} src={require(`../Style/images/${company.title.split(' ').join('').toLowerCase()}.png`)} />
                 </CardMedia>
                 <CardText>{company.attr.note.text}</CardText>
                </Card>
