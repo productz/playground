@@ -53,7 +53,10 @@ const styles = {
         display: 'flex',
         flexWrap: 'wrap',
         flexDirection: 'column',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
+    },
+    listItem:{
+        marginBottom:'2em'
     },
     gridList: {
         display: 'flex',
@@ -216,7 +219,7 @@ const Skills = () => {
     }];
     return (<div style={styles.list} >
               {skillList.map((skill,index) => (
-              <Card>
+              <Card style={styles.listItem}>
                 <CardTitle style={styles.gridTitle}
                     title={skill.category}                
                 />
@@ -243,14 +246,17 @@ const About = () => {
 
 const Companies = () => {
     let companyList = data.ideas.Portfolio.ideas;
-    return (<div style={styles.list} >
+    return (<div style={styles.gridList} >
               {cleanObject(companyList).map((company,index) => (
-              <div>
-                <h2 style={styles.gridTitle}>
-                {company.title}
-                </h2>
-                <h3>{company.attr.note.text}</h3>
-               </div>
+              <Card>
+                <CardTitle style={styles.gridTitle}
+                title={company.title}
+                />
+                <CardMedia>
+                <img src="images/nature-600-337.jpg" />
+                </CardMedia>
+                <CardText>{company.attr.note.text}</CardText>
+               </Card>
               ))}
             </div>);
 }
