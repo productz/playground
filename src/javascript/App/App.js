@@ -23,12 +23,7 @@ import {
     Tab
 }
 from 'material-ui/Tabs';
-import {
-    Card,
-    CardHeader,
-    CardText
-}
-from 'material-ui/Card';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import AppBar from 'material-ui/AppBar';
 import FontIcon from 'material-ui/FontIcon';
 import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
@@ -67,7 +62,7 @@ const styles = {
         overflowX: 'auto',
     },
     gridTitle: {
-        textDecoration: 'underline'
+        fontWeight:'bold'
     },
     gridItem: {
         padding: '0 3em'
@@ -221,16 +216,16 @@ const Skills = () => {
     }];
     return (<div style={styles.list} >
               {skillList.map((skill,index) => (
-              <div>
-                <h2 style={styles.gridTitle}>
-                {skill.category}
-                </h2>
-                <div style={styles.gridList} key={index}>
+              <Card>
+                <CardTitle style={styles.gridTitle}
+                    title={skill.category}                
+                />
+                <CardActions style={styles.gridList} key={index}>
                     {cleanObject(skill.ideas).map((subSkill)=>(
                         <span style={styles.gridItem}>{subSkill.title}</span>
                     ))}
-                </div>
-               </div>
+                </CardActions>
+               </Card>
               ))}
             </div>);
 }
@@ -245,12 +240,6 @@ const About = () => {
             {Skills()}
         </article>);
 };
-
-const dialog = ({
-    text
-}) => (
-    <div>howdy</div>
-)
 
 const Companies = () => {
     let companyList = data.ideas.Portfolio.ideas;
