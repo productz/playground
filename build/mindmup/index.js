@@ -1,14 +1,18 @@
 "use strict";
 const fs = require('fs');
-let concepts;
 
 fs.readFile('./data/mindmup/Self.site.json', (err, data) => {
   if (err) throw err;
+  
   let skills = JSON.parse(data);
-  concepts = skills.ideas["1"].ideas["1"];
-  //toBlog(concepts);
-  toMarkdown(concepts);
-  fs.writeFile('./src/javascript/data-test.json',JSON.stringify(concepts));
+  
+  let blog = skills;
+  let mark = skills;
+  toBlog(blog);
+  let marky = toMarkdown(mark);
+  
+  fs.writeFile('./src/javascript/data-blog.json',JSON.stringify(blog.ideas["1"].ideas["Concepts"]));
+  fs.writeFile('./src/javascript/data.md',marky);
 });
 
 
@@ -19,11 +23,16 @@ fs.readFile('./data/mindmup/Self.site.json', (err, data) => {
 **/
 
 function toMarkdown(concepts){
-    let level = 0;
+    let marky;
     traverseWith(concepts,function(node){
-        console.log(node);
+        if(node.ideas){
+            Object.keys(node.ideas).map((key)=>{
+                marky += `#${node.ideas[key].title}`;
+            });
+        }
         return node;
-    })
+    });
+    return marky;
 }
 
 function toPresentation(concepts){
@@ -32,7 +41,10 @@ function toPresentation(concepts){
 
 function toBlog(concepts){
     traverseWith(concepts,function(node){
-        return addTitleAsIndex(node);
+        if(node.ideas){
+            addTitleAsProp(node);
+        }
+        return node;
     });
 }
 
@@ -48,7 +60,7 @@ function toDb(ideas){
  *
 **/
 
-function addTitleAsIndex(node){
+function addTitleAsProp(node){
   return Object.keys(node.ideas).map((key)=>{
     node.ideas[node.ideas[key].title] = node.ideas[key];
   })
