@@ -2,15 +2,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import {fade} from 'material-ui/utils/colorManipulator';
+import {
+    fade
+}
+from 'material-ui/utils/colorManipulator';
 import pic from '../Style/images/sam.alghanmi.jpg';
 import {
-  cyan500, cyan700,
-  pinkA200,
-  grey100, grey300, grey400, grey500,
-  white, darkBlack, fullBlack,
-  deepPurple900,deepPurple600
-} from 'material-ui/styles/colors';
+    cyan500,
+    cyan700,
+    pinkA200,
+    grey100,
+    grey300,
+    grey400,
+    grey500,
+    white,
+    darkBlack,
+    fullBlack,
+    deepPurple900,
+    deepPurple600
+}
+from 'material-ui/styles/colors';
 import {
     Router,
     Route,
@@ -23,7 +34,15 @@ import {
     Tab
 }
 from 'material-ui/Tabs';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {
+    Card,
+    CardActions,
+    CardHeader,
+    CardMedia,
+    CardTitle,
+    CardText
+}
+from 'material-ui/Card';
 import Chip from 'material-ui/Chip';
 import AppBar from 'material-ui/AppBar';
 import FontIcon from 'material-ui/FontIcon';
@@ -64,7 +83,7 @@ const styles = {
         flexWrap: 'wrap',
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        paddingBottom:'10px'
+        paddingBottom: '10px'
     },
     gridTitle: {
         fontWeight: 'bold'
@@ -100,11 +119,11 @@ const muiTheme = getMuiTheme({
         clockCircleColor: fade(darkBlack, 0.07),
         shadowColor: fullBlack,
     },
-    appBar:{
-      height:'auto'
+    appBar: {
+        height: 'auto'
     },
-    tabs:{
-        backgroundColor:deepPurple600
+    tabs: {
+        backgroundColor: deepPurple600
     }
 });
 
@@ -151,7 +170,7 @@ const CardFrame = ({
         <CardText >
         {children}
         </CardText>
-        </Card>
+    </Card>
 );
 
 const Menu = ({
@@ -194,9 +213,8 @@ const Footer = () => (
 
 const Home = () => (
     <section>
-            <h3>Welcome to my personal Site.</h3> 
-            <h3>My name is Sam Alghanmi. I am a full-stack developer. My main language is Javascript.</h3>
-        </section>
+            <p>Hi, I am Sam Alghanmi. I am a full-stack developer. My main language is Javascript.</p>
+    </section>
 );
 
 const cleanObject = (obj) => {
@@ -205,7 +223,7 @@ const cleanObject = (obj) => {
             return obj[key];
         }
         return "";
-    }).filter((obj)=>obj !== "")
+    }).filter((obj) => obj !== "")
 }
 
 const Skills = () => {
@@ -282,16 +300,15 @@ const Contact = () => {
                 <h2 style={styles.gridTitle}>
                 {contact.title}
                 </h2>
-                <h3>{cleanObject(contact.ideas).map((c,index) => <a key={index} href={c.title}>{c.title}</a> )}</h3>
-               </div>
+                <div>{cleanObject(contact.ideas).map((c,index) => <a key={index} href={c.title}>{c.title}</a> )}</div>
+              </div>
               ))}
             </div>);
-            
+
     return (<section>
         <h3>Contact me at:</h3>
         <div>{contactEl}</div>
-        </section>
-    );
+        </section>);
 };
 
 ReactDOM.render(
