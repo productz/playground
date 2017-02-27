@@ -7,9 +7,9 @@ fs.readFile('./data/mindmup/Self.site.json', (err, data) => {
   let skills = JSON.parse(data);
   
   let blog = skills;
-  let mark = skills;
   toBlog(blog);
-  let marky = toMarkdown(mark);
+  
+  let marky = toMarkdown(blog);
   
   fs.writeFile('./src/javascript/data-blog.json',JSON.stringify(blog.ideas["1"].ideas["Concepts"]));
   fs.writeFile('./src/javascript/data.md',marky);

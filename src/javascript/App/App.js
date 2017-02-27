@@ -101,7 +101,7 @@ const muiTheme = getMuiTheme({
         shadowColor: fullBlack,
     },
     appBar:{
-      height:'auto'  
+      height:'auto'
     },
     tabs:{
         backgroundColor:deepPurple600
@@ -114,11 +114,10 @@ class App extends React.Component {
             <MuiThemeProvider muiTheme={muiTheme}>
                 <div className="parent">
                     <AppBar
-                    className="child"
                     iconElementLeft={<span></span>}
                     style={{textAlign:"center"}}
                     title={<div><div><img style={styles.personalImg} src={pic} /></div><h2 style={styles.title}>Sam Alghanmi</h2><h4 style={styles.subTitle}>Full Stack Developer</h4></div>}
-                />
+                     />
                     <Menu
                     className="child"
                     changeRoute={this.changeRoute}
@@ -194,10 +193,10 @@ const Footer = () => (
 );
 
 const Home = () => (
-    <article>
+    <section>
             <h3>Welcome to my personal Site.</h3> 
             <h3>My name is Sam Alghanmi. I am a full-stack developer. My main language is Javascript.</h3>
-        </article>
+        </section>
 );
 
 const cleanObject = (obj) => {
@@ -226,13 +225,13 @@ const Skills = () => {
     }];
     return (<div style={styles.list} >
               {skillList.map((skill,index) => (
-              <Card style={styles.listItem}>
+              <Card key={index} style={styles.listItem}>
                 <CardTitle style={styles.gridTitle}
                     title={skill.category}                
                 />
                 <div style={styles.gridList} key={index}>
-                    {cleanObject(skill.ideas).map((subSkill)=>(
-                        <Chip style={styles.gridItem}>{subSkill.title}</Chip>
+                    {cleanObject(skill.ideas).map((subSkill,index)=>(
+                        <Chip key={index} style={styles.gridItem}>{subSkill.title}</Chip>
                     ))}
                 </div>
                </Card>
@@ -241,22 +240,21 @@ const Skills = () => {
 }
 
 const About = () => {
-    return (<article>
+    return (<section>
             <h3>
             I am full stack developer with 7 years of professional experience. My main stack is composed of JavaScript: React, Angularjs, Redux, Mobx, RxJS, Webpack are some of what I know on the front-end. On the back-end, I am familiar with Node: Express, PostgreSQL on the back-end. I have been focusing my efforts in the last two years on working with Hybrid Mobile apps in React Native. 
             I have worked in most settings of software development. I have run my own agency, worked at an agency, in-house on a product team, and freelanced. My diverse background empowers me to bring a comprehensive view into any technical issue I am faced with.
             </h3>
             <h2>Skills:</h2>
             {Skills()}
-        </article>);
+        </section>);
 };
 
 const Companies = () => {
     let companyList = data.ideas.Portfolio.ideas;
     return (<div style={styles.list} >
               {cleanObject(companyList).map((company,index) => (
-              <Card style={styles.listItem}>
-
+              <Card key={index} style={styles.listItem}>
                 <CardTitle style={styles.gridTitle}
                 title={company.title}
                 />
@@ -270,29 +268,29 @@ const Companies = () => {
 }
 
 const Portfolio = () => (
-    <article>
+    <section>
         <h3>Companies I worked With: </h3>
         {Companies()}
-    </article>
+    </section>
 );
 
 const Contact = () => {
     let contactList = data.ideas.Contact.ideas;
     let contactEl = (<div style={styles.list} >
               {cleanObject(contactList).map((contact,index) => (
-              <div>
+              <div key={index}>
                 <h2 style={styles.gridTitle}>
                 {contact.title}
                 </h2>
-                <h3>{cleanObject(contact.ideas).map(c => <a href={c.title}>{c.title}</a> )}</h3>
+                <h3>{cleanObject(contact.ideas).map((c,index) => <a key={index} href={c.title}>{c.title}</a> )}</h3>
                </div>
               ))}
             </div>);
             
-    return (<article>
+    return (<section>
         <h3>Contact me at:</h3>
         <div>{contactEl}</div>
-        </article>
+        </section>
     );
 };
 
