@@ -105,7 +105,7 @@ class App extends React.Component {
                     <AppBar
                     iconElementLeft={<span></span>}
                     style={{textAlign:"center"}}
-                    title={<div><div><img style={styles.personalImg} src={pic} /></div><h2 style={styles.title}>Sam Alghanmi</h2><h4 style={styles.subTitle}>Full Stack Developer</h4><i className="devicons devicons-github_alt"></i><i class="material-icons">email</i></div>}
+                    title={<div><div><img style={styles.personalImg} src={pic} /></div><h2 style={styles.title}>Sam Alghanmi</h2><h4 style={styles.subTitle}>Full Stack Developer</h4></div>}
                      />
                     <Menu
                     className="child"
