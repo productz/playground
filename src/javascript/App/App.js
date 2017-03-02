@@ -248,16 +248,11 @@ const Brands = () => {
     let companyList = data.ideas.Portfolio.ideas;
     return (<ul className="grid center" >
               {cleanObject(companyList).map((company,index) => (
-              <Card key={index} className="grid-item small">
-                <CardTitle
-                className="bold"
-                title={company.title}
-                />
+              <div key={index} className="grid-item basis-10">
                 <CardMedia>
                     <img style={styles.gridImage} src={require(`../Style/images/${company.title.split(' ').join('').toLowerCase()}.png`)} />
                 </CardMedia>
-                <CardText>{company.attr.note.text}</CardText>
-               </Card>
+               </div>
               ))}
             </ul>);
 }
@@ -282,6 +277,8 @@ const Companies = () => {
 
 const Portfolio = () => (
     <section>
+        <h2 className="text-center capital">Brands I had the honor of working with:</h2>
+        {Brands()}
         {Companies()}
     </section>
 );
