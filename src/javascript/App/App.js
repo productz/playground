@@ -86,7 +86,7 @@ const styles = {
         paddingBottom: '10px'
     },
     gridTitle: {
-        fontWeight: 'bold'
+        fontWeight:'bold'
     },
     gridImage: {
         width: '300px',
@@ -241,15 +241,16 @@ const Skills = () => {
         category: "On the Side",
         ideas: skill["On the Side"].ideas
     }];
-    return (<div style={styles.list} >
+    return (<div className="list" >
               {skillList.map((skill,index) => (
-              <Card key={index} style={styles.listItem}>
-                <CardTitle style={styles.gridTitle}
+              <Card key={index} className="list-item">
+                <CardTitle 
+                    className="bold"
                     title={skill.category}                
                 />
-                <div style={styles.gridList} key={index}>
+                <div className="grid" key={index}>
                     {cleanObject(skill.ideas).map((subSkill,index)=>(
-                        <Chip key={index} style={styles.gridItem}>{subSkill.title}</Chip>
+                        <Chip className="grid-item" key={index}>{subSkill.title}</Chip>
                     ))}
                 </div>
                </Card>
@@ -260,34 +261,38 @@ const Skills = () => {
 const About = () => {
     return (<section>
             <p>
-            I am full stack developer with 7 years of professional experience. My main stack is composed of JavaScript: React, Angularjs, Redux, Mobx, RxJS, Webpack are some of what I know on the front-end. On the back-end, I am familiar with Node: Express, PostgreSQL on the back-end. I have been focusing my efforts in the last two years on working with Hybrid Mobile apps in React Native. 
+            I am full stack JavaScript developer with 7 years of professional experience. 
+            </p>
+            <p>
             I have worked in most settings of software development. I have run my own agency, worked at an agency, in-house on a product team, and freelanced. My diverse background empowers me to bring a comprehensive view into any technical issue I am faced with.
             </p>
-            <h3 className="title">Skills:</h3>
+            <p>
+            I have been focusing my efforts this year on working with Hybrid Mobile apps in React Native.
+            </p>
             {Skills()}
         </section>);
 };
 
 const Companies = () => {
     let companyList = data.ideas.Portfolio.ideas;
-    return (<div style={styles.list} >
+    //<img style={styles.gridImage} src={require(`../Style/images/${company.title.split(' ').join('').toLowerCase()}.png`)} />
+    return (<ul className="grid center" >
               {cleanObject(companyList).map((company,index) => (
-              <Card key={index} style={styles.listItem}>
-                <CardTitle style={styles.gridTitle}
+              <Card key={index} className="grid-item small">
+                <CardTitle
+                className="title"
                 title={company.title}
                 />
                 <CardMedia>
-                    <img style={styles.gridImage} src={require(`../Style/images/${company.title.split(' ').join('').toLowerCase()}.png`)} />
                 </CardMedia>
                 <CardText>{company.attr.note.text}</CardText>
                </Card>
               ))}
-            </div>);
+            </ul>);
 }
 
 const Portfolio = () => (
     <section>
-        <h3>Companies I worked With: </h3>
         {Companies()}
     </section>
 );
