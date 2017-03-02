@@ -68,37 +68,7 @@ const styles = {
         height: '150px',
         borderRadius: '100px',
         boxShadow: '0px 0px 4px 3px rgba(35, 31, 32, 0.51)'
-    },
-    list: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-    },
-    listItem: {
-        marginBottom: '2em'
-    },
-    gridList: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        paddingBottom: '10px'
-    },
-    gridTitle: {
-        fontWeight:'bold'
-    },
-    gridImage: {
-        width: '300px',
-        minWidth: '',
-        maxWidth: ''
-    },
-    gridItem: {
-        margin: '10px 0 0 10px'
-    },
-    titleStyle: {
-        color: 'rgb(0, 188, 212)',
-    },
+    }
 };
 
 const muiTheme = getMuiTheme({
@@ -280,7 +250,7 @@ const Companies = () => {
               {cleanObject(companyList).map((company,index) => (
               <Card key={index} className="grid-item small">
                 <CardTitle
-                className="title"
+                className="bold"
                 title={company.title}
                 />
                 <CardMedia>
@@ -299,19 +269,18 @@ const Portfolio = () => (
 
 const Contact = () => {
     let contactList = data.ideas.Contact.ideas;
-    let contactEl = (<div style={styles.list} >
+    let contactEl = (<ul className="grid center" >
               {cleanObject(contactList).map((contact,index) => (
-              <div key={index}>
-                <h2 style={styles.gridTitle}>
-                {contact.title}
-                </h2>
-                <div>{cleanObject(contact.ideas).map((c,index) => <a key={index} href={c.title}>{c.title}</a> )}</div>
-              </div>
+              <Card className="grid-item" key={index}>
+                <CardTitle
+                className="bold"
+                title={contact.title}
+                />
+                <CardText>{cleanObject(contact.ideas).map((c,index) => <a key={index} href={c.title}>{c.title}</a> )}</CardText>
+              </Card>
               ))}
-            </div>);
-
+            </ul>);
     return (<section>
-        <h3>Contact me at:</h3>
         <div>{contactEl}</div>
         </section>);
 };
