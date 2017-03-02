@@ -189,7 +189,7 @@ const Home = () => (
 
 const cleanObject = (obj) => {
     return Object.keys(obj).map((key) => {
-        if (parseInt(key)) {
+        if (parseInt(Math.ceil(key))) {
             return obj[key];
         }
         return "";
@@ -211,6 +211,7 @@ const Skills = () => {
         category: "On the Side",
         ideas: skill["On the Side"].ideas
     }];
+    console.log(skillList);
     return (<div className="list" >
               {skillList.map((skill,index) => (
               <Card key={index} className="list-item">
@@ -242,6 +243,24 @@ const About = () => {
             {Skills()}
         </section>);
 };
+
+const Brands = () => {
+    let companyList = data.ideas.Portfolio.ideas;
+    return (<ul className="grid center" >
+              {cleanObject(companyList).map((company,index) => (
+              <Card key={index} className="grid-item small">
+                <CardTitle
+                className="bold"
+                title={company.title}
+                />
+                <CardMedia>
+                    <img style={styles.gridImage} src={require(`../Style/images/${company.title.split(' ').join('').toLowerCase()}.png`)} />
+                </CardMedia>
+                <CardText>{company.attr.note.text}</CardText>
+               </Card>
+              ))}
+            </ul>);
+}
 
 const Companies = () => {
     let companyList = data.ideas.Portfolio.ideas;
