@@ -1,7 +1,6 @@
 import React from 'react';
-import Node from './Node.js'
 let height = 0;
-export default class Tree extends React.Component{
+export default class Node extends React.Component{
     constructor(){
         super();
     }
