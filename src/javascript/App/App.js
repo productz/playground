@@ -260,9 +260,9 @@ const Brands = () => {
 const Companies = () => {
     let companyList = data.ideas.Portfolio.ideas;
     //<img style={styles.gridImage} src={require(`../Style/images/${company.title.split(' ').join('').toLowerCase()}.png`)} />
-    return (<ul className="grid center" >
+    return (<ul className="grid" >
               {cleanObject(companyList).map((company,index) => (
-              <Card key={index} className="grid-item small">
+              <Card key={index} className="grid-item">
                 <CardTitle
                 className="bold"
                 title={company.title}
@@ -277,7 +277,6 @@ const Companies = () => {
 
 const Portfolio = () => (
     <section>
-        <h2 className="text-center capital">Brands I had the honor of working with:</h2>
         {Brands()}
         {Companies()}
     </section>
