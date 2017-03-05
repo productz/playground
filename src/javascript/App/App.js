@@ -1,5 +1,5 @@
 //@flow
-import Tree from '../components/Tree.js';
+import Tree from '../Components/Tree.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import sampleMindmap from '../data.json';
@@ -24,5 +24,6 @@ export default class App extends React.Component {
     }
 }
 ReactDOM.render(
+        React.createElement(App),
         document.getElementById('app')
         );
