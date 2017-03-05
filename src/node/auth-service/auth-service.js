@@ -1,4 +1,6 @@
 const express = require('express');
+var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
+const User = require('../db-service/user');
 
 // ---------------------------------------------------------
 // get an instance of the router for api routes
