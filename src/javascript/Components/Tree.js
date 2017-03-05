@@ -23,7 +23,7 @@ export default class Tree extends React.Component{
         })
     }
     render(){
-        let nodeList = this.props.nodes;
+        let nodeList = Object.keys(this.props.nodes.ideas).map(key => this.props.nodes.ideas[key]);
         return(
             <div>
                 {this.renderNodes(nodeList)}
