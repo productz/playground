@@ -2,28 +2,40 @@
 import Tree from '../Components/Tree.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import sampleMindmap from '../data.json';
+import mindmap from '../data.json';
+import {
+    calculateInitialPositions,
+    calculatePositions,
+    updatePosition
+}
+from '../Model/Model.js';
 
 export default class App extends React.Component {
     constructor() {
         super();
-        this.state = { mindmap: sampleMindmap }
+        this.state = {
+            mindmap: mindmap
+        }
+        calculateInitialPositions(mindmap);
     }
     componentDidMount() {
 
     }
-    updateCounter(){
+    updateCounter() {
 
     }
     render() {
         return (
-        <div className="board">
-        <Tree nodes={this.state.mindmap} />
+            <div className="board">
+        <Tree 
+            onPositionChange
+            nodes={this.state.mindmap} 
+        />
         </div>
         );
     }
 }
 ReactDOM.render(
-        React.createElement(App),
-        document.getElementById('app')
-        );
+    React.createElement(App),
+    document.getElementById('app')
+);

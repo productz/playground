@@ -1,11 +1,6 @@
 import React from 'react';
 import Node from './Node.js'
 
-const VERTICAL_MARGIN = 40;
-const HORIZONTAL_MARGIN = 100;
-const BOX_HEIGHT = 22;
-const TEXT_MARGIN = 20;
-
 export default class Tree extends React.Component{
     constructor(){
         super();
