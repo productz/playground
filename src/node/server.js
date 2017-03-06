@@ -68,10 +68,9 @@ app.get('/', function(req, res) {
 	res.send('Hello! The API is at http://localhost:' + port + '/api');
 });
 
-// ---------------------------------------------------------
-// get an instance of the router for api routes
-// ---------------------------------------------------------
-var apiRoutes = express.Router(); 
+// ==========
+// Register Services
+// ==========
 
 app.use('/api', authApi);
 
