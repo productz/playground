@@ -21,7 +21,8 @@ app.set('superSecret', config.secret); // secret variable
 // Import web services ========================================
 // =================================================================
 var User   = require('./db-service/user'); // get our mongoose model
-var authService = require('./auth-service/auth-service.js')({app,User});
+import authService from './auth-service/auth-service.js'
+const authApi = authService({app,User});
 
 // use body parser so we can get info from POST and/or URL parameters
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -71,7 +72,7 @@ app.get('/', function(req, res) {
 // ---------------------------------------------------------
 var apiRoutes = express.Router(); 
 
-app.use('/api', authService);
+app.use('/api', authApi);
 
 // =================================================================
 // start the server ================================================

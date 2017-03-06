@@ -119,4 +119,6 @@ export default function auth({
 	apiRoutes.get('/check', function(req, res) {
 		res.json(req.decoded);
 	});
+	
+	return apiRoutes;
 }
