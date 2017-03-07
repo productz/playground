@@ -19,7 +19,7 @@ module.exports = {
             }]
         },
         {
-            test: /\.(sass|scss)$/, //Check for sass or scss file names
+            test: /\.(css|sass|scss)$/, //Check for sass or scss file names
             use: [
                 'style-loader',
                 'css-loader',
@@ -29,6 +29,10 @@ module.exports = {
         { 
             test: /\.json$/, 
             loader: "json-loader"  //JSON loader
+        },
+        {
+            test: /\.(jpg|png)$/,
+            loader: "file-loader"  //JSON loader
         }
         ]
     },
