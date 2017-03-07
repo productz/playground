@@ -1,137 +1,214 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { Router, Route, IndexRoute, Link, hashHistory, browserHistory } from 'react-router'
-import {Tabs, Tab} from 'material-ui/Tabs';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import AppBar from 'material-ui/AppBar';
-import FontIcon from 'material-ui/FontIcon';
-import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import React from "react";
+import { Link } from "react-router";
+import {
+  Code,
+  CustomerQuote, CustomerQuotes,
+  DropdownMenu, DropdownToggle,
+  Footer, FooterAddress,
+  Hero,
+  HorizontalSplit,
+  ImageList, ImageListItem,
+  Navbar, NavItem,
+  Page,
+  PricingPlan, PricingTable,
+  Section,
+  SignupInline, SignupModal,
+  Stripe,
+  Team,
+  TeamMember,
+} from "neal-react";
 
-injectTapEventPlugin();
+const brandName = "SamplePage";
+const brand = <span>{brandName}</span>;
 
-const styles = {
-    title: {
-        textAlign: 'center',
-    },
+const onSignup = ({ name: name, email: email, password: password }) => Stripe.StripeHandler.open({
+  name: "Stripe Integration Included",
+  description: "Like this? Donate $5 <3",
+  panelLabel: "Donate {{amount}}",
+  email: email,
+  amount: 500,
+});
+
+const businessAddress = (
+  <address>
+    <strong>{brandName}</strong><br/>
+    1337 Market Street, Suite 1337<br/>
+    San Francisco, CA 94103<br/>
+    +1 (123) 456-7890
+  </address>
+);
+
+const pricingPlan1 = {
+  name: "Personal",
+  description: "Describe your plans with easy-to-use pricing tables. Each plan provides callbacks to handle visitor clicks.",
+  price: "$99",
+  features: {
+    "Describe pricing plans as JSON": true,
+    "Features can be active/inactive": true,
+    "Works on mobile": true,
+    "Custom callbacks": true,
+    "Extra Feature 1": false,
+    "Extra Feature 2": false,
+  },
+  onClick: onSignup,
 };
 
-class App extends React.Component{
-    render(){
-        return(
-            <MuiThemeProvider>
-                <div>
-                    <AppBar
-                    style={{textAlign:"center"}}
-                    title={<span style={styles.title}>Sam Alghanmi: Full Stack Developer</span>}
-                />
-                    <Menu
-                    changeRoute={this.changeRoute}
-                    >
-                    </Menu>
-                    <CardFrame
-                    >
-                        {this.props.children}
-                     </CardFrame>
-                </div>
-            </MuiThemeProvider>
-        );
-    }
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            children: nextProps.children
-        });
-    }
-    changeRoute(tab) {
-        hashHistory.push(tab.props['data-route']);
-    }
+const pricingPlan2 = Object.assign({}, pricingPlan1, {
+  price: "$499",
+  name: "Startup",
+  features: Object.assign({}, pricingPlan1.features, {
+    "Extra Feature 1": true,
+  }),
+});
+
+const pricingPlan3 = Object.assign({}, pricingPlan2, {
+  price: "$999",
+  name: "Enterprise",
+  features: Object.assign({}, pricingPlan2.features, {
+    "Extra Feature 2": true,
+  }),
+});
+
+const sampleCode = `<Page>
+  <Hero><h1>{ /* Content */ }</h1></Hero>
+  <Section heading="Hello!">
+    <HorizontalSplit padding="md"> { /* Content */ } </HorizontalSplit>
+  </Section>
+  <Section>
+    <Team>
+      <TeamMember name="Link" title="Co-founder" imageUrl="img/link.jpg"> { /* Description */ } </TeamMember>
+      <TeamMember name="Yoshi" title="Co-founder" imageUrl="img/yoshi.jpg"> { /* Description */ } </TeamMember>
+    </Team>
+  </Section>
+  <Section>
+    <PricingTable>
+      <PricingPlan {... pricingPlan1} />
+      <PricingPlan {... pricingPlan2} />
+      <PricingPlan {... pricingPlan3} />
+    </PricingTable>
+    <SignupInline onSubmit={onSignupCallback}/>
+  </Section>
+</Page>
+`;
+
+
+export default (props) => {
+  return (
+    <Page>
+
+      <Navbar brand={brand}>
+        <NavItem><Link to="Home" className="nav-link">Home</Link></NavItem>
+        <NavItem dropdown={true}>
+          <DropdownToggle>Github</DropdownToggle>
+          <DropdownMenu>
+            <a href="https://github.com/dennybritz/neal-react" className="dropdown-item" target="_blank">
+              Neal React
+            </a>
+            <a href="https://github.com/dennybritz/neal-sample" className="dropdown-item" target="_blank">
+              Sample Page
+            </a>
+          </DropdownMenu>
+        </NavItem>
+      </Navbar>
+
+      <Hero backgroundImage="img/hero-bg-01.jpg"
+        className="text-xs-center">
+        <h1 className="display-4"> Declarative Landing Pages for React.js </h1>
+        <p className="lead">Build a beautiful landing page in less than an hour.
+          No more redundant code. Easily extensible.</p>
+        <p>
+          <a href="https://github.com/dennybritz/neal-react" target="_blank" className="btn btn-white">
+            Get it on Github
+          </a>
+        </p>
+      </Hero>
+
+      <Section className="subhero">
+        <ImageList centered>
+          <ImageListItem src="img/press/cnn-logo.png" url="http://www.cnn.com"/>
+          <ImageListItem src="img/press/forbes-logo.png" url="http://forbes.com/"/>
+          <ImageListItem src="img/press/theverge-logo.png" url="http://www.theverge.com/"/>
+          <ImageListItem src="img/press/techcrunch-logo.jpg" url="http://techcrunch.com/"/>
+        </ImageList>
+      </Section>
+
+      <Section className="nopad-bottom">
+        <Code lang="jsx" block>{sampleCode}</Code>
+      </Section>
+
+      <Section>
+        <HorizontalSplit padding="md">
+          <div>
+            <p className="lead">Batteries Included</p>
+            <p>Neal is based on <a href="http://v4-alpha.getbootstrap.com/" target="_blank">Bootstrap 4</a> and ships with navbar, hero, footer, sections, horizontal split, pricing tables, customer quotes and other components you need for a landing page. No more repetitive coding! Oh, and it's easy to extend.</p>
+          </div>
+          <div>
+            <p className="lead">Third-Party Integrations</p>
+            <p>External integrations like &nbsp;
+              <a href="http://www.google.com/analytics/">Google Analytics</a>,&nbsp;
+              <a href="https://segment.com/">Segment</a>,&nbsp;
+              <a href="https://stripe.com/">Stripe</a> and&nbsp;
+              <a href="http://typeform.com">Typeform</a> are included.
+              No more copying & pasting integration code, all you need is your API keys. We automatically track events when visitors navigate to different parts of your page.</p>
+          </div>
+          <div>
+            <p className="lead">Serverless Deployment</p>
+            <p>Because you are relying on react.js and third-party integration you don't need a server to host your landing page. Simply upload it to an Amazon S3 bucket, enable website hosting, and it's ready to go!</p>
+          </div>
+        </HorizontalSplit>
+      </Section>
+
+      <Section heading="Inline and Modal Signup components" className="gray">
+        <p>Use these components to capture user data, display a payment dialog and/or send them to your own backend for handling. Of course, you could also just use a Typeform to collect user emails. </p>
+        <SignupInline onSubmit={onSignup}/>
+        <SignupModal modalId="signup-modal" onSubmit={onSignup}/>
+        <p>
+          <a className="btn btn-primary btn-ghost" data-toggle="modal" data-target="#signup-modal">Show Signup modal</a>
+        </p>
+      </Section>
+
+      <Section>
+        <PricingTable>
+          <PricingPlan {... pricingPlan1} />
+          <PricingPlan {... pricingPlan2} />
+          <PricingPlan {... pricingPlan3} />
+        </PricingTable>
+      </Section>
+
+      <Section>
+        <CustomerQuotes>
+          <CustomerQuote name="Paul Graham" title="YC" imageUrl="img/people/paulgraham.jpg">
+            <p>What I tell founders is not to sweat the business model too much at first. The most important task at first is to build something people want. If you don't do that, it won't matter how clever your business model is.</p>
+          </CustomerQuote>
+          <CustomerQuote name="Elon Musk" imageUrl="img/people/elonmusk.jpg">
+            <p>I came to the conclusion that we should aspire to increase the scope and scale of human consciousness in order to better understand what questions to ask. Really, the only thing that makes sense is to strive for greater collective enlightenment.</p>
+          </CustomerQuote>
+          <CustomerQuote name="Reid Hoffman" title="Linkedin" imageUrl="img/people/reidhoffman.jpg">
+            <p>If you are not embarrassed by the first version of your product, you've launched too late.</p>
+          </CustomerQuote>
+        </CustomerQuotes>
+      </Section>
+
+      <Section>
+        <Team>
+          <TeamMember name="Member 1" title="Co-founder" imageUrl="img/people/grumpycat.jpg">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </TeamMember>
+          <TeamMember name="Member 2" title="Co-founder" imageUrl="img/people/boo.jpg">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </TeamMember>
+          <TeamMember name="Member 3" title="Co-founder" imageUrl="img/people/panda.jpg">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </TeamMember>
+        </Team>
+      </Section>
+
+      <Footer brandName={brandName}
+        facebookUrl="http://www.facebook.com"
+        twitterUrl="http://www.twitter.com/dennybritz"
+        githubUrl="https://github.com/dennybritz/neal-react"
+        address={businessAddress}>
+      </Footer>
+    </Page>
+  );
 };
-
-const CardFrame = ({children}) => (
-        <Card>
-        <CardHeader
-        />
-        <CardText >
-        {children}
-        </CardText>
-        </Card>
-);
-
-const Menu = ({changeRoute}) => (
-        <Tabs>
-        <Tab
-        icon={<FontIcon className="material-icons">home</FontIcon>}
-        label="Home"
-        data-route="/"
-        onActive={changeRoute}
-        />
-        <Tab
-        icon={<FontIcon className="material-icons">info</FontIcon>}
-        label="About"
-        data-route="/about"
-        onActive={changeRoute}
-        />
-        <Tab
-        icon={<FontIcon className="material-icons">favorite</FontIcon>}
-        label="Portfolio"
-        data-route="/portfolio"
-        onActive={changeRoute}
-        />
-        <Tab
-        icon={<MapsPersonPin />}
-        label="Contact"
-        data-route="/contact"
-        onActive={changeRoute}
-        />
-        </Tabs>
-);
-
-const Footer = () => (
-    <footer>
-    </footer>
-);
-
-const Home = () => (
-        <article>
-            <h3>Welcome to my personal Site.</h3> 
-            <h3>My name is Sam Alghanmi. I am a full-stack developer. My main language is Javascript.</h3>
-        </article>
-);
-
-const About = () => (
-        <article>
-            <h3>
-            I am full stack developer with 7 years of professional experience. My main stack is composed of JavaScript: React, Angularjs, Redux, Mobx, RxJS, Webpack are some of what I know on the front-end. On the back-end, I am familiar with Node: Express, PostgreSQL on the back-end. I have been focusing my efforts in the last two years on working with Hybrid Mobile apps in React Native. 
-            I have worked in most settings of software development. I have run my own agency, worked at an agency, in-house on a product team, and freelanced. My diverse background empowers me to bring a comprehensive view into any technical issue I am faced with.
-            </h3>
-        </article>
-);
-
-const Portfolio = () => (
-    <article>
-        <h3>
-        Portfolio
-        </h3>
-    </article>
-);
-
-const Contact = () => (
-    <article>
-        <h3>
-        Contact
-        </h3>
-    </article>
-);
-
-ReactDOM.render(
-        <Router history={hashHistory}>
-        <Route path="/" component={App}>
-            <IndexRoute component={Home} />
-            <Route path="about" component={About} />
-            <Route path="portfolio" component={Portfolio} />
-            <Route path="contact" component={Contact} />
-        </Route>
-        </Router>,
-        document.getElementById('app')
-        );
