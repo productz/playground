@@ -133,9 +133,9 @@ class App extends React.Component {
 
 const Home = () => (
     <section>
-        <div>We have a number of active channels: <span style={styles.channels}>#general, #jobs, #announcements, #introductions, #meetups</span> and more. You can create your own channels as well! </div>
+        <div>We have a number of active channels: <span style={styles.channels}>#general, #jobs, #announcements, #introductions, #meetups, #javascript, #java, #ruby</span> and more.</div>
         <div className="grid center top-1">
-            <RaisedButton href="https://pgh-devs.herokuapp.com" label="Join The Community" secondary={true}/>
+            <RaisedButton  target="_blank" href="https://pgh-devs.herokuapp.com" label="Join The Community" secondary={true}/>
         </div>
     </section>
 );
