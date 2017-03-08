@@ -53,19 +53,6 @@ import '../Style/main.scss';
 
 injectTapEventPlugin();
 
-const styles = {
-    title: {
-        margin:'1em 0'
-    },
-    subTitle: {
-        fontFamily: 'Roboto Slab',
-        margin: '0 0 1em 0'
-    },
-    ctaButton:{
-        width:'200px'
-    }
-};
-
 const muiTheme = getMuiTheme({
     fontFamily: 'Roboto,sans-serif',
     palette: {
@@ -92,26 +79,43 @@ const muiTheme = getMuiTheme({
     }
 });
 
+const styles = {
+    title: {
+        margin:'1em 0'
+    },
+    subTitle: {
+        fontFamily: 'Roboto Slab',
+        margin: '0 0 1em 0'
+    },
+    ctaButton:{
+        width:'200px'
+    },
+    channels:{
+       color: deepPurple900
+    }
+};
+
 class App extends React.Component {
     render() {
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
-                <div className="parent">
+                <div>
                     <AppBar
                     iconElementLeft={<span></span>}
                     style={{textAlign:"center"}}
                     title={
-                    <div style={styles.title}><h1>Pittsburgh Devs</h1>
-                    <h3>A Slack community for Pitsburgh's Developers, Designers, Makers, Hackers</h3>
-                    <h4 className="top-1">Let's cultivate a healthy developer environment in the steel city!</h4>
+                    <div style={styles.title}><h1 className="title">Pittsburgh Devs</h1>
+                    <h3 className="sub-title">A Slack community for Pitsburgh's developers, designers, makers, hackers and More</h3>
                     </div>
                     }
                      />
                     <CardFrame
-                    className="child"
+                    className="list center"
                     >
                         <Home />
+                        <Conduct />
                      </CardFrame>
+                     <Footer/>
                 </div>
             </MuiThemeProvider>
         );
@@ -127,12 +131,32 @@ class App extends React.Component {
 };
 
 const Home = () => (
-    <section className="list">
-        <div className="text-center">We have a number of active channels: #general, #jobs, #announcements, #introductions </div>
+    <section>
+        <div>We have a number of active channels: <span style={styles.channels}>#general, #jobs, #announcements, #introductions, #meetups</span> and more. You can create your own channels as well! </div>
         <div className="grid center top-1">
             <RaisedButton href="https://pgh-devs.herokuapp.com" label="Join The Community" secondary={true}/>
         </div>
     </section>
+);
+
+const Team = () => (
+    <section>
+        <h2>Admin Team</h2>
+        <p>Pittsburgh Devs is dedicated to providing a harassment-free experience for everyone, regardless of gender identity or expression, sexual orientation, disability, physical appearance, body size, race, religion or non-religion. We do not tolerate harassment of participants in any form. Harassment includes offensive verbal comments related to gender, sexual orientation, disability, physical appearance, body size, race, religion, sexual images, deliberate intimidation, stalking, sustained disruption of discussions or other events, and unwelcome sexual attention. If a participant engages in behavior that violates this code of conduct, the organizers may take any action they deem appropriate, including warning the offender or expulsion from the group.</p>
+    </section>
+);
+
+const Conduct = () => (
+    <section>
+        <h2>Code of Conduct</h2>
+        <p>Pittsburgh Devs is dedicated to providing a harassment-free experience for everyone, regardless of gender identity or expression, sexual orientation, disability, physical appearance, body size, race, religion or non-religion. We do not tolerate harassment of participants in any form. Harassment includes offensive verbal comments related to gender, sexual orientation, disability, physical appearance, body size, race, religion, sexual images, deliberate intimidation, stalking, sustained disruption of discussions or other events, and unwelcome sexual attention. If a participant engages in behavior that violates this code of conduct, the organizers may take any action they deem appropriate, including warning the offender or expulsion from the group.</p>
+    </section>
+);
+
+const Footer = () => (
+    <footer style={{marginTop:'4em', padding:'2em',textAlign:'center',backgroundColor:grey300}}>
+        <p>Reach out to : pghdevs@gmail.com with any questions. This website was inspired by the beautiful Denver Devs Communtiy: <a href="https://denverdevs.org/">https://denverdevs.org.</a></p>
+    </footer>
 );
 
 const CardFrame = ({
@@ -141,7 +165,7 @@ const CardFrame = ({
     <Card>
         <CardHeader
         />
-        <CardText >
+        <CardText className="content" >
         {children}
         </CardText>
     </Card>
@@ -178,11 +202,6 @@ const Menu = ({
         onActive={changeRoute}
         />
         </Tabs>
-);
-
-const Footer = () => (
-    <footer>
-    </footer>
 );
 
 ReactDOM.render(
