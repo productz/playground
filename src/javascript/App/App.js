@@ -100,7 +100,12 @@ class App extends React.Component {
                     <AppBar
                     iconElementLeft={<span></span>}
                     style={{textAlign:"center"}}
-                    title={<div style={styles.title}><h1>Pittsburgh Devs</h1><h3>Slack Community Channel</h3></div>}
+                    title={
+                    <div style={styles.title}><h1>Pittsburgh Devs</h1>
+                    <h3>A Slack community for Pitsburgh's Developers, Designers, Makers, Hackers</h3>
+                    <h4 className="top-1">Let's cultivate a healthy developer environment in the steel city!</h4>
+                    </div>
+                    }
                      />
                     <CardFrame
                     className="child"
@@ -122,8 +127,11 @@ class App extends React.Component {
 };
 
 const Home = () => (
-    <section className="grid center">
-        <RaisedButton label="Join Our Slack Channel" secondary={true}/>
+    <section className="list">
+        <div className="text-center">We have a number of active channels: #general, #jobs, #announcements, #introductions </div>
+        <div className="grid center top-1">
+            <RaisedButton href="https://pgh-devs.herokuapp.com" label="Join The Community" secondary={true}/>
+        </div>
     </section>
 );
 
