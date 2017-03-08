@@ -6,7 +6,6 @@ import {
     fade
 }
 from 'material-ui/utils/colorManipulator';
-import pic from '../Style/images/sam.alghanmi.jpg';
 import {
     cyan500,
     cyan700,
@@ -50,7 +49,6 @@ import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import 'normalize.css';
 import '../Style/main.scss';
-import data from '../data.json';
 
 injectTapEventPlugin();
 
@@ -105,13 +103,8 @@ class App extends React.Component {
                     <AppBar
                     iconElementLeft={<span></span>}
                     style={{textAlign:"center"}}
-                    title={<div><div><img style={styles.personalImg} src={pic} /></div><h2 style={styles.title}>Sam Alghanmi</h2><h4 style={styles.subTitle}>Full Stack Developer</h4></div>}
+                    title={<h1>Pittsburgh Devs</h1>}
                      />
-                    <Menu
-                    className="child"
-                    changeRoute={this.changeRoute}
-                    >
-                    </Menu>
                     <CardFrame
                     className="child"
                     >
@@ -183,131 +176,11 @@ const Footer = () => (
 
 const Home = () => (
     <section>
-            <p>Hi, I am Sam Alghanmi. I am a full-stack developer. My main language is Javascript.</p>
+            <p>Test</p>
     </section>
 );
-
-const cleanObject = (obj) => {
-    return Object.keys(obj).map((key) => {
-        if (parseInt(Math.ceil(key))) {
-            return obj[key];
-        }
-        return "";
-    }).filter((obj) => obj !== "")
-}
-
-const Skills = () => {
-    let skill = data.ideas.About.ideas["My Skills"].ideas;
-    let skillList = [{
-        category: "Frontend",
-        ideas: skill["Web"].ideas["Front-end"].ideas
-    }, {
-        category: "Backend",
-        ideas: skill["Web"].ideas["Backend"].ideas
-    }, {
-        category: "Hybrid Mobile",
-        ideas: skill["Mobile"].ideas["Hybrid"].ideas
-    }, {
-        category: "On the Side",
-        ideas: skill["On the Side"].ideas
-    }];
-    console.log(skillList);
-    return (<div className="list" >
-              {skillList.map((skill,index) => (
-              <Card key={index} className="list-item">
-                <CardTitle 
-                    className="bold"
-                    title={skill.category}                
-                />
-                <div className="grid" key={index}>
-                    {cleanObject(skill.ideas).map((subSkill,index)=>(
-                        <Chip className="grid-item" key={index}>{subSkill.title}</Chip>
-                    ))}
-                </div>
-               </Card>
-              ))}
-            </div>);
-}
-
-const About = () => {
-    return (<section>
-            <p>
-            I am full stack JavaScript developer with 7 years of professional experience. 
-            </p>
-            <p>
-            I have worked in most settings of software development. I have run my own agency, worked at an agency, in-house on a product team, and freelanced. My diverse background empowers me to bring a comprehensive view into any technical issue I am faced with.
-            </p>
-            <p>
-            I have been focusing my efforts this year on working with Hybrid Mobile apps in React Native.
-            </p>
-            {Skills()}
-        </section>);
-};
-
-const Brands = () => {
-    let companyList = data.ideas.Portfolio.ideas;
-    return (<ul className="grid center" >
-              {cleanObject(companyList).map((company,index) => (
-              <div key={index} className="grid-item basis-10">
-                <CardMedia>
-                    <img style={styles.gridImage} src={require(`../Style/images/${company.title.split(' ').join('').toLowerCase()}.png`)} />
-                </CardMedia>
-               </div>
-              ))}
-            </ul>);
-}
-
-const Companies = () => {
-    let companyList = data.ideas.Portfolio.ideas;
-    //<img style={styles.gridImage} src={require(`../Style/images/${company.title.split(' ').join('').toLowerCase()}.png`)} />
-    return (<ul className="grid" >
-              {cleanObject(companyList).map((company,index) => (
-              <Card key={index} className="grid-item">
-                <CardTitle
-                className="bold"
-                title={company.title}
-                />
-                <CardMedia>
-                </CardMedia>
-                <CardText>{company.attr.note.text}</CardText>
-               </Card>
-              ))}
-            </ul>);
-}
-
-const Portfolio = () => (
-    <section>
-        {Brands()}
-        {Companies()}
-    </section>
-);
-
-const Contact = () => {
-    let contactList = data.ideas.Contact.ideas;
-    let contactEl = (<ul className="grid center" >
-              {cleanObject(contactList).map((contact,index) => (
-              <Card className="grid-item" key={index}>
-                <CardTitle
-                className="bold"
-                title={contact.title}
-                />
-                <CardText>{cleanObject(contact.ideas).map((c,index) => <a key={index} href={c.title}>{c.title}</a> )}</CardText>
-              </Card>
-              ))}
-            </ul>);
-    return (<section>
-        <div>{contactEl}</div>
-        </section>);
-};
 
 ReactDOM.render(
-    <Router history={hashHistory}>
-        <Route path="/" component={App}>
-            <IndexRoute component={Home} />
-            <Route path="about" component={About} />
-            <Route path="portfolio" component={Portfolio} />
-            <Route path="contact" component={Contact} />
-        </Route>
-        </Router>,
+    React.createElement(App),
     document.getElementById('app')
 );
