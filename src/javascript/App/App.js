@@ -47,6 +47,7 @@ import AppBar from 'material-ui/AppBar';
 import FontIcon from 'material-ui/FontIcon';
 import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import RaisedButton from 'material-ui/RaisedButton';
 import 'normalize.css';
 import '../Style/main.scss';
 
@@ -54,18 +55,14 @@ injectTapEventPlugin();
 
 const styles = {
     title: {
-        textAlign: 'center',
-        fontFamily: 'Roboto Slab',
-        margin: '0 0'
+        margin:'1em 0'
     },
     subTitle: {
         fontFamily: 'Roboto Slab',
         margin: '0 0 1em 0'
     },
-    personalImg: {
-        height: '150px',
-        borderRadius: '100px',
-        boxShadow: '0px 0px 4px 3px rgba(35, 31, 32, 0.51)'
+    ctaButton:{
+        width:'200px'
     }
 };
 
@@ -103,12 +100,12 @@ class App extends React.Component {
                     <AppBar
                     iconElementLeft={<span></span>}
                     style={{textAlign:"center"}}
-                    title={<h1>Pittsburgh Devs</h1>}
+                    title={<div style={styles.title}><h1>Pittsburgh Devs</h1><h3>Slack Community Channel</h3></div>}
                      />
                     <CardFrame
                     className="child"
                     >
-                        {this.props.children}
+                        <Home />
                      </CardFrame>
                 </div>
             </MuiThemeProvider>
@@ -123,6 +120,12 @@ class App extends React.Component {
         hashHistory.push(tab.props['data-route']);
     }
 };
+
+const Home = () => (
+    <section className="grid center">
+        <RaisedButton label="Join Our Slack Channel" secondary={true}/>
+    </section>
+);
 
 const CardFrame = ({
     children
@@ -172,12 +175,6 @@ const Menu = ({
 const Footer = () => (
     <footer>
     </footer>
-);
-
-const Home = () => (
-    <section>
-            <p>Test</p>
-    </section>
 );
 
 ReactDOM.render(
