@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {observer} from "mobx-react";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {
@@ -95,7 +96,7 @@ const styles = {
     }
 };
 
-class App extends React.Component {
+@observer class App extends React.Component {
     render() {
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
@@ -106,22 +107,14 @@ class App extends React.Component {
                     title={
                     <div style={styles.title}><h1 className="title">BudgetQT</h1>
                     <h3 className="sub-title">Cross Platform Budgeting!</h3>
-                    </div>
-                    }
+                    </div>}
                      />
                         <Home />
+                        <Menu />
                      <Footer/>
                 </div>
             </MuiThemeProvider>
         );
-    }
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            children: nextProps.children
-        });
-    }
-    changeRoute(tab) {
-        hashHistory.push(tab.props['data-route']);
     }
 };
 
