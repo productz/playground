@@ -112,6 +112,7 @@ const styles = {
                     <h3 className="sub-title">Cross Platform Budgeting!</h3>
                     </div>}
                      />
+                        <Menu />
                         <h2>Welcome {this.props.userStore.name}!</h2>
                         <Home  
                         dailyBudgetEditable={this.props.userStore.dailyBudgetEditable}
@@ -119,7 +120,6 @@ const styles = {
                         onDailyBudgetChange={(event,newValue)=>this.props.userStore.dailyBudget=newValue}
                         onEditChange={(event)=>this.props.userStore.dailyBudgetEditable = !this.props.userStore.dailyBudgetEditable}
                         />
-                        <Menu />
                      <Footer/>
                 </div>
             </MuiThemeProvider>
@@ -145,48 +145,10 @@ const Home = ({dailyBudget,dailyBudgetEditable,onEditChange, onDailyBudgetChange
     </section>
 );
 
-const Team = () => (
-    <section>
-        <h2>Meet the Admin Team</h2>
-        <ul>
-        <li>Sam Alghanmi: Slack => <a href="pgh-devs.slack.com/team/sam.alghanmi" style={{color:deepPurple600}}>sam.alghanmi</a> || Twitter => <a href="https://twitter.com/itechdom">@itechdom</a></li>
-        </ul>
-    </section>
-);
-
-const Resources = () => (
-    <section>
-    </section>
-)
-
-const PghMeetups = () => (
-    <section>
-    </section>
-)
-
-const Conduct = () => (
-    <section>
-        <h2>Code of Conduct</h2>
-        <p>Pittsburgh Devs is dedicated to providing a harassment-free experience for everyone, regardless of gender identity or expression, sexual orientation, disability, physical appearance, body size, race, religion or non-religion. We do not tolerate harassment of participants in any form. Harassment includes offensive verbal comments related to gender, sexual orientation, disability, physical appearance, body size, race, religion, sexual images, deliberate intimidation, stalking, sustained disruption of discussions or other events, and unwelcome sexual attention. If a participant engages in behavior that violates this code of conduct, the organizers may take any action they deem appropriate, including warning the offender or expulsion from the group.</p>
-    </section>
-);
-
 const Footer = () => (
     <footer style={{marginTop:'4em', padding:'2em',textAlign:'center',backgroundColor:grey300}}>
         <p>budgetqt</p>
     </footer>
-);
-
-const CardFrame = ({
-    children
-}) => (
-    <Card>
-        <CardHeader
-        />
-        <CardText className="content" >
-        {children}
-        </CardText>
-    </Card>
 );
 
 const Menu = ({
