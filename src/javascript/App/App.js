@@ -104,18 +104,12 @@ class App extends React.Component {
                     iconElementLeft={<span></span>}
                     style={{textAlign:"center"}}
                     title={
-                    <div style={styles.title}><h1 className="title">Pittsburgh Devs</h1>
-                    <h3 className="sub-title">A Slack community for Pitsburgh's developers, designers, makers, hackers and More</h3>
+                    <div style={styles.title}><h1 className="title">BudgetQT</h1>
+                    <h3 className="sub-title">Cross Platform Budgeting!</h3>
                     </div>
                     }
                      />
-                    <CardFrame
-                    className="list center"
-                    >
                         <Home />
-                        <Conduct />
-                        <Team />
-                     </CardFrame>
                      <Footer/>
                 </div>
             </MuiThemeProvider>
@@ -133,9 +127,13 @@ class App extends React.Component {
 
 const Home = () => (
     <section>
-        <div>We have a number of active channels: <span style={styles.channels}>#general, #jobs, #announcements, #introductions, #meetups, #javascript, #java, #ruby</span> and more.</div>
+        <div className="list text-center top-1">
+            <p>My Daily Budget is: $20</p>
+            <p>That's ${20 * 7} per week</p>
+            <p>And ${20 * 30} per month </p>
+        </div>
         <div className="grid center top-1">
-            <RaisedButton  target="_blank" href="https://pgh-devs.herokuapp.com" label="Join The Community" secondary={true}/>
+            <p>Today I have spend: $13 </p>
         </div>
     </section>
 );
@@ -168,7 +166,7 @@ const Conduct = () => (
 
 const Footer = () => (
     <footer style={{marginTop:'4em', padding:'2em',textAlign:'center',backgroundColor:grey300}}>
-        <p>Reach out to : pghdevs@gmail.com with any questions. This website was inspired by the beautiful Denver Devs Communtiy: <a href="https://denverdevs.org/">https://denverdevs.org.</a></p>
+        <p>budgetqt</p>
     </footer>
 );
 
@@ -197,20 +195,20 @@ const Menu = ({
         onActive={changeRoute}
         />
         <Tab
-        icon={<FontIcon className="material-icons">info</FontIcon>}
-        label="About"
-        data-route="/about"
-        onActive={changeRoute}
-        />
-        <Tab
         icon={<FontIcon className="material-icons">favorite</FontIcon>}
-        label="Portfolio"
+        label="Daily Budget"
         data-route="/portfolio"
         onActive={changeRoute}
         />
         <Tab
+        icon={<FontIcon className="material-icons">info</FontIcon>}
+        label="Progress"
+        data-route="/progress"
+        onActive={changeRoute}
+        />
+        <Tab
         icon={<MapsPersonPin />}
-        label="Contact"
+        label="Friends"
         data-route="/contact"
         onActive={changeRoute}
         />
