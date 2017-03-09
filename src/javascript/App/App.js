@@ -8,21 +8,7 @@ import {
     fade
 }
 from 'material-ui/utils/colorManipulator';
-import {
-    cyan500,
-    cyan700,
-    pinkA200,
-    grey100,
-    grey300,
-    grey400,
-    grey500,
-    white,
-    darkBlack,
-    fullBlack,
-    deepPurple900,
-    deepPurple600
-}
-from 'material-ui/styles/colors';
+import * as colors from 'material-ui/styles/colors';
 import {
     Router,
     Route,
@@ -60,26 +46,25 @@ injectTapEventPlugin();
 const muiTheme = getMuiTheme({
     fontFamily: 'Roboto,sans-serif',
     palette: {
-        primary1Color: deepPurple900,
-        primary2Color: deepPurple600,
-        primary3Color: grey400,
-        accent1Color: pinkA200,
-        accent2Color: grey100,
-        accent3Color: grey500,
-        textColor: darkBlack,
-        alternateTextColor: white,
-        canvasColor: white,
-        borderColor: grey300,
-        disabledColor: fade(darkBlack, 0.3),
-        pickerHeaderColor: cyan500,
-        clockCircleColor: fade(darkBlack, 0.07),
-        shadowColor: fullBlack,
+        primary1Color: colors.grey900,
+        primary2Color: colors.teal500,
+        primary3Color: colors.grey400,
+        accent1Color: colors.pinkA200,
+        accent2Color: colors.grey100,
+        accent3Color: colors.grey500,
+        textColor: colors.darkBlack,
+        alternateTextColor: colors.white,
+        canvasColor: colors.white,
+        borderColor: colors.grey300,
+        disabledColor: fade(colors.darkBlack, 0.3),
+        pickerHeaderColor: colors.cyan500,
+        shadowColor: colors.fullBlack
     },
     appBar: {
         height: 'auto'
     },
     tabs: {
-        backgroundColor: deepPurple600
+        backgroundColor: colors.grey700
     }
 });
 
@@ -95,7 +80,7 @@ const styles = {
         width:'200px'
     },
     channels:{
-       color: deepPurple900
+       color: colors.deepPurple900
     }
 };
 
@@ -132,7 +117,7 @@ const Home = ({dailyBudget,dailyBudgetEditable,onEditChange, onDailyBudgetChange
         <div className="list text-center top-1">
             <p>
             My Daily Budget is: $
-            {dailyBudgetEditable?<TextField onChange={onDailyBudgetChange} type="number" hintText="Enter what you have spent today"/>:<span>{dailyBudget}</span>}
+            {dailyBudgetEditable?<TextField onChange={onDailyBudgetChange} type="number" hintText="Enter your daily budget"/>:<span>{dailyBudget}</span>}
             <FlatButton 
                 label="Edit" 
                 primary={true} 
@@ -146,7 +131,7 @@ const Home = ({dailyBudget,dailyBudgetEditable,onEditChange, onDailyBudgetChange
 );
 
 const Footer = () => (
-    <footer style={{marginTop:'4em', padding:'2em',textAlign:'center',backgroundColor:grey300}}>
+    <footer style={{marginTop:'4em', padding:'2em',textAlign:'center',backgroundColor:colors.grey300}}>
         <p>budgetqt</p>
     </footer>
 );
