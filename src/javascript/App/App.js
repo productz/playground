@@ -50,6 +50,7 @@ import FontIcon from 'material-ui/FontIcon';
 import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import 'normalize.css';
 import '../Style/main.scss';
 
@@ -110,6 +111,7 @@ const styles = {
                     <h3 className="sub-title">Cross Platform Budgeting!</h3>
                     </div>}
                      />
+                        <h2>Welcome {this.props.userStore.name}!</h2>
                         <Home dailyBudget={this.props.userStore.dailyBudget} />
                         <Menu />
                      <Footer/>
@@ -128,6 +130,9 @@ const Home = ({dailyBudget}) => (
         </div>
         <div className="grid center top-1">
             <p>Today I have spend: $13 </p>
+            <div>
+                <FlatButton label="Edit" primary={true} />
+            </div>
         </div>
     </section>
 );
