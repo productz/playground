@@ -51,6 +51,7 @@ import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
 import 'normalize.css';
 import '../Style/main.scss';
 
@@ -112,7 +113,12 @@ const styles = {
                     </div>}
                      />
                         <h2>Welcome {this.props.userStore.name}!</h2>
-                        <Home dailyBudget={this.props.userStore.dailyBudget} />
+                        <Home  
+                        dailyBudgetEditable={this.props.userStore.dailyBudgetEditable}
+                        dailyBudget={this.props.userStore.dailyBudget} 
+                        onDailyBudgetChange={(event,newValue)=>this.props.userStore.dailyBudget=newValue}
+                        onEditChange={(event)=>this.props.userStore.dailyBudgetEditable = !this.props.userStore.dailyBudgetEditable}
+                        />
                         <Menu />
                      <Footer/>
                 </div>
@@ -121,18 +127,20 @@ const styles = {
     }
 };
 
-const Home = ({dailyBudget}) => (
+const Home = ({dailyBudget,dailyBudgetEditable,onEditChange, onDailyBudgetChange}) => (
     <section>
         <div className="list text-center top-1">
-            <p>My Daily Budget is: ${dailyBudget}</p>
+            <p>
+            My Daily Budget is: $
+            {dailyBudgetEditable?<TextField onChange={onDailyBudgetChange} type="number" hintText="Enter what you have spent today"/>:<span>{dailyBudget}</span>}
+            <FlatButton 
+                label="Edit" 
+                primary={true} 
+                onClick={onEditChange}
+            />
+            </p>
             <p>That's ${4 * dailyBudget} per week</p>
             <p>And ${30 * dailyBudget} per month </p>
-        </div>
-        <div className="grid center top-1">
-            <p>Today I have spend: $13 </p>
-            <div>
-                <FlatButton label="Edit" primary={true} />
-            </div>
         </div>
     </section>
 );
@@ -214,7 +222,7 @@ const Menu = ({
         </Tabs>
 );
 
-let userStore = new User("Sam","osamah.net.m@gmail.com",13);
+let userStore = new User("Sam","osamah.net.m@gmail.com",13,false);
 
 ReactDOM.render(
     <App userStore={userStore} />,

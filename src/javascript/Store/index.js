@@ -4,14 +4,14 @@ export class User {
     name;
     email;
     @observable dailyBudget;
+    @observable dailyBudgetEditable = false;
     @observable categoryList=[];
     @observable expenseList = [];
-    constructor(name,email,dailyBudget,categoryList,expenseList) {
+    constructor(name,email,dailyBudget,dailyBudgetEditable) {
         this.name = name;
         this.email = email;
         this.dailyBudget = dailyBudget;
-        this.categoryList = categoryList;
-        this.expenseList = expenseList;
+        this.dailyBudgetEditable = dailyBudgetEditable;
     }
 }
 
