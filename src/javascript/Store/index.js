@@ -1,19 +1,18 @@
 import {observable, computed} from 'mobx';
 
 export class User {
-    id;
     name;
     email;
     @observable dailyBudget;
-    constructor(id,name,email) {
-        this.id = id;
+    constructor(name,email,dailyBudget) {
         this.name = name;
         this.email = email;
+        this.dailyBudget = dailyBudget;
     }
 }
 
 export class Expense {
-    @observable categoryList = [];
+    @observable categoryList=[];
     expenseDate;
     amount;
 }

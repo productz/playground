@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {observer} from "mobx-react";
+import {User,Expense,Category} from '../Store';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {
@@ -109,7 +110,7 @@ const styles = {
                     <h3 className="sub-title">Cross Platform Budgeting!</h3>
                     </div>}
                      />
-                        <Home />
+                        <Home dailyBudget={this.props.userStore.dailyBudget} />
                         <Menu />
                      <Footer/>
                 </div>
@@ -118,12 +119,12 @@ const styles = {
     }
 };
 
-const Home = () => (
+const Home = ({dailyBudget}) => (
     <section>
         <div className="list text-center top-1">
-            <p>My Daily Budget is: $20</p>
-            <p>That's ${20 * 7} per week</p>
-            <p>And ${20 * 30} per month </p>
+            <p>My Daily Budget is: ${dailyBudget}</p>
+            <p>That's ${4 * dailyBudget} per week</p>
+            <p>And ${30 * dailyBudget} per month </p>
         </div>
         <div className="grid center top-1">
             <p>Today I have spend: $13 </p>
@@ -208,7 +209,9 @@ const Menu = ({
         </Tabs>
 );
 
+let userStore = new User("Sam","osamah.net.m@gmail.com",13);
+
 ReactDOM.render(
-    React.createElement(App),
+    <App userStore={userStore} />,
     document.getElementById('app')
 );
