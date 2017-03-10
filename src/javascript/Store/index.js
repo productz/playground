@@ -6,6 +6,7 @@ export class User {
     @observable dailyBudget;
     @observable dailyBudgetEditable = false;
     @observable expenseList = [];
+    @observable expenseEditable=false;
     @observable categoryList=[];
     constructor(name,email,dailyBudget,dailyBudgetEditable,expenseList,categoryList) {
         this.name = name;

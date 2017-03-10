@@ -144,6 +144,18 @@ const Expenses = ({expenseList, onExpensesAdd, expenseEditable}) => (
                     day='numeric'
                     weekday='long'
             />
+            <RaisedButton 
+                label="Add Expense"
+                onClick={onExpensesAdd}
+            />
+            {/** <Dialog
+            //   title="Dialog With Actions"
+            //   actions={actions}
+            *   modal={false}
+            *   open={this.state.open}
+            *   onRequestClose={this.handleClose}
+            **/
+            }
         <ul>
             {
                 expenseList.map((expense,index) => <li key={index}>{
