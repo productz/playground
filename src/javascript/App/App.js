@@ -179,7 +179,7 @@ const Expenses = ({categoryList, expenseList, onExpensesAdd, expenseEditable, on
     </section>
 );
 
-const ExpenseDialog = ({handleClose,handleOpen,open,handleSubmit,newExpense}) => {
+const ExpenseDialog = ({handleClose,handleOpen,open,handleSubmit,newExpense,categoryList}) => {
     const actions = [
         <FlatButton
         label="Cancel"
