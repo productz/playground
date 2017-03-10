@@ -40,6 +40,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import AutoComplete from 'material-ui/AutoComplete';
 import 'normalize.css';
 import '../Style/main.scss';
 
@@ -108,10 +109,12 @@ const styles = {
                             onEditChange={(event)=>this.props.userStore.dailyBudgetEditable = !this.props.userStore.dailyBudgetEditable}
                         />
                         <Expenses
+                            categoryList={this.props.userStore.categoryList}
                             expenseList={this.props.userStore.expenseList}
                             expenseEditable={this.props.userStore.expenseEditable}
                             onExpenseOpen={(event)=>this.props.userStore.expenseEditable=true}
                             onExpenseClose={(event)=>this.props.userStore.expenseEditable=false}
+                            newExpense={new Expense()}
                         />
                      <Footer/>
                 </div>
@@ -138,7 +141,7 @@ const Home = ({dailyBudget,dailyBudgetEditable,onEditChange, onDailyBudgetChange
     </section>
 );
 
-const Expenses = ({expenseList, onExpensesAdd, expenseEditable, onExpenseOpen, onExpenseClose, newExpense}) => (
+const Expenses = ({categoryList, expenseList, onExpensesAdd, expenseEditable, onExpenseOpen, onExpenseClose, newExpense}) => (
     <section className="list text-center">
         <p>Today is: 
         <FormattedDate
@@ -149,9 +152,12 @@ const Expenses = ({expenseList, onExpensesAdd, expenseEditable, onExpenseOpen, o
             weekday='long'
         />
         <ExpenseDialog 
+            categoryList={categoryList}
             open={expenseEditable}
             handleOpen={onExpenseOpen}
             handleClose={onExpenseClose}
+            handleSubmit={(event)=>{console.log(newExpense);newExpense.date = new Date();expenseList.push(newExpense);onExpenseClose()}}
+            newExpense={newExpense}
         />
         <ul>
             {
@@ -173,7 +179,7 @@ const Expenses = ({expenseList, onExpensesAdd, expenseEditable, onExpenseOpen, o
     </section>
 );
 
-const ExpenseDialog = ({handleClose,handleOpen,open,updateExpense}) => {
+const ExpenseDialog = ({handleClose,handleOpen,open,handleSubmit,newExpense}) => {
     const actions = [
         <FlatButton
         label="Cancel"
@@ -183,7 +189,7 @@ const ExpenseDialog = ({handleClose,handleOpen,open,updateExpense}) => {
         <FlatButton
         label="Submit"
         primary={true}
-        onClick={updateExpense}
+        onClick={handleSubmit}
       />,
     ];
     return (
@@ -196,8 +202,12 @@ const ExpenseDialog = ({handleClose,handleOpen,open,updateExpense}) => {
               open={open}
               onRequestClose={handleClose}
             >
-                <TextField type="number" hintText="Expense Amount"/>
-                <TextField type="text" hintText="Expense Category"/>
+                <TextField onChange={(event,newValue)=>{newExpense.amount = newValue}} type="number" hintText="Expense Amount"/>
+                <AutoComplete
+                  hintText="Expense Category"
+                  dataSource={categoryList.map(cat => cat.title)}
+                  onUpdateInput={(event,newValue)=>{newExpense.category = new Category(newValue)}}
+                />
             </Dialog>
         </div>
     );
