@@ -22,6 +22,7 @@ import {
     Tab
 }
 from 'material-ui/Tabs';
+import Dialog from 'material-ui/Dialog';
 import {
     Card,
     CardActions,
@@ -108,6 +109,9 @@ const styles = {
                         />
                         <Expenses
                             expenseList={this.props.userStore.expenseList}
+                            expenseEditable={this.props.userStore.expenseEditable}
+                            onExpenseOpen={(event)=>this.props.userStore.expenseEditable=true}
+                            onExpenseClose={(event)=>this.props.userStore.expenseEditable=false}
                         />
                      <Footer/>
                 </div>
@@ -134,28 +138,21 @@ const Home = ({dailyBudget,dailyBudgetEditable,onEditChange, onDailyBudgetChange
     </section>
 );
 
-const Expenses = ({expenseList, onExpensesAdd, expenseEditable}) => (
+const Expenses = ({expenseList, onExpensesAdd, expenseEditable, onExpenseOpen, onExpenseClose}) => (
     <section className="list text-center">
         <p>Today is: 
-            <FormattedDate
-                    value={Date.now()}
-                    year='numeric'
-                    month='long'
-                    day='numeric'
-                    weekday='long'
-            />
-            <RaisedButton 
-                label="Add Expense"
-                onClick={onExpensesAdd}
-            />
-            {/** <Dialog
-            //   title="Dialog With Actions"
-            //   actions={actions}
-            *   modal={false}
-            *   open={this.state.open}
-            *   onRequestClose={this.handleClose}
-            **/
-            }
+        <FormattedDate
+            value={Date.now()}
+            year='numeric'
+            month='long'
+            day='numeric'
+            weekday='long'
+        />
+        <ExpenseDialog 
+            open={expenseEditable}
+            handleOpen={onExpenseOpen}
+            handleClose={onExpenseClose}
+        />
         <ul>
             {
                 expenseList.map((expense,index) => <li key={index}>{
@@ -175,6 +172,36 @@ const Expenses = ({expenseList, onExpensesAdd, expenseEditable}) => (
         </p>
     </section>
 );
+
+const ExpenseDialog = ({handleClose,handleOpen,open}) => {
+    const actions = [
+        <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={handleClose}
+      />,
+        <FlatButton
+        label="Submit"
+        primary={true}
+        keyboardFocused={true}
+        onClick={handleClose}
+      />,
+    ];
+    return (
+        <div>
+        <RaisedButton label="Add Expense" onClick={handleOpen} />
+        <Dialog
+          title="Add Expense"
+          actions={actions}
+          modal={false}
+          open={open}
+          onRequestClose={handleClose}
+        >
+          The actions in this window were passed in as an array of React objects.
+        </Dialog>
+        </div>
+    );
+};
 
 const Footer = () => (
     <footer style={{marginTop:'4em', padding:'2em',textAlign:'center',backgroundColor:colors.grey300}}>
@@ -221,7 +248,7 @@ new Expense(Date.now(),2.4,new Category("coffee","coffee-icon"))
 
 let categoryList = [new Category("gas","icon-gas"),new Category("coffee","coffee-icon")];
 
-let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, expenseList, categoryList);
+let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, expenseList,false, categoryList);
 
 ReactDOM.render(
     <IntlProvider locale="en">

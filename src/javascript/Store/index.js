@@ -8,12 +8,13 @@ export class User {
     @observable expenseList = [];
     @observable expenseEditable=false;
     @observable categoryList=[];
-    constructor(name,email,dailyBudget,dailyBudgetEditable,expenseList,categoryList) {
+    constructor(name,email,dailyBudget,dailyBudgetEditable,expenseList,expenseEditable,categoryList) {
         this.name = name;
         this.email = email;
         this.dailyBudget = dailyBudget;
         this.dailyBudgetEditable = dailyBudgetEditable;
         this.expenseList = expenseList;
+        this.expenseEditable = expenseEditable;
         this.categoryList = categoryList;
     }
 }
