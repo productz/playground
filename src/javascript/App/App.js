@@ -138,7 +138,7 @@ const Home = ({dailyBudget,dailyBudgetEditable,onEditChange, onDailyBudgetChange
     </section>
 );
 
-const Expenses = ({expenseList, onExpensesAdd, expenseEditable, onExpenseOpen, onExpenseClose}) => (
+const Expenses = ({expenseList, onExpensesAdd, expenseEditable, onExpenseOpen, onExpenseClose, newExpense}) => (
     <section className="list text-center">
         <p>Today is: 
         <FormattedDate
@@ -156,16 +156,16 @@ const Expenses = ({expenseList, onExpensesAdd, expenseEditable, onExpenseOpen, o
         <ul>
             {
                 expenseList.map((expense,index) => <li key={index}>{
-                <div className="top-1">
-                <FormattedDate
-                    value={expense.date}
-                    year='numeric'
-                    month='long'
-                    day='numeric'
-                />
-                <span>===={expense.amount}</span>
-                <span>===={expense.category.title}</span>
-                </div>
+                    <div className="top-1">
+                    <FormattedDate
+                        value={expense.date}
+                        year='numeric'
+                        month='long'
+                        day='numeric'
+                    />
+                    <span>===={expense.amount}</span>
+                    <span>===={expense.category.title}</span>
+                    </div>
                 }</li>)
             }
         </ul>
@@ -173,7 +173,7 @@ const Expenses = ({expenseList, onExpensesAdd, expenseEditable, onExpenseOpen, o
     </section>
 );
 
-const ExpenseDialog = ({handleClose,handleOpen,open}) => {
+const ExpenseDialog = ({handleClose,handleOpen,open,updateExpense}) => {
     const actions = [
         <FlatButton
         label="Cancel"
@@ -183,21 +183,22 @@ const ExpenseDialog = ({handleClose,handleOpen,open}) => {
         <FlatButton
         label="Submit"
         primary={true}
-        onClick={handleClose}
+        onClick={updateExpense}
       />,
     ];
     return (
         <div>
-        <RaisedButton label="Add Expense" onClick={handleOpen} />
-        <Dialog
-          title="Add Expense"
-          actions={actions}
-          modal={false}
-          open={open}
-          onRequestClose={handleClose}
-        >
-          The actions in this window were passed in as an array of React objects.
-        </Dialog>
+            <RaisedButton label="Add Expense" onClick={handleOpen} />
+            <Dialog
+              title="Add Expense"
+              actions={actions}
+              modal={false}
+              open={open}
+              onRequestClose={handleClose}
+            >
+                <TextField type="number" hintText="Expense Amount"/>
+                <TextField type="text" hintText="Expense Category"/>
+            </Dialog>
         </div>
     );
 };
