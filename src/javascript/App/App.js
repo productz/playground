@@ -183,7 +183,6 @@ const ExpenseDialog = ({handleClose,handleOpen,open}) => {
         <FlatButton
         label="Submit"
         primary={true}
-        keyboardFocused={true}
         onClick={handleClose}
       />,
     ];
@@ -216,37 +215,41 @@ const Menu = ({
     inkBarStyle={{background: 'white'}}
     >
         <Tab
-        icon={<FontIcon className="material-icons">home</FontIcon>}
-        label="Home"
-        data-route="/"
-        onActive={changeRoute}
+            icon={<FontIcon className="material-icons">home</FontIcon>}
+            label="Home"
+            data-route="/"
+            onActive={changeRoute}
         />
         <Tab
-        icon={<FontIcon className="material-icons">favorite</FontIcon>}
-        label="Statistics"
-        data-route="/portfolio"
-        onActive={changeRoute}
+            icon={<FontIcon className="material-icons">favorite</FontIcon>}
+            label="Statistics"
+            data-route="/portfolio"
+            onActive={changeRoute}
         />
         <Tab
-        icon={<FontIcon className="material-icons">info</FontIcon>}
-        label="Rewards"
-        data-route="/progress"
-        onActive={changeRoute}
+            icon={<FontIcon className="material-icons">info</FontIcon>}
+            label="Rewards"
+            data-route="/progress"
+            onActive={changeRoute}
         />
         <Tab
-        icon={<MapsPersonPin />}
-        label="Friends"
-        data-route="/contact"
-        onActive={changeRoute}
+            icon={<MapsPersonPin />}
+            label="Friends"
+            data-route="/contact"
+            onActive={changeRoute}
         />
-        </Tabs>
+    </Tabs>
 );
 
-let expenseList = [new Expense(Date.now(),3.6,new Category("gas","icon-gas")),
-new Expense(Date.now(),2.4,new Category("coffee","coffee-icon"))
+let expenseList = [
+    new Expense(Date.now(),3.6,new Category("gas","icon-gas")),
+    new Expense(Date.now(),2.4,new Category("coffee","coffee-icon"))
 ];
 
-let categoryList = [new Category("gas","icon-gas"),new Category("coffee","coffee-icon")];
+let categoryList = [
+    new Category("gas","icon-gas"),
+    new Category("coffee","coffee-icon")
+];
 
 let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, expenseList,false, categoryList);
 
