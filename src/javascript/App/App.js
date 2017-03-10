@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {observer} from "mobx-react";
 import {User,Expense,Category} from '../Store';
+import { IntlProvider, FormattedDate } from 'react-intl';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {
@@ -100,10 +101,13 @@ const styles = {
                         <Menu />
                         <h2>Welcome {this.props.userStore.name}!</h2>
                         <Home  
-                        dailyBudgetEditable={this.props.userStore.dailyBudgetEditable}
-                        dailyBudget={this.props.userStore.dailyBudget} 
-                        onDailyBudgetChange={(event,newValue)=>this.props.userStore.dailyBudget=newValue}
-                        onEditChange={(event)=>this.props.userStore.dailyBudgetEditable = !this.props.userStore.dailyBudgetEditable}
+                            dailyBudgetEditable={this.props.userStore.dailyBudgetEditable}
+                            dailyBudget={this.props.userStore.dailyBudget} 
+                            onDailyBudgetChange={(event,newValue)=>this.props.userStore.dailyBudget=newValue}
+                            onEditChange={(event)=>this.props.userStore.dailyBudgetEditable = !this.props.userStore.dailyBudgetEditable}
+                        />
+                        <Expenses
+                            expenseList={this.props.userStore.expenseList}
                         />
                      <Footer/>
                 </div>
@@ -130,6 +134,36 @@ const Home = ({dailyBudget,dailyBudgetEditable,onEditChange, onDailyBudgetChange
     </section>
 );
 
+const Expenses = ({expenseList, onExpensesAdd, expenseEditable}) => (
+    <section className="list text-center">
+        <p>Today is: 
+            <FormattedDate
+                    value={Date.now()}
+                    year='numeric'
+                    month='long'
+                    day='numeric'
+                    weekday='long'
+            />
+        <ul>
+            {
+                expenseList.map((expense,index) => <li key={index}>{
+                <div className="top-1">
+                <FormattedDate
+                    value={expense.date}
+                    year='numeric'
+                    month='long'
+                    day='numeric'
+                />
+                <span>===={expense.amount}</span>
+                <span>===={expense.category.title}</span>
+                </div>
+                }</li>)
+            }
+        </ul>
+        </p>
+    </section>
+);
+
 const Footer = () => (
     <footer style={{marginTop:'4em', padding:'2em',textAlign:'center',backgroundColor:colors.grey300}}>
         <p>budgetqt</p>
@@ -150,13 +184,13 @@ const Menu = ({
         />
         <Tab
         icon={<FontIcon className="material-icons">favorite</FontIcon>}
-        label="Daily Budget"
+        label="Statistics"
         data-route="/portfolio"
         onActive={changeRoute}
         />
         <Tab
         icon={<FontIcon className="material-icons">info</FontIcon>}
-        label="Progress"
+        label="Rewards"
         data-route="/progress"
         onActive={changeRoute}
         />
@@ -169,9 +203,18 @@ const Menu = ({
         </Tabs>
 );
 
-let userStore = new User("Sam","osamah.net.m@gmail.com",13,false);
+let expenseList = [new Expense(Date.now(),3.6,new Category("gas","icon-gas")),
+new Expense(Date.now(),2.4,new Category("coffee","coffee-icon"))
+];
+
+let categoryList = [new Category("gas","icon-gas"),new Category("coffee","coffee-icon")];
+
+let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, expenseList, categoryList);
 
 ReactDOM.render(
-    <App userStore={userStore} />,
+    <IntlProvider locale="en">
+        <App userStore={userStore} />
+    </IntlProvider>
+    ,
     document.getElementById('app')
 );
