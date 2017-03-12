@@ -163,26 +163,29 @@ const Expenses = ({categoryList, expenseList, onExpensesAdd, expenseEditable, on
             <Table>
                   <TableHeader>
                       <TableRow>
-                          <TableHeaderColumn>Title</TableHeaderColumn>
-                          <TableHeaderColumn>Amount</TableHeaderColumn>
-                          <TableHeaderColumn>Category</TableHeaderColumn>
                           <TableHeaderColumn>Date</TableHeaderColumn>
+                          <TableHeaderColumn>Amount</TableHeaderColumn>
+                          <TableHeaderColumn>Title</TableHeaderColumn>
+                          <TableHeaderColumn>Category</TableHeaderColumn>
                       </TableRow>
                   </TableHeader>
                 <TableBody className="top-1">
             {
-                expenseList.map((expense,index) => <TableRow key={index}>{
-                  <TableRowColumn>
-                  <FormattedDate
-                        value={expense.date}
-                        year='numeric'
-                        month='long'
-                        day='numeric'
-                    />
-                    <span>===={expense.amount}</span>
-                    <span>===={expense.category.title}</span>
-                    </TableRowColumn>
-                }</TableRow>)
+                expenseList.map((expense,index) => (
+                    <TableRow key={index}>
+                      <TableRowColumn>
+                          <FormattedDate
+                                value={expense.date}
+                                year='numeric'
+                                month='long'
+                                day='numeric'
+                            />
+                        </TableRowColumn>
+                        <TableRowColumn>{expense.amount}</TableRowColumn>
+                        <TableRowColumn>{expense.title}</TableRowColumn>
+                        <TableRowColumn>{expense.category.title}</TableRowColumn>
+                    </TableRow>
+                ))
             }
             </TableBody>
             </Table>
