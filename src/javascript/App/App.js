@@ -11,12 +11,10 @@ import {
 from 'material-ui/utils/colorManipulator';
 import * as colors from 'material-ui/styles/colors';
 import {
-    Router,
-    Route,
-    IndexRoute,
-    hashHistory
-}
-from 'react-router'
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 import {
     Tabs,
     Tab
@@ -103,7 +101,10 @@ const styles = {
                     <h2>Welcome {this.props.userStore.name}!</h2>
                     </div>}
                      />
-                        <Menu />
+                        <Menu 
+                            selectedRoute={this.props.userStore.selectedRoute}
+                            changeRoute={(index)=>this.props.userStore.selectedRoute = index}
+                        />
                         <Home  
                             dailyBudgetEditable={this.props.userStore.dailyBudgetEditable}
                             dailyBudget={this.props.userStore.dailyBudget} 
@@ -228,6 +229,18 @@ const ExpenseDialog = ({handleClose,handleOpen,open,handleSubmit,newExpense,cate
     );
 };
 
+const Stats = () => (
+    <div>Stats</div>
+)
+
+const Rewards = () => (
+    <div>Rewards</div>
+)
+
+const Friends = () => (
+    <div>Friends</div>
+)
+
 const Footer = () => (
     <footer style={{marginTop:'4em', padding:'2em',textAlign:'center',backgroundColor:colors.grey300}}>
         <p>budgetqt</p>
@@ -235,35 +248,36 @@ const Footer = () => (
 );
 
 const Menu = ({
-    changeRoute
+    changeRoute,
+    selectedRoute
 }) => (
     <Paper zDepth={1}>
     <BottomNavigation
-        selectedIndex={0}
+        selectedIndex={selectedRoute}
     >
         <BottomNavigationItem
             icon={<FontIcon className="material-icons">home</FontIcon>}
             label="Home"
             data-route="/"
-            onActive={changeRoute}
+            onTouchTap={() => changeRoute(0)}
         />
         <BottomNavigationItem
             icon={<FontIcon className="material-icons">favorite</FontIcon>}
             label="Stats"
             data-route="/portfolio"
-            onActive={changeRoute}
+            onTouchTap={() => changeRoute(1)}
         />
         <BottomNavigationItem
             icon={<FontIcon className="material-icons">info</FontIcon>}
             label="Rewards"
             data-route="/progress"
-            onActive={changeRoute}
+            onTouchTap={() => changeRoute(2)}
         />
         <BottomNavigationItem
             icon={<MapsPersonPin />}
             label="Friends"
             data-route="/contact"
-            onActive={changeRoute}
+            onTouchTap={() => changeRoute(3)}
         />
     </BottomNavigation>
     </Paper>
@@ -296,10 +310,21 @@ let categoryList = [
     new Category("office supplies","office")
 ];
 
-let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, expenseList,false, categoryList);
+let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, expenseList,false, categoryList, 0);
 
 ReactDOM.render(
     <IntlProvider locale="en">
+     {
+    //   <Router history={hashHistory}>
+    //     <Route path="/" component={App}>
+    //         <IndexRoute component={Home} />
+    //         <Route path="stats" component={Stats} />
+    //         <Route path="rewards" component={Rewards} />
+    //         <Route path="friends" component={Friends} />
+    //     </Route>
+    //     </Router
+    //     >
+     }
         <App userStore={userStore} />
     </IntlProvider>
     ,

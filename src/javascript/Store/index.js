@@ -8,7 +8,8 @@ export class User {
     @observable expenseList = [];
     @observable expenseEditable=false;
     @observable categoryList=[];
-    constructor(name,email,dailyBudget,dailyBudgetEditable,expenseList,expenseEditable,categoryList) {
+    @observable selectedRoute = 0;
+    constructor(name,email,dailyBudget,dailyBudgetEditable,expenseList,expenseEditable,categoryList,selectedRoute) {
         this.name = name;
         this.email = email;
         this.dailyBudget = dailyBudget;
@@ -16,6 +17,7 @@ export class User {
         this.expenseList = expenseList;
         this.expenseEditable = expenseEditable;
         this.categoryList = categoryList;
+        this.selectedRoute = selectedRoute;
     }
 }
 
