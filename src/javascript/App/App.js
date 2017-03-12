@@ -41,6 +41,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import AutoComplete from 'material-ui/AutoComplete';
+import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import Paper from 'material-ui/Paper';
 import 'normalize.css';
 import '../Style/main.scss';
 
@@ -97,11 +100,10 @@ const styles = {
                     style={{textAlign:"center"}}
                     title={
                     <div style={styles.title}><h1 className="title">BudgetQT</h1>
-                    <h3 className="sub-title">Cross Platform Budgeting!</h3>
+                    <h2>Welcome {this.props.userStore.name}!</h2>
                     </div>}
                      />
                         <Menu />
-                        <h2>Welcome {this.props.userStore.name}!</h2>
                         <Home  
                             dailyBudgetEditable={this.props.userStore.dailyBudgetEditable}
                             dailyBudget={this.props.userStore.dailyBudget} 
@@ -127,7 +129,7 @@ const Home = ({dailyBudget,dailyBudgetEditable,onEditChange, onDailyBudgetChange
     <section>
         <div className="list text-center top-1">
             <p>
-            My Daily Budget is: $
+            Your Daily Budget is: $
             {dailyBudgetEditable?<TextField onChange={onDailyBudgetChange} type="number" hintText="Enter your daily budget"/>:<span>{dailyBudget}</span>}
             <FlatButton 
                 label="Edit" 
@@ -143,7 +145,6 @@ const Home = ({dailyBudget,dailyBudgetEditable,onEditChange, onDailyBudgetChange
 
 const Expenses = ({categoryList, expenseList, onExpensesAdd, expenseEditable, onExpenseOpen, onExpenseClose, newExpense}) => (
     <section className="list text-center">
-        <p>Today is: 
         <FormattedDate
             value={Date.now()}
             year='numeric'
@@ -156,14 +157,23 @@ const Expenses = ({categoryList, expenseList, onExpensesAdd, expenseEditable, on
             open={expenseEditable}
             handleOpen={onExpenseOpen}
             handleClose={onExpenseClose}
-            handleSubmit={(event)=>{console.log(newExpense);newExpense.date = new Date();expenseList.push(newExpense);onExpenseClose()}}
+            handleSubmit={(event)=>{console.log(newExpense,expenseList);newExpense.date = new Date();expenseList.push(newExpense);onExpenseClose()}}
             newExpense={newExpense}
         />
-        <ul>
+            <Table>
+                  <TableHeader>
+                      <TableRow>
+                          <TableHeaderColumn>Title</TableHeaderColumn>
+                          <TableHeaderColumn>Amount</TableHeaderColumn>
+                          <TableHeaderColumn>Category</TableHeaderColumn>
+                          <TableHeaderColumn>Date</TableHeaderColumn>
+                      </TableRow>
+                  </TableHeader>
+                <TableBody className="top-1">
             {
-                expenseList.map((expense,index) => <li key={index}>{
-                    <div className="top-1">
-                    <FormattedDate
+                expenseList.map((expense,index) => <TableRow key={index}>{
+                  <TableRowColumn>
+                  <FormattedDate
                         value={expense.date}
                         year='numeric'
                         month='long'
@@ -171,11 +181,11 @@ const Expenses = ({categoryList, expenseList, onExpensesAdd, expenseEditable, on
                     />
                     <span>===={expense.amount}</span>
                     <span>===={expense.category.title}</span>
-                    </div>
-                }</li>)
+                    </TableRowColumn>
+                }</TableRow>)
             }
-        </ul>
-        </p>
+            </TableBody>
+            </Table>
     </section>
 );
 
@@ -202,11 +212,13 @@ const ExpenseDialog = ({handleClose,handleOpen,open,handleSubmit,newExpense,cate
               open={open}
               onRequestClose={handleClose}
             >
-                <TextField onChange={(event,newValue)=>{newExpense.amount = newValue}} type="number" hintText="Expense Amount"/>
+                <TextField onChange={(event,newValue)=>{newExpense.title = newValue}} type="text" required="true" hintText="Expense Title"/>
+                <TextField onChange={(event,newValue)=>{newExpense.amount = newValue}} type="number" required="true" hintText="Expense Amount"/>
                 <AutoComplete
                   hintText="Expense Category"
+                  required="true"
                   dataSource={categoryList.map(cat => cat.title)}
-                  onUpdateInput={(event,newValue)=>{newExpense.category = new Category(newValue)}}
+                  onNewRequest={(chosenRequest,index)=>newExpense.category = categoryList[index]}
                 />
             </Dialog>
         </div>
@@ -222,44 +234,63 @@ const Footer = () => (
 const Menu = ({
     changeRoute
 }) => (
-    <Tabs
-    inkBarStyle={{background: 'white'}}
+    <Paper zDepth={1}>
+    <BottomNavigation
+        selectedIndex={0}
     >
-        <Tab
+        <BottomNavigationItem
             icon={<FontIcon className="material-icons">home</FontIcon>}
             label="Home"
             data-route="/"
             onActive={changeRoute}
         />
-        <Tab
+        <BottomNavigationItem
             icon={<FontIcon className="material-icons">favorite</FontIcon>}
-            label="Statistics"
+            label="Stats"
             data-route="/portfolio"
             onActive={changeRoute}
         />
-        <Tab
+        <BottomNavigationItem
             icon={<FontIcon className="material-icons">info</FontIcon>}
             label="Rewards"
             data-route="/progress"
             onActive={changeRoute}
         />
-        <Tab
+        <BottomNavigationItem
             icon={<MapsPersonPin />}
             label="Friends"
             data-route="/contact"
             onActive={changeRoute}
         />
-    </Tabs>
+    </BottomNavigation>
+    </Paper>
 );
 
+
+//====================
+//-------------------
+// POPULATE STORE WITH INITIAL DATA
+//-------------------
+//===================
 let expenseList = [
-    new Expense(Date.now(),3.6,new Category("gas","icon-gas")),
-    new Expense(Date.now(),2.4,new Category("coffee","coffee-icon"))
+    new Expense(Date.now(),3.6,new Category("gas","icon-gas"),"gas"),
+    new Expense(Date.now(),2.4,new Category("coffee","coffee-icon"),"startbucks")
 ];
 
 let categoryList = [
-    new Category("gas","icon-gas"),
-    new Category("coffee","coffee-icon")
+    new Category("gas","gas"),
+    new Category("coffee","coffee"),
+    new Category("groceries","cart"),	
+    new Category ("food","food"),	
+    new Category("friends and family","gift"),
+    new Category("dog","dog"),
+    new Category("donation","donation"),
+    new Category("medical","ambulance"),
+    new Category("electronics","electronic"),
+    new Category("online subscriptions","electronic"),
+    new Category("utilities","phone"),
+    new Category("vacation and travel","beach"),
+    new Category("office supplies","office")
 ];
 
 let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, expenseList,false, categoryList);

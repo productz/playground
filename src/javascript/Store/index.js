@@ -21,12 +21,14 @@ export class User {
 
 export class Expense {
     date;
+    title;
     amount;
     category;
-    constructor(date,amount,category){
+    constructor(date,amount,category,title){
         this.date = date;
         this.amount = amount;
         this.category = category;
+        this.title = title;
     }
 }
 
