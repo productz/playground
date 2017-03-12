@@ -314,17 +314,6 @@ let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, expenseList
 
 ReactDOM.render(
     <IntlProvider locale="en">
-     {
-    //   <Router history={hashHistory}>
-    //     <Route path="/" component={App}>
-    //         <IndexRoute component={Home} />
-    //         <Route path="stats" component={Stats} />
-    //         <Route path="rewards" component={Rewards} />
-    //         <Route path="friends" component={Friends} />
-    //     </Route>
-    //     </Router
-    //     >
-     }
         <App userStore={userStore} />
     </IntlProvider>
     ,
