@@ -9,7 +9,8 @@ export class User {
     @observable expenseEditable=false;
     @observable categoryList=[];
     @observable selectedRoute = 0;
-    constructor(name,email,dailyBudget,dailyBudgetEditable,expenseList,expenseEditable,categoryList,selectedRoute) {
+    @observable selectedDate = Date.now();
+    constructor(name,email,dailyBudget,dailyBudgetEditable,expenseList,expenseEditable,categoryList,selectedRoute,selectedDate) {
         this.name = name;
         this.email = email;
         this.dailyBudget = dailyBudget;
@@ -18,11 +19,18 @@ export class User {
         this.expenseEditable = expenseEditable;
         this.categoryList = categoryList;
         this.selectedRoute = selectedRoute;
+        this.selectedDate = selectedDate;
+    }
+    
+    @computed get filterByDate(){
+    	return this.expenseList.filter(
+			expense =>  expense.date === this.selectedDate
+		);
     }
 }
 
 export class Expense {
-    date;
+    @observable date;
     title;
     amount;
     category;

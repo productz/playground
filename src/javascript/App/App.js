@@ -111,6 +111,7 @@ const styles = {
                             onDailyBudgetChange={(event,newValue)=>this.props.userStore.dailyBudget=newValue}
                             onEditChange={(event)=>this.props.userStore.dailyBudgetEditable = !this.props.userStore.dailyBudgetEditable}
                         />
+                        <div>{this.props.userStore.filterByDate}</div>
                         <Expenses
                             categoryList={this.props.userStore.categoryList}
                             expenseList={this.props.userStore.expenseList}
@@ -310,7 +311,7 @@ let categoryList = [
     new Category("office supplies","office")
 ];
 
-let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, expenseList,false, categoryList, 0);
+let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, expenseList,false, categoryList, 0, Date.now());
 
 ReactDOM.render(
     <IntlProvider locale="en">
