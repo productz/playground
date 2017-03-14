@@ -10,6 +10,24 @@ export default function auth({
 	User,
 	app
 }) {
+	
+	apiRoutes.get('/setup', function(req, res) {
+		// create a sample user
+		var nick = new User({
+			name: 'Nick Cerminara',
+			password: 'password',
+			admin: true
+		});
+		nick.save(function(err) {
+			if (err) throw err;
+
+			console.log('User saved successfully');
+			res.json({
+				success: true
+			});
+		});
+	});
+	
 	// ---------------------------------------------------------
 	// authentication (no middleware necessary since this isnt authenticated)
 	// ---------------------------------------------------------
@@ -62,7 +80,9 @@ export default function auth({
 	// route middleware to authenticate and check token
 	// ---------------------------------------------------------
 	apiRoutes.use(function(req, res, next) {
-
+		
+		console.log("auth middleware");
+		
 		// check header or url parameters or post parameters for token
 		var token = req.body.token || req.param('token') || req.headers['x-access-token'];
 
