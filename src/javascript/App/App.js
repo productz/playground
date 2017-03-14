@@ -111,7 +111,6 @@ const styles = {
                             onDailyBudgetChange={(event,newValue)=>this.props.userStore.dailyBudget=newValue}
                             onEditChange={(event)=>this.props.userStore.dailyBudgetEditable = !this.props.userStore.dailyBudgetEditable}
                         />
-                        <div>{this.props.userStore.filterByDate}</div>
                         <Expenses
                             categoryList={this.props.userStore.categoryList}
                             expenseList={this.props.userStore.expenseList}
@@ -119,6 +118,7 @@ const styles = {
                             onExpenseOpen={(event)=>this.props.userStore.expenseEditable=true}
                             onExpenseClose={(event)=>this.props.userStore.expenseEditable=false}
                             newExpense={new Expense()}
+                            totalExpenses={this.props.userStore.totalExpenses}
                         />
                      <Footer/>
                 </div>
@@ -145,7 +145,7 @@ const Home = ({dailyBudget,dailyBudgetEditable,onEditChange, onDailyBudgetChange
     </section>
 );
 
-const Expenses = ({categoryList, expenseList, onExpensesAdd, expenseEditable, onExpenseOpen, onExpenseClose, newExpense}) => (
+const Expenses = ({categoryList, expenseList, onExpensesAdd, expenseEditable, onExpenseOpen, onExpenseClose, newExpense, totalExpenses}) => (
     <section className="list text-center">
         <FormattedDate
             value={Date.now()}
@@ -159,7 +159,7 @@ const Expenses = ({categoryList, expenseList, onExpensesAdd, expenseEditable, on
             open={expenseEditable}
             handleOpen={onExpenseOpen}
             handleClose={onExpenseClose}
-            handleSubmit={(event)=>{console.log(newExpense,expenseList);newExpense.date = new Date();expenseList.push(newExpense);onExpenseClose()}}
+            handleSubmit={(event)=>{console.log(expenseList);newExpense.date = new Date();expenseList.push(newExpense);onExpenseClose()}}
             newExpense={newExpense}
         />
             <Table>

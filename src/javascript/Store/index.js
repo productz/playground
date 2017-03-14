@@ -1,4 +1,5 @@
-import {observable, computed} from 'mobx';
+import {observable, computed, autorun, action, reaction} from 'mobx';
+import uuidV4 from 'uuid/v4';
 
 export class User {
     name;
@@ -27,14 +28,34 @@ export class User {
 			expense =>  expense.date === this.selectedDate
 		);
     }
+    
+    @computed get totalExpenses(){
+        return this.expenseList.filter(ex => ex.date === this.selectedDate).map(ex => ex.amount).reduce(
+			(acc,val) =>  acc + val
+		);
+    }
+    
+    @action saveExpense(expense){
+        
+    }
+    
+    @action updateExpense(expense){
+        
+    }
+    
+    @action deleteExpense(expense){
+        
+    }
 }
 
 export class Expense {
+    id;
     @observable date;
     title;
     amount;
     category;
     constructor(date,amount,category,title){
+        this.id = uuidV4();
         this.date = date;
         this.amount = amount;
         this.category = category;
