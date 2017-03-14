@@ -29,6 +29,9 @@ const helloApi = helloService({app,User});
 import dbService from './db-service/db-service.js'
 const dbApi = dbService({app});
 
+import budgetqtService from './budgetqt-service/budgetqt-service.js'
+const budgetqtApi = budgetqtService({app});
+
 // use body parser so we can get info from POST and/or URL parameters
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -42,7 +45,8 @@ app.use(morgan('dev'));
 
 //app.use('/', authApi);
 //app.use('/hello',helloApi);
-app.use('/db',dbApi);
+//app.use('/db',dbApi);
+app.use('/api',budgetqtApi);
 
 // =================================================================
 // start the server ================================================
