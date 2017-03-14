@@ -62,7 +62,9 @@ export default function auth({
 	// route middleware to authenticate and check token
 	// ---------------------------------------------------------
 	apiRoutes.use(function(req, res, next) {
-
+		
+		console.log("auth middleware");
+		
 		// check header or url parameters or post parameters for token
 		var token = req.body.token || req.param('token') || req.headers['x-access-token'];
 

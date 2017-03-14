@@ -64,15 +64,15 @@ app.get('/setup', function(req, res) {
 });
 
 // basic route (http://localhost:8080)
-app.get('/', function(req, res) {
-	res.send('Hello! The API is at http://localhost:' + port + '/api');
-});
+// app.get('/', function(req, res) {
+// 	res.send('Hello! The API is at http://localhost:' + port + '/api');
+// });
 
 // ==========
 // Register Services
 // ==========
 
-app.use('/api', authApi);
+app.use('/', authApi);
 
 // =================================================================
 // start the server ================================================
