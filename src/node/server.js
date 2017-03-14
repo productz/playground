@@ -31,10 +31,7 @@ var User   = require('./db-service/user'); // get our mongoose model
 // const dbApi = dbService({app});
 
 import passportService from './passport-service/passport-service.js'
-const passportApi = passportService({app});
-
-import budgetqtService from './budgetqt-service/budgetqt-service.js'
-const budgetqtApi = budgetqtService({app});
+const passportApi = passportService({app,User});
 
 // use body parser so we can get info from POST and/or URL parameters
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -50,7 +47,7 @@ app.use(morgan('dev'));
 //app.use('/', authApi);
 //app.use('/hello',helloApi);
 //app.use('/db',dbApi);
-app.use('/api',budgetqtApi);
+app.use('/',passportService)
 
 // =================================================================
 // start the server ================================================

@@ -35,6 +35,8 @@
     "graphql": "^0.9.1",
     "jsonwebtoken": "^7.2.1",
     "mongoose": "^4.8.1",
-    "morgan": "^1.8.0"
+    "morgan": "^1.8.0",
+    "passport": "^0.3.2",
+    "passport-google-oauth20": "^1.0.0"
   }
 }
