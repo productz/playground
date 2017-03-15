@@ -6,7 +6,7 @@
     "db":{
         "host":"mongodb://localhost",
         "port":27017
-    }
+    },
     "auth":{
         "google":{
             "client_id":"CLIENT_ID",
