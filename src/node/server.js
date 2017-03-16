@@ -30,8 +30,8 @@ var User   = require('./db-service/user'); // get our mongoose model
 // import dbService from './db-service/db-service.js'
 // const dbApi = dbService({app});
 
-import passportService from './passport-service/passport-service.js'
-const passportApi = passportService({app,User});
+// import passportService from './passport-service/passport-service.js'
+// const passportApi = passportService({app,User});
 
 import csvService from './csv-service/csv-service.js'
 const csvApi = csvService({app,User});
@@ -50,7 +50,7 @@ app.use(morgan('dev'));
 //app.use('/', authApi);
 //app.use('/hello',helloApi);
 //app.use('/db',dbApi);
-app.use('/',passportService);
+//app.use('/',passportService);
 
 // =================================================================
 // start the server ================================================
