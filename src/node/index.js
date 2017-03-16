@@ -1,1 +1,2 @@
-var server = require('./streams');
+require('babel-register');
+var server = require('./server.js');
