@@ -46,7 +46,7 @@ app.use(morgan('dev'));
 
 //app.use('/', authApi);
 //app.use('/hello',helloApi);
-app.use('/db',dbApi);
+//app.use('/db',dbApi);
 
 // =================================================================
 // start the server ================================================
