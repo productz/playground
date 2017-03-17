@@ -1,27 +1,52 @@
 import Immutable from 'immutable';
+import data from './data/Test.mup.json'
+
 
 const VERTICAL_MARGIN = 40;
 const HORIZONTAL_MARGIN = 100;
 const BOX_HEIGHT = 22;
 const TEXT_MARGIN = 20;
 
-export function calculateInitialPositions(mindmap,parent) {
+function isPrevSiblingOpen(){
+    
+}
+
+function getPrevSibling(parent, index){
+    let children = Object.keys(parent.ideas).map(key => parent.ideas[key]);
+    return children[index - 1];
+}
+
+function calcualtePositionFromIndex(parentPosition, length, index){
+    let order = -1 * (length - index);
+    return {
+        x: parentPosition.x + HORIZONTAL_MARGIN,
+        y: parentPosition.y 
+    }
+}
+
+export function calculateInitialPositions(parent, mindmap, index) {
     if (!parent) {
         mindmap.position = {
             x: 150,
             y: 150
         };
     }
+    else{
+        mindmap.position = {
+            x:parent.x + 50,
+            y:parent.y + 50
+        }
+    }
     if (mindmap.ideas) {
         let children = Object.keys(mindmap.ideas).map(key => mindmap.ideas[key]);
         children.map((child, index) => {
-            calculateInitialPositions(child, mindmap);
+            calculateInitialPositions(mindmap, child, index);
         });
     }
 }
 
 export function calculatePositions(mindmap, parent) {
-    //central idea
+    
 }
 
 //=============================
@@ -84,8 +109,7 @@ function render(tree) {
             .on('touchmove', onDragMove);
 
         if (parent) {
-            //we need to add an offset on both sides to cover when we move the elements up and down
-            //maybe we can move the bounds out a little?
+            
             parent.mainContainer.addChild(mainContainer);
             //get previous sibling
             var count = 0;
