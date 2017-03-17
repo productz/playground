@@ -3,12 +3,6 @@ import Tree from '../Components/Tree.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import mindmap from '../data.json';
-import {
-    calculateInitialPositions,
-    calculatePositions,
-    updatePosition
-}
-from '../Model/Model.js';
 
 export default class App extends React.Component {
     constructor() {
@@ -16,7 +10,6 @@ export default class App extends React.Component {
         this.state = {
             mindmap: mindmap
         }
-        calculateInitialPositions(mindmap);
     }
     componentDidMount() {
 

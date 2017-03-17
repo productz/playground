@@ -1,5 +1,6 @@
 import React from 'react';
 import Node from './Node.js'
+import Model from '../Model/Model.js';
 
 export default class Tree extends React.Component{
     constructor(){

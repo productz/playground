@@ -1,11 +1,26 @@
 import Immutable from 'immutable';
-import data from './data/Test.mup.json'
-
 
 const VERTICAL_MARGIN = 40;
 const HORIZONTAL_MARGIN = 100;
 const BOX_HEIGHT = 22;
 const TEXT_MARGIN = 20;
+
+export default function Model(tree){
+    
+}
+
+function calculateDepthTree(){
+    
+}
+
+function depthModel(level,y){
+    //mapping of both level and the last rendered y axis (lowest point) on that level
+    return {
+        '1':10,
+        '2':30,
+        '3':40
+    }
+}
 
 function isPrevSiblingOpen(){
     
@@ -24,7 +39,7 @@ function calcualtePositionFromIndex(parentPosition, length, index){
     }
 }
 
-export function calculateInitialPositions(parent, mindmap, index) {
+function calculateInitialPositions(parent, mindmap, index) {
     if (!parent) {
         mindmap.position = {
             x: 150,
@@ -43,10 +58,6 @@ export function calculateInitialPositions(parent, mindmap, index) {
             calculateInitialPositions(mindmap, child, index);
         });
     }
-}
-
-export function calculatePositions(mindmap, parent) {
-    
 }
 
 //=============================
