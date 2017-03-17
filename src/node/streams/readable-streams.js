@@ -1,9 +1,9 @@
 var Readable = require('stream').Readable;
 
 var rs = new Readable;
-//rs.push('beep ');
-//rs.push('boop\n');
-//rs.push(null);
+rs.push('beep ');
+rs.push('boop\n');
+rs.push(null);
 
 //push to the stream only when data is needed
 var c = 97;
