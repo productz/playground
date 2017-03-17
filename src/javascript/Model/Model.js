@@ -9,7 +9,7 @@ export default function Model(tree){
     
 }
 
-function calculateDepthTree(){
+function calculateDepthTree(tree){
     
 }
 
@@ -63,6 +63,17 @@ function calculateInitialPositions(parent, mindmap, index) {
 //=============================
 //========== Old Rendering
 //=============================
+
+function traverse(child,fn,parent){
+	var obj;
+	var count = 0;
+	//return upper sibling and below sibling
+	let children = Object.keys(child.ideas).map(key => child.ideas[key]);
+	children.map((idea)=>{
+		traverse(idea.ideas,fn,idea);
+		count++;
+	});
+}
 
 function render(tree) {
 
