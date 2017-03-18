@@ -7,23 +7,12 @@ const TEXT_MARGIN = 20;
 
 export default function Model(idea){
     let level = 0;
-    traverse(idea,level,(parent)=>{
-        console.log(parent);
+    let depthModel = {};
+    traverse(idea,level,(parent,lev)=>{
+        let currentLevel = lev - 1;
+        depthModel[currentLevel] = "";
         return parent;
     })
-}
-
-function calculateDepthTree(tree){
-    
-}
-
-function depthModel(level,y){
-    //mapping of both level and the last rendered y axis (lowest point) on that level
-    return {
-        '1':10,
-        '2':30,
-        '3':40
-    }
 }
 
 function isPrevSiblingOpen(){
