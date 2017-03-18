@@ -5,8 +5,12 @@ const HORIZONTAL_MARGIN = 100;
 const BOX_HEIGHT = 22;
 const TEXT_MARGIN = 20;
 
-export default function Model(tree){
-    
+export default function Model(idea){
+    let level = 0;
+    traverse(idea,level,(parent)=>{
+        console.log(parent);
+        return parent;
+    })
 }
 
 function calculateDepthTree(tree){
@@ -64,15 +68,19 @@ function calculateInitialPositions(parent, mindmap, index) {
 //========== Old Rendering
 //=============================
 
-function traverse(child,fn,parent){
-	var obj;
-	var count = 0;
+function traverse(parent,level,fn){
 	//return upper sibling and below sibling
-	let children = Object.keys(child.ideas).map(key => child.ideas[key]);
-	children.map((idea)=>{
-		traverse(idea.ideas,fn,idea);
-		count++;
-	});
+    parent = fn(parent,level);
+    if(parent.ideas){
+        	let children = Object.keys(parent.ideas).map(key => {
+        	    parent.ideas[key]["level"] = level;
+        	    return parent.ideas[key];
+        	});
+        	level++;
+        	children.map((child) => {
+        	    traverse(child, level, fn);
+        	});
+    }
 }
 
 function render(tree) {
