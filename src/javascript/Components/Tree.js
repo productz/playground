@@ -1,6 +1,5 @@
 import React from 'react';
 import Node from './Node.js'
-import Model from '../Model/Model.js';
 
 export default class Tree extends React.Component{
     constructor(){
@@ -9,21 +8,38 @@ export default class Tree extends React.Component{
     componentDidMount(){
 
     }
-    renderNodes(nodeList){
-        return nodeList.map((node,index)=>{
-            return(
-                <div>
-                    <Node position={[100,500+(index*500)]} key={index} node={node} children={node.ideas}/>
-                </div>
-            );
-        })
+    
+    renderNodes(arr) {
+        return arr.map((ch, index) => (
+            <Node
+                node={ch}
+                key={index}
+            />
+        ))
     }
+    
     render(){
-        let nodeList = Object.keys(this.props.nodes.ideas).map(key => this.props.nodes.ideas[key]);
-        return(
+        let level = 0;
+        let arr =[];
+        this.traverse(this.props.nodes,(child,parent,lev)=>{
+            arr.push(child);
+        })
+        return (
             <div>
-                {this.renderNodes(nodeList)}
+            {
+                this.renderNodes(arr)
+            }  
             </div>
         );
+
+    }
+    traverse(node, fn) {
+        if (node && node.ideas) {
+            return Object.keys(node.ideas).map((key) => {
+                let child = node.ideas[key];
+                fn(child, node);
+                this.traverse(child, fn);
+            });
+        }
     }
 }

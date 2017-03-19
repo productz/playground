@@ -1,54 +1,66 @@
 import Immutable from 'immutable';
+import {observable, computed, autorun, action, reaction} from 'mobx';
 
 const VERTICAL_MARGIN = 40;
 const HORIZONTAL_MARGIN = 100;
 const BOX_HEIGHT = 22;
 const TEXT_MARGIN = 20;
 
-export default function Model(idea){
-    let level = 0;
-    let depthModel = {};
-    traverse(idea,level,(parent,lev)=>{
-        let currentLevel = lev - 1;
-        depthModel[currentLevel] = "";
-        return parent;
-    })
-}
-
-function isPrevSiblingOpen(){
+export default class Model{
     
-}
-
-function getPrevSibling(parent, index){
-    let children = Object.keys(parent.ideas).map(key => parent.ideas[key]);
-    return children[index - 1];
-}
-
-function calcualtePositionFromIndex(parentPosition, length, index){
-    let order = -1 * (length - index);
-    return {
-        x: parentPosition.x + HORIZONTAL_MARGIN,
-        y: parentPosition.y 
+    tree;
+    depthModel;
+    
+    constructor(tree,depthModel){
+        this.tree = tree;
+        this.depthModel = {};
+    }
+    
+    createDepthModel(){
+        let level = -1;
+        traverse(this.tree,level,(child,parent,lev)=>{
+            
+            if (!this.depthModel[lev]) {
+                this.depthModel[lev] = 0;
+            }
+            
+            if(!parent.position){
+                parent.position = {
+                    x:30,
+                    y:30
+                }
+            }
+            let childArr = Object.keys(parent.ideas).map(key=>parent.ideas[key]);
+            let index = childArr.indexOf(child);
+            let sibling = childArr[index-1];
+            if(sibling && sibling.ideas){
+                let siblingChildArr = Object.keys(sibling.ideas).map(key=>sibling.ideas[key]);
+                let siblingHeight =  siblingChildArr.length * VERTICAL_MARGIN;
+                child.position = {
+                    x:parent.position.x + HORIZONTAL_MARGIN,
+                    y:sibling.position.y + siblingHeight + VERTICAL_MARGIN
+                }
+                this.depthModel[lev] = child.position.y;
+            }
+            else{
+                child.position = {
+                    x:parent.position.x + HORIZONTAL_MARGIN,
+                    y:parent.position.y
+                }
+            }
+            return child;
+        });
     }
 }
 
-function calculateInitialPositions(parent, mindmap, index) {
-    if (!parent) {
-        mindmap.position = {
-            x: 150,
-            y: 150
-        };
-    }
-    else{
-        mindmap.position = {
-            x:parent.x + 50,
-            y:parent.y + 50
-        }
-    }
-    if (mindmap.ideas) {
-        let children = Object.keys(mindmap.ideas).map(key => mindmap.ideas[key]);
-        children.map((child, index) => {
-            calculateInitialPositions(mindmap, child, index);
+function traverse(node, lev, fn) {
+    lev++;
+    if (node.ideas) {
+        return Object.keys(node.ideas).map((key) => {
+            let child = node.ideas[key];
+            child.level = lev;
+            child = fn(child, node, lev);
+            traverse(child, lev, fn);
         });
     }
 }
@@ -56,21 +68,6 @@ function calculateInitialPositions(parent, mindmap, index) {
 //=============================
 //========== Old Rendering
 //=============================
-
-function traverse(parent,level,fn){
-	//return upper sibling and below sibling
-    parent = fn(parent,level);
-    if(parent.ideas){
-        	let children = Object.keys(parent.ideas).map(key => {
-        	    parent.ideas[key]["level"] = level;
-        	    return parent.ideas[key];
-        	});
-        	level++;
-        	children.map((child) => {
-        	    traverse(child, level, fn);
-        	});
-    }
-}
 
 function render(tree) {
 

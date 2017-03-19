@@ -8,11 +8,11 @@ import Model from '../Model/Model.js';
 export default class App extends React.Component {
     constructor() {
         super();
+        let model = new Model(mindmap);
+        model.createDepthModel();
         this.state = {
-            mindmap: mindmap
+            mindmap: model.tree
         }
-        Model(mindmap);
-        
     }
     componentDidMount() {
 
@@ -22,11 +22,11 @@ export default class App extends React.Component {
     }
     render() {
         return (
-            <div className="board">
-        <Tree 
-            onPositionChange
-            nodes={this.state.mindmap} 
-        />
+        <div className="board">
+            <Tree 
+                onPositionChange
+                nodes={this.state.mindmap}
+            />
         </div>
         );
     }
