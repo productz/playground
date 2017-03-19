@@ -33,21 +33,15 @@ export default class Model{
             let childArr = Object.keys(parent.ideas).map(key=>parent.ideas[key]);
             let index = childArr.indexOf(child);
             let sibling = childArr[index-1];
-            if(sibling && sibling.ideas){
-                let siblingChildArr = Object.keys(sibling.ideas).map(key=>sibling.ideas[key]);
-                let siblingHeight =  siblingChildArr.length * VERTICAL_MARGIN;
-                child.position = {
-                    x:parent.position.x + HORIZONTAL_MARGIN,
-                    y:sibling.position.y + siblingHeight + VERTICAL_MARGIN
-                }
-                this.depthModel[lev] = child.position.y;
+            let depthValues = Object.keys(this.depthModel).map((key)=>this.depthModel[key]);
+            let max = Math.max(...depthValues);
+            this.depthModel[lev] = max;
+            console.log(child.title,max,this.depthModel[lev],depthValues);
+            child.position = {
+                x:parent.position.x + HORIZONTAL_MARGIN,
+                y:this.depthModel[lev] + VERTICAL_MARGIN
             }
-            else{
-                child.position = {
-                    x:parent.position.x + HORIZONTAL_MARGIN,
-                    y:parent.position.y
-                }
-            }
+            this.depthModel[lev] = child.position.y;
             return child;
         });
     }
