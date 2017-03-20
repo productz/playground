@@ -21,14 +21,14 @@ app.set('superSecret', config.secret); // secret variable
 // =================================================================
 var User   = require('./db-service/user'); // get our mongoose model
 
-// import authService from './auth-service/auth-service.js'
-// const authApi = authService({app,User});
+import authService from './auth-service/auth-service.js'
+const authApi = authService({app,User});
 
-// import helloService from './hello-service/hello-service.js'
-// const helloApi = helloService({app,User});
+import helloService from './hello-service/hello-service.js'
+const helloApi = helloService({app,User});
 
-// import dbService from './db-service/db-service.js'
-// const dbApi = dbService({app});
+import dbService from './db-service/db-service.js'
+const dbApi = dbService({app});
 
 import passportService from './passport-service/passport-service.js'
 const passportApi = passportService({app,User,config});
@@ -45,8 +45,9 @@ app.use(morgan('dev'));
 // ==========
 
 //app.use('/', authApi);
-//app.use('/hello',helloApi);
+app.use('/hello',helloApi);
 //app.use('/db',dbApi);
+app.use('/',passportApi);
 
 // =================================================================
 // start the server ================================================

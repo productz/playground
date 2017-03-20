@@ -1,14 +1,14 @@
-var GoogleStrategy = require('passport-google-oauth20').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 export default function google({
     passport,
     User,
-    config
+    clientId,
+    clientSecret
 }) {
-    console.log(config.get('auth.google.CLIENT_ID'));
     passport.use(new GoogleStrategy({
-            clientID: config.get('auth.google.CLIENT_ID'),
-            clientSecret: config.get('auth.google.CLIENT_SECRET'),
+            clientID: clientId,
+            clientSecret: clientSecret,
             callbackURL: "https://playground-test-itechdom.c9users.io/auth/google/callback"
         },
         function(accessToken, refreshToken, profile, cb) {

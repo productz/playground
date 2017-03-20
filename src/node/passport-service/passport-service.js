@@ -10,27 +10,47 @@ var apiRoutes = express.Router();
 
 export
 default
+
 function({
     app,
     User,
     config
 }) {
-    
+
     app.use(passport.initialize());
-    
-    googlePassport({passport,User,config});
-    
+
+    //client ID and secret
+    let clientId = config.get("auth.google.clientId");
+    let clientSecret = config.get("auth.google.clientSecret");
+    googlePassport({
+        passport,
+        User,
+        clientId,
+        clientSecret
+    });
+
     apiRoutes.get('/', function(req, res) {
+        console.log(res);
         res.send('Hello! Hello service is working');
     });
     
-    apiRoutes.post('/login',
-        passport.authenticate('local', {
-            failureRedirect: '/login'
+    apiRoutes.get('/error',function(req,res){
+        console.log("RESPONSE >>>>>>>>");
+        console.log(res);
+    })
+    
+    apiRoutes.get('/auth/google',
+        passport.authenticate('google', {
+            scope: ['profile']
+        }));
+
+    apiRoutes.get('/auth/google/callback',
+        passport.authenticate('google', {
+            failureRedirect: '/error'
         }),
-        function(req, res) {
-            res.redirect('/');
+        (req, res) => {
+            // Successful authentication, redirect home.
+            res.redirect('/hello');
         });
-        
     return apiRoutes;
 }
