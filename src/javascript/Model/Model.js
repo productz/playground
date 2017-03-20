@@ -1,8 +1,8 @@
 import Immutable from 'immutable';
 import {observable, computed, autorun, action, reaction} from 'mobx';
 
-const VERTICAL_MARGIN = 40;
-const HORIZONTAL_MARGIN = 100;
+const VERTICAL_MARGIN = 100;
+const HORIZONTAL_MARGIN = 200;
 const BOX_HEIGHT = 22;
 const TEXT_MARGIN = 20;
 
@@ -26,8 +26,8 @@ export default class Model{
             
             if(!parent.position){
                 parent.position = {
-                    x:30,
-                    y:30
+                    x:0,
+                    y:0
                 }
             }
             let childArr = Object.keys(parent.ideas).map(key=>parent.ideas[key]);
@@ -36,14 +36,30 @@ export default class Model{
             let depthValues = Object.keys(this.depthModel).map((key)=>this.depthModel[key]);
             let max = Math.max(...depthValues);
             this.depthModel[lev] = max;
-            console.log(child.title,max,this.depthModel[lev],depthValues);
+            //console.log(child.title,max,this.depthModel[lev],depthValues);
             child.position = {
                 x:parent.position.x + HORIZONTAL_MARGIN,
                 y:this.depthModel[lev] + VERTICAL_MARGIN
             }
+            child.level = lev;
             this.depthModel[lev] = child.position.y;
             return child;
         });
+    }
+    
+    centerParents(){
+        let level = -1;
+        traverse(this.tree,level,(child,parent,lev)=>{
+            if (child.ideas) {
+                let children = Object.keys(child.ideas).map((key, index) => child.ideas[key]);
+                console.log(children);
+                let centerChild = children[Math.round((children.length/2)-1)];
+                if(centerChild){
+                    child.position.y = centerChild.position.y;
+                }
+            }
+            return child;
+        })
     }
 }
 

@@ -2,7 +2,7 @@
 import Tree from '../Components/Tree.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import mindmap from '../../../data/JavaScript.mup.json';
+import mindmap from '../data.json';
 import Model from '../Model/Model.js';
 
 export default class App extends React.Component {
@@ -10,6 +10,7 @@ export default class App extends React.Component {
         super();
         let model = new Model(mindmap);
         model.createDepthModel();
+        model.centerParents();
         this.state = {
             mindmap: model.tree
         }
