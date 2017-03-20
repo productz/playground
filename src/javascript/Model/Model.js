@@ -10,10 +10,12 @@ export default class Model{
     
     tree;
     depthModel;
+    connections;
     
     constructor(tree,depthModel){
         this.tree = tree;
         this.depthModel = {};
+        this.connections = [];
     }
     
     createDepthModel(){
@@ -52,11 +54,22 @@ export default class Model{
         traverse(this.tree,level,(child,parent,lev)=>{
             if (child.ideas) {
                 let children = Object.keys(child.ideas).map((key, index) => child.ideas[key]);
-                console.log(children);
                 let centerChild = children[Math.round((children.length/2)-1)];
                 if(centerChild){
                     child.position.y = centerChild.position.y;
                 }
+            }
+            return child;
+        })
+    }
+    
+    //TODO: checkout jsplumb: https://jsplumbtoolkit.com/
+    //TODO: draw SVG paths: https://gist.github.com/alojzije/11127839
+    drawConnections(){
+        let level = -1;
+        traverse(this.tree,level,(child,parent,lev)=>{
+            if (child.ideas) {
+                
             }
             return child;
         })

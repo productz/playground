@@ -11,6 +11,7 @@ export default class App extends React.Component {
         let model = new Model(mindmap);
         model.createDepthModel();
         model.centerParents();
+        model.drawConnections();
         this.state = {
             mindmap: model.tree
         }
@@ -21,6 +22,7 @@ export default class App extends React.Component {
     updateCounter() {
 
     }
+    //we will have multiple views here as well
     render() {
         return (
         <div className="board">
