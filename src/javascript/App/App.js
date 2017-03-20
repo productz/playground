@@ -1,5 +1,6 @@
 //@flow
 import Tree from '../Components/Tree.js';
+import Connection from '../Components/Connection.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import mindmap from '../data.json';
@@ -13,7 +14,8 @@ export default class App extends React.Component {
         model.centerParents();
         model.drawConnections();
         this.state = {
-            mindmap: model.tree
+            mindmap: model.tree,
+            connections:model.connections
         }
     }
     componentDidMount() {
@@ -29,6 +31,9 @@ export default class App extends React.Component {
             <Tree 
                 onPositionChange
                 nodes={this.state.mindmap}
+            />
+            <Connection
+                connections={this.state.connections}
             />
         </div>
         );

@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 import {observable, computed, autorun, action, reaction} from 'mobx';
 
-const VERTICAL_MARGIN = 100;
+const VERTICAL_MARGIN = 50;
 const HORIZONTAL_MARGIN = 200;
 const BOX_HEIGHT = 22;
 const TEXT_MARGIN = 20;
@@ -68,8 +68,8 @@ export default class Model{
     drawConnections(){
         let level = -1;
         traverse(this.tree,level,(child,parent,lev)=>{
-            if (child.ideas) {
-                
+            if(parent.id !== 'root'){
+                this.connections.push({from:parent.position,to:child.position});
             }
             return child;
         })
