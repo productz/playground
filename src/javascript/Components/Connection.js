@@ -15,7 +15,7 @@ export default class Connection extends React.Component{
             <div>
                 {
                 this.props.connections.map((connection)=>(
-                <svg height="600" width="600">
+                <svg height="200" width="200">
                   <line x1={connection.from.x} y1={connection.from.y} x2={connection.to.x} y2={connection.to.y} style={{stroke:'red',strokeWidth:2,zIndex:999}} />
                 </svg>
                 ))
