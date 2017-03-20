@@ -31,7 +31,7 @@ var User   = require('./db-service/user'); // get our mongoose model
 // const dbApi = dbService({app});
 
 import passportService from './passport-service/passport-service.js'
-const passportApi = passportService({app});
+const passportApi = passportService({app,User,config});
 
 // use body parser so we can get info from POST and/or URL parameters
 app.use(bodyParser.urlencoded({ extended: false }));
