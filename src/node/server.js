@@ -21,20 +21,17 @@ app.set('superSecret', config.secret); // secret variable
 // =================================================================
 var User   = require('./db-service/user'); // get our mongoose model
 
-// import authService from './auth-service/auth-service.js'
-// const authApi = authService({app,User});
+import authService from './auth-service/auth-service.js'
+const authApi = authService({app,User});
 
-// import helloService from './hello-service/hello-service.js'
-// const helloApi = helloService({app,User});
+import helloService from './hello-service/hello-service.js'
+const helloApi = helloService({app,User});
 
-// import dbService from './db-service/db-service.js'
-// const dbApi = dbService({app});
+import dbService from './db-service/db-service.js'
+const dbApi = dbService({app});
 
-// import passportService from './passport-service/passport-service.js'
-// const passportApi = passportService({app,User});
-
-import csvService from './csv-service/csv-service.js'
-const csvApi = csvService({app,User});
+import passportService from './passport-service/passport-service.js'
+const passportApi = passportService({app,User,config});
 
 // use body parser so we can get info from POST and/or URL parameters
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -48,9 +45,9 @@ app.use(morgan('dev'));
 // ==========
 
 //app.use('/', authApi);
-//app.use('/hello',helloApi);
+app.use('/hello',helloApi);
 //app.use('/db',dbApi);
-//app.use('/',passportService);
+app.use('/',passportApi);
 
 // =================================================================
 // start the server ================================================
