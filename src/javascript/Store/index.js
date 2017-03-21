@@ -37,7 +37,7 @@ export class User {
         files.map((file) => {
             req.attach(file.name, file);
         });
-        req.end(action("createRandomContact-callback", (error, results) => {
+        req.end(action("uploadCSV-callback", (error, results) => {
             if (error)
                 console.error(error);
             else {
