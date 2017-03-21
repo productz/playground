@@ -1,5 +1,6 @@
 import {observable, computed, autorun, action, reaction} from 'mobx';
 import uuidV4 from 'uuid/v4';
+import superagent from 'superagent';
 
 export class User {
     name;
@@ -11,6 +12,7 @@ export class User {
     @observable categoryList=[];
     @observable selectedRoute = 0;
     @observable selectedDate = Date.now();
+    pendingRequestCount = 0;
     constructor(name,email,dailyBudget,dailyBudgetEditable,expenseList,expenseEditable,categoryList,selectedRoute,selectedDate) {
         this.name = name;
         this.email = email;
@@ -29,23 +31,22 @@ export class User {
 		);
     }
     
-    @computed get totalExpenses(){
-        return this.expenseList.filter(ex => ex.date === this.selectedDate).map(ex => ex.amount).reduce(
-			(acc,val) =>  acc + val
-		);
+    @action uploadCSV(files) {
+        this.pendingRequestCount++;
+        let req = superagent.post('https://playground-test-itechdom.c9users.io/expenses/upload/csv');
+        files.map((file) => {
+            req.attach(file.name, file);
+        });
+        req.end(action("createRandomContact-callback", (error, results) => {
+            if (error)
+                console.error(error);
+            else {
+                const data = JSON.parse(results.text).results[0];
+                this.pendingRequestCount--;
+            }
+        }));
     }
     
-    @action saveExpense(expense){
-        
-    }
-    
-    @action updateExpense(expense){
-        
-    }
-    
-    @action deleteExpense(expense){
-        
-    }
 }
 
 export class Expense {

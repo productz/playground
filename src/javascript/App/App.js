@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {observer} from "mobx-react";
+import Dropzone from 'react-dropzone';
 import {User,Expense,Category} from '../Store';
 import { IntlProvider, FormattedDate } from 'react-intl';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -120,6 +121,8 @@ const styles = {
                             newExpense={new Expense()}
                             totalExpenses={this.props.userStore.totalExpenses}
                         />
+                        <ImportExpenses
+                        />
                      <Footer/>
                 </div>
             </MuiThemeProvider>
@@ -176,12 +179,12 @@ const Expenses = ({categoryList, expenseList, onExpensesAdd, expenseEditable, on
                 expenseList.map((expense,index) => (
                     <TableRow key={index}>
                       <TableRowColumn>
-                          <FormattedDate
-                                value={expense.date}
-                                year='numeric'
-                                month='long'
-                                day='numeric'
-                            />
+                        <FormattedDate
+                            value={expense.date}
+                            year='numeric'
+                            month='long'
+                            day='numeric'
+                        />
                         </TableRowColumn>
                         <TableRowColumn>{expense.amount}</TableRowColumn>
                         <TableRowColumn>{expense.title}</TableRowColumn>
@@ -230,17 +233,25 @@ const ExpenseDialog = ({handleClose,handleOpen,open,handleSubmit,newExpense,cate
     );
 };
 
+const ImportExpenses = () => (
+    <div>
+        <Dropzone onDrop={((acceptedFiles,rejectedFiles)=>console.log(acceptedFiles,rejectedFiles))}>
+            <div>Try dropping some files here, or click to select files to upload.</div>
+        </Dropzone>
+    </div>
+);
+
 const Stats = () => (
     <div>Stats</div>
-)
+);
 
 const Rewards = () => (
     <div>Rewards</div>
-)
+);
 
 const Friends = () => (
     <div>Friends</div>
-)
+);
 
 const Footer = () => (
     <footer style={{marginTop:'4em', padding:'2em',textAlign:'center',backgroundColor:colors.grey300}}>
