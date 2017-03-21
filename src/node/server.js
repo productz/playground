@@ -33,6 +33,9 @@ const dbApi = dbService({app});
 import passportService from './passport-service/passport-service.js'
 const passportApi = passportService({app,User,config});
 
+import budgetqtService from './budgetqt-service/budgetqt-service.js';
+const budgetqtApi = budgetqtService({app});
+
 // use body parser so we can get info from POST and/or URL parameters
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -48,6 +51,7 @@ app.use(morgan('dev'));
 app.use('/hello',helloApi);
 //app.use('/db',dbApi);
 app.use('/',passportApi);
+app.use('/api/v1',budgetqtApi);
 
 // =================================================================
 // start the server ================================================
