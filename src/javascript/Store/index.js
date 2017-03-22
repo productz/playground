@@ -34,13 +34,13 @@ export class User {
     }
     
     @computed get fileNames(){
-        return this.filesAccepted.map((file)=>file.name)
+        return this.filesAccepted.map((file)=>file.name);
     }
     
-    @action uploadCSV(files) {
+    @action uploadCSV() {
         this.pendingRequestCount++;
-        let req = superagent.post('https://playground-test-itechdom.c9users.io/expenses/upload/csv');
-        files.map((file) => {
+        let req = superagent.post('http://playground-test-itechdom.c9users.io:8081/api/v1/expenses/upload/csv');
+        this.filesAccepted.map((file) => {
             req.attach(file.name, file);
         });
         req.end(action("uploadCSV-callback", (error, results) => {

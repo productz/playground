@@ -127,6 +127,7 @@ const styles = {
                                 this.props.userStore.filesAccepted.push(
                                     acceptedFiles[acceptedFiles.length - 1]
                                 );
+                                this.props.userStore.uploadCSV();
                             })}
                         />
                      <Footer/>
@@ -335,7 +336,7 @@ let categoryList = [
     new Category("office supplies","office")
 ];
 
-let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, expenseList,false, categoryList, 0, Date.now(),[{name:"test"}]);
+let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, expenseList,false, categoryList, 0, Date.now(),[]);
 
 ReactDOM.render(
     <IntlProvider locale="en">

@@ -16,6 +16,14 @@ var ip = config.get('server.ip');
 mongoose.connect(`${config.get('db.host')}:${config.get('db.port')}`); // connect to database
 app.set('superSecret', config.secret); // secret variable
 
+
+//CORS
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 // =================================================================
 // Import web services ========================================
 // =================================================================
