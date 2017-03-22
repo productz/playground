@@ -12,8 +12,9 @@ export class User {
     @observable categoryList=[];
     @observable selectedRoute = 0;
     @observable selectedDate = Date.now();
+    @observable filesAccepted = [];
     pendingRequestCount = 0;
-    constructor(name,email,dailyBudget,dailyBudgetEditable,expenseList,expenseEditable,categoryList,selectedRoute,selectedDate) {
+    constructor(name,email,dailyBudget,dailyBudgetEditable,expenseList,expenseEditable,categoryList,selectedRoute,selectedDate,filesAccepted) {
         this.name = name;
         this.email = email;
         this.dailyBudget = dailyBudget;
@@ -23,12 +24,17 @@ export class User {
         this.categoryList = categoryList;
         this.selectedRoute = selectedRoute;
         this.selectedDate = selectedDate;
+        this.filesAccepted = filesAccepted;
     }
     
     @computed get filterByDate(){
     	return this.expenseList.filter(
 			expense =>  expense.date === this.selectedDate
 		);
+    }
+    
+    @computed get fileNames(){
+        return this.filesAccepted.map((file)=>file.name)
     }
     
     @action uploadCSV(files) {
@@ -41,6 +47,7 @@ export class User {
             if (error)
                 console.error(error);
             else {
+                console.log(results);
                 const data = JSON.parse(results.text).results[0];
                 this.pendingRequestCount--;
             }

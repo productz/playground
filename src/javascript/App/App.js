@@ -122,6 +122,12 @@ const styles = {
                             totalExpenses={this.props.userStore.totalExpenses}
                         />
                         <ImportExpenses
+                            fileNames = {this.props.userStore.fileNames}
+                            onFileAccepted={((acceptedFiles)=>{
+                                this.props.userStore.filesAccepted.push(
+                                    acceptedFiles[acceptedFiles.length - 1]
+                                );
+                            })}
                         />
                      <Footer/>
                 </div>
@@ -233,10 +239,17 @@ const ExpenseDialog = ({handleClose,handleOpen,open,handleSubmit,newExpense,cate
     );
 };
 
-const ImportExpenses = () => (
+const ImportExpenses = ({onFileAccepted,fileNames}) => (
     <div>
-        <Dropzone onDrop={((acceptedFiles,rejectedFiles)=>console.log(acceptedFiles,rejectedFiles))}>
+        <Dropzone onDrop={((acceptedFiles,rejectedFiles)=>onFileAccepted(acceptedFiles))}>
             <div>Try dropping some files here, or click to select files to upload.</div>
+            <div>Files Accepted: 
+            <ul>
+            {
+                fileNames.map(file => (<li>{file}</li>))
+            }
+            </ul>
+            </div>
         </Dropzone>
     </div>
 );
@@ -322,7 +335,7 @@ let categoryList = [
     new Category("office supplies","office")
 ];
 
-let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, expenseList,false, categoryList, 0, Date.now());
+let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, expenseList,false, categoryList, 0, Date.now(),[{name:"test"}]);
 
 ReactDOM.render(
     <IntlProvider locale="en">
