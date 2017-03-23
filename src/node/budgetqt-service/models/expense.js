@@ -7,5 +7,7 @@ module.exports = mongoose.model('Expense', new Schema({
 	title: String, 
 	amount: Number,
 	date: Date,
-	category: Object
+	category: Array,
+	imported: Boolean,
+	file:String
 }));

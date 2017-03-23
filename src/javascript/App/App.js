@@ -321,19 +321,19 @@ let expenseList = [
 ];
 
 let categoryList = [
-    new Category("gas","gas"),
-    new Category("coffee","coffee"),
-    new Category("groceries","cart"),	
-    new Category ("food","food"),	
-    new Category("friends and family","gift"),
-    new Category("dog","dog"),
-    new Category("donation","donation"),
-    new Category("medical","ambulance"),
-    new Category("electronics","electronic"),
-    new Category("online subscriptions","electronic"),
-    new Category("utilities","phone"),
-    new Category("vacation and travel","beach"),
-    new Category("office supplies","office")
+    [new Category("gas","gas")],
+    [new Category("coffee","coffee")],
+    [new Category("groceries","cart")],	
+    [new Category ("food","food")],	
+    [new Category("friends and family","gift")],
+    [new Category("dog","dog")],
+    [new Category("donation","donation")],
+    [new Category("medical","ambulance")],
+    [new Category("electronics","electronic")],
+    [new Category("online subscriptions","electronic")],
+    [new Category("utilities","phone")],
+    [new Category("vacation and travel","beach")],
+    [new Category("office supplies","office")]
 ];
 
 let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, expenseList,false, categoryList, 0, Date.now(),[]);
