@@ -26,16 +26,14 @@ app.use(function(req, res, next) {
 // =================================================================
 // Import web services ========================================
 // =================================================================
-var User   = require('./db-service/user'); // get our mongoose model
+var User   = require('./budgetqt-service/models/user'); // get our mongoose model
+var Expense = require('./budgetqt-service/models/expense');
 
 import authService from './auth-service/auth-service.js'
 const authApi = authService({app,User});
 
 import helloService from './hello-service/hello-service.js'
 const helloApi = helloService({app,User});
-
-import dbService from './db-service/db-service.js'
-const dbApi = dbService({app});
 
 import passportService from './passport-service/passport-service.js'
 const passportApi = passportService({app,User,config});
@@ -56,7 +54,6 @@ app.use(morgan('dev'));
 
 //app.use('/', authApi);
 app.use('/hello',helloApi);
-//app.use('/db',dbApi);
 app.use('/',passportApi);
 app.use('/api/v1',budgetqtApi);
 
