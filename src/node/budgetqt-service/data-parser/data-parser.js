@@ -8,22 +8,22 @@ export default function({
     let arr = Object.keys(entry).map(key => entry[key]);
     let dates = [];
     let tags = [];
-    let amount;
+    let amounts = [];
     arr.map((val) => {
         let tempDate = Date.parse(val);
         if (tempDate) {
             dates.push(tempDate);
         }
         else if (parseInt(val) || parseFloat(val)) {
-            amount = Math.abs(val * 1);
+            let amount = Math.abs(val * 1);
+            amounts.push(val);
         }
         else {
             tags.push(val);
         }
     });
-    console.log(amount,"amount");
-    console.log(dates,"dates");
-    let expense = new Expense({amount:amount,tags:tags,date:dates[0]});
+    console.log(amounts);
+    let expense = new Expense({amount:amounts[0],tags:tags,date:dates[0]});
     expense.save(function(err) {
         if (err) {
             //console.log(err);
