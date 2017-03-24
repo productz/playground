@@ -1,14 +1,15 @@
 // basic route (http://localhost:8080)
 const express = require('express');
 var busboy = require('connect-busboy');
-var csv = require('csv-parser');
+var csv = require('csv-parser')
+import parser from './data-parser/data-parser.js';
 
 // ---------------------------------------------------------
 // get an instance of the router for api routes
 // ---------------------------------------------------------
 var apiRoutes = express.Router();
 
-export default function auth({
+export default function({
     app,
     Expense
 }) {
@@ -31,7 +32,7 @@ export default function auth({
     apiRoutes.post('/expenses/upload/csv', function(req, res) {
         if (req.busboy) {
             req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-                file.pipe(csv()).on('data',(entry)=>console.log(entry));
+                file.pipe(csv()).on('data',(entry)=>parser({entry,Expense}));
             });
             req.busboy.on('field', function(key, value, keyTruncated, valueTruncated) {});
             req.pipe(req.busboy);
