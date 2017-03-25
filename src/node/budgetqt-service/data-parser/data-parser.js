@@ -1,32 +1,47 @@
-const currentDate = Date.now();
-
 // CSV-Entry -> Expense
 export default function({
-    entry,
-    Expense
+    entry
 }) {
     let arr = Object.keys(entry).map(key => entry[key]);
-    let dates = [];
-    let tags = [];
-    let amounts = [];
-    arr.map((val) => {
-        let tempDate = Date.parse(val);
-        if (tempDate) {
-            dates.push(tempDate);
+
+    let dates = arr.map(val => {
+        if(isDate(val)){
+            return Date.parse(val);
         }
-        else if (parseInt(val) || parseFloat(val)) {
-            let amount = Math.abs(val * 1);
-            amounts.push(val);
+        return;
+    }).filter(val => val);
+    
+    let amounts = arr.map(val => {
+        if (!isDate(val) && isNumber(val)) {
+            return toNumber(val);
         }
-        else {
-            tags.push(val);
+        return;
+    }).filter(amount => amount);
+    
+    let tags = arr.map(val => {
+        if(!isDate(val) && !isNumber(val)){
+            return val;
         }
-    });
-    console.log(amounts);
-    let expense = new Expense({amount:amounts[0],tags:tags,date:dates[0]});
-    expense.save(function(err) {
-        if (err) {
-            //console.log(err);
-        }
-    });
+        return;
+    }).filter(val => val);
+
+    let expense = {
+       date:dates[0],
+       amount:amounts[amounts.length - 1],
+       tags:tags
+    }
+    
+    return expense;
+}
+
+function isNumber(val){
+    return !isNaN(parseFloat(val));
+}
+
+function toNumber(val){
+    return parseFloat(val);
+}
+
+function isDate(str){
+    return !!str.match(/^\d{1,2}\/\d{1,2}\/\d{4}$/);
 }
