@@ -11,16 +11,12 @@ var apiRoutes = express.Router();
 
 export default function({
     app,
-    Expense,
-    ImportedExpense
+    ImportedExpense,
+    Expense
 }) {
     
     //busboy is for uploading multipart forms (csv files here)
     app.use(busboy());
-
-    app.use(function(req, res,next) {
-        next();
-    });
     
     apiRoutes.get('/', function(req, res) {
         res.send('Hello! this is budgetqt backend!');
@@ -45,6 +41,51 @@ export default function({
             }
             res.send(data);
         });
+    });
+    
+    apiRoutes.get('/expenses/imported', (req, res) => {
+        ImportedExpense.find({}, (err, data) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send(err);
+            }
+            res.send(data);
+        });
+    });
+
+    apiRoutes.put('/expenses/imported', (req, res) => {
+        ImportedExpense.update({}, (err, data) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).send(err);
+            }
+            res.send(data);
+        });
+    });
+
+    apiRoutes.post('/expenses/upload/csv', function(req, res) {
+        if (req.busboy) {
+            req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+                file.pipe(csv()).on('data', (entry) => {
+                    var expense = parser({
+                        entry
+                    });
+                    expense.file = filename;
+                    let newExpense = new ImportedExpense(expense);
+                    newExpense.save((err) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        else {
+                            console.log("SAVED EXPENSE!");
+                        }
+                    })
+                })
+            });
+            req.busboy.on('field', function(key, value, keyTruncated, valueTruncated) {});
+            req.pipe(req.busboy);
+        }
+        res.send('You have uploaded the file!');
     });
     
     apiRoutes.get('/expenses/:id', function(req, res) {
@@ -79,49 +120,6 @@ export default function({
             }
             res.send(data);
         });
-    });
-    
-    apiRoutes.get('/expenses/imported', (req, res)=>{
-        ImportedExpense.find({},(err,data)=>{
-            if(err){
-                console.log(err);
-                return res.status(500).send(err);
-            }
-            res.send(data);
-        });
-    });
-    
-    apiRoutes.put('/expenses/imported', (req, res) => {
-        ImportedExpense.update({}, (err, data) => {
-            if (err) {
-                console.log(err);
-                return res.status(500).send(err);
-            }
-            res.send(data);
-        });
-    });
-    
-    apiRoutes.post('/expenses/upload/csv', function(req, res) {
-        if (req.busboy) {
-            req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-                file.pipe(csv()).on('data',(entry)=>{
-                    var expense = parser({entry});
-                    expense.file = filename;
-                    let newExpense = new ImportedExpense(expense);
-                    newExpense.save((err)=>{
-                        if(err){
-                            console.log(err);
-                        }
-                        else{
-                            console.log("SAVED EXPENSE!");
-                        }
-                    })
-                })
-            });
-            req.busboy.on('field', function(key, value, keyTruncated, valueTruncated) {});
-            req.pipe(req.busboy);
-        }
-        res.send('You have uploaded the file!');
     });
     
     return apiRoutes;

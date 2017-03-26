@@ -40,7 +40,7 @@ import passportService from './passport-service/passport-service.js'
 const passportApi = passportService({app,User,config});
 
 import budgetqtService from './budgetqt-service/budgetqt-service.js';
-const budgetqtApi = budgetqtService({app,Expense,ImportedExpense});
+const budgetqtApi = budgetqtService({app,ImportedExpense,Expense});
 
 // use body parser so we can get info from POST and/or URL parameters
 app.use(bodyParser.urlencoded({ extended: false }));
