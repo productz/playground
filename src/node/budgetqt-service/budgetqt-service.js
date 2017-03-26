@@ -11,7 +11,7 @@ var apiRoutes = express.Router();
 
 export default function({
     app,
-    Expense
+    ImportedExpense
 }) {
     
     //busboy is for uploading multipart forms (csv files here)
@@ -34,17 +34,14 @@ export default function({
             req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
                 file.pipe(csv()).on('data',(entry)=>{
                     var expense = parser({entry});
-                    expense.title = "IMPORTED";
-                    expense.category = "imported";
                     expense.file = filename;
-                    expense.imported = true;
-                    let newExpense = new Expense(expense);
+                    let newExpense = new ImportedExpense(expense);
                     newExpense.save((err)=>{
                         if(err){
                             console.log(err);
                         }
                         else{
-                            console.log("SAVED EXPENSE");
+                            console.log("SAVED EXPENSE!");
                         }
                     })
                 })

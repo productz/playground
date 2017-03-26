@@ -2,10 +2,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // set up a mongoose model
-module.exports = mongoose.model('Expense', new Schema({ 
-	title: String, 
+module.exports = mongoose.model('ImportedExpense', new Schema({ 
 	amount: Number,
 	date: Date,
-	category: String,
-	tags:Array
+	tags:Array,
+	file:String
 }));
