@@ -47,6 +47,40 @@ export default function({
         });
     });
     
+    apiRoutes.get('/expenses/:id', function(req, res) {
+        let id = req.params.id;
+        Expense.find({id}, (err, data) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).send(err);
+            }
+            res.send(data);
+        });
+    });
+    
+    apiRoutes.put('/expenses/:id', function(req, res) {
+        let newExpense = new Expense(req.body);
+        let id = req.params.id;
+        Expense.save(newExpense, (err, data) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).send(err);
+            }
+            res.send(data);
+        });
+    });
+    
+    apiRoutes.delete('/expenses/:id', function(req, res) {
+        let id = req.params.id;
+        Expense.find({id}).remove().exec((err, data) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).send(err);
+            }
+            res.send(data);
+        });
+    });
+    
     apiRoutes.get('/expenses/imported', (req, res)=>{
         ImportedExpense.find({},(err,data)=>{
             if(err){
@@ -55,7 +89,17 @@ export default function({
             }
             res.send(data);
         });
-    })
+    });
+    
+    apiRoutes.put('/expenses/imported', (req, res) => {
+        ImportedExpense.update({}, (err, data) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).send(err);
+            }
+            res.send(data);
+        });
+    });
     
     apiRoutes.post('/expenses/upload/csv', function(req, res) {
         if (req.busboy) {
