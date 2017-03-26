@@ -11,6 +11,7 @@ var apiRoutes = express.Router();
 
 export default function({
     app,
+    Expense,
     ImportedExpense
 }) {
     
@@ -26,8 +27,35 @@ export default function({
     });
     
     apiRoutes.get('/expenses', function(req, res) {
-        res.send(['expenses']);
+        Expense.find({}, (err, data) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).send(err);
+            }
+            res.send(data);
+        });
     });
+    
+    apiRoutes.post('/expenses', function(req, res) {
+        let newExpense = new Expense(req.body);
+        Expense.save(newExpense, (err, data) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).send(err);
+            }
+            res.send(data);
+        });
+    });
+    
+    apiRoutes.get('/expenses/imported', (req, res)=>{
+        ImportedExpense.find({},(err,data)=>{
+            if(err){
+                console.log(err);
+                return res.status(500).send(err);
+            }
+            res.send(data);
+        });
+    })
     
     apiRoutes.post('/expenses/upload/csv', function(req, res) {
         if (req.busboy) {
