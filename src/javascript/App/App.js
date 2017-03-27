@@ -405,6 +405,7 @@ let categoryList = [
 ];
 
 let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, [], false, categoryList, 0, Date.now(), []);
+userStore.getExpenses();
 userStore.getImportedExpenses();
 
 

@@ -55,6 +55,18 @@ export class User {
         }));
     }
     
+    @action getExpenses(){
+        this.pendingRequestCount++;
+        let req = superagent.get('http://playground-test-itechdom.c9users.io:8081/api/v1/expenses');
+        req.end(action("getExpenses-callback",(err,res)=>{
+            if(err){
+                console.log("err: ",err);
+            }
+            let expenseList = JSON.parse(res.text);
+            this.expenseImportedList.push(...expenseList);
+        }));  
+    }
+    
     @action getImportedExpenses() {
         this.pendingRequestCount++;
         let req = superagent.get('http://playground-test-itechdom.c9users.io:8081/api/v1/expenses/imported');
@@ -63,12 +75,7 @@ export class User {
                 console.log("err: ",err);
             }
             let newExpense = JSON.parse(res.text)[0];
-            let list = [
-                new Expense(Date.now(), 3.6, new Category("gas", "icon-gas"), "gas"),
-                new Expense(Date.now(), 2.4, new Category("coffee", "coffee-icon"), "startbucks")
-            ];
-            this.expenseList.push(list[0]);
-            this.expenseImportedList.push({title:"hello"});
+            this.expenseImportedList.push(newExpense);
         }));
     }
 }
