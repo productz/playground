@@ -1,9 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {observer} from "mobx-react";
+import {
+    observer
+}
+from "mobx-react";
 import Dropzone from 'react-dropzone';
-import {User,Expense,Category} from '../Store';
-import { IntlProvider, FormattedDate } from 'react-intl';
+import {
+    User,
+    Expense,
+    Category
+}
+from '../Store';
+import {
+    IntlProvider,
+    FormattedDate
+}
+from 'react-intl';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {
@@ -11,11 +23,14 @@ import {
 }
 from 'material-ui/utils/colorManipulator';
 import * as colors from 'material-ui/styles/colors';
+
 import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom'
+    BrowserRouter as Router,
+    Route,
+    Link
+}
+from 'react-router-dom'
+
 import {
     Tabs,
     Tab
@@ -35,14 +50,28 @@ import Chip from 'material-ui/Chip';
 import AppBar from 'material-ui/AppBar';
 import FontIcon from 'material-ui/FontIcon';
 import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import AutoComplete from 'material-ui/AutoComplete';
-import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import {
+    BottomNavigation,
+    BottomNavigationItem
+}
+from 'material-ui/BottomNavigation';
+import {
+    Table,
+    TableBody,
+    TableHeader,
+    TableHeaderColumn,
+    TableRow,
+    TableRowColumn
+}
+from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
+
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
 import 'normalize.css';
 import '../Style/main.scss';
 
@@ -75,17 +104,17 @@ const muiTheme = getMuiTheme({
 
 const styles = {
     title: {
-        margin:'1em 0'
+        margin: '1em 0'
     },
     subTitle: {
         fontFamily: 'Roboto Slab',
         margin: '0 0 1em 0'
     },
-    ctaButton:{
-        width:'200px'
+    ctaButton: {
+        width: '200px'
     },
-    channels:{
-       color: colors.deepPurple900
+    channels: {
+        color: colors.deepPurple900
     }
 };
 
@@ -130,6 +159,9 @@ const styles = {
                                 this.props.userStore.uploadCSV();
                             })}
                         />
+                        <FlexibleTable
+                            list={this.props.userStore.expenseImportedList}
+                        />
                      <Footer/>
                 </div>
             </MuiThemeProvider>
@@ -137,7 +169,12 @@ const styles = {
     }
 };
 
-const Home = ({dailyBudget,dailyBudgetEditable,onEditChange, onDailyBudgetChange}) => (
+const Home = ({
+    dailyBudget,
+    dailyBudgetEditable,
+    onEditChange,
+    onDailyBudgetChange
+}) => (
     <section>
         <div className="list text-center top-1">
             <p>
@@ -155,7 +192,16 @@ const Home = ({dailyBudget,dailyBudgetEditable,onEditChange, onDailyBudgetChange
     </section>
 );
 
-const Expenses = ({categoryList, expenseList, onExpensesAdd, expenseEditable, onExpenseOpen, onExpenseClose, newExpense, totalExpenses}) => (
+const Expenses = observer(({
+    categoryList,
+    expenseList,
+    onExpensesAdd,
+    expenseEditable,
+    onExpenseOpen,
+    onExpenseClose,
+    newExpense,
+    totalExpenses
+}) => (
     <section className="list text-center">
         <FormattedDate
             value={Date.now()}
@@ -202,9 +248,16 @@ const Expenses = ({categoryList, expenseList, onExpensesAdd, expenseEditable, on
             </TableBody>
             </Table>
     </section>
-);
+));
 
-const ExpenseDialog = ({handleClose,handleOpen,open,handleSubmit,newExpense,categoryList}) => {
+const ExpenseDialog = ({
+    handleClose,
+    handleOpen,
+    open,
+    handleSubmit,
+    newExpense,
+    categoryList
+}) => {
     const actions = [
         <FlatButton
         label="Cancel"
@@ -240,8 +293,12 @@ const ExpenseDialog = ({handleClose,handleOpen,open,handleSubmit,newExpense,cate
     );
 };
 
-const ImportExpenses = ({onFileAccepted,fileNames}) => (
-    <div>
+const ImportExpenses = ({
+    onFileAccepted,
+    fileNames
+}) => {
+    return (
+        <div>
         <Dropzone onDrop={((acceptedFiles,rejectedFiles)=>onFileAccepted(acceptedFiles))}>
             <div>Try dropping some files here, or click to select files to upload.</div>
             <div>Files Accepted: 
@@ -253,7 +310,22 @@ const ImportExpenses = ({onFileAccepted,fileNames}) => (
             </div>
         </Dropzone>
     </div>
-);
+    );
+};
+
+const FlexibleTable = observer(({
+    list
+}) => {
+        return <div>
+            <ul>
+            {
+            list.map((item,index) => {
+                    return <li key={index}>{item.title}</li>
+            })
+            }
+            </ul>
+    </div>;
+});
 
 const Stats = () => (
     <div>Stats</div>
@@ -315,33 +387,30 @@ const Menu = ({
 // POPULATE STORE WITH INITIAL DATA
 //-------------------
 //===================
-let expenseList = [
-    new Expense(Date.now(),3.6,new Category("gas","icon-gas"),"gas"),
-    new Expense(Date.now(),2.4,new Category("coffee","coffee-icon"),"startbucks")
-];
 
 let categoryList = [
-    [new Category("gas","gas")],
-    [new Category("coffee","coffee")],
-    [new Category("groceries","cart")],	
-    [new Category ("food","food")],	
-    [new Category("friends and family","gift")],
-    [new Category("dog","dog")],
-    [new Category("donation","donation")],
-    [new Category("medical","ambulance")],
-    [new Category("electronics","electronic")],
-    [new Category("online subscriptions","electronic")],
-    [new Category("utilities","phone")],
-    [new Category("vacation and travel","beach")],
-    [new Category("office supplies","office")]
+    [new Category("gas", "gas")],
+    [new Category("coffee", "coffee")],
+    [new Category("groceries", "cart")],
+    [new Category("food", "food")],
+    [new Category("friends and family", "gift")],
+    [new Category("dog", "dog")],
+    [new Category("donation", "donation")],
+    [new Category("medical", "ambulance")],
+    [new Category("electronics", "electronic")],
+    [new Category("online subscriptions", "electronic")],
+    [new Category("utilities", "phone")],
+    [new Category("vacation and travel", "beach")],
+    [new Category("office supplies", "office")]
 ];
 
-let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, expenseList,false, categoryList, 0, Date.now(),[]);
+let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, [], false, categoryList, 0, Date.now(), []);
+userStore.getImportedExpenses();
+
 
 ReactDOM.render(
     <IntlProvider locale="en">
         <App userStore={userStore} />
-    </IntlProvider>
-    ,
+    </IntlProvider>,
     document.getElementById('app')
 );

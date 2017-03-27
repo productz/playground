@@ -8,6 +8,7 @@ export class User {
     @observable dailyBudget;
     @observable dailyBudgetEditable = false;
     @observable expenseList = [];
+    @observable expenseImportedList = [];
     @observable expenseEditable=false;
     @observable categoryList=[];
     @observable selectedRoute = 0;
@@ -47,13 +48,29 @@ export class User {
             if (error)
                 console.error(error);
             else {
-                console.log(results);
-                const data = JSON.parse(results.text).results[0];
+                const data = JSON.parse(results.text);
+                console.log(data);
                 this.pendingRequestCount--;
             }
         }));
     }
     
+    @action getImportedExpenses() {
+        this.pendingRequestCount++;
+        let req = superagent.get('http://playground-test-itechdom.c9users.io:8081/api/v1/expenses/imported');
+        req.end(action("getImportedExpenses-callback",(err,res)=>{
+            if(err){
+                console.log("err: ",err);
+            }
+            let newExpense = JSON.parse(res.text)[0];
+            let list = [
+                new Expense(Date.now(), 3.6, new Category("gas", "icon-gas"), "gas"),
+                new Expense(Date.now(), 2.4, new Category("coffee", "coffee-icon"), "startbucks")
+            ];
+            this.expenseList.push(list[0]);
+            this.expenseImportedList.push({title:"hello"});
+        }));
+    }
 }
 
 export class Expense {
