@@ -5,6 +5,7 @@ import {
 }
 from "mobx-react";
 import Dropzone from 'react-dropzone';
+import ReactDataGrid from 'react-data-grid';
 import {
     User,
     Expense,
@@ -316,15 +317,14 @@ const ImportExpenses = ({
 const FlexibleTable = observer(({
     list
 }) => {
-        return <div>
-            <ul>
-            {
-            list.map((item,index) => {
-                    return <li key={index}>{item.title}</li>
-            })
-            }
-            </ul>
-    </div>;
+    function rowGetter(i){
+        return list[i];
+    }
+    return  <ReactDataGrid
+        columns={Object.keys(list[0]).map((key,index)=>{return {key:key,name:key.toUpperCase()}})}
+        rowGetter={rowGetter}
+        rowsCount={list.length}
+        minHeight={500} />
 });
 
 const Stats = () => (
