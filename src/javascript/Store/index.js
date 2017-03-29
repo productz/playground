@@ -74,8 +74,8 @@ export class User {
             if(err){
                 console.log("err: ",err);
             }
-            let newExpense = JSON.parse(res.text)[0];
-            this.expenseImportedList.push(newExpense);
+            let newExpenses = JSON.parse(res.text);
+            this.expenseImportedList.push(...newExpenses);
         }));
     }
 }

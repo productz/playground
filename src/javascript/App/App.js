@@ -317,14 +317,35 @@ const ImportExpenses = ({
 const FlexibleTable = observer(({
     list
 }) => {
-    function rowGetter(i){
-        return list[i];
-    }
-    return  <ReactDataGrid
-        columns={Object.keys(list[0]).map((key,index)=>{return {key:key,name:key.toUpperCase()}})}
-        rowGetter={rowGetter}
-        rowsCount={list.length}
-        minHeight={500} />
+    return <Table>
+                <TableHeader>
+                      <TableRow>
+                          <TableHeaderColumn>Date</TableHeaderColumn>
+                          <TableHeaderColumn>Amount</TableHeaderColumn>
+                          <TableHeaderColumn>File</TableHeaderColumn>
+                          <TableHeaderColumn>Tags</TableHeaderColumn>
+                      </TableRow>
+                </TableHeader>
+                <TableBody className="top-1">
+                {
+                    list.map((expense,index) => (
+                        <TableRow key={index}>
+                          <TableRowColumn>
+                            <FormattedDate
+                                value={expense.date}
+                                year='numeric'
+                                month='long'
+                                day='numeric'
+                            />
+                            </TableRowColumn>
+                            <TableRowColumn>{expense.amount}</TableRowColumn>
+                            <TableRowColumn>{expense.file}</TableRowColumn>
+                            <TableRowColumn>{expense.tags.map((item,index)=>{return<span key={index}>,{item},</span>})}</TableRowColumn>
+                        </TableRow>
+                    ))
+                }
+                </TableBody>
+            </Table>
 });
 
 const Stats = () => (
