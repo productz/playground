@@ -52,8 +52,29 @@ export default function({
             res.send(data);
         });
     });
+    
+    apiRoutes.post('/expenses/imported', (req, res) => {
+        //take the imported expense, format it and add it to the expenses collection
+        ImportedExpense.find({}, (err, data) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send(err);
+            }
+            res.send(data);
+        });
+    });
 
-    apiRoutes.put('/expenses/imported', (req, res) => {
+    apiRoutes.put('/expenses/imported/:id', (req, res) => {
+        ImportedExpense.update({}, (err, data) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).send(err);
+            }
+            res.send(data);
+        });
+    });
+    
+    apiRoutes.delete('/expenses/imported/:id', (req, res) => {
         ImportedExpense.update({}, (err, data) => {
             if (err) {
                 console.log(err);

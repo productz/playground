@@ -314,6 +314,7 @@ const ImportExpenses = ({
     );
 };
 
+//http://www.material-ui.com/#/components/table
 const FlexibleTable = observer(({
     list
 }) => {
@@ -324,6 +325,8 @@ const FlexibleTable = observer(({
                           <TableHeaderColumn>Amount</TableHeaderColumn>
                           <TableHeaderColumn>File</TableHeaderColumn>
                           <TableHeaderColumn>Tags</TableHeaderColumn>
+                          <TableHeaderColumn>Import?</TableHeaderColumn>
+                          <TableHeaderColumn>Delete?</TableHeaderColumn>
                       </TableRow>
                 </TableHeader>
                 <TableBody className="top-1">
@@ -341,6 +344,9 @@ const FlexibleTable = observer(({
                             <TableRowColumn>{expense.amount}</TableRowColumn>
                             <TableRowColumn>{expense.file}</TableRowColumn>
                             <TableRowColumn>{expense.tags.map((item,index)=>{return<span key={index}>,{item},</span>})}</TableRowColumn>
+                            <TableRowColumn><RaisedButton label={`import ${expense._id}`}  /></TableRowColumn>
+                            <TableRowColumn><RaisedButton label={"delete"} secondary={true} /></TableRowColumn>
+                            
                         </TableRow>
                     ))
                 }
