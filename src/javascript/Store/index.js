@@ -15,12 +15,11 @@ export class User {
     @observable selectedDate = Date.now();
     @observable filesAccepted = [];
     pendingRequestCount = 0;
-    constructor(name,email,dailyBudget,dailyBudgetEditable,expenseList,expenseEditable,categoryList,selectedRoute,selectedDate,filesAccepted) {
+    constructor(name,email,dailyBudget,dailyBudgetEditable,expenseEditable,categoryList,selectedRoute,selectedDate,filesAccepted) {
         this.name = name;
         this.email = email;
         this.dailyBudget = dailyBudget;
         this.dailyBudgetEditable = dailyBudgetEditable;
-        this.expenseList = expenseList;
         this.expenseEditable = expenseEditable;
         this.categoryList = categoryList;
         this.selectedRoute = selectedRoute;
@@ -62,8 +61,8 @@ export class User {
             if(err){
                 console.log("err: ",err);
             }
-            let expenseList = JSON.parse(res.text);
-            this.expenseImportedList.push(...expenseList);
+            let newExpenses = JSON.parse(res.text);
+            this.expenseList.push(...newExpenses);
         }));  
     }
     
@@ -77,6 +76,24 @@ export class User {
             let newExpenses = JSON.parse(res.text);
             this.expenseImportedList.push(...newExpenses);
         }));
+    }
+    
+    @action saveImportedExpense(importedExpense) {
+        this.pendingRequestCount++;
+        let req = superagent.post('http://playground-test-itechdom.c9users.io:8081/api/v1/expenses/imported')
+                    .send(importedExpense);
+        req.end(action("saveImportedExpense-callback", (error, results) => {
+            if (error)
+                console.error(error);
+            else {
+                const data = JSON.parse(results.text);
+                console.log(data);
+                //add the imported expense to the expense list
+                this.expenseList.push(data);
+                this.pendingRequestCount--;
+            }
+        }));
+
     }
 }
 

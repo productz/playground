@@ -162,6 +162,7 @@ const styles = {
                         />
                         <FlexibleTable
                             list={this.props.userStore.expenseImportedList}
+                            onExpenseImport = {(expense)=>this.props.userStore.saveImportedExpense(expense)}
                         />
                      <Footer/>
                 </div>
@@ -242,7 +243,7 @@ const Expenses = observer(({
                         </TableRowColumn>
                         <TableRowColumn>{expense.amount}</TableRowColumn>
                         <TableRowColumn>{expense.title}</TableRowColumn>
-                        <TableRowColumn>{expense.category.title}</TableRowColumn>
+                        <TableRowColumn>{expense.tags.map(tag=><span>,{tag},</span>)}</TableRowColumn>
                     </TableRow>
                 ))
             }
@@ -316,7 +317,9 @@ const ImportExpenses = ({
 
 //http://www.material-ui.com/#/components/table
 const FlexibleTable = observer(({
-    list
+    list,
+    onExpenseImport,
+    onExpenseDelete
 }) => {
     return <Table>
                 <TableHeader>
@@ -344,8 +347,8 @@ const FlexibleTable = observer(({
                             <TableRowColumn>{expense.amount}</TableRowColumn>
                             <TableRowColumn>{expense.file}</TableRowColumn>
                             <TableRowColumn>{expense.tags.map((item,index)=>{return<span key={index}>,{item},</span>})}</TableRowColumn>
-                            <TableRowColumn><RaisedButton label={`import ${expense._id}`}  /></TableRowColumn>
-                            <TableRowColumn><RaisedButton label={"delete"} secondary={true} /></TableRowColumn>
+                            <TableRowColumn><RaisedButton label={`import ${expense._id}`} onClick={(event)=>onExpenseImport(expense)}  /></TableRowColumn>
+                            <TableRowColumn><RaisedButton label={"delete"} secondary={true} onClick={onExpenseDelete} /></TableRowColumn>
                             
                         </TableRow>
                     ))
@@ -431,7 +434,7 @@ let categoryList = [
     [new Category("office supplies", "office")]
 ];
 
-let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, [], false, categoryList, 0, Date.now(), []);
+let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, false, categoryList, 0, Date.now(), []);
 userStore.getExpenses();
 userStore.getImportedExpenses();
 
