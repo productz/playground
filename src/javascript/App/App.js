@@ -317,10 +317,11 @@ const ImportExpenses = ({
 };
 
 //http://www.material-ui.com/#/components/table
-@observer class FlexibleTable extends React.component {
+@observer class FlexibleTable extends React.Component {
     
   state = {
     open: false,
+    importedExpense:{}
   };
 
   handleOpen = () => {
@@ -360,13 +361,26 @@ const ImportExpenses = ({
                             <TableRowColumn>{expense.file}</TableRowColumn>
                             <TableRowColumn>{expense.tags.map((item,index)=>{return<span key={index}>,{item},</span>})}</TableRowColumn>
                             <TableRowColumn><RaisedButton label={`import ${expense._id}`} onClick={(event)=>this.props.onExpenseImport(expense)}  /></TableRowColumn>
-                            <TableRowColumn><RaisedButton label={"delete"} secondary={true} onClick={(event)=>this.props.onExpenseDelete} /></TableRowColumn>
+                            <TableRowColumn>
+                                <RaisedButton 
+                                    label={"delete"} 
+                                    secondary={true} 
+                                    onClick={(event)=>{
+                                            this.setState({open:true});
+                                            this.setState({importedExpense:expense})
+                                        }
+                                    }/>
+                            </TableRowColumn>
                         </TableRow>
                     ))
                 }
                 </TableBody>
             </Table>
             <DeleteImportedExpenseDialog
+                open={this.state.open}
+                onAgree={()=>this.props.onExpenseDelete(this.state.importedExpense)}
+                onCancel={()=>this.setState({open:false})}
+                importedExpense={this.state.importedExpense}
             />
         </div>
     }
@@ -391,8 +405,8 @@ const DeleteImportedExpenseDialog = ({
     onClick={onAgree}
   />,
     ];
-    <Dialog
-              title={`Are you sure you want to Delete ${importedExpense.tags.join("-")} ?`}
+    return <Dialog
+              title={`Are you sure you want to Delete ?`}
               actions={actions}
               modal={false}
               open={open}
