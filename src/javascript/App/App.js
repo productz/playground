@@ -71,6 +71,8 @@ import {
 from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
 
+import DevTools from 'mobx-react-devtools';
+
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import 'normalize.css';
@@ -165,6 +167,7 @@ const styles = {
                             onExpenseImport = {(expense)=>this.props.userStore.saveImportedExpense(expense)}
                             onExpenseDelete={(expense)=>{console.log(expense);this.props.userStore.deleteImportedExpense(expense)}}
                         />
+                        <DevTools />
                      <Footer/>
                 </div>
             </MuiThemeProvider>
