@@ -163,7 +163,7 @@ const styles = {
                         <FlexibleTable
                             list={this.props.userStore.expenseImportedList}
                             onExpenseImport = {(expense)=>this.props.userStore.saveImportedExpense(expense)}
-                            onExpenseDelete={(expense)=>this.props.userStore.deleteImportedExpense(expense)}
+                            onExpenseDelete={(expense)=>{console.log(expense);this.props.userStore.deleteImportedExpense(expense)}}
                         />
                      <Footer/>
                 </div>
@@ -367,7 +367,7 @@ const ImportExpenses = ({
                                     secondary={true} 
                                     onClick={(event)=>{
                                             this.setState({open:true});
-                                            this.setState({importedExpense:expense})
+                                            this.setState({importedExpense:expense});
                                         }
                                     }/>
                             </TableRowColumn>
@@ -412,6 +412,7 @@ const DeleteImportedExpenseDialog = ({
               open={open}
               onRequestClose={onCancel}
             >
+                {importedExpense.tags?importedExpense.tags.join('-'):"no expense yet"}
             </Dialog>
 };
 
