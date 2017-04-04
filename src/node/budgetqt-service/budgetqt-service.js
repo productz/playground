@@ -56,12 +56,13 @@ export default function({
     apiRoutes.post('/expenses/imported', (req, res) => {
         //take the imported expense, format it and add it to the expenses collection
         let expense = req.body;
-        let newExpense = new Expense({title:expense.file,amount:expense.amount,date:expense.date,tags:expense.tags})
-        newExpense.save({}, (err, data) => {
-            if (err) {
-                console.log(err);
-                res.status(500).send(err);
-            }
+        let newExpense = {title:expense.file,amount:expense.amount,date:expense.date,tags:expense.tags}
+        Expense.findOneAndUpdate({_id:expense._id}, newExpense, {
+            upsert: true
+        }, function(err, doc) {
+            if (err) return res.send(500, {error: err});
+            
+            //remove the imported expense
             ImportedExpense.find({
                 _id: expense["_id"]
             }).remove().exec((err) => {
@@ -69,6 +70,7 @@ export default function({
                     return res.status(500).send(err);
                 }
             });
+            
             res.send(newExpense);
         });
     });
