@@ -360,7 +360,7 @@ const ImportExpenses = ({
                             <TableRowColumn>{expense.amount}</TableRowColumn>
                             <TableRowColumn>{expense.file}</TableRowColumn>
                             <TableRowColumn>{expense.tags.map((item,index)=>{return<span key={index}>,{item},</span>})}</TableRowColumn>
-                            <TableRowColumn><RaisedButton label={`import ${expense._id}`} onClick={(event)=>this.props.onExpenseImport(expense)}  /></TableRowColumn>
+                            <TableRowColumn><RaisedButton label={`import`} onClick={(event)=>this.props.onExpenseImport(expense)}  /></TableRowColumn>
                             <TableRowColumn>
                                 <RaisedButton 
                                     label={"delete"} 
@@ -378,7 +378,7 @@ const ImportExpenses = ({
             </Table>
             <DeleteImportedExpenseDialog
                 open={this.state.open}
-                onAgree={()=>this.props.onExpenseDelete(this.state.importedExpense)}
+                onAgree={()=>{this.props.onExpenseDelete(this.state.importedExpense);this.setState({open:false})}}
                 onCancel={()=>this.setState({open:false})}
                 importedExpense={this.state.importedExpense}
             />

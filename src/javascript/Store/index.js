@@ -90,6 +90,7 @@ export class User {
                 this.expenseImportedList.push(importedExpense);
             }
             else {
+                console.log(results);
                 this.pendingRequestCount--;
             }
         }));

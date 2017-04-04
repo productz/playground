@@ -85,7 +85,7 @@ export default function({
         });
     });
     
-    apiRoutes.delete('/expenses/imported/:id', (req, res) => {
+    apiRoutes.delete('/expenses/imported', (req, res) => {
         let expense = req.body;
         //remove the imported expense
         ImportedExpense.find({
