@@ -78,6 +78,24 @@ export class User {
         }));
     }
     
+    @action deleteImportedExpense(importedExpense) {
+        this.pendingRequestCount++;
+        let req = superagent.delete('http://playground-test-itechdom.c9users.io:8081/api/v1/expenses/imported')
+                    .send(importedExpense);
+        let removed = this.expenseImportedList.remove(importedExpense);
+        req.end(action("saveImportedExpense-callback", (error, results) => {
+            if (error){
+                console.error(error);
+                //push back the importedList item
+                this.expenseImportedList.push(importedExpense);
+            }
+            else {
+                this.pendingRequestCount--;
+            }
+        }));
+    }
+
+    
     @action saveImportedExpense(importedExpense) {
         this.pendingRequestCount++;
         let req = superagent.post('http://playground-test-itechdom.c9users.io:8081/api/v1/expenses/imported')
@@ -97,7 +115,6 @@ export class User {
                 this.pendingRequestCount--;
             }
         }));
-
     }
 }
 

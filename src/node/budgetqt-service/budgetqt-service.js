@@ -86,12 +86,15 @@ export default function({
     });
     
     apiRoutes.delete('/expenses/imported/:id', (req, res) => {
-        ImportedExpense.update({}, (err, data) => {
+        let expense = req.body;
+        //remove the imported expense
+        ImportedExpense.find({
+            _id: expense["_id"]
+        }).remove().exec((err) => {
             if (err) {
-                console.log(err);
                 return res.status(500).send(err);
             }
-            res.send(data);
+            res.status(200).send();
         });
     });
 

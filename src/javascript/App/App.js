@@ -163,6 +163,7 @@ const styles = {
                         <FlexibleTable
                             list={this.props.userStore.expenseImportedList}
                             onExpenseImport = {(expense)=>this.props.userStore.saveImportedExpense(expense)}
+                            onExpenseDelete={(expense)=>this.props.userStore.deleteImportedExpense(expense)}
                         />
                      <Footer/>
                 </div>
@@ -316,12 +317,23 @@ const ImportExpenses = ({
 };
 
 //http://www.material-ui.com/#/components/table
-const FlexibleTable = observer(({
-    list,
-    onExpenseImport,
-    onExpenseDelete
-}) => {
-    return <Table>
+@observer class FlexibleTable extends React.component {
+    
+  state = {
+    open: false,
+  };
+
+  handleOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleClose = () => {
+    this.setState({open: false});
+  };
+  
+  render(){
+     return <div> 
+            <Table>
                 <TableHeader>
                       <TableRow>
                           <TableHeaderColumn>Date</TableHeaderColumn>
@@ -334,7 +346,7 @@ const FlexibleTable = observer(({
                 </TableHeader>
                 <TableBody className="top-1">
                 {
-                    list.map((expense,index) => (
+                    this.props.list.map((expense,index) => (
                         <TableRow key={index}>
                           <TableRowColumn>
                             <FormattedDate
@@ -347,15 +359,47 @@ const FlexibleTable = observer(({
                             <TableRowColumn>{expense.amount}</TableRowColumn>
                             <TableRowColumn>{expense.file}</TableRowColumn>
                             <TableRowColumn>{expense.tags.map((item,index)=>{return<span key={index}>,{item},</span>})}</TableRowColumn>
-                            <TableRowColumn><RaisedButton label={`import ${expense._id}`} onClick={(event)=>onExpenseImport(expense)}  /></TableRowColumn>
-                            <TableRowColumn><RaisedButton label={"delete"} secondary={true} onClick={onExpenseDelete} /></TableRowColumn>
-                            
+                            <TableRowColumn><RaisedButton label={`import ${expense._id}`} onClick={(event)=>this.props.onExpenseImport(expense)}  /></TableRowColumn>
+                            <TableRowColumn><RaisedButton label={"delete"} secondary={true} onClick={(event)=>this.props.onExpenseDelete} /></TableRowColumn>
                         </TableRow>
                     ))
                 }
                 </TableBody>
             </Table>
-});
+            <DeleteImportedExpenseDialog
+            />
+        </div>
+    }
+
+};
+
+const DeleteImportedExpenseDialog = ({
+    open,
+    onAgree,
+    onCancel,
+    importedExpense
+}) => {
+    const actions = [
+        <FlatButton
+    label="Cancel"
+    primary={true}
+    onClick={onCancel}
+  />,
+        <FlatButton
+    label="Agree"
+    primary={true}
+    onClick={onAgree}
+  />,
+    ];
+    <Dialog
+              title={`Are you sure you want to Delete ${importedExpense.tags.join("-")} ?`}
+              actions={actions}
+              modal={false}
+              open={open}
+              onRequestClose={onCancel}
+            >
+            </Dialog>
+};
 
 const Stats = () => (
     <div>Stats</div>
