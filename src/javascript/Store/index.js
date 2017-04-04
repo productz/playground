@@ -82,12 +82,16 @@ export class User {
         this.pendingRequestCount++;
         let req = superagent.post('http://playground-test-itechdom.c9users.io:8081/api/v1/expenses/imported')
                     .send(importedExpense);
+        let removed = this.expenseImportedList.remove(importedExpense);
         req.end(action("saveImportedExpense-callback", (error, results) => {
-            if (error)
+            if (error){
                 console.error(error);
+                //push back the importedList item
+                this.expenseImportedList.push(importedExpense);
+            }
             else {
+                //remove imported expense from UI
                 const data = JSON.parse(results.text);
-                console.log(data);
                 //add the imported expense to the expense list
                 this.expenseList.push(data);
                 this.pendingRequestCount--;

@@ -62,6 +62,13 @@ export default function({
                 console.log(err);
                 res.status(500).send(err);
             }
+            ImportedExpense.find({
+                _id: expense["_id"]
+            }).remove().exec((err) => {
+                if (err) {
+                    return res.status(500).send(err);
+                }
+            });
             res.send(newExpense);
         });
     });
