@@ -5,6 +5,9 @@ import superagent from 'superagent';
 export class User {
     name;
     email;
+    page = 1;
+    itemsPerPage=10;
+    originalExpenseList = [];
     @observable dailyBudget;
     @observable dailyBudgetEditable = false;
     @observable expenseList = [];
@@ -25,6 +28,7 @@ export class User {
         this.selectedRoute = selectedRoute;
         this.selectedDate = selectedDate;
         this.filesAccepted = filesAccepted;
+        this.page=1;
     }
     
     @computed get filterByDate(){
@@ -74,8 +78,16 @@ export class User {
                 console.log("err: ",err);
             }
             let newExpenses = JSON.parse(res.text);
-            this.expenseImportedList.push(...newExpenses);
+            this.originalExpenseList = newExpenses;
+            this.expenseImportedList.push(...newExpenses.slice(0,10));
         }));
+    }
+    
+    @action getImportedExpensesByPage(){
+        let currentPage = this.page * this.itemsPerPage;
+        let prevPage = (this.page - 1) * this.itemsPerPage;
+        let nextArr = this.originalExpenseList.slice(prevPage,currentPage);
+        this.expenseImportedList.push(...nextArr);
     }
     
     @action deleteImportedExpense(importedExpense) {

@@ -164,8 +164,13 @@ const styles = {
                         />
                         <FlexibleTable
                             list={this.props.userStore.expenseImportedList}
+                            page={this.props.userStore.page}
                             onExpenseImport = {(expense)=>this.props.userStore.saveImportedExpense(expense)}
                             onExpenseDelete={(expense)=>{console.log(expense);this.props.userStore.deleteImportedExpense(expense)}}
+                            onNextPage={(event)=>{
+                                this.props.userStore.page++;
+                                this.props.userStore.getImportedExpensesByPage();
+                            }}
                         />
                         <DevTools />
                      <Footer/>
@@ -349,36 +354,40 @@ const ImportExpenses = ({
                       </TableRow>
                 </TableHeader>
                 <TableBody className="top-1">
-                {
-                    this.props.list.map((expense,index) => (
-                        <TableRow key={index}>
-                          <TableRowColumn>
-                            <FormattedDate
-                                value={expense.date}
-                                year='numeric'
-                                month='long'
-                                day='numeric'
-                            />
-                            </TableRowColumn>
-                            <TableRowColumn>{expense.amount}</TableRowColumn>
-                            <TableRowColumn>{expense.file}</TableRowColumn>
-                            <TableRowColumn>{expense.tags.map((item,index)=>{return<span key={index}>,{item},</span>})}</TableRowColumn>
-                            <TableRowColumn><RaisedButton label={`import`} onClick={(event)=>this.props.onExpenseImport(expense)}  /></TableRowColumn>
-                            <TableRowColumn>
-                                <RaisedButton 
-                                    label={"delete"} 
-                                    secondary={true} 
-                                    onClick={(event)=>{
-                                            this.setState({open:true});
-                                            this.setState({importedExpense:expense});
-                                        }
-                                    }/>
-                            </TableRowColumn>
-                        </TableRow>
-                    ))
-                }
+                    {
+                        this.props.list.map((expense,index) => (
+                            <TableRow key={index}>
+                              <TableRowColumn>
+                                <FormattedDate
+                                    value={expense.date}
+                                    year='numeric'
+                                    month='long'
+                                    day='numeric'
+                                />
+                                </TableRowColumn>
+                                <TableRowColumn>{expense.amount}</TableRowColumn>
+                                <TableRowColumn>{expense.file}</TableRowColumn>
+                                <TableRowColumn>{expense.tags.map((item,index)=>{return<span key={index}>,{item},</span>})}</TableRowColumn>
+                                <TableRowColumn><RaisedButton label={`import`} onClick={(event)=>this.props.onExpenseImport(expense)}  /></TableRowColumn>
+                                <TableRowColumn>
+                                    <RaisedButton 
+                                        label={"delete"} 
+                                        secondary={true} 
+                                        onClick={(event)=>{
+                                                this.setState({open:true});
+                                                this.setState({importedExpense:expense});
+                                            }
+                                        }/>
+                                </TableRowColumn>
+                            </TableRow>
+                        ))
+                    }
                 </TableBody>
             </Table>
+            <RaisedButton 
+                label={`load more ...`}
+                onClick={this.props.onNextPage}
+            />
             <DeleteImportedExpenseDialog
                 open={this.state.open}
                 onAgree={()=>{this.props.onExpenseDelete(this.state.importedExpense);this.setState({open:false})}}
@@ -499,7 +508,6 @@ let categoryList = [
 let userStore = new User("Sam", "osamah.net.m@gmail.com", 13, false, false, categoryList, 0, Date.now(), []);
 userStore.getExpenses();
 userStore.getImportedExpenses();
-
 
 ReactDOM.render(
     <IntlProvider locale="en">
