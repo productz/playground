@@ -152,6 +152,10 @@ const styles = {
                             onExpenseClose={(event)=>this.props.userStore.expenseEditable=false}
                             newExpense={new Expense()}
                             totalExpenses={this.props.userStore.totalExpenses}
+                            onNextPage={(event)=>{
+                                this.props.userStore.expensePage++;
+                                this.props.userStore.getExpensesByPage();
+                            }}
                         />
                         <ImportExpenses
                             fileNames = {this.props.userStore.fileNames}
@@ -211,7 +215,8 @@ const Expenses = observer(({
     onExpenseOpen,
     onExpenseClose,
     newExpense,
-    totalExpenses
+    totalExpenses,
+    onNextPage
 }) => (
     <section className="list text-center">
         <FormattedDate
@@ -258,6 +263,10 @@ const Expenses = observer(({
             }
             </TableBody>
             </Table>
+            <RaisedButton 
+                label={`load more ...`}
+                onClick={onNextPage}
+            />
     </section>
 ));
 

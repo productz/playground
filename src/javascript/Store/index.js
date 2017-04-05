@@ -8,6 +8,7 @@ export class User {
     page = 1;
     itemsPerPage=10;
     originalExpenseList = [];
+    originalImportedExpenseList = [];
     @observable dailyBudget;
     @observable dailyBudgetEditable = false;
     @observable expenseList = [];
@@ -29,6 +30,7 @@ export class User {
         this.selectedDate = selectedDate;
         this.filesAccepted = filesAccepted;
         this.page=1;
+        this.expensePage=1;
     }
     
     @computed get filterByDate(){
@@ -66,8 +68,16 @@ export class User {
                 console.log("err: ",err);
             }
             let newExpenses = JSON.parse(res.text);
-            this.expenseList.push(...newExpenses);
+            this.originalImportedExpenseList = newExpenses;
+            this.expenseList.push(...newExpenses.slice(0,10));
         }));  
+    }
+    
+    @action getExpensesByPage(){
+        let currentPage = this.expensePage * this.itemsPerPage;
+        let prevPage = (this.expensePage - 1) * this.itemsPerPage;
+        let nextArr = this.originalImportedExpenseList.slice(prevPage,currentPage);
+        this.expenseList.push(...nextArr);
     }
     
     @action getImportedExpenses() {
@@ -78,7 +88,7 @@ export class User {
                 console.log("err: ",err);
             }
             let newExpenses = JSON.parse(res.text);
-            this.originalExpenseList = newExpenses;
+            this.originalImportedExpenseList = newExpenses;
             this.expenseImportedList.push(...newExpenses.slice(0,10));
         }));
     }
@@ -86,7 +96,7 @@ export class User {
     @action getImportedExpensesByPage(){
         let currentPage = this.page * this.itemsPerPage;
         let prevPage = (this.page - 1) * this.itemsPerPage;
-        let nextArr = this.originalExpenseList.slice(prevPage,currentPage);
+        let nextArr = this.originalImportedExpenseList.slice(prevPage,currentPage);
         this.expenseImportedList.push(...nextArr);
     }
     
