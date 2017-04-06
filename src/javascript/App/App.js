@@ -5,7 +5,6 @@ import {
 }
 from "mobx-react";
 import Dropzone from 'react-dropzone';
-import ReactDataGrid from 'react-data-grid';
 import {
     User,
     Expense,
@@ -179,12 +178,12 @@ const styles = {
             <MuiThemeProvider muiTheme={muiTheme}>
                 <div>
                     <AppBar
-                    iconElementLeft={<span></span>}
-                    style={{textAlign:"center"}}
-                    title={
-                    <div style={styles.title}><h1 className="title">BudgetQT</h1>
-                    <h2>Welcome {this.props.userStore.name}!</h2>
-                    </div>}
+                        iconElementLeft={<span></span>}
+                        style={{textAlign:"center"}}
+                        title={
+                        <div style={styles.title}><h1 className="title">BudgetQT</h1>
+                        <h2>Welcome {this.props.userStore.name}!</h2>
+                        </div>}
                      />
                         <Menu 
                             selectedRoute={this.props.userStore.selectedRoute}
@@ -273,7 +272,7 @@ const Expenses = observer(({
                         </TableRowColumn>
                         <TableRowColumn>{expense.amount}</TableRowColumn>
                         <TableRowColumn>{expense.title}</TableRowColumn>
-                        <TableRowColumn>{expense.tags.map(tag=><span>,{tag},</span>)}</TableRowColumn>
+                        <TableRowColumn style={{flexDirection:'column',display:'flex',flexWrap:'wrap'}}>{expense.tags.map(tag=><Chip >{tag}</Chip>)}</TableRowColumn>
                     </TableRow>
                 ))
             }
@@ -392,7 +391,7 @@ const ImportExpenses = ({
                                 </TableRowColumn>
                                 <TableRowColumn>{expense.amount}</TableRowColumn>
                                 <TableRowColumn>{expense.file}</TableRowColumn>
-                                <TableRowColumn>{expense.tags.map((item,index)=>{return<span key={index}>,{item},</span>})}</TableRowColumn>
+                                <TableRowColumn>{expense.tags.map((item,index)=>{return<Chip key={index}>{item}</Chip>})}</TableRowColumn>
                                 <TableRowColumn><RaisedButton label={`import`} onClick={(event)=>this.props.onExpenseImport(expense)}  /></TableRowColumn>
                                 <TableRowColumn>
                                     <RaisedButton 
