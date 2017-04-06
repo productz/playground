@@ -140,7 +140,6 @@ const styles = {
                         newExpense={new Expense()}
                         totalExpenses={this.props.userStore.totalExpenses}
                         onNextPage={(event)=>{
-                            this.props.userStore.expensePage++;
                             this.props.userStore.getExpensesByPage();
                         }}
                     />
@@ -159,7 +158,6 @@ const styles = {
                         onExpenseImport = {(expense)=>this.props.userStore.saveImportedExpense(expense)}
                         onExpenseDelete={(expense)=>{console.log(expense);this.props.userStore.deleteImportedExpense(expense)}}
                         onNextPage={(event)=>{
-                            this.props.userStore.page++;
                             this.props.userStore.getImportedExpensesByPage();
                         }}
                     />
