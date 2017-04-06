@@ -122,6 +122,58 @@ const styles = {
 };
 
 @observer class App extends React.Component {
+    
+    renderHome() {
+        if (this.props.userStore.selectedRoute === 0) {
+            return <div>
+                    <Home  
+                        dailyBudgetEditable={this.props.userStore.dailyBudgetEditable}
+                        dailyBudget={this.props.userStore.dailyBudget} 
+                        onDailyBudgetChange={(event,newValue)=>this.props.userStore.dailyBudget=newValue}
+                        onEditChange={(event)=>this.props.userStore.dailyBudgetEditable = !this.props.userStore.dailyBudgetEditable}
+                    />
+                    <Expenses
+                        categoryList={this.props.userStore.categoryList}
+                        expenseList={this.props.userStore.expenseList}
+                        expenseEditable={this.props.userStore.expenseEditable}
+                        onExpenseOpen={(event)=>this.props.userStore.expenseEditable=true}
+                        onExpenseClose={(event)=>this.props.userStore.expenseEditable=false}
+                        newExpense={new Expense()}
+                        totalExpenses={this.props.userStore.totalExpenses}
+                        onNextPage={(event)=>{
+                            this.props.userStore.expensePage++;
+                            this.props.userStore.getExpensesByPage();
+                        }}
+                    />
+                    <ImportExpenses
+                        fileNames = {this.props.userStore.fileNames}
+                        onFileAccepted={((acceptedFiles)=>{
+                            this.props.userStore.filesAccepted.push(
+                                acceptedFiles[acceptedFiles.length - 1]
+                            );
+                            this.props.userStore.uploadCSV();
+                        })}
+                    />
+                    <FlexibleTable
+                        list={this.props.userStore.expenseImportedList}
+                        page={this.props.userStore.page}
+                        onExpenseImport = {(expense)=>this.props.userStore.saveImportedExpense(expense)}
+                        onExpenseDelete={(expense)=>{console.log(expense);this.props.userStore.deleteImportedExpense(expense)}}
+                        onNextPage={(event)=>{
+                            this.props.userStore.page++;
+                            this.props.userStore.getImportedExpensesByPage();
+                        }}
+                    />
+            </div>
+        }
+    }
+    
+    renderStats(){
+        if(this.props.userStore.selectedRoute === 1){
+            return <Stats />
+        }
+    }
+    
     render() {
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
@@ -138,44 +190,8 @@ const styles = {
                             selectedRoute={this.props.userStore.selectedRoute}
                             changeRoute={(index)=>this.props.userStore.selectedRoute = index}
                         />
-                        <Home  
-                            dailyBudgetEditable={this.props.userStore.dailyBudgetEditable}
-                            dailyBudget={this.props.userStore.dailyBudget} 
-                            onDailyBudgetChange={(event,newValue)=>this.props.userStore.dailyBudget=newValue}
-                            onEditChange={(event)=>this.props.userStore.dailyBudgetEditable = !this.props.userStore.dailyBudgetEditable}
-                        />
-                        <Expenses
-                            categoryList={this.props.userStore.categoryList}
-                            expenseList={this.props.userStore.expenseList}
-                            expenseEditable={this.props.userStore.expenseEditable}
-                            onExpenseOpen={(event)=>this.props.userStore.expenseEditable=true}
-                            onExpenseClose={(event)=>this.props.userStore.expenseEditable=false}
-                            newExpense={new Expense()}
-                            totalExpenses={this.props.userStore.totalExpenses}
-                            onNextPage={(event)=>{
-                                this.props.userStore.expensePage++;
-                                this.props.userStore.getExpensesByPage();
-                            }}
-                        />
-                        <ImportExpenses
-                            fileNames = {this.props.userStore.fileNames}
-                            onFileAccepted={((acceptedFiles)=>{
-                                this.props.userStore.filesAccepted.push(
-                                    acceptedFiles[acceptedFiles.length - 1]
-                                );
-                                this.props.userStore.uploadCSV();
-                            })}
-                        />
-                        <FlexibleTable
-                            list={this.props.userStore.expenseImportedList}
-                            page={this.props.userStore.page}
-                            onExpenseImport = {(expense)=>this.props.userStore.saveImportedExpense(expense)}
-                            onExpenseDelete={(expense)=>{console.log(expense);this.props.userStore.deleteImportedExpense(expense)}}
-                            onNextPage={(event)=>{
-                                this.props.userStore.page++;
-                                this.props.userStore.getImportedExpensesByPage();
-                            }}
-                        />
+                        {this.renderHome()}
+                        {this.renderStats()}
                         <DevTools />
                      <Footer/>
                 </div>
