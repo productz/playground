@@ -85,7 +85,7 @@ class App extends React.Component {
       this.setState({connected:true});
     })
     this.socket.on('chat',(msg)=>{
-      this.setState({text:msg});
+      this.setState({textReceived:msg});
     })
   }
 
@@ -119,7 +119,7 @@ class App extends React.Component {
           />
           <RaisedButton label="Submit" primary={true} onClick={this.chat} />
           <Paper zDepth={4}>
-            <p>{this.state.text}</p>
+            <p>{this.state.textReceived}</p>
           </Paper>
         </div>
       </div>
