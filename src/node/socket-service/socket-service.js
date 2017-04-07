@@ -15,12 +15,13 @@ export default function auth({
     var ioServer = io(server);
 
     apiRoutes.get('/', function(req, res) {
-        res.send('Hello! Hello service is working');
+        res.send('Hello! this is socket service');
     });
 
     ioServer.on('connection', function(socket){
-      socket.on('chat message', function(msg){
-        ioServer.emit('chat message', msg);
+      ioServer.emit('init',{message:"you have connected"});
+      socket.on('chat', function(msg){
+        ioServer.emit('chat', msg);
       });
     });
 
