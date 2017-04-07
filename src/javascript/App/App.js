@@ -20,12 +20,15 @@ import {
     CardText
 }
 from 'material-ui/Card';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
 import AppBar from 'material-ui/AppBar';
 import FontIcon from 'material-ui/FontIcon';
 import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import 'normalize.css';
 import data from '../data.json';
+import io from 'socket.io-client';
 
 injectTapEventPlugin();
 
@@ -57,40 +60,51 @@ const styles = {
 };
 
 class App extends React.Component {
+
+    constructor(props){
+      super(props);
+      this.state = {
+        text:""
+      }
+      this.handleTextChange = this.handleTextChange.bind(this);
+      this.chat = this.chat.bind(this);
+    }
+
+    chat(){
+      console.log("sending chat message:",this.state.text);
+    }
+
+    handleTextChange(event,newVal){
+      this.setState({text:newVal})
+    }
+
     render() {
         return (
             <MuiThemeProvider>
                 <div>
                     <AppBar
                     style={{textAlign:"center"}}
-                    title={<span style={styles.title}>Sam Alghanmi: Full Stack Developer</span>}
+                    title={<span style={styles.title}>Remote Keyboard</span>}
                 />
-                    <Menu
-                    changeRoute={this.changeRoute}
-                    >
-                    </Menu>
+
+                <TextField
+                  hintText="Enter your message"
+                  fullWidth={true}
+                  onChange={this.handleTextChange}
+                />
+                <RaisedButton label="Submit" primary={true} onClick={this.chat} />
+
                 </div>
             </MuiThemeProvider>
         );
     }
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            children: nextProps.children
-        });
+    componentWillReceiveProps() {
+
     }
-    changeRoute(tab) {
-        hashHistory.push(tab.props['data-route']);
-    }
+
 };
 
 ReactDOM.render(
-    <Router history={hashHistory}>
-        <Route path="/" component={App}>
-            <IndexRoute component={Home} />
-            <Route path="about" component={About} />
-            <Route path="portfolio" component={Portfolio} />
-            <Route path="contact" component={Contact} />
-        </Route>
-        </Router>,
+    <App />,
     document.getElementById('app')
 );
