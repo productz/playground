@@ -104,8 +104,8 @@ class App extends React.Component {
                     iconElementLeft={<span></span>}
                     style={{textAlign:"center"}}
                     title={
-                    <div style={styles.title}><h1 className="title">Pittsburgh Devs</h1>
-                    <h3 className="sub-title">A Slack community for Pitsburgh's developers, designers, makers, hackers and More</h3>
+                    <div style={styles.title}><h1 className="title">Arab Devs</h1>
+                    <h3 className="sub-title">Slack مجتمع المبرمجين العرب علئ</h3>
                     </div>
                     }
                      />
@@ -133,18 +133,18 @@ class App extends React.Component {
 
 const Home = () => (
     <section>
-        <div>We have a number of active channels: <span style={styles.channels}>#general, #jobs, #announcements, #introductions, #meetups, #javascript, #java, #ruby</span> and more.</div>
+        <div> <span style={styles.channels}>#general, #jobs, #announcements, #introductions, #meetups, #javascript, #java, #ruby</span> and more.</div>
         <div className="grid center top-1">
-            <RaisedButton  target="_blank" href="https://pgh-devs.herokuapp.com" label="Join The Community" secondary={true}/>
+            <RaisedButton  target="_blank" href="https://arabdevs.herokuapp.com" label="انظم الينا" secondary={true}/>
         </div>
     </section>
 );
 
 const Team = () => (
     <section>
-        <h2>Meet the Admin Team</h2>
+        <h2>فريق المشرفين</h2>
         <ul>
-        <li>Sam Alghanmi: Slack => <a href="pgh-devs.slack.com/team/sam.alghanmi" style={{color:deepPurple600}}>sam.alghanmi</a> || Twitter => <a href="https://twitter.com/itechdom">@itechdom</a></li>
+        <li><a href="arabdevs.slack.com/team/osama.alghanmi" style={{color:deepPurple600}}>اسامة الغانمي</a> || Twitter => <a href="https://twitter.com/itechdom">@itechdom</a></li>
         </ul>
     </section>
 );
