@@ -50,6 +50,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import RaisedButton from 'material-ui/RaisedButton';
 import 'normalize.css';
 import '../Style/main.scss';
+import appData from '../app-data.js';
 
 injectTapEventPlugin();
 
@@ -96,6 +97,13 @@ const styles = {
 };
 
 class App extends React.Component {
+    constructor(props){
+      super(props);
+      let {subTitle, about, contact} = appData();
+      this.about = about;
+      this.subTitle = subTitle;
+      this.contact = contact;
+    }
     render() {
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
@@ -105,18 +113,20 @@ class App extends React.Component {
                     style={{textAlign:"center"}}
                     title={
                     <div style={styles.title}><h1 className="title">Arab Devs</h1>
-                    <h3 className="sub-title">Slack مجتمع المبرمجين العرب علئ</h3>
+                    <h3 className="sub-title">{this.subTitle} Slack</h3>
                     </div>
                     }
                      />
                     <CardFrame
                     className="list center"
                     >
-                        <Home />
-                        <Conduct />
-                        <Team />
+                        <Home
+                          about={this.about}
+                         />
                      </CardFrame>
-                     <Footer/>
+                     <Footer
+                       contact={this.contact}
+                     />
                 </div>
             </MuiThemeProvider>
         );
@@ -131,9 +141,12 @@ class App extends React.Component {
     }
 };
 
-const Home = () => (
-    <section>
-        <div> <span style={styles.channels}>#general, #jobs, #announcements, #introductions, #meetups, #javascript, #java, #ruby</span> and more.</div>
+const Home = ({
+  about
+}) => (
+    <section style={{textAlign:'center'}} >
+        <h2>{about}</h2>
+        <div><span style={styles.channels}>#general, #jobs, #announcements, #introductions, #meetups, #javascript, #java, #ruby</span></div>
         <div className="grid center top-1">
             <RaisedButton  target="_blank" href="https://arabdevs.herokuapp.com" label="انظم الينا" secondary={true}/>
         </div>
@@ -166,9 +179,11 @@ const Conduct = () => (
     </section>
 );
 
-const Footer = () => (
+const Footer = ({
+  contact
+}) => (
     <footer style={{marginTop:'4em', padding:'2em',textAlign:'center',backgroundColor:grey300}}>
-        <p>Reach out to : pghdevs@gmail.com with any questions. This website was inspired by the beautiful Denver Devs Communtiy: <a href="https://denverdevs.org/">https://denverdevs.org.</a></p>
+        <p>{contact}</p>
     </footer>
 );
 
