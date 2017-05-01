@@ -10,10 +10,8 @@ class Deck{
 
   }
   //number: represents the number of shuffles we are going to perform each time
-  shuffle(number){
+  shuffle(number,startIndex,endIndex){
     for(let i=0;i<number;i++){
-      let startIndex = getRandom(1,52);
-      let endIndex = getRandom(startIndex,52);
       let removed = this.cardList.splice(startIndex,endIndex);
       this.cardList.unshift(removed);
     }
@@ -31,3 +29,9 @@ class Card{
     this.type = type;
   }
 }
+
+
+let myDeck = new Deck();
+let startIndex = getRandom(1,52);
+let endIndex = getRandom(startIndex,52);
+myDeck.shuffle(10,startIndex,endIndex);
