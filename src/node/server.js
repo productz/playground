@@ -1,6 +1,6 @@
 import getRandom from './utils.js';
 
-const SUIT = [
+const SUITS = [
   "Spades",
   "Hearts",
   "Diamonds",
@@ -27,26 +27,31 @@ class Deck{
 
   constructor(){
     this.cardList = [
-      ...this.generateDeck(SUIT[0],CARDS),
-      ...this.generateDeck(SUIT[1],CARDS),
-      ...this.generateDeck(SUIT[2],CARDS),
-      ...this.generateDeck(SUIT[3],CARDS),
+      ...this.generateDeck(SUITS[0],CARDS),
+      ...this.generateDeck(SUITS[1],CARDS),
+      ...this.generateDeck(SUITS[2],CARDS),
+      ...this.generateDeck(SUITS[3],CARDS),
     ];
   }
 
   generateDeck(suit,cards){
-    
+    return cards.map((card)=>{
+      return new Card(card,suit);
+    })
   }
 
   //number: represents the number of shuffles we are going to perform each time
-  shuffle(number,startIndex,endIndex){
+  shuffle(number){
     for(let i=0;i<number;i++){
+      let startIndex = getRandom(1,52);
+      let endIndex = getRandom(startIndex,52);
       let removed = this.cardList.splice(startIndex,endIndex);
-      this.cardList.unshift(removed);
+      this.cardList.unshift(...removed);
     }
   }
+  
   deal(){
-    return this.cardList[this.cardList.length - 1];
+    return this.cardList[0];
   }
 }
 
@@ -59,8 +64,13 @@ class Card{
   }
 }
 
-
+//=======================
+//==== MAIN
+//=======================
 let myDeck = new Deck();
-let startIndex = getRandom(1,52);
-let endIndex = getRandom(startIndex,52);
-myDeck.shuffle(10,startIndex,endIndex);
+//we are picking two random indexes to shuffle the deck
+myDeck.shuffle(1000);
+let dealtCard = myDeck.deal();
+console.log("Card List:",myDeck.cardList);
+console.log("Card List Length:",myDeck.cardList.length);
+console.log("Dealt Card:",dealtCard);
