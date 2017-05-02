@@ -1,4 +1,4 @@
-import getRandom from './utils.js';
+let getRandom = require('./utils.js');
 
 const SUITS = [
   "Spades",
@@ -49,15 +49,13 @@ class Deck{
       this.cardList.unshift(...removed);
     }
   }
-  
+
   deal(){
     return this.cardList[0];
   }
 }
 
 class Card{
-  name;
-  suit;
   constructor(name,suit){
     this.name = name;
     this.type = suit;
@@ -69,7 +67,7 @@ class Card{
 //=======================
 let myDeck = new Deck();
 //we are picking two random indexes to shuffle the deck
-myDeck.shuffle(1000);
+myDeck.shuffle(100);
 let dealtCard = myDeck.deal();
 console.log("Card List:",myDeck.cardList);
 console.log("Card List Length:",myDeck.cardList.length);
