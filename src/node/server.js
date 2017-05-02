@@ -1,14 +1,43 @@
 import getRandom from './utils.js';
 
-class Deck{
-  cardList = [
-    new Card("jack","spade"),
-    new Card("queen","hearts"),
-    new Card("1","spade")
-  ];
-  constructor(){
+const SUIT = [
+  "Spades",
+  "Hearts",
+  "Diamonds",
+  "Clubs"
+];
 
+const CARDS = [
+  "Ace",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "Jack",
+  "Queen",
+  "King"
+];
+
+class Deck{
+
+  constructor(){
+    this.cardList = [
+      ...this.generateDeck(SUIT[0],CARDS),
+      ...this.generateDeck(SUIT[1],CARDS),
+      ...this.generateDeck(SUIT[2],CARDS),
+      ...this.generateDeck(SUIT[3],CARDS),
+    ];
   }
+
+  generateDeck(suit,cards){
+    
+  }
+
   //number: represents the number of shuffles we are going to perform each time
   shuffle(number,startIndex,endIndex){
     for(let i=0;i<number;i++){
@@ -23,10 +52,10 @@ class Deck{
 
 class Card{
   name;
-  type;
-  constructor(name,type){
+  suit;
+  constructor(name,suit){
     this.name = name;
-    this.type = type;
+    this.type = suit;
   }
 }
 
