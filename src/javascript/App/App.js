@@ -25,6 +25,7 @@ import FontIcon from 'material-ui/FontIcon';
 import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import 'normalize.css';
+import AnimationExample from '../Animation';
 import data from '../data.json';
 
 injectTapEventPlugin();
@@ -102,6 +103,7 @@ const CardFrame = ({
 const Menu = ({
     changeRoute
 }) => (
+    
     <Tabs>
         <Tab
         icon={<FontIcon className="material-icons">home</FontIcon>}
@@ -137,9 +139,10 @@ const Footer = () => (
 
 const Home = () => (
     <article>
+            <AnimationExample />
             <h3>Welcome to my personal Site.</h3>
             <h3>My name is Sam Alghanmi. I am a full-stack developer. My main language is Javascript.</h3>
-        </article>
+    </article>
 );
 
 const cleanObject = (obj) => {
