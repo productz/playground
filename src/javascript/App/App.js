@@ -15,6 +15,8 @@ import {
     grey300,
     grey400,
     grey500,
+    grey800,
+    grey900,
     white,
     darkBlack,
     fullBlack,
@@ -74,8 +76,8 @@ const styles = {
 const muiTheme = getMuiTheme({
     fontFamily: 'Roboto,sans-serif',
     palette: {
-        primary1Color: deepPurple900,
-        primary2Color: deepPurple600,
+        primary1Color: grey800,
+        primary2Color: grey500,
         primary3Color: grey400,
         accent1Color: pinkA200,
         accent2Color: grey100,
@@ -93,7 +95,7 @@ const muiTheme = getMuiTheme({
         height: 'auto'
     },
     tabs: {
-        backgroundColor: deepPurple600
+        backgroundColor: grey900
     }
 });
 
