@@ -92,7 +92,8 @@ const muiTheme = getMuiTheme({
         shadowColor: fullBlack,
     },
     appBar: {
-        height: 'auto'
+        height: 'auto',
+        marginTop:'0px'
     },
     tabs: {
         backgroundColor: grey900
@@ -131,6 +132,24 @@ class App extends React.Component {
     changeRoute(tab) {
         hashHistory.push(tab.props['data-route']);
     }
+};
+
+const Testimony = () => {
+    let testimonyList = data.ideas.Testimonies.ideas;
+    console.log(testimonyList);
+    return <div className="grid center">
+        {
+            cleanObject(testimonyList).map((testimony)=>{
+                let person = testimony.title.split("-")[0]; 
+                let quote = testimony.title.split("-")[1];
+                return <div style={{textAlign:"center"}} className="grid-item small">
+                        <img style={styles.personalImg} src={pic} />
+                        <h2>{person}</h2>
+                        <h3>{quote}</h3>
+                </div>
+            })
+        }
+    </div>
 };
 
 const CardFrame = ({
@@ -186,6 +205,7 @@ const Footer = () => (
 const Home = () => (
     <section>
             <p>Hi, I am Sam Alghanmi. I am a full-stack developer. My main language is Javascript.</p>
+            {Testimony()}
     </section>
 );
 

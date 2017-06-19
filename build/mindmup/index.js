@@ -11,7 +11,7 @@ fs.readFile('./data/mindmup/Self.site.json', (err, data) => {
   
   let marky = toMarkdown(blog);
   
-  fs.writeFile('./src/javascript/data-blog.json',JSON.stringify(blog.ideas["1"].ideas["Concepts"]));
+  fs.writeFile('./src/javascript/data.json',JSON.stringify(blog.ideas["1"].ideas["Concepts"]));
   fs.writeFile('./src/javascript/data.md',marky);
 });
 
