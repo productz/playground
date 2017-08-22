@@ -7,6 +7,7 @@ var bodyParser  = require('body-parser');
 // ---------------------------------------------------------
 // get an instance of the router for api routes
 // ---------------------------------------------------------
+
 var apiRoutes = express.Router();
 
 export default function auth({
