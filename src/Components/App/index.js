@@ -4,8 +4,9 @@ import { connect } from 'react-redux'
 import "./App.css";
 
 const mapStateToProps = state => {
+  console.log(state);
   return {
-    artists: state.artists
+    artists: state
   }
 }
 
