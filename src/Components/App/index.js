@@ -3,6 +3,8 @@ import logo from "./logo.svg";
 import { connect } from "react-redux";
 import { FETCH_DATA } from "../../types";
 import "./App.css";
+import { Grid, Col, Row } from "react-styled-flexboxgrid";
+import { IMAGE_API } from "../../constants";
 
 const mapStateToProps = state => {
   return {
@@ -24,15 +26,23 @@ class App extends Component {
     this.props.fetchData();
   }
   render() {
+    let { artists } = this.props;
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Dillon Sample Project (by Sam Alghanmi)</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Grid>
+          <Row>
+            {artists.map(artist => (
+              <Col xs={6} md={3}>
+                <img src={IMAGE_API(artist.artKey)} />
+                <h1>{artist.title}</h1>
+                <h2>{artist.artistName}</h2>
+              </Col>
+            ))}
+          </Row>
+        </Grid>
       </div>
     );
   }
