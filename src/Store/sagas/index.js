@@ -35,8 +35,7 @@ function* fetchData() {
 
 export function* init() {
   yield console.log("hello init!");
-  yield call(fetchData);
-  // yield takeLatest(FETCH_DATA, fetchData);
+  yield takeLatest(FETCH_DATA, fetchData);
 }
 
 export function* sagas() {

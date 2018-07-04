@@ -1,8 +1,27 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
+import { connect } from 'react-redux'
 import "./App.css";
 
+const mapStateToProps = state => {
+  return {
+    artists: state.artists
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchData: () =>
+      dispatch({
+        type: 'FETCH_DATA'
+      })
+  }
+}
+
 class App extends Component {
+  componentDidMount(){
+    this.props.fetchData();
+  }
   render() {
     return (
       <div className="App">
@@ -18,4 +37,7 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
