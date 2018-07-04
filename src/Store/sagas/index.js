@@ -2,7 +2,7 @@
 // we can properly run our sagas. This init blocks execution of any forks after, giving us a
 // place to run whatever checks we need before proceeding.
 import { FETCH_DATA } from "../../types";
-import { call, takeLatest } from "redux-saga/effects";
+import { call, take, takeEvery, all } from "redux-saga/effects";
 import axios from "axios";
 import { API, DEFAULT_HEADERS } from "../../constants";
 
@@ -14,7 +14,6 @@ function* getArtists() {
   // axios.default.headers.common["ws-api"] = 2.1;
   const instance = axios.create({
     baseURL: API,
-    timeout: 1000,
     headers: { "ws-api": 2.1 }
   });
   return instance.get();
@@ -33,11 +32,13 @@ function* fetchData() {
   }
 }
 
-export function* init() {
+export function* home() {
   yield console.log("hello init!");
-  yield takeLatest(FETCH_DATA, fetchData);
+  yield takeEvery(FETCH_DATA, fetchData);
 }
 
+// notice how we now only export the rootSaga
+// single entry point to start all Sagas at once
 export function* sagas() {
-  yield call(init);
+  yield all([home()]);
 }

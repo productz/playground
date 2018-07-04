@@ -21,5 +21,4 @@ export const store = createStore(
   composeEnhancers(composeMiddlewares)
 )
 
-// Boot up saga middleware and our route syncing.
 sagasMiddleware.run(sagas)

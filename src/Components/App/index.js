@@ -1,26 +1,26 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
+import { FETCH_DATA } from "../../types";
 import "./App.css";
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     artists: state
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
     fetchData: () =>
       dispatch({
-        type: 'FETCH_DATA'
+        type: FETCH_DATA
       })
-  }
-}
+  };
+};
 
 class App extends Component {
-  componentDidMount(){
+  componentDidMount() {
     this.props.fetchData();
   }
   render() {
