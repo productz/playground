@@ -1,4 +1,4 @@
-import { FETCH_DATA } from "../../types";
+import { FETCH_DATA, SET_DATA } from "../../types";
 
 // Reset the store by passing undefined as the state.
 export const reducers = (state, action) => {
@@ -6,6 +6,9 @@ export const reducers = (state, action) => {
     return [];
   }
   if (action.type === FETCH_DATA) {
-    return state => state;
+    return state;
+  }
+  if (action.type === SET_DATA) {
+    return [...action.payload];
   }
 };
