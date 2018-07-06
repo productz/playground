@@ -30,7 +30,7 @@ let CardImage = styled.img`
   height: 215px;
 `;
 
-const ArtCard = ({ artistName, artTitle, artKey }) => {
+const ArtCard = ({ id, artistName, artTitle, artKey }) => {
   return (
     <Card>
       <CardImage src={IMAGE_API(artKey)} />

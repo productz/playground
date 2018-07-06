@@ -5,10 +5,12 @@ import { Grid, Col, Row } from "react-styled-flexboxgrid";
 import ArtCard from "../ArtCard";
 import { ThemeProvider } from "styled-components";
 import { theme } from "../../theme";
+import styled from "styled-components";
 
 const mapStateToProps = state => {
   return {
-    artList: state
+    artList: state.art,
+    error: state.errors
   };
 };
 
@@ -21,12 +23,16 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
+let Error = styled.p`
+  color: ${theme.colors.error};
+`;
+
 class App extends Component {
   componentDidMount() {
     this.props.fetchData();
   }
   render() {
-    let { artList } = this.props;
+    let { artList, error } = this.props;
     return (
       <ThemeProvider theme={theme}>
         <div className="App">
@@ -35,11 +41,13 @@ class App extends Component {
               Dillon Sample Project (by Sam Alghanmi)
             </h1>
           </header>
+          <Error>{error.message}</Error>
           <Grid>
             <Row>
               {artList.map(art => (
-                <Col xs={6} md={3}>
+                <Col key={art.titleId} xs={6} md={3}>
                   <ArtCard
+                    id={art.titleId}
                     artistName={art.artistName}
                     artTitle={art.title}
                     artKey={art.artKey}

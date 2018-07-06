@@ -7,22 +7,9 @@ const colors = {
   contrast: "#dee5e5"
 };
 
-const margins = {
-  bottom: "1.5rem"
-};
-
-const paddings = {
-  quarter: "0.25rem",
-  half: "0.5rem",
-  base: "1rem",
-  double: "2rem"
-};
-
 // Reusable definitions for colors, spacings, etc.
 export const theme = {
-  colors,
-  margins,
-  paddings
+  colors
 };
 
 // Inject some global styles that are most likely to be coupled to theme variables.
