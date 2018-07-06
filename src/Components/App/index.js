@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FETCH_DATA } from "../../types";
-import "./App.css";
 import { Grid, Col, Row } from "react-styled-flexboxgrid";
+import ArtCard from "../ArtCard";
 import { ThemeProvider } from "styled-components";
 import { theme } from "../../theme";
-import { IMAGE_API } from "../../constants";
 
 const mapStateToProps = state => {
   return {
-    artists: state
+    artList: state
   };
 };
 
@@ -27,7 +26,7 @@ class App extends Component {
     this.props.fetchData();
   }
   render() {
-    let { artists } = this.props;
+    let { artList } = this.props;
     return (
       <ThemeProvider theme={theme}>
         <div className="App">
@@ -38,17 +37,13 @@ class App extends Component {
           </header>
           <Grid>
             <Row>
-              {artists.map(artist => (
+              {artList.map(art => (
                 <Col xs={6} md={3}>
-                  <div className="card">
-                    <div className="card__image__container">
-                      <img src={IMAGE_API(artist.artKey)} />
-                    </div>
-                    <div className="card__description">
-                      <p className="card__title">{artist.title}</p>
-                      <p className="card__artist"><i>{artist.artistName}</i></p>
-                    </div>
-                  </div>
+                  <ArtCard
+                    artistName={art.artistName}
+                    artTitle={art.title}
+                    artKey={art.artKey}
+                  />
                 </Col>
               ))}
             </Row>

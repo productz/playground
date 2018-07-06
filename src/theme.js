@@ -32,33 +32,21 @@ injectGlobal`
     font-weight: normal;
     font-family: sans-serif;
     background-color: ${colors.contrast};
+    background: #00c9ff; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #00c9ff, #92fe9d); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #00c9ff, #92fe9d); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   }
-  .card{
-    border-radius: 5px;
-    background: #FFFFFF;
-    margin: 10px;
-    padding:0px;
-    height:auto;
-    -webkit-box-shadow: 0px 3px 5px -2px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 3px 5px -2px rgba(0,0,0,0.75);
-    box-shadow: 0px 3px 5px -2px rgba(0,0,0,0.75);
+  .App {
+    text-align: center;
   }
-  .card img{
-    margin-top:20px;
-    width:150px;
-    height:215px;
+  .App-header {
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 50px;
+    padding: 20px;
+    color: white;
   }
-  .card__description{
-    min-height:70px;
-  }
-  .card__title{
-    margin-bottom:0px;
-    font-size:16px;
-  }
-  .card__artist{
-    margin-bottom:0px;
-    margin-top:5px;
-    font-size:12px;
+  .App-title {
+   font-size: 1.5em;
   }
 `;
 

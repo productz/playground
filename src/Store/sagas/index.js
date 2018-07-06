@@ -14,7 +14,7 @@ function getArtists() {
   // axios.default.headers.common["ws-api"] = 2.1;
   const instance = axios.create({
     baseURL: API,
-    headers: { "ws-api": 2.1 }
+    headers: { ...DEFAULT_HEADERS }
   });
   return instance.get();
 }
