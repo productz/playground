@@ -1,5 +1,5 @@
 import React from "react";
-import { IMAGE_API } from "../../constants";
+import { IMAGE_API } from "../../utils";
 import styled from "styled-components";
 
 let Card = styled.div`
@@ -14,7 +14,8 @@ let Card = styled.div`
 `;
 let CardTitle = styled.p`
   margin-bottom: 0px;
-  font-size: 16px;
+  font-size: 14px;
+  font-weight:bold;
 `;
 let CardDescription = styled.div`
   min-height: 70px;
