@@ -68,7 +68,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       text: "",
-      textReceived: "",
+      textReceived: [],
       connected: false
     }
     this.handleTextChange = this.handleTextChange.bind(this);
@@ -76,7 +76,7 @@ class App extends React.Component {
     this.handleKeyPress = this.handleKeyPress.bind(this);
 
     //register socket connection
-    this.socket = io("http://localhost:3000");
+    this.socket = io("http://127.0.0.1:3000");
   }
 
   componentDidMount() {
@@ -86,19 +86,20 @@ class App extends React.Component {
       this.setState({ connected: true });
     })
     this.socket.on('chat', (msg) => {
-      this.setState({ textReceived: msg });
+      this.setState({ textReceived: [...this.state.textReceived, msg] });
     })
   }
 
   handleKeyPress(e) {
     if (e.key === 'Enter') {
-      this.socket.emit('chat', this.state.text)
+      this.chat();
     }
   }
 
 
   chat() {
     this.socket.emit('chat', this.state.text)
+    this.setState({ text: "" })
   }
 
   handleTextChange(event, newVal) {
@@ -111,7 +112,7 @@ class App extends React.Component {
         <div>
           <AppBar
             style={{ textAlign: "center" }}
-            title={<span style={styles.title}>Remote Keyboard</span>}
+            title={<span style={styles.title}>Thoughtful</span>}
           />
           <FontIcon
             className="material-icons"
@@ -125,11 +126,15 @@ class App extends React.Component {
               fullWidth={true}
               onChange={this.handleTextChange}
               onKeyPress={this.handleKeyPress}
+              value={this.state.text}
             />
             <RaisedButton label="Submit" primary={true} onClick={this.chat} />
-            <Paper zDepth={4}>
-              <p>{this.state.textReceived}</p>
-            </Paper>
+            {this.state.textReceived.map(text =>
+              <Paper zDepth={4}>
+                <p>{text}</p>
+              </Paper>
+            )}
+
           </div>
         </div>
       </MuiThemeProvider>
