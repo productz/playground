@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node_modules/.bin/webpack-dev-server",
     "start:cloud9": "node_modules/.bin/webpack-dev-server --port $PORT --host $IP",
+    "start:cloud9:ec2": "node_modules/.bin/webpack-dev-server --port $PORT --host ec2-52-27-87-145.us-west-2.compute.amazonaws.com",
     "start:node": "node ./src/node/index.js",
     "start:mongo": "./scripts/run-mongo.sh",
     "start:node:dev": "nodemon ./src/node"
@@ -31,6 +32,7 @@
     "material-ui": "^0.16.7",
     "mongoose": "^4.8.1",
     "morgan": "^1.8.0",
+    "normalize.css": "^6.0.0",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
     "passport-google-oauth20": "^1.0.0",
