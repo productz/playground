@@ -30,8 +30,8 @@ const helloApi = helloService({app,User});
 import dbService from './db-service/db-service.js'
 const dbApi = dbService({app});
 
-import passportService from './passport-service/passport-service.js'
-const passportApi = passportService({app,User,config});
+// import passportService from './passport-service/passport-service.js'
+// const passportApi = passportService({app,User,config});
 
 import socketService from './socket-service/socket-service.js'
 const socketApi = socketService({app});
