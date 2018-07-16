@@ -32,7 +32,6 @@ import data from '../data.json';
 import io from 'socket.io-client';
 import { blue500, red500, greenA200 } from 'material-ui/styles/colors';
 
-
 injectTapEventPlugin();
 
 const styles = {
