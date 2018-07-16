@@ -8,7 +8,9 @@ const express = require('express');
 var apiRoutes = express.Router();
 
 export default function auth({
-    app
+    app,
+    ip,
+    port
 }) {
 
     var server = http.Server(app);
@@ -20,12 +22,14 @@ export default function auth({
 
     ioServer.on('connection', function(socket){
       ioServer.emit('init',{message:"you have connected"});
+      console.log(socket);
+      console.log("message");
       socket.on('chat', function(msg){
         ioServer.emit('chat', msg);
       });
     });
 
-    server.listen(3000);
+    server.listen(port);
 
     return apiRoutes;
 }
