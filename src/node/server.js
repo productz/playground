@@ -58,4 +58,4 @@ app.use('/socket-io',socketApi);
 // start the server ================================================
 // =================================================================
 app.listen(port,ip);
-console.log('Magic happens at http://localhost:' + port);
+console.log(`Magin happens at ${ip}:${port}`);
