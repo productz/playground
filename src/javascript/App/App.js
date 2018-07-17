@@ -75,7 +75,7 @@ class App extends React.Component {
     this.handleKeyPress = this.handleKeyPress.bind(this);
 
     //register socket connection
-    this.socket = io("http://ec2-52-27-87-145.us-west-2.compute.amazonaws.com");
+    this.socket = io("127.0.0.1:8082");
   }
 
   componentDidMount() {
@@ -146,6 +146,6 @@ class App extends React.Component {
 };
 
 ReactDOM.render(
-  <App />,
+  <App name="hello" />,
   document.getElementById('app')
 );
