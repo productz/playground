@@ -58,13 +58,14 @@ export function listLanguages() {
   const translate = new Translate();
 
   // Lists available translation language with their names in English (the default).
-  translate
+  return translate
     .getLanguages()
     .then(results => {
       const languages = results[0];
 
       console.log("Languages:");
       languages.forEach(language => console.log(language));
+      return languages;
     })
     .catch(err => {
       console.error("ERROR:", err);

@@ -6,7 +6,7 @@ const Translate = require("@google-cloud/translate");
 // Your Google Cloud Platform project ID
 const projectId = "thoughtful-210601";
 
-import { detectLanguage, translateText } from "./utils";
+import { detectLanguage, translateText, listLanguages } from "./utils";
 
 // Instantiates a client
 const translate = new Translate({
@@ -91,6 +91,19 @@ export default function({ app, User, config }) {
       } else {
         return res.send(err);
       }
+    });
+  });
+
+  apiRoutes.get("/languages", (req, res) => {
+    listLanguages().then(languages => {
+      res.send(languages);
+    });
+  });
+
+  apiRoutes.post("/languages/detect", (req, res) => {
+    let text = req.body.text;
+    detectLanguage(text).then(detections => {
+      res.send(detections);
     });
   });
 

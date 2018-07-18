@@ -42,6 +42,16 @@ const socketApi = socketService({ app, ip: ip, port: port + 1 });
 // use body parser so we can get info from POST and/or URL parameters
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+//CORS
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 // use morgan to log requests to the console
 app.use(morgan("dev"));
