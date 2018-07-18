@@ -6,6 +6,8 @@ const Translate = require("@google-cloud/translate");
 // Your Google Cloud Platform project ID
 const projectId = "thoughtful-210601";
 
+import { detectLanguage, translateText } from "./utils";
+
 // Instantiates a client
 const translate = new Translate({
   projectId: projectId
@@ -29,28 +31,28 @@ export default function({ app, User, config }) {
     auth: oauth2Client
   });
 
-//   // // route middleware to verify a token
-//   apiRoutes.use(function(req, res, next) {
-//     // check header or url parameters or post parameters for token
-//     var token =
-//       req.body.token || req.query.token || req.headers["x-access-token"];
-//     // decode token
-//     if (token || req.method === "OPTIONS" || req.url.indexOf("/auth") !== -1) {
-//       // Retrieve tokens via token exchange explained above or set them:
-//       oauth2Client.setCredentials({
-//         access_token: token,
-//         refresh_token: req.body.refresh_token
-//       });
-//       next();
-//     } else {
-//       // if there is no token
-//       // return an error
-//       return res.status(403).send({
-//         success: false,
-//         message: "No token provided."
-//       });
-//     }
-//   });
+  //   // // route middleware to verify a token
+  //   apiRoutes.use(function(req, res, next) {
+  //     // check header or url parameters or post parameters for token
+  //     var token =
+  //       req.body.token || req.query.token || req.headers["x-access-token"];
+  //     // decode token
+  //     if (token || req.method === "OPTIONS" || req.url.indexOf("/auth") !== -1) {
+  //       // Retrieve tokens via token exchange explained above or set them:
+  //       oauth2Client.setCredentials({
+  //         access_token: token,
+  //         refresh_token: req.body.refresh_token
+  //       });
+  //       next();
+  //     } else {
+  //       // if there is no token
+  //       // return an error
+  //       return res.status(403).send({
+  //         success: false,
+  //         message: "No token provided."
+  //       });
+  //     }
+  //   });
 
   apiRoutes.get("/", function(req, res) {
     res.send("Hello! Passport service is working");
@@ -92,24 +94,14 @@ export default function({ app, User, config }) {
     });
   });
 
-  apiRoutes.get("/translate", (req, res) => {
+  apiRoutes.post("/translate", (req, res) => {
     // The text to translate
-    const text = "Hello, world!";
+    const text = req.body.text;
+    const target = req.body.target || "ar";
+    translateText(text, target).then(translations => {
+      res.send(translations);
+    });
     // The target language
-    const target = "ru";
-
-    // Translates some text into Russian
-    translate
-      .translate(text, target)
-      .then(results => {
-        const translation = results[0];
-
-        console.log(`Text: ${text}`);
-        console.log(`Translation: ${translation}`);
-      })
-      .catch(err => {
-        console.error("ERROR:", err);
-      });
   });
 
   return apiRoutes;
