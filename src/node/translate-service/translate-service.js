@@ -29,28 +29,28 @@ export default function({ app, User, config }) {
     auth: oauth2Client
   });
 
-  // // route middleware to verify a token
-  apiRoutes.use(function(req, res, next) {
-    // check header or url parameters or post parameters for token
-    var token =
-      req.body.token || req.query.token || req.headers["x-access-token"];
-    // decode token
-    if (token || req.method === "OPTIONS" || req.url.indexOf("/auth") !== -1) {
-      // Retrieve tokens via token exchange explained above or set them:
-      oauth2Client.setCredentials({
-        access_token: token,
-        refresh_token: req.body.refresh_token
-      });
-      next();
-    } else {
-      // if there is no token
-      // return an error
-      return res.status(403).send({
-        success: false,
-        message: "No token provided."
-      });
-    }
-  });
+//   // // route middleware to verify a token
+//   apiRoutes.use(function(req, res, next) {
+//     // check header or url parameters or post parameters for token
+//     var token =
+//       req.body.token || req.query.token || req.headers["x-access-token"];
+//     // decode token
+//     if (token || req.method === "OPTIONS" || req.url.indexOf("/auth") !== -1) {
+//       // Retrieve tokens via token exchange explained above or set them:
+//       oauth2Client.setCredentials({
+//         access_token: token,
+//         refresh_token: req.body.refresh_token
+//       });
+//       next();
+//     } else {
+//       // if there is no token
+//       // return an error
+//       return res.status(403).send({
+//         success: false,
+//         message: "No token provided."
+//       });
+//     }
+//   });
 
   apiRoutes.get("/", function(req, res) {
     res.send("Hello! Passport service is working");
@@ -92,7 +92,7 @@ export default function({ app, User, config }) {
     });
   });
 
-  apiRoutes.post("/translate", (req, res) => {
+  apiRoutes.get("/translate", (req, res) => {
     // The text to translate
     const text = "Hello, world!";
     // The target language
