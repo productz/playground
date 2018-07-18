@@ -22,8 +22,6 @@ export default function auth({
 
     ioServer.on('connection', function(socket){
       ioServer.emit('init',{message:"you have connected"});
-      console.log(socket);
-      console.log("message");
       socket.on('chat', function(msg){
         ioServer.emit('chat', msg);
       });
