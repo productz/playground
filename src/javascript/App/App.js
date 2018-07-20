@@ -76,6 +76,8 @@ class App extends React.Component {
     });
     this.socket.on("chat", msg => {
       this.setState({ textReceived: [...this.state.textReceived, msg] });
+      var objDiv = document.getElementById("scrollable");
+      objDiv.scrollTop = objDiv.scrollHeight;
     });
   }
 
@@ -143,30 +145,35 @@ class App extends React.Component {
             value={this.state.text}
           />
           <RaisedButton label="Submit" primary={true} onClick={this.chat} />
-          {this.state.textReceived.map(msg => (
-            <Paper style={{ padding: "10px", marginTop: "10px" }} zDepth={1}>
-              <p>
-                <FontIcon
-                  style={{ marginRight: "0.1em" }}
-                  className="material-icons"
-                >
-                  person_pin
-                </FontIcon>
-                <b>{msg.username}</b>
-              </p>
-              <p>{msg.text}</p>
-              {Object.keys(msg.translations).map(lang => {
-                if (this.state.language !== lang) {
-                  return (
-                    <p style={{ textAlign: "right" }}>
-                      {msg.translations[lang]}
-                    </p>
-                  );
-                }
-                return;
-              })}
-            </Paper>
-          ))}
+          <div
+            id="scrollable"
+            style={{ overflowY: "scroll", maxHeight: "500px" }}
+          >
+            {this.state.textReceived.map(msg => (
+              <Paper style={{ padding: "0.5em", marginTop: "10px" }} zDepth={1}>
+                <p>
+                  <FontIcon
+                    style={{ marginRight: "0.1em" }}
+                    className="material-icons"
+                  >
+                    person_pin
+                  </FontIcon>
+                  <b>{msg.username}</b>
+                </p>
+                <p>{msg.text}</p>
+                {Object.keys(msg.translations)
+                  .sort(lang => (lang === this.state.language ? -1 : 1))
+                  .map(lang => {
+                    return (
+                      <p style={{ textAlign: "right" }}>
+                        {msg.translations[lang]}
+                      </p>
+                    );
+                    return;
+                  })}
+              </Paper>
+            ))}
+          </div>
         </div>
       </MuiThemeProvider>
     );
