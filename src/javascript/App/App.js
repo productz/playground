@@ -4,21 +4,19 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { Router, Route, IndexRoute, Link, hashHistory } from "react-router";
 import { Tabs, Tab } from "material-ui/Tabs";
 import { Card, CardHeader, CardText } from "material-ui/Card";
+import AutoComplete from "material-ui/AutoComplete";
 import Paper from "material-ui/Paper";
 import TextField from "material-ui/TextField";
 import RaisedButton from "material-ui/RaisedButton";
 import AppBar from "material-ui/AppBar";
 import FontIcon from "material-ui/FontIcon";
 import MapsPersonPin from "material-ui/svg-icons/maps/person-pin";
-import injectTapEventPlugin from "react-tap-event-plugin";
 import "normalize.css";
 import data from "../data.json";
 import io from "socket.io-client";
 import axios from "axios";
 import { blue500, red500, greenA200 } from "material-ui/styles/colors";
-import { Flex, Box } from "grid-styled";
-
-injectTapEventPlugin();
+import { languages } from "../languages";
 
 const styles = {
   title: {
@@ -56,11 +54,15 @@ class App extends React.Component {
     this.state = {
       text: "",
       textReceived: [],
-      connected: false
+      connected: false,
+      languages: languages.map(lang => lang.name),
+      selectedLanguage: "",
+      username: ""
     };
     this.handleTextChange = this.handleTextChange.bind(this);
     this.chat = this.chat.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleLanguageUpdate = this.handleLanguageUpdate.bind(this);
 
     //register socket connection
     this.socket = io("127.0.0.1:8082");
@@ -92,10 +94,19 @@ class App extends React.Component {
     this.setState({ text: newVal });
   }
 
+  handleLanguageUpdate(language) {
+    let res = languages.find(
+      l => language.toLowerCase() === l.name.toLowerCase()
+    );
+    if (res) {
+      this.setState({ selectedLanguage: res.code });
+    }
+  }
+
   render() {
     return (
       <MuiThemeProvider>
-        <div>
+        <div style={{ padding: "10px", margin: "10px" }}>
           <AppBar
             style={{ textAlign: "center" }}
             title={<span style={styles.title}>Thoughtful</span>}
@@ -106,25 +117,37 @@ class App extends React.Component {
           >
             cast_connected
           </FontIcon>
-          <Flex>
-            <Box width={1 / 2} px={2}>
-              <TextField
-                hintText="Enter your message"
-                fullWidth={true}
-                onChange={this.handleTextChange}
-                onKeyPress={this.handleKeyPress}
-                value={this.state.text}
-              />
-            </Box>
-            <Box width={1 / 2} px={2}>
-              <RaisedButton label="Submit" primary={true} onClick={this.chat} />
-              {this.state.textReceived.map(text => (
-                <Paper zDepth={4}>
-                  <p>{text}</p>
-                </Paper>
-              ))}
-            </Box>
-          </Flex>
+          <TextField
+            hintText="Enter your Username"
+            fullWidth={true}
+            onChange={(event, text) => {
+              this.setState({ username: text });
+            }}
+            onKeyPress={this.handleKeyPress}
+            value={this.state.username}
+          />
+          <AutoComplete
+            hintText="Pick a language"
+            dataSource={this.state.languages}
+            searchText={this.state.selectedLanguage}
+            onUpdateInput={this.handleLanguageUpdate}
+          />
+          <TextField
+            hintText="Enter your message"
+            fullWidth={true}
+            onChange={this.handleTextChange}
+            onKeyPress={this.handleKeyPress}
+            value={this.state.text}
+          />
+          <RaisedButton label="Submit" primary={true} onClick={this.chat} />
+          {this.state.textReceived.map(text => (
+            <Paper style={{ padding: "10px", marginTop: "10px" }} zDepth={1}>
+              <p>
+                <FontIcon style={{marginRight:"0.5em"}} className="material-icons">person_pin</FontIcon>
+                {text}
+              </p>
+            </Paper>
+          ))}
         </div>
       </MuiThemeProvider>
     );
