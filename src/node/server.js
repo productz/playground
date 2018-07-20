@@ -48,7 +48,7 @@ const socketApi = socketService({
       console.log(eventData);
       //save to DB here
       let { username, text, translations } = eventData;
-      fs.writeFile(__dirname + "/log.txt", JSON.stringify(eventData));
+      fs.appendFile(__dirname + "/log.txt", "\rn" + JSON.stringify(eventData));
     }
   }
 });

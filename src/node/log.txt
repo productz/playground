@@ -1,1 +1,1 @@
-{"text":"test","username":"Sam","language":"ar","translations":{"ar":"test","fa":"تست","en":"test"}}
+n{"text":"hello","username":"Sam","language":"ar","translations":{"ar":"hello","fa":"سلام","en":"hello"}}n{"text":"hi","username":"Sam","language":"ar","translations":{"ar":"hi","fa":"سلام","en":"hi"}}n{"text":"howdy","username":"Sam","language":"ar","translations":{"ar":"howdy","fa":"چطوری","en":"howdy"}}n{"text":"peace be with you","username":"Sam","language":"ar","translations":{"ar":"peace be with you","fa":"صلح با تو","en":"peace be with you"}}
