@@ -56,7 +56,7 @@ class App extends React.Component {
       textReceived: [],
       connected: false,
       languages: languages.map(lang => lang.name),
-      selectedLanguage: "",
+      language: "",
       username: ""
     };
     this.handleTextChange = this.handleTextChange.bind(this);
@@ -86,7 +86,8 @@ class App extends React.Component {
   }
 
   chat() {
-    this.socket.emit("chat", this.state.text);
+    let { text, username, language } = this.state;
+    this.socket.emit("chat", { text, username, language });
     this.setState({ text: "" });
   }
 
@@ -99,7 +100,9 @@ class App extends React.Component {
       l => language.toLowerCase() === l.name.toLowerCase()
     );
     if (res) {
-      this.setState({ selectedLanguage: res.code });
+      this.setState({ language: res.code });
+    } else {
+      this.setState({ language });
     }
   }
 
@@ -140,11 +143,16 @@ class App extends React.Component {
             value={this.state.text}
           />
           <RaisedButton label="Submit" primary={true} onClick={this.chat} />
-          {this.state.textReceived.map(text => (
+          {this.state.textReceived.map(msg => (
             <Paper style={{ padding: "10px", marginTop: "10px" }} zDepth={1}>
               <p>
-                <FontIcon style={{marginRight:"0.5em"}} className="material-icons">person_pin</FontIcon>
-                {text}
+                <FontIcon
+                  style={{ marginRight: "0.5em" }}
+                  className="material-icons"
+                >
+                  person_pin
+                </FontIcon>
+                {msg.text}
               </p>
             </Paper>
           ))}

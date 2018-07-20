@@ -110,7 +110,7 @@ export default function({ app, User, config }) {
   apiRoutes.post("/translate", (req, res) => {
     // The text to translate
     const text = req.body.text;
-    const target = req.body.target || "ar";
+    const target = req.body.target;
     translateText(text, target).then(translations => {
       res.send(translations);
     });
