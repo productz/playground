@@ -147,13 +147,24 @@ class App extends React.Component {
             <Paper style={{ padding: "10px", marginTop: "10px" }} zDepth={1}>
               <p>
                 <FontIcon
-                  style={{ marginRight: "0.5em" }}
+                  style={{ marginRight: "0.1em" }}
                   className="material-icons"
                 >
                   person_pin
                 </FontIcon>
-                {msg.text}
+                <b>{msg.username}</b>
               </p>
+              <p>{msg.text}</p>
+              {Object.keys(msg.translations).map(lang => {
+                if (this.state.language !== lang) {
+                  return (
+                    <p style={{ textAlign: "right" }}>
+                      {msg.translations[lang]}
+                    </p>
+                  );
+                }
+                return;
+              })}
             </Paper>
           ))}
         </div>
