@@ -5,8 +5,9 @@ var Schema = mongoose.Schema;
 module.exports = mongoose.model(
   "ChatLog",
   new Schema({
-    data: String,
-    name: String,
+    username: String,
+    translations: Object,
+    text: String,
     date: Date
   })
 );

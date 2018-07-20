@@ -21,6 +21,7 @@ export default function auth({ app, ip, port, onEvent }) {
     ioServer.emit("init", { message: "you have connected" });
     socket.on("chat", function(msg) {
       let { text, username, language } = msg;
+      msg.translations = {};
       let otherLangs = [];
       otherLangs = languages.filter(lang => lang !== language);
       //translate to the target of the other languages
@@ -35,10 +36,10 @@ export default function auth({ app, ip, port, onEvent }) {
           });
       });
       Promise.all(translationPromises).then(translations => {
-        translations.map(tran=>{
-          msg[tran.from] = text
-          msg[tran.to] = tran.text
-        })
+        translations.map(tran => {
+          msg.translations[tran.from] = text;
+          msg.translations[tran.to] = tran.text;
+        });
         ioServer.emit("chat", msg);
         let eventName = "chat";
         let eventData = msg;

@@ -7,13 +7,14 @@ var bodyParser = require("body-parser");
 var morgan = require("morgan");
 var mongoose = require("mongoose");
 var config = require("config"); // get our config file
+var fs = require("fs");
 
 // =================================================================
 // configuration ===================================================
 // =================================================================
 var port = config.get("server.port"); // used to create, sign, and verify tokens
 var ip = config.get("server.ip");
-mongoose.connect(`${config.get('db.host')}:${config.get('db.port')}`); // connect to database
+mongoose.connect(`${config.get("db.host")}:${config.get("db.port")}`); // connect to database
 app.set("superSecret", config.secret); // secret variable
 
 // =================================================================
@@ -42,11 +43,13 @@ const socketApi = socketService({
   app,
   ip: ip,
   port: port + 1,
-  onEvent: (eventName,eventData) => {
-      if(eventName === "chat"){
-          console.log(eventData);
-          //save to DB here
-      }
+  onEvent: (eventName, eventData) => {
+    if (eventName === "chat") {
+      console.log(eventData);
+      //save to DB here
+      let { username, text, translations } = eventData;
+      fs.writeFile(__dirname + "/log.txt", JSON.stringify(eventData));
+    }
   }
 });
 
