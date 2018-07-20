@@ -16,6 +16,7 @@ import data from "../data.json";
 import io from "socket.io-client";
 import axios from "axios";
 import { blue500, red500, greenA200 } from "material-ui/styles/colors";
+import { Flex, Box } from "grid-styled";
 
 injectTapEventPlugin();
 
@@ -105,28 +106,25 @@ class App extends React.Component {
           >
             cast_connected
           </FontIcon>
-          <div
-            style={{
-              display: "flex",
-              flex: 1,
-              flexDirection: "column",
-              justifyContent: "center"
-            }}
-          >
-            <TextField
-              hintText="Enter your message"
-              fullWidth={true}
-              onChange={this.handleTextChange}
-              onKeyPress={this.handleKeyPress}
-              value={this.state.text}
-            />
-            <RaisedButton label="Submit" primary={true} onClick={this.chat} />
-            {this.state.textReceived.map(text => (
-              <Paper zDepth={4}>
-                <p>{text}</p>
-              </Paper>
-            ))}
-          </div>
+          <Flex>
+            <Box width={1 / 2} px={2}>
+              <TextField
+                hintText="Enter your message"
+                fullWidth={true}
+                onChange={this.handleTextChange}
+                onKeyPress={this.handleKeyPress}
+                value={this.state.text}
+              />
+            </Box>
+            <Box width={1 / 2} px={2}>
+              <RaisedButton label="Submit" primary={true} onClick={this.chat} />
+              {this.state.textReceived.map(text => (
+                <Paper zDepth={4}>
+                  <p>{text}</p>
+                </Paper>
+              ))}
+            </Box>
+          </Flex>
         </div>
       </MuiThemeProvider>
     );
