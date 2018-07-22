@@ -41,8 +41,8 @@ const dbApi = dbService({ app });
 import socketService from "./socket-service/socket-service.js";
 const socketApi = socketService({
   app,
-  ip: ip,
-  port: port + 1,
+  ip,
+  port,
   onEvent: (eventName, eventData) => {
     if (eventName === "chat") {
       console.log(eventData);

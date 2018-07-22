@@ -53,7 +53,7 @@ export default function auth({ app, ip, port, onEvent }) {
     });
   });
 
-  server.listen(port);
+  server.listen(port+1);
 
   return apiRoutes;
 }
