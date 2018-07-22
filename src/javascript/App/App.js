@@ -76,7 +76,8 @@ class App extends React.Component {
     );
     if (res) {
       this.setState({ language: res.code });
-    } else {
+    }
+    else {
       this.setState({ language });
     }
   }
@@ -84,7 +85,7 @@ class App extends React.Component {
   render() {
     return (
       <MuiThemeProvider>
-        <div className="row" style={{ padding: "10px", margin: "10px" }}>
+        <div className="row" style={{ padding: "0 10px", margin: "0 10px" }}>
           <AppBar
             style={{ textAlign: "center" }}
             title={<span style={styles.title}>Thoughtful</span>}
@@ -122,8 +123,8 @@ class App extends React.Component {
             id="scrollable"
             style={{ overflowY: "scroll", maxHeight: "500px" }}
           >
-            {this.state.textReceived.map(msg => (
-              <Paper style={{ padding: "0.5em", marginTop: "10px" }} zDepth={1}>
+            {this.state.textReceived.map((msg,index) => (
+              <Paper key={index} style={{ padding: "0.5em", marginTop: "10px" }} zDepth={1}>
                 <p>
                   <FontIcon
                     style={{ marginRight: "0.1em" }}
@@ -136,9 +137,9 @@ class App extends React.Component {
                 <p>{msg.text}</p>
                 {Object.keys(msg.translations)
                   .sort(lang => (lang === this.state.language ? -1 : 1))
-                  .map(lang => {
+                  .map((lang,index) => {
                     return (
-                      <p style={{ textAlign: "right" }}>
+                      <p key={index} style={{ textAlign: "right" }}>
                         {msg.translations[lang]}
                       </p>
                     );
