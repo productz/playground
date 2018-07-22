@@ -1,7 +1,7 @@
 {
     "server":{
         "port":8081,
-        "ip":"ec2-52-27-87-145.us-west-2.compute.amazonaws.com"
+        "ip":"ec2-34-210-228-39.us-west-2.compute.amazonaws.com"
     },
     "client":{
       "port":8084,

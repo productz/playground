@@ -16,13 +16,6 @@ export default function auth({ app, ip, port, onEvent }) {
   apiRoutes.get("/", function(req, res) {
     res.send("Hello! this is socket service");
   });
-
-<<<<<<< HEAD
-    ioServer.on('connection', function(socket){
-      ioServer.emit('init',{message:"you have connected"});
-      socket.on('chat', function(msg){
-        ioServer.emit('chat', msg);
-=======
   ioServer.on("connection", function(socket) {
     ioServer.emit("init", { message: "you have connected" });
     socket.on("chat", function(msg) {
@@ -33,12 +26,14 @@ export default function auth({ app, ip, port, onEvent }) {
       //translate to the target of the other languages
       let translationPromises = otherLangs.map(lang => {
         return axios
-          .post("http://localhost:8081/translate", {
+          .post(`http://${ip}:${port}/translate`, {
             text,
             target: lang
           })
           .then(res => {
             return { to: lang, from: language, text: res.data[0] };
+          }).catch(err=>{
+            console.error(err);
           });
       });
       Promise.all(translationPromises).then(translations => {
@@ -52,7 +47,8 @@ export default function auth({ app, ip, port, onEvent }) {
         if (onEvent) {
           onEvent(eventName, eventData);
         }
->>>>>>> b07ee9bf487f02b00c22b5b415ae94f6f702149e
+      }).catch(err=>{
+        console.error(err);
       });
     });
   });

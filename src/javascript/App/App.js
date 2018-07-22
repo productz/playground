@@ -12,38 +12,11 @@ import AppBar from "material-ui/AppBar";
 import FontIcon from "material-ui/FontIcon";
 import MapsPersonPin from "material-ui/svg-icons/maps/person-pin";
 import "normalize.css";
-import data from "../data.json";
 import io from "socket.io-client";
 import axios from "axios";
 import { blue500, red500, greenA200 } from "material-ui/styles/colors";
 import { languages } from "../languages";
-
-const styles = {
-  title: {
-    textAlign: "center"
-  },
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-    flexDirection: "column",
-    justifyContent: "space-around"
-  },
-  gridList: {
-    display: "flex",
-    flexWrap: "nowrap",
-    flexDirection: "row",
-    overflowX: "auto"
-  },
-  gridTitle: {
-    textDecoration: "underline"
-  },
-  gridItem: {
-    padding: "0 3em"
-  },
-  titleStyle: {
-    color: "rgb(0, 188, 212)"
-  }
-};
+import styles from '../styles.scss';
 
 class App extends React.Component {
   constructor(props) {
@@ -65,7 +38,7 @@ class App extends React.Component {
     this.handleLanguageUpdate = this.handleLanguageUpdate.bind(this);
 
     //register socket connection
-    this.socket = io("http://ec2-52-27-87-145.us-west-2.compute.amazonaws.com:8082");
+    this.socket = io("http://ec2-34-210-228-39.us-west-2.compute.amazonaws.com:8082");
   }
 
   componentDidMount() {
@@ -111,7 +84,7 @@ class App extends React.Component {
   render() {
     return (
       <MuiThemeProvider>
-        <div style={{ padding: "10px", margin: "10px" }}>
+        <div className="row" style={{ padding: "10px", margin: "10px" }}>
           <AppBar
             style={{ textAlign: "center" }}
             title={<span style={styles.title}>Thoughtful</span>}

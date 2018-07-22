@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node_modules/.bin/webpack-dev-server",
     "start:cloud9": "node_modules/.bin/webpack-dev-server --port $PORT --host $IP",
-    "start:cloud9:ec2": "node_modules/.bin/webpack-dev-server --port $PORT --host ec2-52-27-87-145.us-west-2.compute.amazonaws.com",
+    "start:cloud9:ec2": "node_modules/.bin/webpack-dev-server --port $PORT --host ec2-34-210-228-39.us-west-2.compute.amazonaws.com",
     "start:node": "node ./src/node/index.js",
     "start:node:ec2": "NODE_ENV=qa node ./src/node/index.js",
     "start:mongo": "./scripts/run-mongo.sh",
