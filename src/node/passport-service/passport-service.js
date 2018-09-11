@@ -16,12 +16,12 @@ export default function({ app, userService, config, passport }) {
   app.use(passport.session());
 
   passport.serializeUser(function(user, done) {
+    console.log("serialize is called");
     done(null, user);
   });
 
   passport.deserializeUser(function(user, done) {
-    console.log("deserialize")
-    console.log(user);
+    console.log("DEserialize is called");
     done(null, user);
   });
 
