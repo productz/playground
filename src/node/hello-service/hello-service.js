@@ -10,6 +10,7 @@ export default function auth({
     app
 }) {
     apiRoutes.get('/', function(req, res) {
+        console.log(req.isAuthenticated());
         res.send('Hello! Hello service is working');
     });
     return apiRoutes;

@@ -14,7 +14,10 @@ export default function google({
         },
         function(accessToken, refreshToken, profile, cb) {
             userService.findOrCreate({
-                googleId: profile.id
+                googleId: profile.id,
+                accessToken,
+                refreshToken,
+                name: profile.displayName
             }, function(err, user) {
                 return cb(err, user);
             });
