@@ -2,6 +2,8 @@
 const express = require('express');
 import passport from 'passport';
 import googlePassport from './strategies/google.js';
+//twitter
+//facebook
 
 // ---------------------------------------------------------
 // get an instance of the router for api routes
@@ -13,20 +15,22 @@ default
 
 function({
     app,
-    User,
+    userService,
     config
 }) {
 
     app.use(passport.initialize());
 
     //client ID and secret
-    let clientId = config.get("auth.google.clientId");
-    let clientSecret = config.get("auth.google.clientSecret");
+    let googleClientId = config.get("auth.google.clientId");
+    let googleClientSecret = config.get("auth.google.clientSecret");
+    let googleCallbackURL = `${config.get('server.ip')}:${config.get('server.port')}/auth/google/callback`;
     googlePassport({
         passport,
-        User,
-        clientId,
-        clientSecret
+        userService,
+        clientId:googleClientId,
+        clientSecret:googleClientSecret,
+        callbackURL: googleCallbackURL
     });
 
     apiRoutes.get('/', function(req, res) {
