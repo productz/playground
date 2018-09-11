@@ -1,7 +1,6 @@
 // basic route (http://localhost:8080)
-const express = require('express');
-import passport from 'passport';
-import googlePassport from './strategies/google.js';
+const express = require("express");
+import googlePassport from "./strategies/google.js";
 // add twitter later
 // add facebook later
 
@@ -10,51 +9,58 @@ import googlePassport from './strategies/google.js';
 // ---------------------------------------------------------
 var apiRoutes = express.Router();
 
-export
-default
+export default function({ app, userService, config, passport }) {
 
-function({
-    app,
+  app.use(passport.initialize());
+
+  app.use(passport.session());
+
+  passport.serializeUser(function(user, done) {
+    console.log("serialize is called");
+    done(null, user);
+  });
+
+  passport.deserializeUser(function(user, done) {
+    console.log("DEserialize is called");
+    done(null, user);
+  });
+
+  //client ID and secret
+  let googleClientId = config.get("auth.google.clientId");
+  let googleClientSecret = config.get("auth.google.clientSecret");
+  let googleCallbackURL = `http://localhost:8080/auth/google/callback`;
+  googlePassport({
+    passport,
     userService,
-    config
-}) {
+    clientId: googleClientId,
+    clientSecret: googleClientSecret,
+    callbackURL: googleCallbackURL
+  });
 
-    app.use(passport.initialize());
+  apiRoutes.get("/", function(req, res) {
+    res.send("Hello! Hello service is working - from passport-service.js");
+  });
 
-    //client ID and secret
-    let googleClientId = config.get("auth.google.clientId");
-    let googleClientSecret = config.get("auth.google.clientSecret");
-    let googleCallbackURL = `${config.get('server.ip')}:${config.get('server.port')}/auth/google/callback`;
-    googlePassport({
-        passport,
-        userService,
-        clientId:googleClientId,
-        clientSecret:googleClientSecret,
-        callbackURL: googleCallbackURL
-    });
+  apiRoutes.get("/error", function(req, res) {
+    console.log("RESPONSE >>>>>>>>");
+  });
 
-    apiRoutes.get('/', function(req, res) {
-        console.log(res);
-        res.send('Hello! Hello service is working - from passport-service.js');
-    });
-    
-    apiRoutes.get('/error',function(req,res){
-        console.log("RESPONSE >>>>>>>>");
-        console.log(res);
+  apiRoutes.get(
+    "/auth/google",
+    passport.authenticate("google", {
+      scope: ["profile"]
     })
-    
-    apiRoutes.get('/auth/google',
-        passport.authenticate('google', {
-            scope: ['profile']
-        }));
+  );
 
-    apiRoutes.get('/auth/google/callback',
-        passport.authenticate('google', {
-            failureRedirect: '/error'
-        }),
-        (req, res) => {
-            // Successful authentication, redirect home.
-            res.redirect('/hello');
-        });
-    return apiRoutes;
+  apiRoutes.get(
+    "/auth/google/callback",
+    passport.authenticate("google", {
+      failureRedirect: "/error"
+    }),
+    (req, res) => {
+      // Successful authentication, redirect home.
+      res.redirect("/hello");
+    }
+  );
+  return apiRoutes;
 }
