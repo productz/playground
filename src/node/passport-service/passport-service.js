@@ -2,8 +2,8 @@
 const express = require('express');
 import passport from 'passport';
 import googlePassport from './strategies/google.js';
-//twitter
-//facebook
+// add twitter later
+// add facebook later
 
 // ---------------------------------------------------------
 // get an instance of the router for api routes
@@ -35,7 +35,7 @@ function({
 
     apiRoutes.get('/', function(req, res) {
         console.log(res);
-        res.send('Hello! Hello service is working');
+        res.send('Hello! Hello service is working - from passport-service.js');
     });
     
     apiRoutes.get('/error',function(req,res){
