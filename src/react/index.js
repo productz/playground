@@ -1,1 +1,1 @@
-import App from './ReduxApp';
+import App from './App';
