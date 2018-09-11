@@ -27,21 +27,12 @@ app.use(function(req, res, next) {
 // =================================================================
 // Import web services ========================================
 // =================================================================
-var User   = require('./budgetqt-service/models/user'); // get our mongoose model
-var Expense = require('./budgetqt-service/models/expense');
-var ImportedExpense = require('./budgetqt-service/models/imported-expense');
-
-import authService from './auth-service/auth-service.js'
-const authApi = authService({app,User});
-
 import helloService from './hello-service/hello-service.js'
 const helloApi = helloService({app,User});
 
 // import passportService from './passport-service/passport-service.js'
 // const passportApi = passportService({app,User,config});
 
-import budgetqtService from './budgetqt-service/budgetqt-service.js';
-const budgetqtApi = budgetqtService({app,ImportedExpense,Expense});
 
 // use body parser so we can get info from POST and/or URL parameters
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -54,10 +45,8 @@ app.use(morgan('dev'));
 // Register Services
 // ==========
 
-//app.use('/', authApi);
 app.use('/hello',helloApi);
 //app.use('/',passportApi);
-app.use('/api/v1',budgetqtApi);
 
 // =================================================================
 // start the server ================================================

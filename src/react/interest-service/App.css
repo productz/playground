@@ -1,0 +1,69 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.profile_interests {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.editable_interest {
+  margin-right: 5px;
+} 
+
+.viewable_interest {
+  margin-right: 5px;
+}
+
+.profile_new_interest_textbox {
+  display: inline-block !important;
+  width: auto !important;
+  padding: 0 !important;
+  height: 23px;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  border: none !important;
+} 
+
+.profile_new_interest_textbox:focus {
+  box-shadow: 0 0 0 0 !important;
+}
+
+.profile_new_interest {
+  border: 1px solid #ced4da;
+  height: 24px;
+}
+
+.form-control:focus {
+  border-color: lightgray !important;
+  box-shadow: 0 0 0 0 !important;
+}
+
+.profile_interests > span.input-group > input.form-control {
+  width: 50px !important;
+}
