@@ -24,7 +24,7 @@ function({
     //client ID and secret
     let googleClientId = config.get("auth.google.clientId");
     let googleClientSecret = config.get("auth.google.clientSecret");
-    let googleCallbackURL = `${config.get('server.ip')}:${config.get('server.port')}/auth/google/callback`;
+    let googleCallbackURL = `http://localhost:8080/auth/google/callback`;
     googlePassport({
         passport,
         userService,
