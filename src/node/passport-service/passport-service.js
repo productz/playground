@@ -1,5 +1,6 @@
 // basic route (http://localhost:8080)
 const express = require("express");
+const jwt = require("jsonwebtoken"); // used to create, sign, and verify tokens
 import googlePassport from "./strategies/google.js";
 
 // ---------------------------------------------------------
@@ -8,22 +9,50 @@ import googlePassport from "./strategies/google.js";
 var apiRoutes = express.Router();
 
 export default function({ app, userService, config, passport }) {
-
   app.use(passport.initialize());
 
   app.use(passport.session());
 
   passport.serializeUser(function(user, done) {
-    console.log("serialize is called");
+    console.log("serialize");
     done(null, user);
   });
 
   passport.deserializeUser(function(user, done) {
-    console.log("DEserialize is called");
+    console.log("deserialize");
     done(null, user);
   });
 
-  //client ID and secret
+  //on verify
+  const onVerify = ({
+    accessToken,
+    refreshToken,
+    profile,
+    cb,
+    providerName
+  }) => {
+    //add a jwt token for mobile based authentication
+    let providerId = `${providerName}Id`;
+    let user = {
+      accessToken,
+      refreshToken,
+      jwtToken,
+      name: profile.displayName
+    };
+    let payload = {
+      profile
+    };
+    let check = {};
+    let jwtToken = jwt.sign(payload, config.get("secret"));
+    check[providerId] = profile.id;
+    user[providerId] = profile.id;
+    userService.findOrCreate(check, user, function(err, user) {
+      console.log(user);
+      return cb(err, user);
+    });
+  };
+
+  //client ID and secret for google
   let googleClientId = config.get("auth.google.clientId");
   let googleClientSecret = config.get("auth.google.clientSecret");
   let googleCallbackURL = `http://localhost:8080/auth/google/callback`;
@@ -32,12 +61,11 @@ export default function({ app, userService, config, passport }) {
     userService,
     clientId: googleClientId,
     clientSecret: googleClientSecret,
-    callbackURL: googleCallbackURL
+    callbackURL: googleCallbackURL,
+    onVerify
   });
 
-  apiRoutes.get("/", function(req, res) {
-    res.send("Hello! Hello service is working - from passport-service.js");
-  });
+  //client Id and secret for other providers
 
   apiRoutes.get("/error", function(req, res) {
     console.log("RESPONSE >>>>>>>>");

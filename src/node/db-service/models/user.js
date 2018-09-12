@@ -7,7 +7,11 @@ let userSchema = new Schema({
   name: String,
   accessToken: String,
   refreshToken: String,
-  image: String
+  image: String,
+  jwtToken: String,
+  googleId: String,
+  facebookId: String,
+  twitterId: String
 });
 userSchema.plugin(findOrCreate);
 
