@@ -53,7 +53,7 @@ const jwtApi = jwtService({ app, jwt, config });
 
 import crudService from "./crud-service/crud-service.js";
 const userApi = crudService({ Model: userService, app });
-const chatLogApi = crudService({ Model: chatLogApi, app });
+const chatLogApi = crudService({ Model: chatLogService, app });
 
 import passportService from "./passport-service/passport-service.js";
 const passportApi = passportService({ app, userService, config, passport });

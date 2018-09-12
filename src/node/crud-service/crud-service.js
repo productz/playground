@@ -3,7 +3,6 @@ const express = require("express");
 var apiRoutes = express.Router();
 
 export default function({ app, Model }) {
-
   apiRoutes.get("/", function(req, res) {
     Model.find({})
       .sort("-date")
@@ -18,7 +17,7 @@ export default function({ app, Model }) {
 
   apiRoutes.post("/", function(req, res) {
     let newModel = new Model(req.body);
-    Model.save(newModel, (err, data) => {
+    newModel.save(newModel, (err, data) => {
       if (err) {
         console.log(err);
         return res.status(500).send(err);
@@ -29,15 +28,10 @@ export default function({ app, Model }) {
 
   apiRoutes.put("/", (req, res) => {
     //take the imported Model, format it and add it to the Models collection
-    let Model = req.body;
-    let newModel = {
-      title: Model.title,
-      amount: Model.amount,
-      date: Model.date,
-      tags: Model.tags
-    };
+    let requestModel = req.body;
+    let newModel = Object.assign({}, requestModel);
     Model.findOneAndUpdate(
-      { _id: Model._id },
+      { _id: requestModel._id },
       newModel,
       {
         upsert: false
@@ -49,22 +43,11 @@ export default function({ app, Model }) {
     );
   });
 
-  apiRoutes.post("/", function(req, res) {
-    let newModel = new Model(req.body);
-    Model.save(newModel, (err, data) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).send(err);
-      }
-      res.send(data);
-    });
-  });
-
   apiRoutes.delete("/", (req, res) => {
-    let Model = req.body;
+    let requestModel = req.body;
     //remove the imported Model
     Model.find({
-      _id: Model["_id"]
+      _id: requestModel["_id"]
     })
       .remove()
       .exec(err => {
