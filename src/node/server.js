@@ -39,6 +39,13 @@ app.use(function(req, res, next) {
   next();
 });
 
+// use body parser so we can get info from POST and/or URL parameters
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// use morgan to log requests to the console
+app.use(morgan("dev"));
+
 // =================================================================
 // Import web services ========================================
 // ================================================================
@@ -65,13 +72,6 @@ const chatApi = socketService({ app, onEvent, config });
 
 import passportService from "./passport-service/passport-service.js";
 const passportApi = passportService({ app, userService, config, passport });
-
-// use body parser so we can get info from POST and/or URL parameters
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-// use morgan to log requests to the console
-app.use(morgan("dev"));
 
 // ==========
 // Register Services
