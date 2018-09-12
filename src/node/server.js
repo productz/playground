@@ -9,6 +9,7 @@ var mongoose = require("mongoose");
 var config = require("config"); // get our config file
 var passport = require("passport");
 var session = require("express-session");
+var jwt = require("jsonwebtoken");
 
 // =================================================================
 // configuration ===================================================
@@ -19,11 +20,13 @@ mongoose.connect(`${config.get("db.host")}:${config.get("db.port")}`); // connec
 app.set("superSecret", config.secret); // secret variable
 
 // required for passport session
-app.use(session({
-  secret: 'secrettexthere',
-  saveUninitialized: true,
-  resave: true
-}));
+app.use(
+  session({
+    secret: "secrettexthere",
+    saveUninitialized: true,
+    resave: true
+  })
+);
 
 //CORS
 app.use(function(req, res, next) {
@@ -38,12 +41,16 @@ app.use(function(req, res, next) {
 
 // =================================================================
 // Import web services ========================================
-// =================================================================
-import userService from './db-service/models/user.js';
-import helloService from './hello-service/hello-service.js'
-const helloApi = helloService({app, userService});
+// ================================================================
+import userService from "./db-service/models/user.js";
 
-import passportService from './passport-service/passport-service.js'
+import helloService from "./hello-service/hello-service.js";
+const helloApi = helloService({ app, userService });
+
+import jwtService from "./jwt-service/jwt-service.js";
+const jwtApi = jwtService({ app, jwt, config });
+
+import passportService from "./passport-service/passport-service.js";
 const passportApi = passportService({ app, userService, config, passport });
 
 // use body parser so we can get info from POST and/or URL parameters
@@ -57,8 +64,9 @@ app.use(morgan("dev"));
 // Register Services
 // ==========
 
-app.use('/hello', helloApi);
-app.use('/', passportApi);
+app.use("/hello", helloApi);
+app.use("/", passportApi);
+app.use("/api", jwtApi);
 
 // =================================================================
 // start the server ================================================

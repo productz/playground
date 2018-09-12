@@ -14,12 +14,10 @@ export default function({ app, userService, config, passport }) {
   app.use(passport.session());
 
   passport.serializeUser(function(user, done) {
-    console.log("serialize");
     done(null, user);
   });
 
   passport.deserializeUser(function(user, done) {
-    console.log("deserialize");
     done(null, user);
   });
 
@@ -34,23 +32,20 @@ export default function({ app, userService, config, passport }) {
     //add a jwt token for mobile based authentication
     //store the id for providers
     let providerId = `${providerName}Id`;
-
-    let payload = {
-      profile
-    };
-    let jwtToken = jwt.sign(payload, config.get("secret"));
-
+    let providerAccessToken = `${providerName}AccessToken`;
+    let providerRefreshToken = `${providerName}RefreshToken`;
     let user = {
-      accessToken,
-      refreshToken,
-      jwtToken,
       name: profile.displayName
     };
     let check = {};
     check[providerId] = profile.id;
     user[providerId] = profile.id;
+    user[providerAccessToken] = accessToken;
+    user[providerRefreshToken] = refreshToken;
+    user.id = profile.id;
+    let jwtToken = jwt.sign(user, config.get("secret"));
+    user.jwtToken = jwtToken;
     userService.findOrCreate(check, user, function(err, user) {
-      console.log(user);
       return cb(err, user);
     });
   };
@@ -87,8 +82,8 @@ export default function({ app, userService, config, passport }) {
       failureRedirect: "/google/error"
     }),
     (req, res) => {
-      // Successful authentication, redirect home.
-      res.redirect("/hello");
+      let redirectUrl = `${config.get("redirectUrl")}?jwt=${req.user.jwtToken}`;
+      res.redirect(redirectUrl);
     }
   );
   return apiRoutes;

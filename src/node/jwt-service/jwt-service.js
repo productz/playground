@@ -2,7 +2,7 @@ const express = require("express");
 
 var apiRoutes = express.Router();
 
-export default function isAuthenticated({ app }) {
+export default function isAuthenticated({ app, jwt, config }) {
   // route middleware to verify a token
   apiRoutes.use(function(req, res, next) {
     // check header or url parameters or post parameters for token
@@ -12,7 +12,7 @@ export default function isAuthenticated({ app }) {
     // decode token
     if (token) {
       // verifies secret and checks exp
-      jwt.verify(token, app.get("superSecret"), function(err, decoded) {
+      jwt.verify(token, config.get("secret"), function(err, decoded) {
         if (err) {
           return res.json({
             success: false,
@@ -20,6 +20,7 @@ export default function isAuthenticated({ app }) {
           });
         } else {
           // if everything is good, save to request for use in other routes
+          console.log(decoded);
           req.decoded = decoded;
           next();
         }
