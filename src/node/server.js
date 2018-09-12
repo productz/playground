@@ -39,11 +39,11 @@ app.use(function(req, res, next) {
 // =================================================================
 // Import web services ========================================
 // =================================================================
-import userService from "./db-service/models/user.js";
-import helloService from "./hello-service/hello-service.js";
-const helloApi = helloService({ app, userService });
+import userService from './db-service/models/user.js';
+import helloService from './hello-service/hello-service.js'
+const helloApi = helloService({app, userService});
 
-import passportService from "./passport-service/passport-service.js";
+import passportService from './passport-service/passport-service.js'
 const passportApi = passportService({ app, userService, config, passport });
 
 // use body parser so we can get info from POST and/or URL parameters
@@ -57,11 +57,8 @@ app.use(morgan("dev"));
 // Register Services
 // ==========
 
-app.use(
-  "/hello",
-  helloApi
-);
-app.use("/", passportApi);
+app.use('/hello', helloApi);
+app.use('/', passportApi);
 
 // =================================================================
 // start the server ================================================
