@@ -56,6 +56,13 @@ import crudService from "./crud-service/crud-service.js";
 const userApi = crudService({ Model: userService, app });
 const chatLogApi = crudService({ Model: chatLogService, app });
 
+//socket service
+import socketService from "./socket-service/socket-service.js";
+const onEvent = (eventName, eventData) => {
+  console.log(eventName, eventData);
+};
+const chatApi = socketService({ app, onEvent, config });
+
 import passportService from "./passport-service/passport-service.js";
 const passportApi = passportService({ app, userService, config, passport });
 
