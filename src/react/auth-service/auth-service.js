@@ -1,19 +1,23 @@
 import { observer } from "mobx-react";
+import MaterialLogin from "./MaterialLogin";
+import MaterialRegister from "./MaterialLogin";
+import { observable } from "mobx";
 
 //export store
-export class AuthStore {
-  date;
-  title;
-  amount;
-  category;
-  constructor(date, amount, category, title) {
-    this.date = date;
-    this.amount = amount;
-    this.category = category;
-    this.title = title;
+export class AuthDomain {
+  token;
+  constructor(token) {
+    this.token = token;
   }
   storeToken() {}
   getToken() {}
+}
+
+export class AuthUI {
+  @observable
+  username;
+  @observable
+  password;
 }
 
 //somehow we have to load stuff from an api
@@ -23,6 +27,11 @@ export const api = {
   twitterAuth: ""
 };
 
-export const AuthService = observer(({}) => {
-  return <p>Auth</p>;
+//determine the theme here and load the right login information?
+export const AuthService = observer(({ theme }) => {
+  return (
+    <>
+      <MaterialLogin />
+    </>
+  );
 });
