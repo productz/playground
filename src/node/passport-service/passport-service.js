@@ -23,7 +23,7 @@ export default function({ app, userService, config, passport }) {
     done(null, user);
   });
 
-  //on verify
+  //on verify, we generate a jwt token (for non-web clients) and then we just store the user 
   const onVerify = ({
     accessToken,
     refreshToken,
@@ -58,7 +58,6 @@ export default function({ app, userService, config, passport }) {
   let googleCallbackURL = `http://localhost:8080/auth/google/callback`;
   googlePassport({
     passport,
-    userService,
     clientId: googleClientId,
     clientSecret: googleClientSecret,
     callbackURL: googleCallbackURL,
@@ -93,7 +92,6 @@ export default function({ app, userService, config, passport }) {
   // let twitterCallbackURL = `http://localhost:8080/auth/twitter/callback`;
   // twitterPassport({
   //   passport,
-  //   userService,
   //   clientId: twitterClientId,
   //   clientSecret: twitterClientSecret,
   //   callbackURL: twitterCallbackURL,
@@ -117,7 +115,6 @@ export default function({ app, userService, config, passport }) {
   // let facebookCallbackURL = `http://localhost:8080/auth/facebook/callback`;
   // facebookPassport({
   //   passport,
-  //   userService,
   //   clientId: facebookClientId,
   //   clientSecret: facebookClientSecret,
   //   callbackURL: facebookCallbackURL,
