@@ -1,6 +1,5 @@
 // basic route (http://localhost:8080)
 const express = require("express");
-const jwt = require("jsonwebtoken"); // used to create, sign, and verify tokens
 import googlePassport from "./strategies/google.js";
 import twitterPassport from "./strategies/twitter.js";
 import facebookPassport from "./strategies/facebook.js";
@@ -22,7 +21,6 @@ export default function({ app, config, passport, onVerify }) {
   passport.deserializeUser(function(user, done) {
     done(null, user);
   });
-
 
   //client ID and secret for google
   let googleClientId = config.get("auth.google.clientId");
