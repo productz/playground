@@ -10,7 +10,7 @@ import facebookPassport from "./strategies/facebook.js";
 // ---------------------------------------------------------
 var apiRoutes = express.Router();
 
-export default function({ app, userService, config, passport }) {
+export default function({ app, config, passport, onVerify }) {
   app.use(passport.initialize());
 
   app.use(passport.session());
@@ -23,34 +23,6 @@ export default function({ app, userService, config, passport }) {
     done(null, user);
   });
 
-  //on verify, we generate a jwt token (for non-web clients) and then we just store the user 
-  const onVerify = ({
-    accessToken,
-    refreshToken,
-    profile,
-    cb,
-    providerName
-  }) => {
-    //add a jwt token for mobile based authentication
-    //store the id for providers
-    let providerId = `${providerName}Id`;
-    let providerAccessToken = `${providerName}AccessToken`;
-    let providerRefreshToken = `${providerName}RefreshToken`;
-    let user = {
-      name: profile.displayName
-    };
-    let check = {};
-    check[providerId] = profile.id;
-    user[providerId] = profile.id;
-    user[providerAccessToken] = accessToken;
-    user[providerRefreshToken] = refreshToken;
-    user.id = profile.id;
-    let jwtToken = jwt.sign(user, config.get("secret"));
-    user.jwtToken = jwtToken;
-    userService.findOrCreate(check, user, function(err, user) {
-      return cb(err, user);
-    });
-  };
 
   //client ID and secret for google
   let googleClientId = config.get("auth.google.clientId");

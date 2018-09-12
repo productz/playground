@@ -72,7 +72,30 @@ const onEvent = (eventName, eventData) => {
 const chatApi = socketService({ app, onEvent, config });
 
 import passportService from "./passport-service/passport-service.js";
-const passportApi = passportService({ app, userService, config, passport });
+
+//on verify, we generate a jwt token (for non-web clients) and then we just store the user
+const onVerify = ({ accessToken, refreshToken, profile, cb, providerName }) => {
+  //add a jwt token for mobile based authentication
+  //store the id for providers
+  let providerId = `${providerName}Id`;
+  let providerAccessToken = `${providerName}AccessToken`;
+  let providerRefreshToken = `${providerName}RefreshToken`;
+  let user = {
+    name: profile.displayName
+  };
+  let check = {};
+  check[providerId] = profile.id;
+  user[providerId] = profile.id;
+  user[providerAccessToken] = accessToken;
+  user[providerRefreshToken] = refreshToken;
+  user.id = profile.id;
+  let jwtToken = jwt.sign(user, config.get("secret"));
+  user.jwtToken = jwtToken;
+  userService.findOrCreate(check, user, function(err, user) {
+    return cb(err, user);
+  });
+};
+const passportApi = passportService({ app, config, passport, onVerify });
 
 // ==========
 // Register Services
