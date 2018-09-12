@@ -1,3 +1,5 @@
+import { observer } from "mobx-react";
+
 //export store
 export class AuthStore {
   date;
@@ -10,8 +12,17 @@ export class AuthStore {
     this.category = category;
     this.title = title;
   }
+  storeToken() {}
+  getToken() {}
 }
 
-export const AuthService = ({}) => {
-
+//somehow we have to load stuff from an api
+export const api = {
+  googleAuth: "",
+  facebookAuth: "",
+  twitterAuth: ""
 };
+
+export const AuthService = observer(({}) => {
+  return <p>Auth</p>;
+});
