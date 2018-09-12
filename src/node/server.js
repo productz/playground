@@ -43,12 +43,17 @@ app.use(function(req, res, next) {
 // Import web services ========================================
 // ================================================================
 import userService from "./db-service/models/user.js";
+import chatLogService from "./db-service/models/chat-log";
 
 import helloService from "./hello-service/hello-service.js";
 const helloApi = helloService({ app, userService });
 
 import jwtService from "./jwt-service/jwt-service.js";
 const jwtApi = jwtService({ app, jwt, config });
+
+import crudService from "./crud-service/crud-service.js";
+const userApi = crudService({ Model: userService, app });
+const chatLogApi = crudService({ Model: chatLogApi, app });
 
 import passportService from "./passport-service/passport-service.js";
 const passportApi = passportService({ app, userService, config, passport });
@@ -67,6 +72,8 @@ app.use(morgan("dev"));
 app.use("/hello", helloApi);
 app.use("/", passportApi);
 app.use("/api", jwtApi);
+app.use("/user", userApi);
+app.use("/chat-log", chatLogApi);
 
 // =================================================================
 // start the server ================================================
