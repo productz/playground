@@ -32,18 +32,21 @@ export default function({ app, userService, config, passport }) {
     providerName
   }) => {
     //add a jwt token for mobile based authentication
+    //store the id for providers
     let providerId = `${providerName}Id`;
+
+    let payload = {
+      profile
+    };
+    let jwtToken = jwt.sign(payload, config.get("secret"));
+
     let user = {
       accessToken,
       refreshToken,
       jwtToken,
       name: profile.displayName
     };
-    let payload = {
-      profile
-    };
     let check = {};
-    let jwtToken = jwt.sign(payload, config.get("secret"));
     check[providerId] = profile.id;
     user[providerId] = profile.id;
     userService.findOrCreate(check, user, function(err, user) {
@@ -67,7 +70,7 @@ export default function({ app, userService, config, passport }) {
 
   //client Id and secret for other providers
 
-  apiRoutes.get("/error", function(req, res) {
+  apiRoutes.get("/google/error", function(req, res) {
     console.log("RESPONSE >>>>>>>>");
   });
 
@@ -81,7 +84,7 @@ export default function({ app, userService, config, passport }) {
   apiRoutes.get(
     "/auth/google/callback",
     passport.authenticate("google", {
-      failureRedirect: "/error"
+      failureRedirect: "/google/error"
     }),
     (req, res) => {
       // Successful authentication, redirect home.
