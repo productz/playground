@@ -51,6 +51,7 @@ const helloApi = helloService({ app, userService });
 import jwtService from "./jwt-service/jwt-service.js";
 const jwtApi = jwtService({ app, jwt, config });
 
+//the crud service creates [create, read, update, delete] endpoints for a mongoose model
 import crudService from "./crud-service/crud-service.js";
 const userApi = crudService({ Model: userService, app });
 const chatLogApi = crudService({ Model: chatLogService, app });
