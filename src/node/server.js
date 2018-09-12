@@ -65,6 +65,7 @@ const chatLogApi = crudService({ Model: chatLogService, app });
 
 //socket service
 import socketService from "./socket-service/socket-service.js";
+//onEvent is called everytime we recieve a message from a socket
 const onEvent = (eventName, eventData) => {
   console.log(eventName, eventData);
 };

@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-const { Surface } = require("gl-react-dom"); // in React DOM context
-import HelloGL from '../HelloGL';
 import { Router, Route, IndexRoute, Link, hashHistory, browserHistory } from 'react-router'
 import {Tabs, Tab} from 'material-ui/Tabs';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
@@ -23,11 +21,6 @@ class App extends React.Component{
     render(){
         return(
             <MuiThemeProvider>
-                <div>
-                    <Surface width={511} height={341}>
-                        <HelloGL blue={0.5} />
-                    </Surface>
-                </div>
             </MuiThemeProvider>
         );
     }
