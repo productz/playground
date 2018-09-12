@@ -1,8 +1,6 @@
 // basic route (http://localhost:8080)
 const express = require("express");
 import googlePassport from "./strategies/google.js";
-// add twitter later
-// add facebook later
 
 // ---------------------------------------------------------
 // get an instance of the router for api routes

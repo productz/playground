@@ -27,7 +27,7 @@
     "google-spreadsheets": "^0.5.1",
     "googleapis": "^18.0.0",
     "graphql": "^0.9.1",
-    "jsonwebtoken": "^7.2.1",
+    "jsonwebtoken": "^7.4.3",
     "mongoose": "^4.8.1",
     "mongoose-findorcreate": "^3.0.0",
     "morgan": "^1.8.0",
