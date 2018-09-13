@@ -40,6 +40,9 @@ const AuthService = observer(({}) => {
           authUI[field] = value;
         }}
         onSubmit={() => console.log(authUI.username, authUI.password)}
+        onProviderAuth={providerName => {
+          console.log(providerName);
+        }}
       />
     </div>
   );
