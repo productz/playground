@@ -41,6 +41,7 @@ const AuthService = observer(({}) => {
         }}
         onSubmit={() => console.log(authUI.username, authUI.password)}
         onProviderAuth={providerName => {
+          window.location.replace(`http://localhost:8080/auth/${providerName}`);
         }}
       />
     </div>

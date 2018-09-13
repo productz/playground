@@ -95,7 +95,13 @@ const onVerify = ({ accessToken, refreshToken, profile, cb, providerName }) => {
     return cb(err, user);
   });
 };
-const passportApi = passportService({ app, config, passport, onVerify });
+const onSuccess = (providerName, user, res) => {
+  let redirectUrl = `${config.get("redirectUrl")}?jwt=${user.jwtToken}`;
+  res.redirect(redirectUrl);
+};
+const onError = (user, res) => {
+}
+const passportApi = passportService({ app, config, passport, onVerify, onSuccess, onError });
 
 // ==========
 // Register Services

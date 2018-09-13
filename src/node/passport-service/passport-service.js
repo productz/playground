@@ -9,7 +9,14 @@ import facebookPassport from "./strategies/facebook.js";
 // ---------------------------------------------------------
 var apiRoutes = express.Router();
 
-export default function({ app, config, passport, onVerify }) {
+export default function({
+  app,
+  config,
+  passport,
+  onVerify,
+  onSuccess,
+  onError
+}) {
   app.use(passport.initialize());
 
   app.use(passport.session());
@@ -36,6 +43,7 @@ export default function({ app, config, passport, onVerify }) {
 
   apiRoutes.get("/error", function(req, res) {
     console.log("RESPONSE >>>>>>>>");
+    onError(req.user, res);
   });
 
   apiRoutes.get(
@@ -51,8 +59,7 @@ export default function({ app, config, passport, onVerify }) {
       failureRedirect: "/google/error"
     }),
     (req, res) => {
-      let redirectUrl = `${config.get("redirectUrl")}?jwt=${req.user.jwtToken}`;
-      res.redirect(redirectUrl);
+      onSuccess("google", req.user, res);
     }
   );
 

@@ -6,7 +6,7 @@
   "scripts": {
     "start:node": "node index.js",
     "start:mongo": "./scripts/run-mongo.sh",
-    "start:node:dev": "nodemon index.js",
+    "start:dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
