@@ -10,6 +10,8 @@ import CardMedia from "@material-ui/core/CardMedia";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle, faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 
 const styles = {
   card: {
@@ -59,7 +61,7 @@ export const Login = ({
       </CardActions>
       <div>
         <Button onClick={() => onProviderAuth("google")} size="large" fullWidth>
-          Login with google
+          Login with Google
         </Button>
         <Button
           onClick={() => onProviderAuth("facebook")}

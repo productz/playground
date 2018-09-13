@@ -41,7 +41,6 @@ const AuthService = observer(({}) => {
         }}
         onSubmit={() => console.log(authUI.username, authUI.password)}
         onProviderAuth={providerName => {
-          console.log(providerName);
         }}
       />
     </div>
