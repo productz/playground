@@ -15,6 +15,7 @@ import AppBar from "material-ui/AppBar";
 import FontIcon from "material-ui/FontIcon";
 import MapsPersonPin from "material-ui/svg-icons/maps/person-pin";
 import injectTapEventPlugin from "react-tap-event-plugin";
+import AuthService from "../auth-service/auth-service";
 
 injectTapEventPlugin();
 
@@ -28,7 +29,7 @@ class App extends React.Component {
   render() {
     return (
       <MuiThemeProvider>
-        <p>Hello App</p>
+        <AuthService />
       </MuiThemeProvider>
     );
   }

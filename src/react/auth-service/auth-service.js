@@ -2,6 +2,7 @@ import { observer } from "mobx-react";
 import MaterialLogin from "./MaterialLogin";
 import MaterialRegister from "./MaterialLogin";
 import { observable } from "mobx";
+import React from "react";
 
 //export store
 export class AuthDomain {
@@ -27,11 +28,21 @@ export const api = {
   twitterAuth: ""
 };
 
+//create the UI and Domain Stores
+let authUI = new AuthUI();
+
 //determine the theme here and load the right login information?
-export const AuthService = observer(({ theme }) => {
+const AuthService = observer(({}) => {
   return (
-    <>
-      <MaterialLogin />
-    </>
+    <div>
+      <MaterialLogin
+        username={authUI.username}
+        password={authUI.password}
+        onChange={(field, value) => (authUI[field] = value)}
+        onSubmit={() => console.log(authUI.username, authUI.password)}
+      />
+    </div>
   );
 });
+
+export default AuthService;
