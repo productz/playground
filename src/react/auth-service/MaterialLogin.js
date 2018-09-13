@@ -1,7 +1,13 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-export const Login = ({ onChange, onSubmit, onProviderAuth }) => {
+export const Login = ({
+  onChange,
+  onSubmit,
+  onProviderAuth,
+  username,
+  password
+}) => {
   return (
     <div>
       <TextField

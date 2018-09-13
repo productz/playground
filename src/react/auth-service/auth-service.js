@@ -36,9 +36,9 @@ const AuthService = observer(({}) => {
   return (
     <div>
       <MaterialLogin
-        username={authUI.username}
-        password={authUI.password}
-        onChange={(field, value) => (authUI[field] = value)}
+        onChange={(field, value) => {
+          authUI[field] = value;
+        }}
         onSubmit={() => console.log(authUI.username, authUI.password)}
       />
     </div>
