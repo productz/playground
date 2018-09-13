@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import {
   Router,
   Route,
@@ -9,10 +8,6 @@ import {
   hashHistory,
   browserHistory
 } from "react-router";
-import { Tabs, Tab } from "material-ui/Tabs";
-import { Card, CardActions, CardHeader, CardText } from "material-ui/Card";
-import AppBar from "material-ui/AppBar";
-import FontIcon from "material-ui/FontIcon";
 import MapsPersonPin from "material-ui/svg-icons/maps/person-pin";
 import injectTapEventPlugin from "react-tap-event-plugin";
 import AuthService from "../auth-service/auth-service";
@@ -28,9 +23,7 @@ const styles = {
 class App extends React.Component {
   render() {
     return (
-      <MuiThemeProvider>
         <AuthService />
-      </MuiThemeProvider>
     );
   }
   componentWillReceiveProps(nextProps) {
