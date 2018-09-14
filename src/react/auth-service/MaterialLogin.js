@@ -30,54 +30,65 @@ export const Login = ({
   classes
 }) => {
   return (
-    <Card className={classes.card}>
-      <CardHeader title="Login" />
-      <CardContent>
-        <TextField
-          id="username"
-          label="username"
-          onChange={event => onChange("username", event.target.value)}
-          margin="normal"
-          onKeyPress={event => (event.key === 13 ? onSubmit() : "")}
-        />
-        <TextField
-          id="password"
-          label="password"
-          onChange={event => onChange("password", event.target.value)}
-          margin="normal"
-          onKeyPress={event => {
-            event.key === "Enter" ? onSubmit() : "";
-          }}
-        />
-      </CardContent>
-      <CardActions>
-        <Button size="small" color="primary" onClick={onSubmit}>
-          Login
-        </Button>
-        <Button size="small" color="secondary" onClick={onRegister}>
-          Register
-        </Button>
-      </CardActions>
-      <div>
-        <Button onClick={() => onProviderAuth("google")} size="large" fullWidth>
-          Login with Google
-        </Button>
-        <Button
-          onClick={() => onProviderAuth("facebook")}
-          size="large"
-          fullWidth
-        >
-          Login with facebook
-        </Button>
-        <Button
-          onClick={() => onProviderAuth("twitter")}
-          size="large"
-          fullWidth
-        >
-          Login with twitter
-        </Button>
-      </div>
-    </Card>
+    <form
+      onSubmit={event => {
+        onSubmit();
+      }}
+    >
+      <Card className={classes.card}>
+        <CardHeader title="Login" />
+        <CardContent>
+          <TextField
+            id="username"
+            label="username"
+            type="email"
+            onChange={event => onChange("username", event.target.value)}
+            margin="normal"
+            onKeyPress={event => (event.key === 13 ? onSubmit() : "")}
+          />
+          <TextField
+            id="password"
+            label="password"
+            onChange={event => onChange("password", event.target.value)}
+            margin="normal"
+            onKeyPress={event => {
+              event.key === "Enter" ? onSubmit() : "";
+            }}
+          />
+        </CardContent>
+        <CardActions>
+          <Button size="small" color="primary" onClick={onSubmit} type="submit">
+            Login
+          </Button>
+          <Button size="small" color="secondary" onClick={onRegister}>
+            Register
+          </Button>
+        </CardActions>
+        <div>
+          <Button
+            onClick={() => onProviderAuth("google")}
+            size="large"
+            fullWidth
+          >
+            Login with Google
+          </Button>
+          <Button
+            onClick={() => onProviderAuth("facebook")}
+            size="large"
+            fullWidth
+          >
+            Login with facebook
+          </Button>
+          <Button
+            onClick={() => onProviderAuth("twitter")}
+            size="large"
+            fullWidth
+          >
+            Login with twitter
+          </Button>
+        </div>
+      </Card>
+    </form>
   );
 };
 export default withStyles(styles)(Login);
