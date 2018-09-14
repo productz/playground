@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { HashRouter as Router, Route, Link } from "react-router-dom";
-import { Login, Register } from "../auth-service/auth-service";
+import { Login, Register, PrivateRoute } from "../auth-service/auth-service";
 
 class App extends React.Component {
   render() {
@@ -20,9 +20,19 @@ class App extends React.Component {
                 <Link to="/auth/register">Register</Link>
               </li>
             </ul>
-            <Route exact path="/" component={Home} />
-            <Route path="/auth/login" component={Login} />
+            <Route
+              path="/auth/login"
+              render={props => {
+                return (
+                  <Login
+                    onRegister={() => props.history.push("/auth/register")}
+                  />
+                );
+              }}
+            />
             <Route path="/auth/register" component={Register} />
+            <PrivateRoute path="/admin" component={Admin} />
+            <Route exact path="/" component={Home} />
           </div>
         </Router>
       </div>
@@ -33,6 +43,10 @@ class App extends React.Component {
 
 export const Home = ({}) => {
   return <p>hello</p>;
+};
+
+export const Admin = ({}) => {
+  return <p>Admin Page</p>;
 };
 
 ReactDOM.render(<App />, document.getElementById("app"));

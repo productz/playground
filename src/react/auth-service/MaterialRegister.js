@@ -13,7 +13,7 @@ import Icon from "@material-ui/core/Icon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle, faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 
-const Register = ({ onProviderAuth, onSubmit }) => {
+const Register = ({ onProviderAuth, onSubmit, onChange }) => {
   return (
     <Card style={{ marginTop: "1em" }}>
       <CardHeader title="Register" />
@@ -52,7 +52,7 @@ const Register = ({ onProviderAuth, onSubmit }) => {
           onKeyPress={event => (event.key === 13 ? onSubmit() : "")}
         />
         <br />
-        <Button label="Submit" primary={true} onClick={event => onSubmit()}>
+        <Button label="Submit" primary={true} onClick={onSubmit}>
           Register
         </Button>
       </CardContent>

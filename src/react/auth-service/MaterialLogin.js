@@ -26,8 +26,7 @@ export const Login = ({
   onChange,
   onSubmit,
   onProviderAuth,
-  username,
-  password,
+  onRegister,
   classes
 }) => {
   return (
@@ -55,7 +54,7 @@ export const Login = ({
         <Button size="small" color="primary" onClick={onSubmit}>
           Login
         </Button>
-        <Button size="small" color="secondary">
+        <Button size="small" color="secondary" onClick={onRegister}>
           Register
         </Button>
       </CardActions>
