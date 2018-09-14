@@ -22,6 +22,9 @@ export class AuthDomain {
   }
   storeToken() {}
   getToken() {}
+  isAuthenticated(){
+    return true;
+  }
 }
 
 export class AuthUI {
