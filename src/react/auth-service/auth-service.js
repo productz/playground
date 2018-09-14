@@ -1,17 +1,29 @@
 import { observer } from "mobx-react";
 import MaterialLogin from "./MaterialLogin";
-import MaterialRegister from "./MaterialLogin";
+import MaterialRegister from "./MaterialRegister";
 import { observable } from "mobx";
 import React from "react";
+import { Domain } from "domain";
 
 //export store
 export class AuthDomain {
   token;
-  constructor(token) {
-    this.token = token;
+  constructor() {}
+  login() {}
+  register() {}
+  loginWithProvider(providerName) {
+    window.location.replace(`http://localhost:8080/auth/${providerName}`);
   }
-  storeToken() {}
-  getToken() {}
+  registerWithProvider(providerName) {
+    //information to register
+    window.location.replace(`http://localhost:8080/auth/${providerName}`);
+  }
+  storeToken() {
+
+  }
+  getToken() {
+
+  }
 }
 
 export class AuthUI {
@@ -19,6 +31,12 @@ export class AuthUI {
   username;
   @observable
   password;
+  @observable
+  email;
+  @observable
+  firstname;
+  @observable
+  lastname;
 }
 
 //somehow we have to load stuff from an api
@@ -30,6 +48,7 @@ export const api = {
 
 //create the UI and Domain Stores
 let authUI = new AuthUI();
+let authDomain = new AuthDomain();
 
 //determine the theme here and load the right login information?
 export const Login = observer(({}) => {
@@ -39,9 +58,9 @@ export const Login = observer(({}) => {
         onChange={(field, value) => {
           authUI[field] = value;
         }}
-        onSubmit={() => console.log(authUI.username, authUI.password)}
+        onSubmit={() => authDomain.login(authUI)}
         onProviderAuth={providerName => {
-          window.location.replace(`http://localhost:8080/auth/${providerName}`);
+          authDomain.loginWithProvider(providerName);
         }}
       />
     </div>
@@ -51,13 +70,13 @@ export const Login = observer(({}) => {
 export const Register = observer(({}) => {
   return (
     <div>
-      <MaterialLogin
+      <MaterialRegister
         onChange={(field, value) => {
           authUI[field] = value;
         }}
-        onSubmit={() => console.log(authUI.username, authUI.password)}
+        onSubmit={() => authDomain.register(authUI)}
         onProviderAuth={providerName => {
-          window.location.replace(`http://localhost:8080/auth/${providerName}`);
+          authDomain.registerWithProvider(providerName);
         }}
       />
     </div>
