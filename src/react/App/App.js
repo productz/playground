@@ -19,6 +19,9 @@ class App extends React.Component {
               <li>
                 <Link to="/auth/register">Register</Link>
               </li>
+              <li>
+                <Link to="/admin">Admin</Link>
+              </li>
             </ul>
             <Route
               path="/auth/login"

@@ -11,7 +11,6 @@ export class AuthDomain {
   constructor() {}
   login(values) {}
   register(values) {
-    console.log(values);
   }
   loginWithProvider(providerName) {
     window.location.replace(`http://localhost:8080/auth/${providerName}`);
