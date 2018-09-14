@@ -8,13 +8,13 @@ import {
   hashHistory,
   browserHistory
 } from "react-router";
-import AuthService from "../auth-service/auth-service";
+import { Login, Register } from "../auth-service/auth-service";
 
 class App extends React.Component {
   render() {
     return (
       <div>
-        <AuthService />
+        <Login />
       </div>
     );
   }

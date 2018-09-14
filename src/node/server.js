@@ -58,10 +58,20 @@ const helloApi = helloService({ app, userService });
 import jwtService from "./jwt-service/jwt-service.js";
 const jwtApi = jwtService({ app, jwt, config });
 
+
+// =================================================================
+// Create some crud services ========================================
+// ================================================================
+
 //the crud service creates [create, read, update, delete] endpoints for a mongoose model
 import crudService from "./crud-service/crud-service.js";
 const userApi = crudService({ Model: userService, app });
 const chatLogApi = crudService({ Model: chatLogService, app });
+
+
+// =================================================================
+// Open a socket ========================================
+// ================================================================
 
 //socket service
 import socketService from "./socket-service/socket-service.js";
@@ -70,6 +80,12 @@ const onEvent = (eventName, eventData) => {
   console.log(eventName, eventData);
 };
 const chatApi = socketService({ app, onEvent, config });
+
+
+
+// =================================================================
+// Setup Auth ========================================
+// ================================================================
 
 import passportService from "./passport-service/passport-service.js";
 
@@ -99,13 +115,14 @@ const onSuccess = (providerName, user, res) => {
   let redirectUrl = `${config.get("redirectUrl")}?jwt=${user.jwtToken}`;
   res.redirect(redirectUrl);
 };
-const onError = (user, res) => {
+const onError = (providerName, user, res) => {
+  //in case the auth doesn't works
 }
 const passportApi = passportService({ app, config, passport, onVerify, onSuccess, onError });
 
-// ==========
-// Register Services
-// ==========
+// =================================================================
+// Register Services Routes
+// =================================================================
 
 app.use("/hello", helloApi);
 app.use("/", passportApi);

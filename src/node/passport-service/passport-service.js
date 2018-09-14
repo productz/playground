@@ -17,6 +17,7 @@ export default function({
   onSuccess,
   onError
 }) {
+
   app.use(passport.initialize());
 
   app.use(passport.session());
@@ -42,7 +43,6 @@ export default function({
   });
 
   apiRoutes.get("/error", function(req, res) {
-    console.log("RESPONSE >>>>>>>>");
     onError(req.user, res);
   });
 

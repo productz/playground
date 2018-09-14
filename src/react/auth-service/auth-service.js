@@ -32,7 +32,7 @@ export const api = {
 let authUI = new AuthUI();
 
 //determine the theme here and load the right login information?
-const AuthService = observer(({}) => {
+export const Login = observer(({}) => {
   return (
     <div>
       <MaterialLogin
@@ -48,4 +48,18 @@ const AuthService = observer(({}) => {
   );
 });
 
-export default AuthService;
+export const Register = observer(({}) => {
+  return (
+    <div>
+      <MaterialLogin
+        onChange={(field, value) => {
+          authUI[field] = value;
+        }}
+        onSubmit={() => console.log(authUI.username, authUI.password)}
+        onProviderAuth={providerName => {
+          window.location.replace(`http://localhost:8080/auth/${providerName}`);
+        }}
+      />
+    </div>
+  );
+});
