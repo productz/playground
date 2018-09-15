@@ -37,12 +37,10 @@ export class AuthDomain {
         token: localStorage.getItem("jwtToken")
       })
       .then(res => {
-        console.log(res);
         this.isLoggedIn = true;
         return res;
       })
       .catch(err => {
-        console.log(err);
         this.isLoggedIn = false;
         return err;
       });
