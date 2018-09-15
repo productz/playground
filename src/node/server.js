@@ -56,7 +56,7 @@ import helloService from "./hello-service/hello-service.js";
 const helloApi = helloService({ app, userService });
 
 import jwtService from "./jwt-service/jwt-service.js";
-const jwtApi = jwtService({ app, jwt, config });
+const jwtApi = jwtService({ secret: config.get("secret") });
 
 // =================================================================
 // Create some crud services ========================================
@@ -64,8 +64,8 @@ const jwtApi = jwtService({ app, jwt, config });
 
 //the crud service creates [create, read, update, delete] endpoints for a mongoose model
 import crudService from "./crud-service/crud-service.js";
-const userApi = crudService({ Model: userService, app });
-const chatLogApi = crudService({ Model: chatLogService, app });
+const userApi = crudService({ Model: userService });
+const chatLogApi = crudService({ Model: chatLogService });
 
 // =================================================================
 // Open a socket ========================================
@@ -129,7 +129,6 @@ const passportApi = passportService({
 
 app.use("/hello", helloApi);
 app.use("/", passportApi);
-// app.use("/api", jwtApi);
 app.use("/jwt", jwtApi);
 app.use("/user", userApi);
 app.use("/chat-log", chatLogApi);

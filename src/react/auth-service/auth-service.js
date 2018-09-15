@@ -17,7 +17,9 @@ export class AuthDomain {
       resolve("");
     });
   }
-  register(values) {}
+  register(values) {
+
+  }
   loginWithProvider(providerName) {
     window.location.replace(`http://localhost:8080/auth/${providerName}`);
   }

@@ -1,8 +1,8 @@
 // basic route (http://localhost:8080)
 const express = require("express");
-var apiRoutes = express.Router();
 
-export default function({ app, Model }) {
+export default function({ Model }) {
+  var apiRoutes = express.Router();
   apiRoutes.get("/", function(req, res) {
     Model.find({})
       .sort("-date")

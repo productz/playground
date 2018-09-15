@@ -15,7 +15,7 @@ export const isAuthenticated = (token, secret) => {
   });
 };
 
-export default function jwtService({ config }) {
+export default function jwtService({ secret }) {
   // route middleware to verify a token
   apiRoutes.use("/api", function(req, res, next) {
     // check header or url parameters or post parameters for token
@@ -25,7 +25,7 @@ export default function jwtService({ config }) {
     // decode token
     if (token) {
       // verifies secret and checks exp
-      jwt.verify(token, config.get("secret"), function(err, decoded) {
+      jwt.verify(token, secret, function(err, decoded) {
         if (err) {
           return res.json({
             success: false,
@@ -51,7 +51,7 @@ export default function jwtService({ config }) {
   apiRoutes.post("/is-auth", (req, res) => {
     var token =
       req.body.token || req.query.token || req.headers["x-access-token"];
-    isAuthenticated(token, config.get("secret"))
+    isAuthenticated(token, secret)
       .then(() => {
         res.status(200).send("success");
       })
