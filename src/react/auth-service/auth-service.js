@@ -9,9 +9,12 @@ import { HashRouter as Router, Route, Link, Redirect } from "react-router-dom";
 export class AuthDomain {
   token;
   constructor() {}
-  login(values) {}
-  register(values) {
+  login(values) {
+    return new Promise((resolve, reject) => {
+      resolve("");
+    });
   }
+  register(values) {}
   loginWithProvider(providerName) {
     window.location.replace(`http://localhost:8080/auth/${providerName}`);
   }
@@ -21,7 +24,7 @@ export class AuthDomain {
   }
   storeToken() {}
   getToken() {}
-  isAuthenticated(){
+  isAuthenticated() {
     return true;
   }
 }
@@ -59,7 +62,9 @@ export const Login = observer(({ onRegister }) => {
           authUI[field] = value;
         }}
         onRegister={onRegister}
-        onSubmit={() => authDomain.login(authUI)}
+        onSubmit={() => {
+          return authDomain.login(authUI);
+        }}
         onProviderAuth={providerName => {
           authDomain.loginWithProvider(providerName);
         }}

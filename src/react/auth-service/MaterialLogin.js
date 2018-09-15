@@ -12,7 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle, faDoorOpen } from "@fortawesome/free-solid-svg-icons";
-import { Formik, Field, Form } from "formik";
+import { Formik } from "formik";
 import * as Yup from "yup";
 
 const styles = {
@@ -29,21 +29,20 @@ const LoginSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email")
     .required("Required"),
-  password: Yup.string()
-    .required("Required")
+  password: Yup.string().required("Required")
 });
 
 let fields = [
   {
     type: "email",
     name: "email",
-    placeholder: "please enter your email",
+    placeholder: "Email",
     required: true
   },
   {
     type: "password",
     name: "password",
-    placeholder: "please enter your password",
+    placeholder: "Password",
     required: true
   }
 ];
@@ -62,18 +61,10 @@ export const Login = ({
         <Formik
           initialValues={{ email: "", password: "" }}
           onSubmit={(values, actions) => {
-            console.log(values, actions);
-            onSubmit(values);
-            // CallMyApi(user.id, values).then(
-            //   updatedUser => {
-            //     actions.setSubmitting(false);
-            //     updateUser(updatedUser), onClose();
-            //   },
-            //   error => {
-            //     actions.setSubmitting(false);
-            //     actions.setErrors(transformMyAPIErrorToAnObject(error));
-            //   }
-            // );
+            onSubmit(values).then(() => {
+              console.log(actions);
+              actions.setSubmitting(false);
+            });
           }}
           validationSchema={LoginSchema}
           render={({
@@ -99,7 +90,7 @@ export const Login = ({
                         maegin="normal"
                         required={field.required}
                         onKeyPress={event =>
-                          event.key === 13 ? handleSubmit() : ""
+                          event.key === 13 ? handleSubmit(event) : ""
                         }
                       />
                       {errors[field.name] &&
@@ -107,20 +98,23 @@ export const Login = ({
                     </div>
                   );
                 })}
-                <button type="submit" disabled={isSubmitting}>
-                  Submit
-                </button>
+                <Button
+                  size="small"
+                  color="primary"
+                  onClick={onSubmit}
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  Login
+                </Button>
               </form>
             );
           }}
         />
       </CardContent>
       <CardActions>
-        <Button size="small" color="primary" onClick={onSubmit} type="submit">
-          Login
-        </Button>
         <Button size="small" color="secondary" onClick={onRegister}>
-          Register
+          You don't have an account? register here
         </Button>
       </CardActions>
       <div>
