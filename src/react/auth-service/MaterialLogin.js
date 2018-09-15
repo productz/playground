@@ -12,6 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle, faDoorOpen } from "@fortawesome/free-solid-svg-icons";
+import { Formik, Field, Form } from "formik";
 
 const styles = {
   card: {
@@ -22,6 +23,19 @@ const styles = {
   }
 };
 
+let fields = [
+  {
+    type: "email",
+    name: "email",
+    placeholder: "please enter your email"
+  },
+  {
+    type: "password",
+    name: "password",
+    placeholder: "please enter your password"
+  }
+];
+
 export const Login = ({
   onChange,
   onSubmit,
@@ -30,65 +44,85 @@ export const Login = ({
   classes
 }) => {
   return (
-    <form
-      onSubmit={event => {
-        onSubmit();
-      }}
-    >
-      <Card className={classes.card}>
-        <CardHeader title="Login" />
-        <CardContent>
-          <TextField
-            id="username"
-            label="username"
-            type="email"
-            onChange={event => onChange("username", event.target.value)}
-            margin="normal"
-            onKeyPress={event => (event.key === 13 ? onSubmit() : "")}
-          />
-          <TextField
-            id="password"
-            label="password"
-            onChange={event => onChange("password", event.target.value)}
-            margin="normal"
-            onKeyPress={event => {
-              event.key === "Enter" ? onSubmit() : "";
-            }}
-          />
-        </CardContent>
-        <CardActions>
-          <Button size="small" color="primary" onClick={onSubmit} type="submit">
-            Login
-          </Button>
-          <Button size="small" color="secondary" onClick={onRegister}>
-            Register
-          </Button>
-        </CardActions>
-        <div>
-          <Button
-            onClick={() => onProviderAuth("google")}
-            size="large"
-            fullWidth
-          >
-            Login with Google
-          </Button>
-          <Button
-            onClick={() => onProviderAuth("facebook")}
-            size="large"
-            fullWidth
-          >
-            Login with facebook
-          </Button>
-          <Button
-            onClick={() => onProviderAuth("twitter")}
-            size="large"
-            fullWidth
-          >
-            Login with twitter
-          </Button>
-        </div>
-      </Card>
-    </form>
+    <Card className={classes.card}>
+      <CardHeader title="Login" />
+      <CardContent>
+        <Formik
+          initialValues={user /** { email, social } */}
+          onSubmit={(values, actions) => {
+            console.log(values,actions);
+            // CallMyApi(user.id, values).then(
+            //   updatedUser => {
+            //     actions.setSubmitting(false);
+            //     updateUser(updatedUser), onClose();
+            //   },
+            //   error => {
+            //     actions.setSubmitting(false);
+            //     actions.setErrors(transformMyAPIErrorToAnObject(error));
+            //   }
+            // );
+          }}
+          render={({
+            values,
+            errors,
+            touched,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            isSubmitting
+          }) => (
+            <form onSubmit={handleSubmit}>
+              {fields.map(field => {
+                <TextField
+                  id={field.name}
+                  label={field.placeholder}
+                  type={field.type}
+                  onChange={event => handleChange()}
+                  margin="normal"
+                  onKeyPress={event => (event.key === 13 ? onSubmit() : "")}
+                />;
+                {
+                  errors[field.name] &&
+                    touched[field.name] && <div>{errors[field.name]}</div>;
+                }
+              })}
+
+              <button type="submit" disabled={isSubmitting}>
+                Submit
+              </button>
+            </form>
+          )}
+        />
+      </CardContent>
+      <CardActions>
+        <Button size="small" color="primary" onClick={onSubmit} type="submit">
+          Login
+        </Button>
+        <Button size="small" color="secondary" onClick={onRegister}>
+          Register
+        </Button>
+      </CardActions>
+      <div>
+        <Button onClick={() => onProviderAuth("google")} size="large" fullWidth>
+          Login with Google
+        </Button>
+        <Button
+          onClick={() => onProviderAuth("facebook")}
+          size="large"
+          fullWidth
+        >
+          Login with facebook
+        </Button>
+        <Button
+          onClick={() => onProviderAuth("twitter")}
+          size="large"
+          fullWidth
+        >
+          Login with twitter
+        </Button>
+      </div>
+    </Card>
   );
 };
+
 export default withStyles(styles)(Login);
