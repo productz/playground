@@ -58,7 +58,6 @@ const helloApi = helloService({ app, userService });
 import jwtService from "./jwt-service/jwt-service.js";
 const jwtApi = jwtService({ app, jwt, config });
 
-
 // =================================================================
 // Create some crud services ========================================
 // ================================================================
@@ -67,7 +66,6 @@ const jwtApi = jwtService({ app, jwt, config });
 import crudService from "./crud-service/crud-service.js";
 const userApi = crudService({ Model: userService, app });
 const chatLogApi = crudService({ Model: chatLogService, app });
-
 
 // =================================================================
 // Open a socket ========================================
@@ -80,8 +78,6 @@ const onEvent = (eventName, eventData) => {
   console.log(eventName, eventData);
 };
 const chatApi = socketService({ app, onEvent, config });
-
-
 
 // =================================================================
 // Setup Auth ========================================
@@ -117,8 +113,15 @@ const onSuccess = (providerName, user, res) => {
 };
 const onError = (providerName, user, res) => {
   //in case the auth doesn't works
-}
-const passportApi = passportService({ app, config, passport, onVerify, onSuccess, onError });
+};
+const passportApi = passportService({
+  app,
+  config,
+  passport,
+  onVerify,
+  onSuccess,
+  onError
+});
 
 // =================================================================
 // Register Services Routes
@@ -126,7 +129,8 @@ const passportApi = passportService({ app, config, passport, onVerify, onSuccess
 
 app.use("/hello", helloApi);
 app.use("/", passportApi);
-app.use("/api", jwtApi);
+// app.use("/api", jwtApi);
+app.use("/jwt", jwtApi);
 app.use("/user", userApi);
 app.use("/chat-log", chatLogApi);
 

@@ -61,10 +61,13 @@ export const Login = ({
         <Formik
           initialValues={{ email: "", password: "" }}
           onSubmit={(values, actions) => {
-            onSubmit(values).then(() => {
-              console.log(actions);
-              actions.setSubmitting(false);
-            });
+            onSubmit(values)
+              .then(() => {
+                actions.setSubmitting(false);
+              })
+              .catch(err => {
+
+              });
           }}
           validationSchema={LoginSchema}
           render={({

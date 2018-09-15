@@ -1,10 +1,23 @@
 const express = require("express");
-
+const jwt = require("jsonwebtoken");
 var apiRoutes = express.Router();
 
-export default function isAuthenticated({ app, jwt, config }) {
+export const isAuthenticated = (token, secret) => {
+  // verifies secret and checks exp
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, secret, function(err, decoded) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(decoded);
+      }
+    });
+  });
+};
+
+export default function jwtService({ config }) {
   // route middleware to verify a token
-  apiRoutes.use(function(req, res, next) {
+  apiRoutes.use("/api", function(req, res, next) {
     // check header or url parameters or post parameters for token
     var token =
       req.body.token || req.query.token || req.headers["x-access-token"];
@@ -33,6 +46,18 @@ export default function isAuthenticated({ app, jwt, config }) {
         message: "No token provided."
       });
     }
+  });
+
+  apiRoutes.post("/is-auth", (req, res) => {
+    var token =
+      req.body.token || req.query.token || req.headers["x-access-token"];
+    isAuthenticated(token, config.get("secret"))
+      .then(() => {
+        res.status(200).send("success");
+      })
+      .catch(err => {
+        res.status(401).send(err);
+      });
   });
   return apiRoutes;
 }

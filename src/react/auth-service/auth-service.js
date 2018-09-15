@@ -2,12 +2,15 @@ import { observer } from "mobx-react";
 import MaterialLogin from "./MaterialLogin";
 import MaterialRegister from "./MaterialRegister";
 import { observable } from "mobx";
+import queryString from "query-string";
 import React from "react";
 import { HashRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import axios from "axios";
 
 //export store
 export class AuthDomain {
   token;
+  isLoggedIn = false;
   constructor() {}
   login(values) {
     return new Promise((resolve, reject) => {
@@ -22,10 +25,27 @@ export class AuthDomain {
     //information to register
     window.location.replace(`http://localhost:8080/auth/${providerName}`);
   }
-  storeToken() {}
-  getToken() {}
+  storeToken() {
+    let jwtToken = queryString.parse(location.search).jwt;
+    if (jwtToken) {
+      localStorage.setItem("jwtToken", jwtToken);
+    }
+  }
   isAuthenticated() {
-    return true;
+    return axios
+      .post("http://localhost:8080/jwt/is-auth", {
+        token: localStorage.getItem("jwtToken")
+      })
+      .then(res => {
+        console.log(res);
+        this.isLoggedIn = true;
+        return res;
+      })
+      .catch(err => {
+        console.log(err);
+        this.isLoggedIn = false;
+        return err;
+      });
   }
 }
 
@@ -52,6 +72,8 @@ export const api = {
 //create the UI and Domain Stores
 let authUI = new AuthUI();
 let authDomain = new AuthDomain();
+authDomain.storeToken();
+authDomain.isAuthenticated();
 
 //determine the theme here and load the right login information?
 export const Login = observer(({ onRegister }) => {
@@ -93,7 +115,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      authDomain.isAuthenticated ? (
+      authDomain.isLoggedIn ? (
         <Component {...props} />
       ) : (
         <Redirect
