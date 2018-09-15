@@ -13,6 +13,7 @@ import Icon from "@material-ui/core/Icon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle, faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Field, Form } from "formik";
+import * as Yup from "yup";
 
 const styles = {
   card: {
@@ -23,16 +24,27 @@ const styles = {
   }
 };
 
+// Synchronous validation
+const LoginSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Invalid email")
+    .required("Required"),
+  password: Yup.string()
+    .required("Required")
+});
+
 let fields = [
   {
     type: "email",
     name: "email",
-    placeholder: "please enter your email"
+    placeholder: "please enter your email",
+    required: true
   },
   {
     type: "password",
     name: "password",
-    placeholder: "please enter your password"
+    placeholder: "please enter your password",
+    required: true
   }
 ];
 
@@ -48,9 +60,10 @@ export const Login = ({
       <CardHeader title="Login" />
       <CardContent>
         <Formik
-          initialValues={user /** { email, social } */}
+          initialValues={{ email: "", password: "" }}
           onSubmit={(values, actions) => {
-            console.log(values,actions);
+            console.log(values, actions);
+            onSubmit(values);
             // CallMyApi(user.id, values).then(
             //   updatedUser => {
             //     actions.setSubmitting(false);
@@ -62,6 +75,7 @@ export const Login = ({
             //   }
             // );
           }}
+          validationSchema={LoginSchema}
           render={({
             values,
             errors,
@@ -70,28 +84,35 @@ export const Login = ({
             handleChange,
             handleSubmit,
             isSubmitting
-          }) => (
-            <form onSubmit={handleSubmit}>
-              {fields.map(field => {
-                <TextField
-                  id={field.name}
-                  label={field.placeholder}
-                  type={field.type}
-                  onChange={event => handleChange()}
-                  margin="normal"
-                  onKeyPress={event => (event.key === 13 ? onSubmit() : "")}
-                />;
-                {
-                  errors[field.name] &&
-                    touched[field.name] && <div>{errors[field.name]}</div>;
-                }
-              })}
-
-              <button type="submit" disabled={isSubmitting}>
-                Submit
-              </button>
-            </form>
-          )}
+          }) => {
+            return (
+              <form onSubmit={handleSubmit}>
+                {fields.map((field, index) => {
+                  return (
+                    <div key={index}>
+                      <TextField
+                        id={field.name}
+                        label={field.placeholder}
+                        type={field.type}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        maegin="normal"
+                        required={field.required}
+                        onKeyPress={event =>
+                          event.key === 13 ? handleSubmit() : ""
+                        }
+                      />
+                      {errors[field.name] &&
+                        touched[field.name] && <div>{errors[field.name]}</div>}
+                    </div>
+                  );
+                })}
+                <button type="submit" disabled={isSubmitting}>
+                  Submit
+                </button>
+              </form>
+            );
+          }}
         />
       </CardContent>
       <CardActions>
