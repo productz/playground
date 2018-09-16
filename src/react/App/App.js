@@ -27,6 +27,9 @@ class App extends React.Component {
               <li>
                 <Link to="/user">User</Link>
               </li>
+              <li>
+                <Link to="/chat-log">Chat log</Link>
+              </li>
             </ul>
             <Route
               path="/auth/login"
@@ -46,6 +49,30 @@ class App extends React.Component {
                 return (
                   <Crud
                     modelName="user"
+                    render={users => {
+                      if (users) {
+                        return users.map(user => {
+                          return <p>{user.name}</p>;
+                        });
+                      }
+                    }}
+                  />
+                );
+              }}
+            />
+            <Route
+              path="/chat-log"
+              render={props => {
+                return (
+                  <Crud
+                    modelName="chat-log"
+                    render={chatLogs => {
+                      if (chatLogs) {
+                        return chatLogs.map(chatLog => {
+                          return <p>chatLog.name</p>;
+                        });
+                      }
+                    }}
                   />
                 );
               }}

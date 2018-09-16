@@ -7,24 +7,30 @@ import axios from "axios";
 export class CrudDomain {
   modelName;
   @observable
-  model;
+  isLoading;
+  @observable
+  model = {};
   constructor() {}
-  getModel() {
-    if (this.model) {
-      return this.model;
+  getModel(modelName) {
+    this.isLoading = true;
+    if (this.model[modelName]) {
+      this.isLoading = false;
+      return this.model[modelName];
     }
     return axios.get(`http://localhost:8080/${this.modelName}`).then(res => {
-      this.model = res.data;
+      this.isLoading = false;
+      this.model[modelName] = res.data;
+      return this.model[modelName];
     });
   }
-  saveModel(model) {
-    return axios.post(`http://localhost:8080/${this.modelName}`);
+  createModel(model) {
+    return axios.post(`http://localhost:8080/${this.modelName}`, model);
   }
   updateModel(model) {
-    return axios.update(`http://localhost:8080/${this.modelName}`);
+    return axios.update(`http://localhost:8080/${this.modelName}`, model);
   }
   deleteModel(model) {
-    return axios.delete(`http://localhost:8080/${this.modelName}`);
+    return axios.delete(`http://localhost:8080/${this.modelName}`, model);
   }
 }
 
@@ -38,20 +44,20 @@ let crudUI = new CrudUI();
 let crudDomain = new CrudDomain();
 
 //determine the theme here and load the right login information?
-export const Crud = observer(({ modelName, children }) => {
+export const Crud = observer(({ modelName, children, render }) => {
   crudDomain.modelName = modelName;
   crudDomain.getModel(modelName);
   return (
     <div>
       {modelName}
       {"-------------------------"}
-      <div>
-        {crudDomain.model &&
-          crudDomain.model.map(item => {
-            return <p>{item.name}</p>;
-          })}
-      </div>
-      {children}
+      {render(
+        crudDomain.model[modelName],
+        crudDomain.getModel,
+        crudDomain.createModel,
+        crudDomain.updateModel,
+        crudDomain.deleteModel
+      )}
     </div>
   );
 });
