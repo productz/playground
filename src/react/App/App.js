@@ -11,29 +11,9 @@ import Home from "./Home";
 class App extends React.Component {
   render() {
     return (
-      <div>
+      <Home>
         <Router>
           <div>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/auth/login">Login</Link>
-              </li>
-              <li>
-                <Link to="/auth/register">Register</Link>
-              </li>
-              <li>
-                <Link to="/admin">Admin</Link>
-              </li>
-              <li>
-                <Link to="/user">User</Link>
-              </li>
-              <li>
-                <Link to="/chat-log">Chat log</Link>
-              </li>
-            </ul>
             <Route
               path="/auth/login"
               render={props => {
@@ -59,10 +39,9 @@ class App extends React.Component {
                 return <ChatLog />;
               }}
             />
-            <Route exact path="/" component={Home} />
           </div>
         </Router>
-      </div>
+      </Home>
     );
   }
   componentWillReceiveProps(nextProps) {}
