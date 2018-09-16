@@ -6,6 +6,7 @@ import { Hello } from "../hello-service/hello-service";
 import { Crud } from "../crud-service/crud-service";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import Home from "./Home";
 
 class App extends React.Component {
   render() {
@@ -45,6 +46,7 @@ class App extends React.Component {
             />
             <Route path="/auth/register" component={Register} />
             <PrivateRoute path="/admin" component={Admin} />
+            <Route path="/home" component={Home} />
             <Route
               path="/user"
               render={props => {
@@ -65,10 +67,6 @@ class App extends React.Component {
   }
   componentWillReceiveProps(nextProps) {}
 }
-
-export const Home = ({}) => {
-  return <p>hello</p>;
-};
 
 export const Admin = ({}) => {
   return <p>Admin Page</p>;
