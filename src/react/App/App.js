@@ -49,7 +49,8 @@ class App extends React.Component {
                 return (
                   <Crud
                     modelName="user"
-                    render={users => {
+                    render={({ model, creatModel }) => {
+                      let users = model;
                       if (users) {
                         return users.map(user => {
                           return <p>{user.name}</p>;
@@ -66,7 +67,8 @@ class App extends React.Component {
                 return (
                   <Crud
                     modelName="chat-log"
-                    render={chatLogs => {
+                    render={({ model }) => {
+                      let chatLogs = model;
                       if (chatLogs) {
                         return chatLogs.map(chatLog => {
                           return <p>chatLog.name</p>;

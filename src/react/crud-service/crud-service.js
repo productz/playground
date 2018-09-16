@@ -34,13 +34,7 @@ export class CrudDomain {
   }
 }
 
-export class CrudUI {
-  @observable
-  name;
-}
-
 //create the UI and Domain Stores
-let crudUI = new CrudUI();
 let crudDomain = new CrudDomain();
 
 //determine the theme here and load the right login information?
@@ -51,13 +45,13 @@ export const Crud = observer(({ modelName, children, render }) => {
     <div>
       {modelName}
       {"-------------------------"}
-      {render(
-        crudDomain.model[modelName],
-        crudDomain.getModel,
-        crudDomain.createModel,
-        crudDomain.updateModel,
-        crudDomain.deleteModel
-      )}
+      {render({
+        model: crudDomain.model[modelName],
+        getModel: crudDomain.getModel,
+        createModel: crudDomain.createModel,
+        updateModel: crudDomain.updateModel,
+        deleteModel: crudDomain.deleteModel
+      })}
     </div>
   );
 });
