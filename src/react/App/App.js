@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { HashRouter as Router, Route, Link } from "react-router-dom";
 import { Login, Register, PrivateRoute } from "../auth-service/auth-service";
+import { Hello } from "../hello-service/hello-service";
+import { Crud } from "../crud-service/crud-service";
 
 class App extends React.Component {
   render() {
@@ -22,6 +24,9 @@ class App extends React.Component {
               <li>
                 <Link to="/admin">Admin</Link>
               </li>
+              <li>
+                <Link to="/user">User</Link>
+              </li>
             </ul>
             <Route
               path="/auth/login"
@@ -35,6 +40,16 @@ class App extends React.Component {
             />
             <Route path="/auth/register" component={Register} />
             <PrivateRoute path="/admin" component={Admin} />
+            <Route
+              path="/user"
+              render={props => {
+                return (
+                  <Crud
+                    modelName="user"
+                  />
+                );
+              }}
+            />
             <Route exact path="/" component={Home} />
           </div>
         </Router>
