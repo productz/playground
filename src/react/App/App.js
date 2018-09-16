@@ -4,6 +4,8 @@ import { HashRouter as Router, Route, Link } from "react-router-dom";
 import { Login, Register, PrivateRoute } from "../auth-service/auth-service";
 import { Hello } from "../hello-service/hello-service";
 import { Crud } from "../crud-service/crud-service";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
 
 class App extends React.Component {
   render() {
@@ -46,37 +48,13 @@ class App extends React.Component {
             <Route
               path="/user"
               render={props => {
-                return (
-                  <Crud
-                    modelName="user"
-                    render={({ model, creatModel }) => {
-                      let users = model;
-                      if (users) {
-                        return users.map(user => {
-                          return <p>{user.name}</p>;
-                        });
-                      }
-                    }}
-                  />
-                );
+                return <User />;
               }}
             />
             <Route
               path="/chat-log"
               render={props => {
-                return (
-                  <Crud
-                    modelName="chat-log"
-                    render={({ model }) => {
-                      let chatLogs = model;
-                      if (chatLogs) {
-                        return chatLogs.map(chatLog => {
-                          return <p>chatLog.name</p>;
-                        });
-                      }
-                    }}
-                  />
-                );
+                return <ChatLog />;
               }}
             />
             <Route exact path="/" component={Home} />
@@ -94,6 +72,47 @@ export const Home = ({}) => {
 
 export const Admin = ({}) => {
   return <p>Admin Page</p>;
+};
+
+export const User = ({}) => {
+  return (
+    <Crud
+      modelName="user"
+      render={({ model, creatModel }) => {
+        let users = model;
+        if (users) {
+          let usersView = users.map(user => {
+            return (
+              <Grid xs={12} item>
+                {user.name}
+              </Grid>
+            );
+          });
+          return (
+            <Grid container>
+              <Paper>{usersView}</Paper>
+            </Grid>
+          );
+        }
+      }}
+    />
+  );
+};
+
+export const ChatLog = ({}) => {
+  return (
+    <Crud
+      modelName="chat-log"
+      render={({ model }) => {
+        let chatLogs = model;
+        if (chatLogs) {
+          return chatLogs.map(chatLog => {
+            return <p>chatLog.name</p>;
+          });
+        }
+      }}
+    />
+  );
 };
 
 ReactDOM.render(<App />, document.getElementById("app"));

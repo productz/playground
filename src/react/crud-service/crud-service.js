@@ -43,8 +43,6 @@ export const Crud = observer(({ modelName, children, render }) => {
   crudDomain.getModel(modelName);
   return (
     <div>
-      {modelName}
-      {"-------------------------"}
       {render({
         model: crudDomain.model[modelName],
         getModel: crudDomain.getModel,
