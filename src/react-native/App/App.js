@@ -1,86 +1,51 @@
-import React, { Component } from "react";
-import {
-  View,
-  Alert,
-  Text,
-  TextInput,
-  Modal,
-  TouchableHighlight,
-  TouchableOpacity,
-  StyleSheet,
-  Image,
-  ScrollView
-} from "react-native";
-import {
-  Container,
-  Header,
-  Title,
-  Button,
-  Left,
-  Right,
-  Body,
-  Icon
-} from "native-base";
-import { observer } from "mobx-react/native";
-import PhotoBrowser from "./react-native-photo-browser/lib/index";
+import React from "react";
+import ReactDOM from "react-dom";
+import { NativeRouter as Router, Route} from 'react-router-native'
+import { Login, Register, PrivateRoute } from "../auth-service/auth-service";
+import Home from "./Home";
+import User from "./User";
+import { ChatLog } from "./ChatLog";
 
-const App = observer(
-  class App extends Component {
-    constructor(props) {
-      super(props);
-      this._onSelectionChanged = this._onSelectionChanged.bind(this);
-      this._onActionButton = this._onActionButton.bind(this);
-      this.openModal = this.openModal.bind(this);
-    }
-
-    _onSelectionChanged(media, index, selected) {
-      this.props.onSelectionChanged(media, index, selected);
-    }
-
-    _onActionButton(media, index) {}
-
-    openModal(media) {
-      this.props.onOpenModal(media);
-    }
-
-    render() {
-      let topBarComponent = Text;
-      let mediaList = this.props.mediaList;
-      let store = this.props.store;
-      return (
-        <View style={styles.container}>
-          <PhotoBrowser
-            mediaList={mediaList}
-            displayActionButton={true}
-            renderTopBar={false}
-            displaySelectionButtons={true}
-            onSelectionChanged={this._onSelectionChanged}
-            enableFullScreen={false}
-            onLoadMore={() => store.getNextPhotoListIOS()}
-            canLoadMore={store.canLoadMore}
-            onLongPress={this.openModal}
-            startOnGrid={true}
-            topBarComponent={topBarComponent}
-            onBack={() => Alert.alert("Back!")}
-          />
-        </View>
-      );
-    }
+class App extends React.Component {
+  render() {
+    return (
+      <Home>
+        <Router>
+          <div>
+            <Route
+              path="/auth/login"
+              render={props => {
+                return (
+                  <Login
+                    onRegister={() => props.history.push("/auth/register")}
+                  />
+                );
+              }}
+            />
+            <Route path="/auth/register" component={Register} />
+            <PrivateRoute path="/admin" component={Admin} />
+            <Route
+              path="/user"
+              render={props => {
+                return <User />;
+              }}
+            />
+            <Route
+              path="/chat-log"
+              render={props => {
+                return <ChatLog />;
+              }}
+            />
+          </div>
+        </Router>
+      </Home>
+    );
   }
-);
+  componentWillReceiveProps(nextProps) {}
+}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  row: {
-    flex: 1
-  },
-  image: {
-    margin: 4,
-    width: 100,
-    height: 100
-  }
-});
+export const Admin = ({}) => {
+  return <p>Admin Page</p>;
+};
 
-export default App;
+ReactDOM.render(<App />, document.getElementById("app"));

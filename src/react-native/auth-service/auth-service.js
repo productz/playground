@@ -4,7 +4,7 @@ import MaterialRegister from "./MaterialRegister";
 import { observable } from "mobx";
 import queryString from "query-string";
 import React from "react";
-import { HashRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import { NativeRouter, Route, Link, Redirect, withRouter } from 'react-router-native'
 import axios from "axios";
 
 //export store
