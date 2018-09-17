@@ -2,23 +2,8 @@
 const React = require("react");
 const ReactNative = require("react-native");
 import {
-  CameraRoll,
-  Image,
-  Slider,
-  StyleSheet,
-  Switch,
   Text,
-  View,
-  TouchableOpacity,
-  AppRegistry,
-  Navigator,
-  Modal,
-  TouchableHighlight,
-  Alert,
-  AlertIOS,
-  PickerIOS,
-  TextInput,
-  NavigatorIOS
+  AppRegistry
 } from "react-native";
 
 import {
@@ -31,9 +16,7 @@ import {
   Body,
   Icon,
   Tab,
-  Tabs,
-  Footer,
-  FooterTab
+  Tabs
 } from "native-base";
 
 import { observer } from "mobx-react/native";
