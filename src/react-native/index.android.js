@@ -12,7 +12,7 @@ import {
   View
 } from 'react-native';
 
-export default class screenshotOrganizer extends Component {
+export default class AndroidApp extends Component {
   render() {
     return (
       <View style={styles.container}>
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('screenshotOrganizer', () => screenshotOrganizer);
+AppRegistry.registerComponent('playground-react-native', () => AndroidApp);
