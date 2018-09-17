@@ -4,7 +4,7 @@ import MaterialRegister from "./MaterialRegister";
 import { observable } from "mobx";
 import queryString from "query-string";
 import React from "react";
-import { NativeRouter, Route, Link, Redirect, withRouter } from 'react-router-native'
+import { Route, Redirect } from "react-router-native";
 import axios from "axios";
 
 //export store
@@ -17,9 +17,7 @@ export class AuthDomain {
       resolve("");
     });
   }
-  register(values) {
-
-  }
+  register(values) {}
   loginWithProvider(providerName) {
     window.location.replace(`http://localhost:8080/auth/${providerName}`);
   }
