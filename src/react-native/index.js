@@ -23,19 +23,19 @@ import { observer } from "mobx-react/native";
 
 import App from "./App/App.js";
 
-const IOSApp = observer(
-  class IOSApp extends React.Component {
+const NativeApp = observer(
+  class NativeApp extends React.Component {
     constructor(props) {
       super(props);
     }
-
     render() {
       return (
         <Container>
           <Header>
             <Left>
               <Button>
-                <Icon name="ios-add" />
+                {/* <Icon name="ios-add" /> */}
+                <Text>Add</Text>
               </Button>
             </Left>
             <Body>
@@ -58,4 +58,4 @@ const IOSApp = observer(
   }
 );
 
-AppRegistry.registerComponent("playground", () => IOSApp);
+AppRegistry.registerComponent("playground", () => NativeApp);

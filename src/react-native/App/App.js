@@ -1,15 +1,37 @@
 import React from "react";
 import { NativeRouter as Router, Route } from "react-router-native";
-import { Login, Register, PrivateRoute } from "../auth-service/auth-service";
-import User from "./User";
-import { ChatLog } from "./ChatLog";
+import {
+  Text,
+  AppRegistry
+} from "react-native";
+import {
+  Container,
+  Header,
+  Title,
+  Button,
+  Left,
+  Right,
+  Body,
+  Icon,
+  Tab,
+  Tabs
+} from "native-base";
+// import { Login, Register, PrivateRoute } from "../auth-service/auth-service";
+// import User from "./User";
+// import { ChatLog } from "./ChatLog";
 
-class App extends React.Component {
+export default class App extends React.Component {
   render() {
     return (
       <Router>
-        <div>
+        <Container>
           <Route
+            path="/"
+            render={props => {
+              return <Text>home</Text>;
+            }}
+          />
+          {/* <Route
             path="/auth/login"
             render={props => {
               return (
@@ -18,10 +40,10 @@ class App extends React.Component {
                 />
               );
             }}
-          />
-          <Route path="/auth/register" component={Register} />
-          <PrivateRoute path="/admin" component={Admin} />
-          <Route
+          /> */}
+          {/* <Route path="/auth/register" component={Register} /> */}
+          {/* <PrivateRoute path="/admin" component={Admin} /> */}
+          {/* <Route
             path="/user"
             render={props => {
               return <User />;
@@ -31,9 +53,8 @@ class App extends React.Component {
             path="/chat-log"
             render={props => {
               return <ChatLog />;
-            }}
-          />
-        </div>
+            }} */}
+        </Container>
       </Router>
     );
   }
