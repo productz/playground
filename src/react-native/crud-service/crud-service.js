@@ -4,7 +4,7 @@ import React from "react";
 import axios from "axios";
 
 //export store
-export class CrudDomain {
+class CrudDomain {
   modelName;
   @observable
   isLoading;

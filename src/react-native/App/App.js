@@ -1,8 +1,6 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import { NativeRouter as Router, Route } from "react-router-native";
 import { Login, Register, PrivateRoute } from "../auth-service/auth-service";
-import Home from "./Home";
 import User from "./User";
 import { ChatLog } from "./ChatLog";
 

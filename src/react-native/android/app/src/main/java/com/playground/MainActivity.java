@@ -1,4 +1,4 @@
-package com.playground-react-native;
+package com.playground;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "playground-react-native";
+        return "playground";
     }
 }

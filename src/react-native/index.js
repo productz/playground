@@ -58,4 +58,4 @@ const IOSApp = observer(
   }
 );
 
-AppRegistry.registerComponent("playground-react-native", () => IOSApp);
+AppRegistry.registerComponent("playground", () => IOSApp);
