@@ -34,7 +34,7 @@ const NativeApp = observer(
           <Header>
             <Left>
               <Button>
-                {/* <Icon name="ios-add" /> */}
+                <Icon name="ios-add" />
                 <Text>Add</Text>
               </Button>
             </Left>
