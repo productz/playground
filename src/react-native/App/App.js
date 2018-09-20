@@ -15,7 +15,7 @@ import {
   Card,
   CardItem
 } from "native-base";
-// import { Login, Register, PrivateRoute } from "../auth-service/auth-service";
+import { Login } from "../auth-service/auth-service";
 // import User from "./User";
 // import { ChatLog } from "./ChatLog";
 
@@ -37,7 +37,7 @@ export default class App extends React.Component {
             );
           }}
         />
-        {/* <Route
+        <Route
             path="/auth/login"
             render={props => {
               return (
@@ -46,7 +46,7 @@ export default class App extends React.Component {
                 />
               );
             }}
-          /> */}
+          />
         {/* <Route path="/auth/register" component={Register} /> */}
         {/* <PrivateRoute path="/admin" component={Admin} /> */}
         {/* <Route

@@ -2,9 +2,8 @@ import { observer } from "mobx-react";
 import MaterialLogin from "./MaterialLogin";
 import MaterialRegister from "./MaterialRegister";
 import { observable } from "mobx";
-import queryString from "query-string";
 import React from "react";
-import { HashRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import { SERVER } from "../config";
 import axios from "axios";
 
@@ -20,11 +19,15 @@ export class AuthDomain {
   }
   register(values) {}
   loginWithProvider(providerName) {
-    window.location.replace(`${SERVER.host}:${SERVER.port}/auth/${providerName}`);
+    window.location.replace(
+      `${SERVER.host}:${SERVER.port}/auth/${providerName}`
+    );
   }
   registerWithProvider(providerName) {
     //information to register
-    window.location.replace(`${SERVER.host}:${SERVER.port}/auth/${providerName}`);
+    window.location.replace(
+      `${SERVER.host}:${SERVER.port}/auth/${providerName}`
+    );
   }
   storeToken() {
     let jwtToken = queryString.parse(location.search).jwt;

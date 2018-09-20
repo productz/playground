@@ -1,23 +1,10 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import { withStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Icon from "@material-ui/core/Icon";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle, faDoorOpen } from "@fortawesome/free-solid-svg-icons";
+import { Card, CardItem, Form, Item, Input, Label, Text } from "native-base";
 
 const Register = ({ onProviderAuth, onSubmit, onChange }) => {
   return (
-    <Card style={{ marginTop: "1em" }}>
-      <CardHeader title="Register" />
-      <CardContent>
+    <Card>
+      <CardItem>
         <TextField
           id="first-name"
           label="Enter your First name"
@@ -52,10 +39,10 @@ const Register = ({ onProviderAuth, onSubmit, onChange }) => {
           onKeyPress={event => (event.key === 13 ? onSubmit() : "")}
         />
         <br />
-        <Button label="Submit" primary={true} onClick={onSubmit}>
+        <Button type="submit" onClick={onSubmit}>
           Register
         </Button>
-      </CardContent>
+      </CardItem>
     </Card>
   );
 };

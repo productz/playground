@@ -55,7 +55,7 @@ const NativeApp = observer(
                   </Link>
                 </Button>
                 <Button>
-                  <Link to="/login">
+                  <Link to="/auth/login">
                     <Text>Login</Text>
                   </Link>
                 </Button>
