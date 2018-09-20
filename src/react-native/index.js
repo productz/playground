@@ -32,7 +32,9 @@ const NativeApp = observer(
         <Container>
           <Header>
             <Left>
-              <Icon type="FontAwesome" name="home" />
+              <Button transparent>
+                <Icon name="menu" />
+              </Button>
             </Left>
             <Body>
               <Title>Home</Title>
