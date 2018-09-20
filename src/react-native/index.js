@@ -1,8 +1,8 @@
 "use strict";
 const React = require("react");
 const ReactNative = require("react-native");
+import { Link, NativeRouter as Router } from "react-router-native";
 import { AppRegistry } from "react-native";
-
 import {
   Container,
   Header,
@@ -15,7 +15,9 @@ import {
   Body,
   Icon,
   Tab,
-  Tabs
+  Tabs,
+  Footer,
+  FooterTab
 } from "native-base";
 
 import { observer } from "mobx-react/native";
@@ -29,33 +31,48 @@ const NativeApp = observer(
     }
     render() {
       return (
-        <Container>
-          <Header>
-            <Left>
-              <Button transparent>
-                <Icon name="menu" />
-              </Button>
-            </Left>
-            <Body>
-              <Title>Home</Title>
-            </Body>
-            <Right>
-              <Button>
-                <Text>Move</Text>
-              </Button>
-            </Right>
-          </Header>
-          <Content>
-            <Text>
-              <Icon type="FontAwesome" name="home" />
-            </Text>
-          </Content>
-          <Tabs>
-            <Tab heading="All">
+        <Router>
+          <Container>
+            <Header>
+              <Left>
+                {/* <Button transparent>
+                  <Icon type="FontAwesome" name="bars" />
+                </Button> */}
+              </Left>
+              <Body>
+                <Title>Playground</Title>
+              </Body>
+              <Right />
+            </Header>
+            <Content>
               <App />
-            </Tab>
-          </Tabs>
-        </Container>
+            </Content>
+            <Footer>
+              <FooterTab>
+                <Button active>
+                  <Link to="/">
+                    <Text>Home</Text>
+                  </Link>
+                </Button>
+                <Button>
+                  <Link to="/login">
+                    <Text>Login</Text>
+                  </Link>
+                </Button>
+                <Button>
+                  <Link to="/register">
+                    <Text>Register</Text>
+                  </Link>
+                </Button>
+                <Button>
+                  <Link to="/register">
+                    <Text>Users</Text>
+                  </Link>
+                </Button>
+              </FooterTab>
+            </Footer>
+          </Container>
+        </Router>
       );
     }
   }

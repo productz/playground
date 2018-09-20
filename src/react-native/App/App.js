@@ -1,9 +1,6 @@
 import React from "react";
-import { NativeRouter as Router, Route } from "react-router-native";
-import {
-  Text,
-  AppRegistry
-} from "react-native";
+import { Route } from "react-router-native";
+import { Text, AppRegistry } from "react-native";
 import {
   Container,
   Header,
@@ -11,10 +8,12 @@ import {
   Button,
   Left,
   Right,
-  Body,
   Icon,
   Tab,
-  Tabs
+  Tabs,
+  Body,
+  Card,
+  CardItem
 } from "native-base";
 // import { Login, Register, PrivateRoute } from "../auth-service/auth-service";
 // import User from "./User";
@@ -23,15 +22,22 @@ import {
 export default class App extends React.Component {
   render() {
     return (
-      <Router>
-        <Container>
-          <Route
-            path="/"
-            render={props => {
-              return <Text>home</Text>;
-            }}
-          />
-          {/* <Route
+      <Container>
+        <Route
+          path="/"
+          render={props => {
+            return (
+              <Card>
+                <CardItem>
+                  <Body>
+                    <Text>home</Text>
+                  </Body>
+                </CardItem>
+              </Card>
+            );
+          }}
+        />
+        {/* <Route
             path="/auth/login"
             render={props => {
               return (
@@ -41,9 +47,9 @@ export default class App extends React.Component {
               );
             }}
           /> */}
-          {/* <Route path="/auth/register" component={Register} /> */}
-          {/* <PrivateRoute path="/admin" component={Admin} /> */}
-          {/* <Route
+        {/* <Route path="/auth/register" component={Register} /> */}
+        {/* <PrivateRoute path="/admin" component={Admin} /> */}
+        {/* <Route
             path="/user"
             render={props => {
               return <User />;
@@ -54,8 +60,7 @@ export default class App extends React.Component {
             render={props => {
               return <ChatLog />;
             }} */}
-        </Container>
-      </Router>
+      </Container>
     );
   }
   componentWillReceiveProps(nextProps) {}
