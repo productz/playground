@@ -1,10 +1,7 @@
 "use strict";
 const React = require("react");
 const ReactNative = require("react-native");
-import {
-  Text,
-  AppRegistry
-} from "react-native";
+import { AppRegistry } from "react-native";
 
 import {
   Container,
@@ -12,6 +9,8 @@ import {
   Title,
   Button,
   Left,
+  Content,
+  Text,
   Right,
   Body,
   Icon,
@@ -33,10 +32,7 @@ const NativeApp = observer(
         <Container>
           <Header>
             <Left>
-              <Button>
-                <Icon name="ios-add" />
-                <Text>Add</Text>
-              </Button>
+              <Icon type="FontAwesome" name="home" />
             </Left>
             <Body>
               <Title>Home</Title>
@@ -47,6 +43,11 @@ const NativeApp = observer(
               </Button>
             </Right>
           </Header>
+          <Content>
+            <Text>
+              <Icon type="FontAwesome" name="home" />
+            </Text>
+          </Content>
           <Tabs>
             <Tab heading="All">
               <App />
