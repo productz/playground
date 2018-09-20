@@ -68,14 +68,14 @@ export const Login = ({
             <Form onSubmit={handleSubmit}>
               {fields.map((field, index) => {
                 return (
-                  <Item fixedLabel>
+                  <Item floatingLabel>
                     <Label>{field.name}</Label>
                     <Input
                       id={field.name}
                       label={field.placeholder}
                       type={field.type}
                       onChange={handleChange}
-                      onBlur={handleBlur}
+                      // onBlur={handleBlur}
                       maegin="normal"
                       required={field.required}
                       onKeyPress={event =>
