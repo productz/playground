@@ -2,9 +2,10 @@ import { observer } from "mobx-react";
 import { observable } from "mobx";
 import React from "react";
 import axios from "axios";
+import { SERVER } from "../config";
 
 //export store
-class CrudDomain {
+export class CrudDomain {
   modelName;
   @observable
   isLoading;
@@ -17,20 +18,20 @@ class CrudDomain {
       this.isLoading = false;
       return this.model[modelName];
     }
-    return axios.get(`http://localhost:8080/${this.modelName}`).then(res => {
+    return axios.get(`${SERVER.host}:${SERVER.port}/${this.modelName}`).then(res => {
       this.isLoading = false;
       this.model[modelName] = res.data;
       return this.model[modelName];
     });
   }
   createModel(model) {
-    return axios.post(`http://localhost:8080/${this.modelName}`, model);
+    return axios.post(`${SERVER.host}:${SERVER.port}/${this.modelName}`, model);
   }
   updateModel(model) {
-    return axios.update(`http://localhost:8080/${this.modelName}`, model);
+    return axios.update(`${SERVER.host}:${SERVER.port}/${this.modelName}`, model);
   }
   deleteModel(model) {
-    return axios.delete(`http://localhost:8080/${this.modelName}`, model);
+    return axios.delete(`${SERVER.host}:${SERVER.port}/${this.modelName}`, model);
   }
 }
 
