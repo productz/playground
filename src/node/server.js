@@ -15,7 +15,7 @@ var jwt = require("jsonwebtoken");
 // configuration ===================================================
 // =================================================================
 var port = config.get("server.port"); // used to create, sign, and verify tokens
-var ip = config.get("server.ip");
+var ip = config.get("server.host");
 mongoose.connect(`${config.get("db.host")}:${config.get("db.port")}`); // connect to database
 app.set("superSecret", config.secret); // secret variable
 

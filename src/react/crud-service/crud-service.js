@@ -18,20 +18,20 @@ export class CrudDomain {
       this.isLoading = false;
       return this.model[modelName];
     }
-    return axios.get(`${SERVER}/${this.modelName}`).then(res => {
+    return axios.get(`${SERVER.host}:${SERVER.port}/${this.modelName}`).then(res => {
       this.isLoading = false;
       this.model[modelName] = res.data;
       return this.model[modelName];
     });
   }
   createModel(model) {
-    return axios.post(`${SERVER}/${this.modelName}`, model);
+    return axios.post(`${SERVER.host}:${SERVER.port}/${this.modelName}`, model);
   }
   updateModel(model) {
-    return axios.update(`${SERVER}/${this.modelName}`, model);
+    return axios.update(`${SERVER.host}:${SERVER.port}/${this.modelName}`, model);
   }
   deleteModel(model) {
-    return axios.delete(`${SERVER}/${this.modelName}`, model);
+    return axios.delete(`${SERVER.host}:${SERVER.port}/${this.modelName}`, model);
   }
 }
 

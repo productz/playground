@@ -17,7 +17,6 @@ export default function({
   onSuccess,
   onError
 }) {
-
   app.use(passport.initialize());
 
   app.use(passport.session());
@@ -33,7 +32,9 @@ export default function({
   //client ID and secret for google
   let googleClientId = config.get("auth.google.clientId");
   let googleClientSecret = config.get("auth.google.clientSecret");
-  let googleCallbackURL = `http://localhost:8080/auth/google/callback`;
+  let googleCallbackURL = `${config.get("server.host")}:${config.get(
+    "server.port"
+  )}/auth/google/callback`;
   googlePassport({
     passport,
     clientId: googleClientId,

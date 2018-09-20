@@ -20,11 +20,11 @@ export class AuthDomain {
   }
   register(values) {}
   loginWithProvider(providerName) {
-    window.location.replace(`${SERVER}/auth/${providerName}`);
+    window.location.replace(`${SERVER.host}:${SERVER.port}/auth/${providerName}`);
   }
   registerWithProvider(providerName) {
     //information to register
-    window.location.replace(`${SERVER}/auth/${providerName}`);
+    window.location.replace(`${SERVER.host}:${SERVER.port}/auth/${providerName}`);
   }
   storeToken() {
     let jwtToken = queryString.parse(location.search).jwt;
@@ -34,7 +34,7 @@ export class AuthDomain {
   }
   isAuthenticated() {
     return axios
-      .post(`${SERVER}/jwt/is-auth`, {
+      .post(`${SERVER.host}:${SERVER.port}/jwt/is-auth`, {
         token: localStorage.getItem("jwtToken")
       })
       .then(res => {
