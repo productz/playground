@@ -22,7 +22,7 @@ import { Login } from "../auth-service/auth-service";
 export default class App extends React.Component {
   render() {
     return (
-      <Container>
+      <React.Fragment>
         <Route
           path="/"
           render={props => {
@@ -60,7 +60,7 @@ export default class App extends React.Component {
             render={props => {
               return <ChatLog />;
             }} */}
-      </Container>
+      </React.Fragment>
     );
   }
   componentWillReceiveProps(nextProps) {}
