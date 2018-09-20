@@ -13,7 +13,6 @@ import { AsyncStorage } from "react-native";
 export class AuthDomain {
   token;
   isLoggedIn = false;
-  history;
   constructor() {}
   async getItem(key) {
     try {

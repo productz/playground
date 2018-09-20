@@ -40,8 +40,7 @@ export const Login = ({
   onChange,
   onSubmit,
   onProviderAuth,
-  onRegister,
-  classes
+  onRegister
 }) => {
   return (
     <React.Fragment>
@@ -76,7 +75,7 @@ export const Login = ({
                       type={field.type}
                       onChange={handleChange}
                       // onBlur={handleBlur}
-                      maegin="normal"
+                      margin="normal"
                       required={field.required}
                       onKeyPress={event =>
                         event.key === 13 ? handleSubmit(event) : ""
