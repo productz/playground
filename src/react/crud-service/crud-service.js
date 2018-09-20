@@ -2,6 +2,7 @@ import { observer } from "mobx-react";
 import { observable } from "mobx";
 import React from "react";
 import axios from "axios";
+import { SERVER } from "../config";
 
 //export store
 export class CrudDomain {
