@@ -24,7 +24,7 @@ export default class App extends React.Component {
     return (
       <React.Fragment>
         <Route
-          path="/"
+          path="/auth/login"
           render={props => {
             return (
               <Card>
@@ -38,7 +38,7 @@ export default class App extends React.Component {
           }}
         />
         <Route
-            path="/auth/login"
+            path="/"
             render={props => {
               return (
                 <Login

@@ -36,17 +36,13 @@ let fields = [
   }
 ];
 
-export const Login = ({
-  onChange,
-  onSubmit,
-  onProviderAuth,
-  onRegister
-}) => {
+export const Login = ({ onChange, onSubmit, onProviderAuth, onRegister }) => {
   return (
     <React.Fragment>
       <Formik
         initialValues={{ email: "", password: "" }}
         onSubmit={(values, actions) => {
+          console.log(values, actions);
           onSubmit(values)
             .then(() => {
               actions.setSubmitting(false);
@@ -61,32 +57,39 @@ export const Login = ({
           handleBlur,
           handleChange,
           handleSubmit,
-          isSubmitting
+          isSubmitting,
+          setFieldValue,
+          submitForm
         }) => {
           return (
-            <Form onSubmit={handleSubmit}>
+            <Form>
               {fields.map((field, index) => {
                 return (
-                  <Item floatingLabel>
+                  <Item key={field.name} floatingLabel>
                     <Label>{field.name}</Label>
                     <Input
                       id={field.name}
                       label={field.placeholder}
                       type={field.type}
-                      onChange={handleChange}
+                      onChangeText={text => {
+                        setFieldValue(field.name, text);
+                      }}
                       // onBlur={handleBlur}
-                      margin="normal"
                       required={field.required}
-                      onKeyPress={event =>
-                        event.key === 13 ? handleSubmit(event) : ""
-                      }
                     />
                     {errors[field.name] &&
                       touched[field.name] && <Text>{errors[field.name]}</Text>}
                   </Item>
                 );
               })}
-              <Button onClick={onSubmit} type="submit" disabled={isSubmitting}>
+              <Button
+                onPress={event => {
+                  // handleSubmit(event);
+                  submitForm();
+                }}
+                type="submit"
+                // disabled={isSubmitting}
+              >
                 <Text>Login</Text>
               </Button>
             </Form>
