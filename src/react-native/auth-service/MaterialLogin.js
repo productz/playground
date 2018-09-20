@@ -59,13 +59,21 @@ export const Login = ({ onChange, onSubmit, onProviderAuth, onRegister }) => {
           handleSubmit,
           isSubmitting,
           setFieldValue,
+          validateForm,
           submitForm
         }) => {
           return (
             <Form>
               {fields.map((field, index) => {
+                let hasError =
+                  errors[field.name] && errors[field.name].length > 0;
                 return (
-                  <Item key={field.name} floatingLabel>
+                  <Item
+                    key={field.name}
+                    floatingLabel
+                    success={!hasError}
+                    error={hasError}
+                  >
                     <Label>{field.name}</Label>
                     <Input
                       id={field.name}
@@ -84,10 +92,8 @@ export const Login = ({ onChange, onSubmit, onProviderAuth, onRegister }) => {
               })}
               <Button
                 onPress={event => {
-                  // handleSubmit(event);
-                  submitForm();
+                  handleSubmit(event);
                 }}
-                type="submit"
                 // disabled={isSubmitting}
               >
                 <Text>Login</Text>
