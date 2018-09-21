@@ -60,7 +60,7 @@ export default function({ Model }) {
 
   apiRoutes.post("/search", (req, res) => {
     let query = req.body;
-    Model.find({ query }).exec((err, results) => {
+    Model.find(query).exec((err, results) => {
       if (err) {
         return res.status(500).send(err);
       }
