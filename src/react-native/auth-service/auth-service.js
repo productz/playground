@@ -70,9 +70,9 @@ export class AuthUI {
   @observable
   email;
   @observable
-  firstname;
+  confirmPassword;
   @observable
-  lastname;
+  gender;
 }
 
 //somehow we have to load stuff from an api
@@ -115,6 +115,7 @@ export const Register = observer(({}) => {
         onChange={(field, value) => {
           authUI[field] = value;
         }}
+        gender={authUI.gender}
         onSubmit={() => authDomain.register(authUI)}
         onProviderAuth={providerName => {
           authDomain.registerWithProvider(providerName);

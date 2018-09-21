@@ -17,7 +17,11 @@ const RegisterSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email")
     .required("Required"),
-  password: Yup.string().required("Required")
+  password: Yup.string().required("Required"),
+  confirmPassword: Yup.string().oneOf(
+    [Yup.ref("password")],
+    "Passwords do not match"
+  )
 });
 
 let fields = [
@@ -41,7 +45,7 @@ let fields = [
   },
   {
     type: "password",
-    name: "confirm-password",
+    name: "confirmPassword",
     placeholder: "Password",
     required: true
   },
@@ -54,7 +58,7 @@ let fields = [
   }
 ];
 
-export const Register = ({ onProviderAuth, onSubmit, onChange }) => {
+export const Register = ({ onProviderAuth, onSubmit, onChange, gender }) => {
   return (
     <React.Fragment>
       <Formik
@@ -94,13 +98,17 @@ export const Register = ({ onProviderAuth, onSubmit, onChange }) => {
                         placeholder={field.placeholder}
                         placeholderStyle={{ color: "#bfc6ea" }}
                         placeholderIconColor="#007aff"
-                        onValueChange={value =>
-                          setFieldValue(field.name, value)
-                        }
+                        onValueChange={value => {
+                          setFieldValue(field.name, value);
+                          onChange(field.name, value);
+                        }}
+                        selectedValue={gender}
                         required={field.required}
                       >
                         {field.items.map(item => {
-                          return <Picker.Item key={item} label={item} value={item} />;
+                          return (
+                            <Picker.Item key={item} label={item} value={item} />
+                          );
                         })}
                       </Picker>
                     </Item>
@@ -120,6 +128,7 @@ export const Register = ({ onProviderAuth, onSubmit, onChange }) => {
                       type={field.type}
                       onChangeText={text => {
                         setFieldValue(field.name, text);
+                        onChange(field.name, text);
                       }}
                       // onBlur={handleBlur}
                       required={field.required}
