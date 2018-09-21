@@ -43,7 +43,7 @@ export const Crud = observer(({ modelName, children, render }) => {
   crudDomain.modelName = modelName;
   crudDomain.getModel(modelName);
   return (
-    <div>
+    <React.Fragment>
       {render({
         model: crudDomain.model[modelName],
         getModel: crudDomain.getModel,
@@ -51,6 +51,6 @@ export const Crud = observer(({ modelName, children, render }) => {
         updateModel: crudDomain.updateModel,
         deleteModel: crudDomain.deleteModel
       })}
-    </div>
+    </React.Fragment>
   );
 });
