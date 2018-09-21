@@ -6,7 +6,7 @@ const User = ({}) => {
   return (
     <Crud
       modelName="user"
-      render={({ model, creatModel }) => {
+      render={({ model, creatModel, isLoading }) => {
         let users = model;
         if (users) {
           let usersView = users.map(user => {

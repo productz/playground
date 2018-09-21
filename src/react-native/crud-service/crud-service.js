@@ -10,39 +10,72 @@ export class CrudDomain {
   @observable
   isLoading;
   @observable
-  model = {};
+  store = {};
   constructor() {}
   getModel(modelName) {
     this.isLoading = true;
-    if (this.model[modelName]) {
+    //cached data, you don't have to hit up he end point
+    if (this.store[modelName]) {
       this.isLoading = false;
-      return this.model[modelName];
+      return this.store[modelName];
     }
     return axios
       .get(`${SERVER.host}:${SERVER.port}/${this.modelName}`)
       .then(res => {
         this.isLoading = false;
-        this.model[modelName] = res.data;
-        return this.model[modelName];
-      });
+        this.store[modelName] = res.data;
+        return this.store[modelName];
+      })
+      .catch(err => {});
   }
   createModel(model) {
-    return axios.post(`${SERVER.host}:${SERVER.port}/${this.modelName}`, model);
+    this.loading = true;
+    return axios
+      .post(`${SERVER.host}:${SERVER.port}/${this.modelName}`, model)
+      .then(res => {
+        this.isLoading = false;
+        return res.data;
+      })
+      .catch(err => {
+        this.isLoading = false;
+        return err;
+      });
   }
   updateModel(model) {
-    return axios.update(
-      `${SERVER.host}:${SERVER.port}/${this.modelName}`,
-      model
-    );
+    return axios
+      .update(`${SERVER.host}:${SERVER.port}/${this.modelName}`, model)
+      .then(res => {
+        this.isLoading = false;
+        return res.data;
+      })
+      .catch(err => {
+        this.isLoading = false;
+        return err;
+      });
   }
   deleteModel(model) {
-    return axios.delete(
-      `${SERVER.host}:${SERVER.port}/${this.modelName}`,
-      model
-    );
+    return axios
+      .delete(`${SERVER.host}:${SERVER.port}/${this.modelName}`, model)
+      .then(res => {
+        this.isLoading = false;
+        return res.data;
+      })
+      .catch(err => {
+        this.isLoading = false;
+        return err;
+      });
   }
   searchModel(query) {
-    return axios.post(`${SERVER.host}:${SERVER.port}/${this.modelName}`, query);
+    return axios
+      .post(`${SERVER.host}:${SERVER.port}/${this.modelName}`, query)
+      .then(res => {
+        this.isLoading = false;
+        return res.data;
+      })
+      .catch(err => {
+        this.isLoading = false;
+        return err;
+      });
   }
 }
 
@@ -56,7 +89,7 @@ export const Crud = observer(({ modelName, children, render }) => {
   return (
     <React.Fragment>
       {render({
-        model: crudDomain.model[modelName],
+        model: crudDomain.store[modelName],
         getModel: crudDomain.getModel,
         createModel: crudDomain.createModel,
         updateModel: crudDomain.updateModel,
