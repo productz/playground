@@ -48,7 +48,6 @@ export default class App extends React.Component {
             }}
           />
         {/* <Route path="/auth/register" component={Register} /> */}
-        {/* <PrivateRoute path="/admin" component={Admin} /> */}
         {/* <Route
             path="/user"
             render={props => {

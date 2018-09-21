@@ -123,21 +123,3 @@ export const Register = observer(({}) => {
     </React.Fragment>
   );
 });
-
-export const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={props =>
-      authDomain.isLoggedIn ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{
-            pathname: "/auth/login?message='please login to view this page'",
-            state: { from: props.location }
-          }}
-        />
-      )
-    }
-  />
-);
