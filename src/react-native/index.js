@@ -60,12 +60,12 @@ const NativeApp = observer(
                   </Link>
                 </Button>
                 <Button>
-                  <Link to="/register">
+                  <Link to="/auth/register">
                     <Text>Register</Text>
                   </Link>
                 </Button>
                 <Button>
-                  <Link to="/register">
+                  <Link to="/user">
                     <Text>Users</Text>
                   </Link>
                 </Button>

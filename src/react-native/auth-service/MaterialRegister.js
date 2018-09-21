@@ -1,15 +1,16 @@
 import React from "react";
 import {
-  Card,
-  CardItem,
   Form,
   Item,
   Input,
   Label,
   Text,
   Picker,
-  Icon
+  Icon,
+  Button
 } from "native-base";
+import * as Yup from "yup";
+import { Formik } from "formik";
 
 // Synchronous validation
 const RegisterSchema = Yup.object().shape({
@@ -53,7 +54,7 @@ let fields = [
   }
 ];
 
-const Register = ({ onProviderAuth, onSubmit, onChange }) => {
+export const Register = ({ onProviderAuth, onSubmit, onChange }) => {
   return (
     <React.Fragment>
       <Formik
@@ -86,20 +87,20 @@ const Register = ({ onProviderAuth, onSubmit, onChange }) => {
                   errors[field.name] && errors[field.name].length > 0;
                 if (field.type === "dropdown") {
                   return (
-                    <Item picker>
+                    <Item key={field.name} picker>
                       <Picker
                         mode="dropdown"
                         iosIcon={<Icon name="ios-arrow-down-outline" />}
-                        style={{ width: undefined }}
                         placeholder={field.placeholder}
                         placeholderStyle={{ color: "#bfc6ea" }}
                         placeholderIconColor="#007aff"
                         onValueChange={value =>
                           setFieldValue(field.name, value)
                         }
+                        required={field.required}
                       >
                         {field.items.map(item => {
-                          <Picker.Item label={item} value={item} />;
+                          return <Picker.Item key={item} label={item} value={item} />;
                         })}
                       </Picker>
                     </Item>
@@ -134,15 +135,12 @@ const Register = ({ onProviderAuth, onSubmit, onChange }) => {
                 }}
                 // disabled={isSubmitting}
               >
-                <Text>Login</Text>
+                <Text>Register</Text>
               </Button>
             </Form>
           );
         }}
       />
-      <Button block secondary onClick={onRegister}>
-        <Text>You don't have an account? register here</Text>
-      </Button>
       <Button onClick={() => onProviderAuth("google")} block secondary>
         <Text>Login with Google</Text>
       </Button>
@@ -151,9 +149,6 @@ const Register = ({ onProviderAuth, onSubmit, onChange }) => {
       </Button>
       <Button onClick={() => onProviderAuth("twitter")} block secondary>
         <Text>Login with twitter</Text>
-      </Button>
-      <Button type="submit" onClick={onSubmit}>
-        Register
       </Button>
     </React.Fragment>
   );
