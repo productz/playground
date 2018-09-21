@@ -2,14 +2,6 @@ import React from "react";
 import { Crud } from "../crud-service/crud-service";
 import { List, ListItem, Text } from "native-base";
 
-const styles = theme => ({
-  root: {
-    width: "100%",
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper
-  }
-});
-
 const User = ({}) => {
   return (
     <Crud
