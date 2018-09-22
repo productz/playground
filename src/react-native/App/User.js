@@ -1,7 +1,14 @@
 import React from "react";
-import { List, ListItem, Spinner, Text } from "native-base";
+import { List, ListItem, Spinner, Text, Button } from "native-base";
 
-const User = ({ model, creatModel, getModel, updateModel, searchModel, isLoading }) => {
+const User = ({
+  model,
+  createModel,
+  getModel,
+  updateModel,
+  searchModel,
+  isLoading
+}) => {
   let users = model;
   if (users) {
     let usersView = users.map(user => {
@@ -11,7 +18,18 @@ const User = ({ model, creatModel, getModel, updateModel, searchModel, isLoading
         </ListItem>
       );
     });
-    return <List>{usersView}</List>;
+    return (
+      <List>
+        {usersView}
+        <Button
+          onPress={() => {
+            createModel({ name: "Zee" });
+          }}
+        >
+          <Text>Create User</Text>
+        </Button>
+      </List>
+    );
   }
   return <Spinner />;
 };
