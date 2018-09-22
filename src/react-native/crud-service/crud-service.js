@@ -1,8 +1,9 @@
 import { observer } from "mobx-react";
-import { observable } from "mobx";
+import { observable, action, runInAction } from "mobx";
 import React from "react";
 import axios from "axios";
 import { SERVER } from "../config";
+import { Spinner, Text } from "native-base";
 
 //export store
 export class CrudDomain {
@@ -12,6 +13,7 @@ export class CrudDomain {
   @observable
   store = {};
   constructor() {}
+  @action
   getModel(modelName) {
     this.isLoading = true;
     //cached data, you don't have to hit up he end point
@@ -22,12 +24,18 @@ export class CrudDomain {
     return axios
       .get(`${SERVER.host}:${SERVER.port}/${this.modelName}`)
       .then(res => {
-        this.isLoading = false;
-        this.store[modelName] = res.data;
-        return this.store[modelName];
+        runInAction(() => {
+          this.isLoading = false;
+          this.store[modelName] = res.data;
+        });
       })
-      .catch(err => {});
+      .catch(err => {
+        runInAction(() => {
+          this.isLoading = false;
+        });
+      });
   }
+  @action
   createModel(model) {
     this.loading = true;
     return axios
@@ -41,6 +49,7 @@ export class CrudDomain {
         return err;
       });
   }
+  @action
   updateModel(model) {
     return axios
       .update(`${SERVER.host}:${SERVER.port}/${this.modelName}`, model)
@@ -53,6 +62,7 @@ export class CrudDomain {
         return err;
       });
   }
+  @action
   deleteModel(model) {
     return axios
       .delete(`${SERVER.host}:${SERVER.port}/${this.modelName}`, model)
@@ -65,6 +75,7 @@ export class CrudDomain {
         return err;
       });
   }
+  @action
   searchModel(query) {
     return axios
       .post(`${SERVER.host}:${SERVER.port}/${this.modelName}`, query)
@@ -88,6 +99,7 @@ export const Crud = observer(({ modelName, children, render }) => {
   crudDomain.getModel(modelName);
   return (
     <React.Fragment>
+      {crudDomain.store[modelName] ? <Text /> : <Spinner />}
       {render({
         model: crudDomain.store[modelName],
         getModel: crudDomain.getModel,

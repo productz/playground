@@ -11,9 +11,8 @@ const User = ({}) => {
         creatModel,
         getModel,
         updateModel,
-        searchModel,
-        isLoading
-      }) => {
+        searchModel
+      }, isLoading) => {
         let users = model;
         if (users) {
           let usersView = users.map(user => {
