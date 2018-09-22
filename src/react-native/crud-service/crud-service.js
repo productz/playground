@@ -8,9 +8,8 @@ import { SERVER } from "../config";
 export class CrudDomain {
   modelName;
   @observable
-  loadingState = {};
-  @observable
   store = {};
+  isEditing = observable.map();
   mapStore = observable.map();
   constructor() {}
   @action
@@ -96,6 +95,10 @@ export class CrudDomain {
         return err;
       });
   }
+  @action
+  setModelEdit(modelName, isEditing) {
+    this.isEditing.set(modelName, isEditing);
+  }
 }
 
 //create the UI and Domain Stores
@@ -121,9 +124,9 @@ export default class Crud extends React.Component {
         model: crudDomain.mapStore.get(modelName),
         getModel: () => crudDomain.getModel(modelName, true),
         createModel: model => crudDomain.createModel(modelName, model),
-        updateModel: crudDomain.updateModel,
-        deleteModel: crudDomain.deleteModel,
-        isLoading: crudDomain.loadingState
+        updateModel: model => crudDomain.updateModel(modelName, model),
+        deleteModel: model => crudDomain.deleteModel(modelName, model),
+        isEditing: crudDomain.isEditing.get(modelName)
       })
     );
     return <React.Fragment>{childrenWithProps}</React.Fragment>;
