@@ -18,6 +18,7 @@ import {
 import { Login, Register } from "../auth-service/auth-service";
 import User from "./User";
 // import { ChatLog } from "./ChatLog";
+import Crud from "../crud-service/crud-service";
 
 export default class App extends React.Component {
   render() {
@@ -38,23 +39,25 @@ export default class App extends React.Component {
           }}
         />
         <Route
-            path="/auth/login"
-            render={props => {
-              return (
-                <Login
-                  onRegister={() => props.history.push("/auth/register")}
-                />
-              );
-            }}
-          />
+          path="/auth/login"
+          render={props => {
+            return (
+              <Login onRegister={() => props.history.push("/auth/register")} />
+            );
+          }}
+        />
         <Route path="/auth/register" component={Register} />
         <Route
-            path="/"
-            render={props => {
-              return <User />;
-            }}
-          />
-          {/* <Route
+          path="/"
+          render={props => {
+            return (
+              <Crud modelName="user">
+                <User />
+              </Crud>
+            );
+          }}
+        />
+        {/* <Route
             path="/chat-log"
             render={props => {
               return <ChatLog />;

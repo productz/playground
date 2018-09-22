@@ -14,15 +14,15 @@ export class CrudDomain {
   store = {};
   constructor() {}
   @action
-  getModel(modelName) {
+  getModel(modelName, refresh) {
     this.isLoading = true;
     //cached data, you don't have to hit up he end point
-    if (this.store[modelName]) {
+    if (this.store[modelName] && !refresh) {
       this.isLoading = false;
       return this.store[modelName];
     }
     return axios
-      .get(`${SERVER.host}:${SERVER.port}/${this.modelName}`)
+      .get(`${SERVER.host}:${SERVER.port}/${modelName}`)
       .then(res => {
         runInAction(() => {
           this.isLoading = false;
@@ -39,7 +39,7 @@ export class CrudDomain {
   createModel(model) {
     this.loading = true;
     return axios
-      .post(`${SERVER.host}:${SERVER.port}/${this.modelName}`, model)
+      .post(`${SERVER.host}:${SERVER.port}/${modelName}`, model)
       .then(res => {
         this.isLoading = false;
         return res.data;
@@ -50,9 +50,9 @@ export class CrudDomain {
       });
   }
   @action
-  updateModel(model) {
+  updateModel(modelName, model) {
     return axios
-      .update(`${SERVER.host}:${SERVER.port}/${this.modelName}`, model)
+      .update(`${SERVER.host}:${SERVER.port}/${modelName}`, model)
       .then(res => {
         this.isLoading = false;
         return res.data;
@@ -63,9 +63,9 @@ export class CrudDomain {
       });
   }
   @action
-  deleteModel(model) {
+  deleteModel(modelName, model) {
     return axios
-      .delete(`${SERVER.host}:${SERVER.port}/${this.modelName}`, model)
+      .delete(`${SERVER.host}:${SERVER.port}/${modelName}`, model)
       .then(res => {
         this.isLoading = false;
         return res.data;
@@ -76,9 +76,9 @@ export class CrudDomain {
       });
   }
   @action
-  searchModel(query) {
+  searchModel(modelName, query) {
     return axios
-      .post(`${SERVER.host}:${SERVER.port}/${this.modelName}`, query)
+      .post(`${SERVER.host}:${SERVER.port}/${modelName}`, query)
       .then(res => {
         this.isLoading = false;
         return res.data;
@@ -94,19 +94,33 @@ export class CrudDomain {
 let crudDomain = new CrudDomain();
 
 //determine the theme here and load the right login information?
-export const Crud = observer(({ modelName, children, render }) => {
-  crudDomain.modelName = modelName;
-  crudDomain.getModel(modelName);
-  return (
-    <React.Fragment>
-      {crudDomain.store[modelName] ? <Text /> : <Spinner />}
-      {render({
+@observer
+export default class Crud extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {}
+  componentWillReceiveProps(nextProps) {}
+  componentDidUpdate() {}
+  render() {
+    let { modelName, children } = this.props;
+    if (modelName) {
+      crudDomain.getModel(modelName, false);
+    }
+    const childrenWithProps = React.Children.map(children, child =>
+      React.cloneElement(child, {
         model: crudDomain.store[modelName],
         getModel: crudDomain.getModel,
         createModel: crudDomain.createModel,
         updateModel: crudDomain.updateModel,
         deleteModel: crudDomain.deleteModel
-      })}
-    </React.Fragment>
-  );
-});
+      })
+    );
+    return (
+      <React.Fragment>
+        {crudDomain.store[modelName] ? <Text /> : <Spinner />}
+        {childrenWithProps}
+      </React.Fragment>
+    );
+  }
+}
