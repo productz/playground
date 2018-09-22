@@ -1,7 +1,7 @@
 import React from "react";
-import { List, ListItem, Text } from "native-base";
+import { List, ListItem, Spinner, Text } from "native-base";
 
-const User = ({ model, creatModel, getModel, updateModel, searchModel }) => {
+const User = ({ model, creatModel, getModel, updateModel, searchModel, isLoading }) => {
   let users = model;
   if (users) {
     let usersView = users.map(user => {
@@ -13,7 +13,7 @@ const User = ({ model, creatModel, getModel, updateModel, searchModel }) => {
     });
     return <List>{usersView}</List>;
   }
-  return <Text />;
+  return <Spinner />;
 };
 
 export default User;
