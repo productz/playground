@@ -9,18 +9,42 @@ import {
   Header,
   Item,
   Input,
-  Icon
+  Icon,
+  Form,
+  Body,
+  Right,
+  Label
 } from "native-base";
 import Modal from "react-native-modal";
 import { Formik } from "formik";
 
-const User = ({ model, createModel, getModel, updateModel, searchModel }) => {
+const User = ({
+  model,
+  createModel,
+  getModel,
+  updateModel,
+  searchModel,
+  setModelEdit,
+  isEditing
+}) => {
   let users = model;
   if (users) {
     let usersView = users.map(user => {
       return (
         <ListItem>
-          <Text>{user.name}</Text>
+          <Body>
+            <Text>{user.name}</Text>
+          </Body>
+          <Right>
+            <Button
+              onPress={() => {
+                setModelEdit(true);
+              }}
+            >
+              <UserEdit user={user} isVisible={isEditing} />
+              <Text>Edit User</Text>
+            </Button>
+          </Right>
         </ListItem>
       );
     });
@@ -45,12 +69,6 @@ const User = ({ model, createModel, getModel, updateModel, searchModel }) => {
           >
             <Text>Create User</Text>
           </Button>
-          <Button
-            onPress={() => {
-            }}
-          >
-            <Text>Edit User</Text>
-          </Button>
         </List>
       </Container>
     );
@@ -58,14 +76,17 @@ const User = ({ model, createModel, getModel, updateModel, searchModel }) => {
   return <Spinner />;
 };
 
-const UserEdit = ({ user, onSave, onDelete, isVisible}) => {
-  let fields = Object.keys(user).map(key => {
-    return {
-      type: "text",
-      name: key,
-      placeholder: key
-    };
-  });
+const UserEdit = ({ user, onSave, onDelete, isVisible }) => {
+  let fields = [];
+  if (user) {
+    fields = Object.keys(user).map(key => {
+      return {
+        type: "text",
+        name: key,
+        placeholder: key
+      };
+    });
+  }
   return (
     <Modal isVisible={isVisible}>
       <Container style={{ flex: 1 }}>
@@ -78,7 +99,6 @@ const UserEdit = ({ user, onSave, onDelete, isVisible}) => {
               })
               .catch(err => {});
           }}
-          validationSchema={LoginSchema}
           render={({
             values,
             errors,
@@ -127,7 +147,15 @@ const UserEdit = ({ user, onSave, onDelete, isVisible}) => {
                   }}
                   // disabled={isSubmitting}
                 >
-                  <Text>Login</Text>
+                  <Text>Save</Text>
+                </Button>
+                <Button
+                  onPress={event => {
+                    handleSubmit(event);
+                  }}
+                  // disabled={isSubmitting}
+                >
+                  <Text>Cancel</Text>
                 </Button>
               </Form>
             );

@@ -22,7 +22,6 @@ export default function({ Model }) {
         console.log(err);
         return res.status(500).send(err);
       }
-      console.log(data);
       res.send(data);
     });
   });

@@ -14,35 +14,29 @@ export class CrudDomain {
   constructor() {}
   @action
   getModel(modelName, refresh) {
-    this.loadingState["isLoading"] = true;
     //cached data, you don't have to hit up he end point
     if (this.mapStore.get(modelName) && !refresh) {
-      this.loadingState["isLoading"] = false;
       return;
     }
     return axios
       .get(`${SERVER.host}:${SERVER.port}/${modelName}`)
       .then(res => {
         runInAction(() => {
-          this.loadingState["isLoading"] = false;
           this.mapStore.set(modelName, res.data);
           this.store[modelName] = res.data;
         });
       })
       .catch(err => {
         runInAction(() => {
-          this.loadingState["isLoading"] = false;
         });
       });
   }
   @action
   createModel(modelName, model) {
-    this.loadingState["isLoading"] = true;
     return axios
       .post(`${SERVER.host}:${SERVER.port}/${modelName}`, model)
       .then(res => {
         runInAction(() => {
-          this.loadingState["isLoading"] = false;
           this.store[modelName].push(res.data);
           let current = this.mapStore.get(modelName);
           this.mapStore.set(modelName, [...current, res.data]);
@@ -51,7 +45,6 @@ export class CrudDomain {
       })
       .catch(err => {
         runInAction(() => {
-          this.loadingState["isLoading"] = false;
         });
         return err;
       });
@@ -61,11 +54,9 @@ export class CrudDomain {
     return axios
       .update(`${SERVER.host}:${SERVER.port}/${modelName}`, model)
       .then(res => {
-        this.loadingState = { isLoading: false };
         return res.data;
       })
       .catch(err => {
-        this.loadingState = { isLoading: false };
         return err;
       });
   }
@@ -74,11 +65,9 @@ export class CrudDomain {
     return axios
       .delete(`${SERVER.host}:${SERVER.port}/${modelName}`, model)
       .then(res => {
-        this.loadingState = { isLoading: false };
         return res.data;
       })
       .catch(err => {
-        this.loadingState = { isLoading: false };
         return err;
       });
   }
@@ -87,11 +76,9 @@ export class CrudDomain {
     return axios
       .post(`${SERVER.host}:${SERVER.port}/${modelName}`, query)
       .then(res => {
-        this.loadingState = { isLoading: false };
         return res.data;
       })
       .catch(err => {
-        this.loadingState = { isLoading: false };
         return err;
       });
   }
@@ -126,6 +113,7 @@ export default class Crud extends React.Component {
         createModel: model => crudDomain.createModel(modelName, model),
         updateModel: model => crudDomain.updateModel(modelName, model),
         deleteModel: model => crudDomain.deleteModel(modelName, model),
+        setModelEdit: isEditing => crudDomain.setModelEdit(modelName,isEditing),
         isEditing: crudDomain.isEditing.get(modelName)
       })
     );
