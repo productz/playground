@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import { observable, action, runInAction } from "mobx";
+import { observable, action, runInAction, toJS } from "mobx";
 import React from "react";
 import axios from "axios";
 import { SERVER } from "../config";
@@ -11,6 +11,7 @@ export class CrudDomain {
   store = {};
   isEditing = observable.map();
   mapStore = observable.map();
+  searchResults = observable.map();
   constructor() {}
   @action
   getModel(modelName, refresh) {
@@ -27,8 +28,7 @@ export class CrudDomain {
         });
       })
       .catch(err => {
-        runInAction(() => {
-        });
+        runInAction(() => {});
       });
   }
   @action
@@ -44,8 +44,7 @@ export class CrudDomain {
         return res.data;
       })
       .catch(err => {
-        runInAction(() => {
-        });
+        runInAction(() => {});
         return err;
       });
   }
@@ -54,6 +53,7 @@ export class CrudDomain {
     return axios
       .update(`${SERVER.host}:${SERVER.port}/${modelName}`, model)
       .then(res => {
+        this.mapStore.set(modelName, [...current, res.data]);
         return res.data;
       })
       .catch(err => {
@@ -62,9 +62,14 @@ export class CrudDomain {
   }
   @action
   deleteModel(modelName, model) {
+    model.deleted = true;
     return axios
       .delete(`${SERVER.host}:${SERVER.port}/${modelName}`, model)
       .then(res => {
+        let notDeleted = this.mapStore.get(modelName).filter(cModel => {
+          return !cModel.deleted;
+        });
+        this.mapStore.set(modelName, notDeleted);
         return res.data;
       })
       .catch(err => {
@@ -113,7 +118,8 @@ export default class Crud extends React.Component {
         createModel: model => crudDomain.createModel(modelName, model),
         updateModel: model => crudDomain.updateModel(modelName, model),
         deleteModel: model => crudDomain.deleteModel(modelName, model),
-        setModelEdit: isEditing => crudDomain.setModelEdit(modelName,isEditing),
+        setModelEdit: isEditing =>
+          crudDomain.setModelEdit(modelName, isEditing),
         isEditing: crudDomain.isEditing.get(modelName)
       })
     );

@@ -23,6 +23,7 @@ const User = ({
   createModel,
   getModel,
   updateModel,
+  deleteModel,
   searchModel,
   setModelEdit,
   isEditing
@@ -34,6 +35,11 @@ const User = ({
         <ListItem>
           <Body>
             <Text>{user.name}</Text>
+            <UserEdit
+              onCancel={() => setModelEdit(false)}
+              user={user}
+              isVisible={isEditing}
+            />
           </Body>
           <Right>
             <Button
@@ -41,8 +47,14 @@ const User = ({
                 setModelEdit(true);
               }}
             >
-              <UserEdit user={user} isVisible={isEditing} />
-              <Text>Edit User</Text>
+              <Text>Edit</Text>
+            </Button>
+            <Button
+              onPress={() => {
+                deleteModel(user);
+              }}
+            >
+              <Text>Delete</Text>
             </Button>
           </Right>
         </ListItem>
@@ -76,7 +88,7 @@ const User = ({
   return <Spinner />;
 };
 
-const UserEdit = ({ user, onSave, onDelete, isVisible }) => {
+const UserEdit = ({ user, onSave, onDelete, onCancel, isVisible }) => {
   let fields = [];
   if (user) {
     fields = Object.keys(user).map(key => {
@@ -151,7 +163,7 @@ const UserEdit = ({ user, onSave, onDelete, isVisible }) => {
                 </Button>
                 <Button
                   onPress={event => {
-                    handleSubmit(event);
+                    onCancel(event);
                   }}
                   // disabled={isSubmitting}
                 >
