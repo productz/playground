@@ -1,5 +1,6 @@
 import React from "react";
 import Modal from "react-native-modal";
+import { toJS } from "mobx";
 import {
   List,
   ListItem,
@@ -16,18 +17,20 @@ import {
   Right,
   Label
 } from "native-base";
+
 import { Formik } from "formik";
 
 export default class UserEdit extends React.Component {
   componentWillReceiveProps(nextProps) {
     console.log("here");
-    console.log(nextProps);
+    console.log(toJS(nextProps.editedUser));
   }
   render() {
     let { editedUser, onSave, onCancel, isVisible } = this.props;
+    let user = editedUser;
     let fields = [];
     let editablePropeerties = ["name"];
-    if (editedUser) {
+    if (user) {
       fields = Object.keys(user)
         .filter(key => editablePropeerties.indexOf(key) !== -1)
         .map(key => {
