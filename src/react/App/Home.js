@@ -14,9 +14,7 @@ import Badge from "@material-ui/core/Badge";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import { mainListItems, secondaryListItems } from "./listItems";
-import SimpleLineChart from "./SimpleLineChart";
-// import SimpleTable from "./SimpleTable";
+import { Routes } from "./Routes";
 
 const drawerWidth = 240;
 
@@ -94,7 +92,7 @@ const styles = theme => ({
   }
 });
 
-class Dashboard extends React.Component {
+class Home extends React.Component {
   state = {
     open: true
   };
@@ -167,7 +165,7 @@ class Dashboard extends React.Component {
               </IconButton>
             </div>
             <Divider />
-            <List>{mainListItems}</List>
+            <List>{Routes}</List>
           </Drawer>
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
@@ -179,8 +177,8 @@ class Dashboard extends React.Component {
   }
 }
 
-Dashboard.propTypes = {
+Home.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Dashboard);
+export default withStyles(styles)(Home);
