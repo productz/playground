@@ -1,5 +1,5 @@
 import React from "react";
-import { Crud } from "../crud-service/crud-service";
+import { Crud } from "../../crud-service/crud-service";
 export const ChatLog = ({}) => {
   return (
     <Crud

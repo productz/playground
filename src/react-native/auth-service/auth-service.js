@@ -96,7 +96,7 @@ export const Login = observer(({ onRegister }) => {
         onChange={(field, value) => {
           authUI[field] = value;
         }}
-        onRegister={onRegister}
+        onRegister={() => onRegister()}
         onSubmit={() => {
           return authDomain.login(authUI);
         }}

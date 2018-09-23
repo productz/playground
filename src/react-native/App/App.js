@@ -17,7 +17,7 @@ import {
 } from "native-base";
 import { Login, Register } from "../auth-service/auth-service";
 import User from "./User/User";
-// import { ChatLog } from "./ChatLog";
+import { ChatLog } from "./ChatLog/ChatLog";
 import Crud from "../crud-service/crud-service";
 
 export default class App extends React.Component {
@@ -42,7 +42,11 @@ export default class App extends React.Component {
           path="/auth/login"
           render={props => {
             return (
-              <Login onRegister={() => props.history.push("/auth/register")} />
+              <Login
+                onRegister={() => {
+                  props.history.push("/auth/register");
+                }}
+              />
             );
           }}
         />
@@ -57,11 +61,12 @@ export default class App extends React.Component {
             );
           }}
         />
-        {/* <Route
-            path="/chat-log"
-            render={props => {
-              return <ChatLog />;
-            }} */}
+        <Route
+          path="/chat-log"
+          render={props => {
+            return <ChatLog />;
+          }}
+        />
       </React.Fragment>
     );
   }

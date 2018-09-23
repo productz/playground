@@ -102,7 +102,7 @@ export const Login = ({ onChange, onSubmit, onProviderAuth, onRegister }) => {
           );
         }}
       />
-      <Button block secondary onClick={onRegister}>
+      <Button block secondary onPress={onRegister}>
         <Text>You don't have an account? register here</Text>
       </Button>
       <Button onClick={() => onProviderAuth("google")} block secondary>
