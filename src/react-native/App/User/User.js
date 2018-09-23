@@ -34,7 +34,7 @@ const User = ({
     let usersView = users.map(user => {
       console.log("rerender user edit");
       return (
-        <ListItem>
+        <ListItem key={user._id}>
           <Body>
             <Text>{user.name}</Text>
           </Body>
