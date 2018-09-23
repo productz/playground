@@ -32,6 +32,7 @@ const User = ({
   let users = model;
   if (users) {
     let usersView = users.map(user => {
+      console.log("rerender user edit");
       return (
         <ListItem>
           <Body>

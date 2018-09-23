@@ -17,15 +17,12 @@ import {
   Right,
   Label
 } from "native-base";
-
 import { Formik } from "formik";
 
 export default class UserEdit extends React.Component {
-  componentWillReceiveProps(nextProps) {
-    console.log("here");
-    console.log(toJS(nextProps.editedUser));
-  }
+  componentWillReceiveProps(nextProps) {}
   render() {
+    console.log("rerender user edit");
     let { editedUser, onSave, onCancel, isVisible } = this.props;
     let user = editedUser;
     let fields = [];
@@ -49,6 +46,8 @@ export default class UserEdit extends React.Component {
             onSubmit={(values, actions) => {
               onSave(user, values);
             }}
+            initialValues={toJS(editedUser)}
+            enableReinitialize={true}
             render={({
               values,
               errors,
@@ -76,13 +75,12 @@ export default class UserEdit extends React.Component {
                         <Label>{field.name}</Label>
                         <Input
                           id={field.name}
-                          // placeholder={field.value}
                           type={field.type}
                           onChangeText={text => {
                             setFieldValue(field.name, text);
                           }}
-                          value={field.value}
                           // onBlur={handleBlur}
+                          value={values[field.name]}
                           required={field.required}
                         />
                         {errors[field.name] &&

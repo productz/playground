@@ -120,6 +120,7 @@ export default class Crud extends React.Component {
     if (modelName) {
       crudDomain.getModel(modelName, false);
     }
+    console.log("rerender crud service");
     crudDomain.mapStore.get(modelName);
     const childrenWithProps = React.Children.map(children, child =>
       React.cloneElement(child, {
