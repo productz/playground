@@ -49,11 +49,19 @@ export class CrudDomain {
       });
   }
   @action
-  updateModel(modelName, model) {
+  updateModel(modelName, model, updateValues) {
+    let extractedModel = toJS(model);
+    Object.keys(updateValues).map(key => {
+      extractedModel[key] = updateValues[key];
+    });
+    model = extractedModel;
     return axios
-      .update(`${SERVER.host}:${SERVER.port}/${modelName}`, model)
+      .put(`${SERVER.host}:${SERVER.port}/${modelName}`, model)
       .then(res => {
-        this.mapStore.set(modelName, [...current, res.data]);
+        let updatedModel = this.mapStore
+          .get(modelName)
+          .map(cModel => (cModel._id === model._id ? model : cModel));
+        this.mapStore.set(modelName, updatedModel);
         return res.data;
       })
       .catch(err => {
@@ -116,7 +124,8 @@ export default class Crud extends React.Component {
         model: crudDomain.mapStore.get(modelName),
         getModel: () => crudDomain.getModel(modelName, true),
         createModel: model => crudDomain.createModel(modelName, model),
-        updateModel: model => crudDomain.updateModel(modelName, model),
+        updateModel: (model, updateValues) =>
+          crudDomain.updateModel(modelName, model, updateValues),
         deleteModel: model => crudDomain.deleteModel(modelName, model),
         setModelEdit: isEditing =>
           crudDomain.setModelEdit(modelName, isEditing),

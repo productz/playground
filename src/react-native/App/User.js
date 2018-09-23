@@ -37,6 +37,7 @@ const User = ({
             <Text>{user.name}</Text>
             <UserEdit
               onCancel={() => setModelEdit(false)}
+              onSave={values => updateModel(user, values)}
               user={user}
               isVisible={isEditing}
             />
@@ -88,7 +89,7 @@ const User = ({
   return <Spinner />;
 };
 
-const UserEdit = ({ user, onSave, onDelete, onCancel, isVisible }) => {
+const UserEdit = ({ user, onSave, onCancel, isVisible }) => {
   let fields = [];
   if (user) {
     fields = Object.keys(user).map(key => {
@@ -103,9 +104,8 @@ const UserEdit = ({ user, onSave, onDelete, onCancel, isVisible }) => {
     <Modal isVisible={isVisible}>
       <Container style={{ flex: 1 }}>
         <Formik
-          initialValues={{ email: "", password: "" }}
           onSubmit={(values, actions) => {
-            onSubmit(values)
+            onSave(values)
               .then(() => {
                 actions.setSubmitting(false);
               })

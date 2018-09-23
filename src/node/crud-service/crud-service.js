@@ -38,6 +38,7 @@ export default function({ Model }) {
       },
       function(err, doc) {
         if (err) return res.send(500, { error: err });
+        console.log(newModel);
         res.send(newModel);
       }
     );
