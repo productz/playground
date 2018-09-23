@@ -51,10 +51,10 @@ export class CrudDomain {
   @action
   updateModel(modelName, model, updateValues) {
     let extractedModel = toJS(model);
+    console.log(extractedModel);
     Object.keys(updateValues).map(key => {
-      extractedModel[key] = updateValues[key];
+      model[key] = updateValues[key];
     });
-    model = extractedModel;
     return axios
       .put(`${SERVER.host}:${SERVER.port}/${modelName}`, model)
       .then(res => {

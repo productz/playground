@@ -37,7 +37,9 @@ const User = ({
             <Text>{user.name}</Text>
             <UserEdit
               onCancel={() => setModelEdit(false)}
-              onSave={values => updateModel(user, values)}
+              onSave={(updatedUser, values) => {
+                updateModel(updatedUser, values);
+              }}
               user={user}
               isVisible={isEditing}
             />
@@ -96,7 +98,8 @@ const UserEdit = ({ user, onSave, onCancel, isVisible }) => {
       return {
         type: "text",
         name: key,
-        placeholder: key
+        placeholder: key,
+        value: user[key]
       };
     });
   }
@@ -105,11 +108,7 @@ const UserEdit = ({ user, onSave, onCancel, isVisible }) => {
       <Container style={{ flex: 1 }}>
         <Formik
           onSubmit={(values, actions) => {
-            onSave(values)
-              .then(() => {
-                actions.setSubmitting(false);
-              })
-              .catch(err => {});
+            onSave(user, values);
           }}
           render={({
             values,
@@ -138,11 +137,12 @@ const UserEdit = ({ user, onSave, onCancel, isVisible }) => {
                       <Label>{field.name}</Label>
                       <Input
                         id={field.name}
-                        label={field.placeholder}
+                        // placeholder={field.value}
                         type={field.type}
                         onChangeText={text => {
                           setFieldValue(field.name, text);
                         }}
+                        value={field.value}
                         // onBlur={handleBlur}
                         required={field.required}
                       />
