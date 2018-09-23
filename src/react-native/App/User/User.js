@@ -73,7 +73,7 @@ const User = ({
           onSave={(updatedUser, values) => {
             updateModel(updatedUser, values);
           }}
-          getUser={getEditedModel}
+          editedUser={editedModel}
           isVisible={isEditing}
         />
         <List>
