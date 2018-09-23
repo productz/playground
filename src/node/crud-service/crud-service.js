@@ -43,11 +43,12 @@ export default function({ Model }) {
     );
   });
 
-  apiRoutes.delete("/", (req, res) => {
-    let requestModel = req.body;
+  apiRoutes.delete("/:_id", (req, res) => {
+    let requestModelID = req.params._id;
+    console.log(req.params);
     //remove the imported Model
     Model.find({
-      _id: requestModel["_id"]
+      _id: requestModelID
     })
       .remove()
       .exec(err => {

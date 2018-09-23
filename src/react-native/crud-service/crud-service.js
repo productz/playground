@@ -73,7 +73,7 @@ export class CrudDomain {
   deleteModel(modelName, model) {
     model.deleted = true;
     return axios
-      .delete(`${SERVER.host}:${SERVER.port}/${modelName}`, model)
+      .delete(`${SERVER.host}:${SERVER.port}/${modelName}/${model._id}`)
       .then(res => {
         let notDeleted = this.mapStore.get(modelName).filter(cModel => {
           return !cModel.deleted;
