@@ -12,6 +12,7 @@ export class CrudDomain {
   isEditing = observable.map();
   mapStore = observable.map();
   searchResults = observable.map();
+  editedModel = observable.map();
   constructor() {}
   @action
   getModel(modelName, refresh) {
@@ -96,7 +97,8 @@ export class CrudDomain {
       });
   }
   @action
-  setModelEdit(modelName, isEditing) {
+  setModelEdit(modelName, model, isEditing) {
+    this.editedModel.set(modelName, model);
     this.isEditing.set(modelName, isEditing);
   }
 }
@@ -127,9 +129,10 @@ export default class Crud extends React.Component {
         updateModel: (model, updateValues) =>
           crudDomain.updateModel(modelName, model, updateValues),
         deleteModel: model => crudDomain.deleteModel(modelName, model),
-        setModelEdit: isEditing =>
-          crudDomain.setModelEdit(modelName, isEditing),
-        isEditing: crudDomain.isEditing.get(modelName)
+        setModelEdit: (model, isEditing) =>
+          crudDomain.setModelEdit(modelName, model, isEditing),
+        isEditing: crudDomain.isEditing.get(modelName),
+        editedModel: crudDomain.editedModel.get(modelName)
       })
     );
     return <React.Fragment>{childrenWithProps}</React.Fragment>;

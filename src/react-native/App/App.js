@@ -16,7 +16,7 @@ import {
   CardItem
 } from "native-base";
 import { Login, Register } from "../auth-service/auth-service";
-import User from "./User";
+import User from "./User/User";
 // import { ChatLog } from "./ChatLog";
 import Crud from "../crud-service/crud-service";
 
