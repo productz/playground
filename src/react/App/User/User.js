@@ -73,30 +73,37 @@ const User = ({
         </header>
         <Route
           path={`${match.path}/:id`}
-          render={props => {
+          render={({ match }) => {
             return (
               <UserEdit
                 onCancel={() => setModelEdit(false)}
                 onSave={(updatedUser, values) => {
                   updateModel(updatedUser, values);
                 }}
-                users={model}
-                match={props.match}
+                user={users.find(({ _id }) => _id === match.params.id)}
                 isVisible={isEditing}
               />
             );
           }}
         />
-        <List>
-          {usersView}
-          <Button
-            onClick={() => {
-              createModel({ name: "Zee" });
-            }}
-          >
-            <p>Create User</p>
-          </Button>
-        </List>
+        <Route
+          exact
+          path={`${match.path}`}
+          render={props => {
+            return (
+              <List>
+                {usersView}
+                <Button
+                  onClick={() => {
+                    createModel({ name: "Zee" });
+                  }}
+                >
+                  <p>Create User</p>
+                </Button>
+              </List>
+            );
+          }}
+        />
       </div>
     );
   }

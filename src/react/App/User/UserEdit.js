@@ -8,8 +8,7 @@ export default class UserEdit extends React.Component {
   componentWillReceiveProps(nextProps) {}
   render() {
     console.log("rerender user edit");
-    let { users, onSave, onCancel, match } = this.props;
-    let user = users.find(({ _id }) => _id === match.params.id);
+    let { user, onSave, onCancel } = this.props;
     let fields = [];
     let editablePropeerties = ["name"];
     if (user) {
