@@ -15,10 +15,12 @@ import {
   Card,
   CardItem
 } from "native-base";
-import { Login, Register } from "../auth-service/auth-service";
+import { LoginWithAuth, RegisterWithAuth } from "../auth-service/auth-service";
+import Crud from "../../react+react-native/crud-service/crud-service";
 import User from "./User/User";
 import { ChatLog } from "./ChatLog/ChatLog";
-import Crud from "../crud-service/crud-service";
+import Login from "./Login/Login";
+import Register from "./Login/Login";
 
 export default class App extends React.Component {
   render() {
@@ -42,15 +44,21 @@ export default class App extends React.Component {
           path="/auth/login"
           render={props => {
             return (
-              <Login
+              <LoginWithAuth
                 onRegister={() => {
                   props.history.push("/auth/register");
                 }}
+                LoginComponent={Login}
               />
             );
           }}
         />
-        <Route path="/auth/register" component={Register} />
+        <Route
+          path="/auth/register"
+          render={props => {
+            return <RegisterWithAuth RegisterComponent={Register} />;
+          }}
+        />
         <Route
           path="/"
           render={props => {

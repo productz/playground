@@ -1,6 +1,4 @@
 import { observer } from "mobx-react";
-import MaterialLogin from "./MaterialLogin";
-import MaterialRegister from "./MaterialRegister";
 import { observable } from "mobx";
 import React from "react";
 import { Route, Redirect } from "react-router-native";
@@ -89,38 +87,34 @@ authDomain.storeToken();
 authDomain.isAuthenticated();
 
 //determine the theme here and load the right login information?
-export const Login = observer(({ onRegister }) => {
-  return (
-    <React.Fragment>
-      <MaterialLogin
-        onChange={(field, value) => {
-          authUI[field] = value;
-        }}
-        onRegister={() => onRegister()}
-        onSubmit={() => {
-          return authDomain.login(authUI);
-        }}
-        onProviderAuth={providerName => {
-          authDomain.loginWithProvider(providerName);
-        }}
-      />
-    </React.Fragment>
-  );
+export const LoginWithAuth = observer(({ onRegister, LoginComponent }) => {
+  let decoratedLogin = React.cloneElement(LoginComponent, {
+    onChange: (field, value) => {
+      authUI[field] = value;
+    },
+    onRegister: () => onRegister(),
+    onSubmit: () => {
+      return authDomain.login(authUI);
+    },
+    onProviderAuth: providerName => {
+      authDomain.loginWithProvider(providerName);
+    }
+  });
+  return <React.Fragment>{decoratedLogin}</React.Fragment>;
 });
 
-export const Register = observer(({}) => {
-  return (
-    <React.Fragment>
-      <MaterialRegister
-        onChange={(field, value) => {
-          authUI[field] = value;
-        }}
-        gender={authUI.gender}
-        onSubmit={() => authDomain.register(authUI)}
-        onProviderAuth={providerName => {
-          authDomain.registerWithProvider(providerName);
-        }}
-      />
-    </React.Fragment>
-  );
+export const RegisterWithAuth = observer(({ RegisterComponent }) => {
+  let decoratedRegister = React.cloneElement(RegisterComponent, {
+    onChange: (field, value) => {
+      authUI[field] = value;
+    },
+    onRegister: () => onRegister(),
+    onSubmit: () => {
+      return authDomain.register(authUI);
+    },
+    onProviderAuth: providerName => {
+      authDomain.loginWithProvider(providerName);
+    }
+  });
+  return <React.Fragment>{decoratedRegister}</React.Fragment>;
 });
