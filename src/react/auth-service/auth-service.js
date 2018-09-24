@@ -75,39 +75,39 @@ authDomain.storeToken();
 authDomain.isAuthenticated();
 
 //determine the theme here and load the right login information?
-export const Login = observer(({ onRegister }) => {
-  return (
-    <div>
-      <MaterialLogin
-        onChange={(field, value) => {
-          authUI[field] = value;
-        }}
-        onRegister={onRegister}
-        onSubmit={() => {
-          return authDomain.login(authUI);
-        }}
-        onProviderAuth={providerName => {
-          authDomain.loginWithProvider(providerName);
-        }}
-      />
-    </div>
+export const LoginWithAuth = observer(({ onRegister, children }) => {
+  let decoratedLogin = React.Children.map(children, child =>
+    React.cloneElement(child, {
+      onChange: (field, value) => {
+        authUI[field] = value;
+      },
+      onRegister: () => onRegister(),
+      onSubmit: () => {
+        return authDomain.login(authUI);
+      },
+      onProviderAuth: providerName => {
+        authDomain.loginWithProvider(providerName);
+      }
+    })
   );
+  return <React.Fragment>{decoratedLogin}</React.Fragment>;
 });
 
-export const Register = observer(({}) => {
-  return (
-    <div>
-      <MaterialRegister
-        onChange={(field, value) => {
-          authUI[field] = value;
-        }}
-        onSubmit={() => authDomain.register(authUI)}
-        onProviderAuth={providerName => {
-          authDomain.registerWithProvider(providerName);
-        }}
-      />
-    </div>
+export const RegisterWithAuth = observer(({ children }) => {
+  let decoratedRegister = React.Children.map(children, child =>
+    React.cloneElement(children, {
+      onChange: (field, value) => {
+        authUI[field] = value;
+      },
+      onSubmit: () => {
+        return authDomain.register(authUI);
+      },
+      onProviderAuth: providerName => {
+        authDomain.loginWithProvider(providerName);
+      }
+    })
   );
+  return <React.Fragment>{decoratedRegister}</React.Fragment>;
 });
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (

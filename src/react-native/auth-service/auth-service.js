@@ -87,34 +87,37 @@ authDomain.storeToken();
 authDomain.isAuthenticated();
 
 //determine the theme here and load the right login information?
-export const LoginWithAuth = observer(({ onRegister, LoginComponent }) => {
-  let decoratedLogin = React.cloneElement(LoginComponent, {
-    onChange: (field, value) => {
-      authUI[field] = value;
-    },
-    onRegister: () => onRegister(),
-    onSubmit: () => {
-      return authDomain.login(authUI);
-    },
-    onProviderAuth: providerName => {
-      authDomain.loginWithProvider(providerName);
-    }
-  });
+export const LoginWithAuth = observer(({ onRegister, children }) => {
+  let decoratedLogin = React.Children.map(children, child =>
+    React.cloneElement(child, {
+      onChange: (field, value) => {
+        authUI[field] = value;
+      },
+      onRegister: () => onRegister(),
+      onSubmit: () => {
+        return authDomain.login(authUI);
+      },
+      onProviderAuth: providerName => {
+        authDomain.loginWithProvider(providerName);
+      }
+    })
+  );
   return <React.Fragment>{decoratedLogin}</React.Fragment>;
 });
 
-export const RegisterWithAuth = observer(({ RegisterComponent }) => {
-  let decoratedRegister = React.cloneElement(RegisterComponent, {
-    onChange: (field, value) => {
-      authUI[field] = value;
-    },
-    onRegister: () => onRegister(),
-    onSubmit: () => {
-      return authDomain.register(authUI);
-    },
-    onProviderAuth: providerName => {
-      authDomain.loginWithProvider(providerName);
-    }
-  });
+export const RegisterWithAuth = observer(({ children }) => {
+  let decoratedRegister = React.Children.map(children, child =>
+    React.cloneElement(children, {
+      onChange: (field, value) => {
+        authUI[field] = value;
+      },
+      onSubmit: () => {
+        return authDomain.register(authUI);
+      },
+      onProviderAuth: providerName => {
+        authDomain.loginWithProvider(providerName);
+      }
+    })
+  );
   return <React.Fragment>{decoratedRegister}</React.Fragment>;
 });

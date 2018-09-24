@@ -1,8 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { HashRouter as Router, Route } from "react-router-dom";
-import { Login, Register, PrivateRoute } from "../auth-service/auth-service";
-import { Crud } from "../../react+react-native/crud-service/crud-service";
+import {
+  LoginWithAuth,
+  RegisterWithAuth,
+  PrivateRoute
+} from "../auth-service/auth-service";
+import { Crud } from "../crud-service/crud-service";
 import Home from "./Home";
 import User from "./User/User";
 import { ChatLog } from "./ChatLog";
@@ -17,13 +21,24 @@ class App extends React.Component {
               path="/auth/login"
               render={props => {
                 return (
-                  <Login
+                  <LoginWithAuth
                     onRegister={() => props.history.push("/auth/register")}
-                  />
+                  >
+                    <Login />
+                  </LoginWithAuth>
                 );
               }}
             />
-            <Route path="/auth/register" component={Register} />
+            <Route
+              path="/auth/register"
+              render={props => {
+                return (
+                  <RegisterWithAuth>
+                    <Register />
+                  </RegisterWithAuth>
+                );
+              }}
+            />
             <PrivateRoute path="/admin" component={Admin} />
             <Route
               path="/user"
