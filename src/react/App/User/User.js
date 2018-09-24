@@ -37,7 +37,6 @@ const User = ({
     let usersView = users.map(user => {
       return (
         <ListItem key={user._id}>
-          <ListItemAvatar />
           <ListItemText>
             <p>{user.name}</p>
           </ListItemText>

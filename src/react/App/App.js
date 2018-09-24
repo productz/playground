@@ -6,7 +6,7 @@ import {
   RegisterWithAuth,
   PrivateRoute
 } from "../auth-service/auth-service";
-import { Crud } from "../crud-service/crud-service";
+import Crud from "../crud-service/crud-service";
 import Home from "./Home";
 import User from "./User/User";
 import { ChatLog } from "./ChatLog";
