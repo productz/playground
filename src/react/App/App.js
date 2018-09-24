@@ -10,6 +10,8 @@ import { Crud } from "../crud-service/crud-service";
 import Home from "./Home";
 import User from "./User/User";
 import { ChatLog } from "./ChatLog";
+import Login from "./Login/MaterialLogin";
+import Register from "./Register/MaterialRegister";
 
 class App extends React.Component {
   render() {

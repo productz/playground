@@ -1,6 +1,4 @@
 import { observer } from "mobx-react";
-import MaterialLogin from "./MaterialLogin";
-import MaterialRegister from "./MaterialRegister";
 import { observable } from "mobx";
 import queryString from "query-string";
 import React from "react";

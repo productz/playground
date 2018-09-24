@@ -116,7 +116,8 @@ export const RegisterWithAuth = observer(({ children }) => {
       },
       onProviderAuth: providerName => {
         authDomain.loginWithProvider(providerName);
-      }
+      },
+      gender: authUI.gender
     })
   );
   return <React.Fragment>{decoratedRegister}</React.Fragment>;
