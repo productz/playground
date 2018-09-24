@@ -1,30 +1,15 @@
 import React from "react";
-import Modal from "react-native-modal";
 import { toJS } from "mobx";
-import {
-  List,
-  ListItem,
-  Spinner,
-  Text,
-  Button,
-  Container,
-  Header,
-  Item,
-  Input,
-  Icon,
-  Form,
-  Body,
-  Right,
-  Label
-} from "native-base";
 import { Formik } from "formik";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 
 export default class UserEdit extends React.Component {
   componentWillReceiveProps(nextProps) {}
   render() {
     console.log("rerender user edit");
-    let { editedUser, onSave, onCancel, isVisible } = this.props;
-    let user = editedUser;
+    let { users, onSave, onCancel, match } = this.props;
+    let user = users.find(({ _id }) => _id === match.params.id);
     let fields = [];
     let editablePropeerties = ["name"];
     if (user) {
@@ -40,78 +25,69 @@ export default class UserEdit extends React.Component {
         });
     }
     return (
-      <Modal isVisible={isVisible}>
-        <Container style={{ flex: 1 }}>
-          <Formik
-            onSubmit={(values, actions) => {
-              onSave(user, values);
-            }}
-            initialValues={toJS(editedUser)}
-            enableReinitialize={true}
-            render={({
-              values,
-              errors,
-              touched,
-              handleBlur,
-              handleChange,
-              handleSubmit,
-              isSubmitting,
-              setFieldValue,
-              validateForm,
-              submitForm
-            }) => {
-              return (
-                <Form>
-                  {fields.map((field, index) => {
-                    let hasError =
-                      errors[field.name] && errors[field.name].length > 0;
-                    return (
-                      <Item
-                        key={field.name}
-                        floatingLabel
-                        success={!hasError}
-                        error={hasError}
-                      >
-                        <Label>{field.name}</Label>
-                        <Input
-                          id={field.name}
-                          type={field.type}
-                          onChangeText={text => {
-                            setFieldValue(field.name, text);
-                          }}
-                          // onBlur={handleBlur}
-                          value={values[field.name]}
-                          required={field.required}
-                        />
-                        {errors[field.name] &&
-                          touched[field.name] && (
-                            <Text>{errors[field.name]}</Text>
-                          )}
-                      </Item>
-                    );
-                  })}
-                  <Button
-                    onPress={event => {
-                      handleSubmit(event);
-                    }}
-                    // disabled={isSubmitting}
-                  >
-                    <Text>Save</Text>
-                  </Button>
-                  <Button
-                    onPress={event => {
-                      onCancel(event);
-                    }}
-                    // disabled={isSubmitting}
-                  >
-                    <Text>Cancel</Text>
-                  </Button>
-                </Form>
-              );
-            }}
-          />
-        </Container>
-      </Modal>
+      <div style={{ flex: 1 }}>
+        <Formik
+          onSubmit={(values, actions) => {
+            onSave(user, values);
+          }}
+          initialValues={toJS(user)}
+          enableReinitialize={true}
+          render={({
+            values,
+            errors,
+            touched,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            isSubmitting,
+            setFieldValue,
+            validateForm,
+            submitForm
+          }) => {
+            return (
+              <form>
+                {fields.map((field, index) => {
+                  let hasError =
+                    errors[field.name] && errors[field.name].length > 0;
+                  return (
+                    <div key={field.name}>
+                      <label>{field.name}</label>
+                      <TextField
+                        id={field.name}
+                        type={field.type}
+                        onChange={event => {
+                          setFieldValue(field.name, event.target.value);
+                        }}
+                        // onBlur={handleBlur}
+                        value={values[field.name]}
+                        required={field.required}
+                      />
+                      {errors[field.name] &&
+                        touched[field.name] && <p>{errors[field.name]}</p>}
+                    </div>
+                  );
+                })}
+                <Button
+                  onClick={event => {
+                    handleSubmit(event);
+                  }}
+                  // disabled={isSubmitting}
+                >
+                  <p>Save</p>
+                </Button>
+                <Button
+                  onClick={event => {
+                    onCancel(event);
+                  }}
+                  // disabled={isSubmitting}
+                >
+                  Cancel
+                </Button>
+              </form>
+            );
+          }}
+        />
+      </div>
     );
   }
 }

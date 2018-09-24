@@ -122,8 +122,8 @@ export default class Crud extends React.Component {
     }
     console.log("rerender crud service");
     crudDomain.mapStore.get(modelName);
-    const childrenWithProps = React.Children.map(children, child =>
-      React.cloneElement(child, {
+    const childrenWithProps = React.Children.map(children, child => {
+      return React.cloneElement(child, {
         model: crudDomain.mapStore.get(modelName),
         getModel: () => crudDomain.getModel(modelName, true),
         createModel: model => crudDomain.createModel(modelName, model),
@@ -133,9 +133,10 @@ export default class Crud extends React.Component {
         setModelEdit: (model, isEditing) =>
           crudDomain.setModelEdit(modelName, model, isEditing),
         isEditing: crudDomain.isEditing.get(modelName),
-        editedModel: crudDomain.editedModel.get(modelName)
-      })
-    );
+        editedModel: crudDomain.editedModel.get(modelName),
+        ...child.props
+      });
+    });
     return <React.Fragment>{childrenWithProps}</React.Fragment>;
   }
 }

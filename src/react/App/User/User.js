@@ -12,6 +12,8 @@ import { withStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { Route, Link } from "react-router-dom";
+import UserEdit from "./UserEdit";
 
 const styles = theme => ({
   root: {
@@ -30,7 +32,10 @@ const User = ({
   searchModel,
   setModelEdit,
   isEditing,
-  editedModel
+  editedModel,
+  location,
+  match,
+  history
 }) => {
   let users = model;
   if (users) {
@@ -41,13 +46,15 @@ const User = ({
             <p>{user.name}</p>
           </ListItemText>
           <ListItemSecondaryAction>
-            <Button
-              onClick={() => {
-                setModelEdit(user, true);
-              }}
-            >
-              <p>Edit</p>
-            </Button>
+            <Link to={`${match.url}/${user._id}`}>
+              <Button
+                onClick={() => {
+                  setModelEdit(user, true);
+                }}
+              >
+                <p>Edit</p>
+              </Button>
+            </Link>
             <Button
               onClick={() => {
                 deleteModel(user);
@@ -64,14 +71,22 @@ const User = ({
         <header>
           <TextField />
         </header>
-        {/* <UserEdit
-          onCancel={() => setModelEdit(false)}
-          onSave={(updatedUser, values) => {
-            updateModel(updatedUser, values);
+        <Route
+          path={`${match.path}/:id`}
+          render={props => {
+            return (
+              <UserEdit
+                onCancel={() => setModelEdit(false)}
+                onSave={(updatedUser, values) => {
+                  updateModel(updatedUser, values);
+                }}
+                users={model}
+                match={props.match}
+                isVisible={isEditing}
+              />
+            );
           }}
-          editedUser={editedModel}
-          isVisible={isEditing}
-        /> */}
+        />
         <List>
           {usersView}
           <Button

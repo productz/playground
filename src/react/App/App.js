@@ -44,10 +44,10 @@ class App extends React.Component {
             <PrivateRoute path="/admin" component={Admin} />
             <Route
               path="/user"
-              render={props => {
+              render={({ location, match, history }) => {
                 return (
                   <Crud modelName="user">
-                    <User />
+                    <User location={location} match={match} history={history} />
                   </Crud>
                 );
               }}
