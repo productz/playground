@@ -7,7 +7,7 @@ import { Crud } from "../crud-service/crud-service";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Home from "./Home";
-import User from "./User";
+import User from "./User/User";
 import { ChatLog } from "./ChatLog";
 
 class App extends React.Component {
@@ -31,13 +31,21 @@ class App extends React.Component {
             <Route
               path="/user"
               render={props => {
-                return <User />;
+                return (
+                  <Crud modelName="user">
+                    <User />
+                  </Crud>
+                );
               }}
             />
             <Route
               path="/chat-log"
               render={props => {
-                return <ChatLog />;
+                return (
+                  <Crud>
+                    <ChatLog />
+                  </Crud>
+                );
               }}
             />
           </div>
