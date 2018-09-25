@@ -16,7 +16,8 @@ export default function({
   passport,
   onVerify,
   onSuccess,
-  onLoginFail
+  onLoginFail,
+  onRegister
 }) {
   app.use(passport.initialize());
 
@@ -34,6 +35,10 @@ export default function({
   localPassport({
     passport,
     onVerify
+  });
+
+  apiRoutes.post("/auth/register", (req, res) => {
+    onRegister(req.body, req, res);
   });
 
   apiRoutes.post(

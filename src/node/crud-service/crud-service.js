@@ -17,12 +17,12 @@ export default function({ Model }) {
 
   apiRoutes.post("/", function(req, res) {
     let newModel = new Model(req.body);
-    newModel.save(newModel, (err, data) => {
+    newModel.save(err => {
       if (err) {
         console.log(err);
         return res.status(500).send(err);
       }
-      res.send(data);
+      res.send(newModel);
     });
   });
 

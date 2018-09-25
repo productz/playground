@@ -130,6 +130,14 @@ const onVerify = ({
     return cb(err, user);
   });
 };
+const onRegister = (values, req, res) => {
+  let user = new userService(values);
+  user.save(err => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+  });
+};
 const onSuccess = (providerName, user, res) => {
   let redirectUrl = `${config.get("redirectUrl")}?jwt=${user.jwtToken}`;
   res.redirect(redirectUrl);
