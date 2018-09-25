@@ -50,9 +50,9 @@ export default class UserEdit extends React.Component {
                     errors[field.name] && errors[field.name].length > 0;
                   return (
                     <div key={field.name}>
-                      <label>{field.name}</label>
                       <TextField
                         id={field.name}
+                        label={field.name}
                         type={field.type}
                         onChange={event => {
                           setFieldValue(field.name, event.target.value);
