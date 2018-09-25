@@ -7,52 +7,56 @@ import { SERVER } from "../config";
 import axios from "axios";
 
 //export store
-export class AuthDomain {
+export class authDomainStore {
   token;
   @observable
   user;
   isLoggedIn = false;
   localStorage;
-  constructor(localStorage) {
+  rootStore;
+  constructor(rootStore, localStorage) {
     //set the local storage mechanism
     //could be async storage
+    this.rootStore = rootStore;
     if (localStorage) {
       this.localStorage = localStorage;
     }
   }
   login(values) {
+    let { user, isLoggedIn, storeToken } = this.rootStore.authDomainStore;
     return axios
       .post(`${SERVER.host}:${SERVER.port}/auth`, values)
       .then(res => {
         // runInAction(() => {
-        //   this.user = res.data;
-        //   this.isLoggedIn = true;
+        //   user = res.data;
+        //   isLoggedIn = true;
         // });
-        this.user = res.data;
-        this.isLoggedIn = true;
-        this.storeToken(this.user.jwtToken);
+        user = res.data;
+        isLoggedIn = true;
+        storeToken(user.jwtToken);
         return res.data;
       })
       .catch(err => {
         // runInAction(() => {
-        //   this.isLoggedIn = false;
+        //   isLoggedIn = false;
         // });
         return err;
       });
   }
   register(values) {
+    let { user, isLoggedIn, storeToken } = this.rootStore.authDomainStore;
     return axios
       .post(`${SERVER.host}:${SERVER.port}/auth/register`, values)
       .then(res => {
         runInAction(() => {
-          this.user = res.data;
-          this.isLoggedIn = true;
+          user = res.data;
+          isLoggedIn = true;
         });
         return res.data;
       })
       .catch(err => {
         runInAction(() => {
-          this.isLoggedIn = false;
+          isLoggedIn = false;
         });
         return err;
       });
@@ -69,6 +73,7 @@ export class AuthDomain {
     );
   }
   storeToken(jwtToken) {
+    let { localStorage } = this.rootStore.authDomainStore;
     if (!jwtToken) {
       jwtToken = queryString.parse(location.search).jwt;
     }
@@ -77,24 +82,25 @@ export class AuthDomain {
     }
   }
   isAuthenticated() {
+    let { user, isLoggedIn, storeToken } = this.rootStore.authDomainStore;
     return axios
       .post(`${SERVER.host}:${SERVER.port}/jwt/is-auth`, {
         token: localStorage.getItem("jwtToken")
       })
       .then(res => {
-        this.isLoggedIn = true;
+        isLoggedIn = true;
         return res;
       })
       .catch(err => {
-        this.isLoggedIn = false;
+        isLoggedIn = false;
         return err;
       });
   }
 }
 
-export class AuthUI {
+export class authUiStore {
   @observable
-  name;
+  username;
   @observable
   password;
   @observable
@@ -103,6 +109,9 @@ export class AuthUI {
   firstname;
   @observable
   lastname;
+  constructor(rootStore) {
+    this.rootStore = rootStore;
+  }
 }
 
 //somehow we have to load stuff from an api
@@ -112,53 +121,51 @@ export const api = {
   twitterAuth: ""
 };
 
-//create the UI and Domain Stores
-let authUI = new AuthUI();
-let authDomain = new AuthDomain();
-authDomain.storeToken();
-authDomain.isAuthenticated();
-
 //determine the theme here and load the right login information?
-export const LoginWithAuth = observer(({ onRegister, children }) => {
-  let decoratedLogin = React.Children.map(children, child =>
-    React.cloneElement(child, {
-      onChange: (field, value) => {
-        authUI[field] = value;
-      },
-      onRegister: () => onRegister(),
-      onSubmit: values => {
-        return authDomain.login(values);
-      },
-      onProviderAuth: providerName => {
-        authDomain.loginWithProvider(providerName);
-      }
-    })
-  );
-  return <React.Fragment>{decoratedLogin}</React.Fragment>;
-});
+export const LoginWithAuth = observer(
+  ({ onRegister, children, authUiStore, authDomainStore }) => {
+    let decoratedLogin = React.Children.map(children, child =>
+      React.cloneElement(child, {
+        onChange: (field, value) => {
+          authUiStore[field] = value;
+        },
+        onRegister: () => onRegister(),
+        onSubmit: values => {
+          return authDomainStore.login(values);
+        },
+        onProviderAuth: providerName => {
+          authDomainStore.loginWithProvider(providerName);
+        }
+      })
+    );
+    return <React.Fragment>{decoratedLogin}</React.Fragment>;
+  }
+);
 
-export const RegisterWithAuth = observer(({ children }) => {
-  let decoratedRegister = React.Children.map(children, child =>
-    React.cloneElement(children, {
-      onChange: (field, value) => {
-        authUI[field] = value;
-      },
-      onSubmit: values => {
-        return authDomain.register(values);
-      },
-      onProviderAuth: providerName => {
-        authDomain.loginWithProvider(providerName);
-      }
-    })
-  );
-  return <React.Fragment>{decoratedRegister}</React.Fragment>;
-});
+export const RegisterWithAuth = observer(
+  ({ children, authUiStore, authDomainStore }) => {
+    let decoratedRegister = React.Children.map(children, child =>
+      React.cloneElement(children, {
+        onChange: (field, value) => {
+          authUiStore[field] = value;
+        },
+        onSubmit: values => {
+          return authDomainStore.register(values);
+        },
+        onProviderAuth: providerName => {
+          authDomainStore.loginWithProvider(providerName);
+        }
+      })
+    );
+    return <React.Fragment>{decoratedRegister}</React.Fragment>;
+  }
+);
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      authDomain.isLoggedIn ? (
+      authDomainStore.isLoggedIn ? (
         <Component {...props} />
       ) : (
         <Redirect

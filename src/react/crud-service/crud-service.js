@@ -5,27 +5,28 @@ import axios from "axios";
 import { SERVER } from "../config";
 
 //export store
-export class CrudDomain {
+export class crudDomainStore {
   modelName;
-  @observable
-  store = {};
   isEditing = observable.map();
   mapStore = observable.map();
   searchResults = observable.map();
   editedModel = observable.map();
-  constructor() {}
+  rootStore;
+  constructor(rootStore) {
+    this.rootStore = rootStore;
+  }
   @action
   getModel(modelName, refresh) {
+    let { mapStore } = this.rootStore.crudDomainStore;
     //cached data, you don't have to hit up he end point
-    if (this.mapStore.get(modelName) && !refresh) {
+    if (mapStore.get(modelName) && !refresh) {
       return;
     }
     return axios
       .get(`${SERVER.host}:${SERVER.port}/${modelName}`)
       .then(res => {
         runInAction(() => {
-          this.mapStore.set(modelName, res.data);
-          this.store[modelName] = res.data;
+          mapStore.set(modelName, res.data);
         });
       })
       .catch(err => {
@@ -34,13 +35,13 @@ export class CrudDomain {
   }
   @action
   createModel(modelName, model) {
+    let { mapStore } = this.rootStore.crudDomainStore;
     return axios
       .post(`${SERVER.host}:${SERVER.port}/${modelName}`, model)
       .then(res => {
         runInAction(() => {
-          this.store[modelName].push(res.data);
-          let current = this.mapStore.get(modelName);
-          this.mapStore.set(modelName, [...current, res.data]);
+          let current = mapStore.get(modelName);
+          mapStore.set(modelName, [...current, res.data]);
         });
         return res.data;
       })
@@ -51,18 +52,18 @@ export class CrudDomain {
   }
   @action
   updateModel(modelName, model, updateValues) {
+    let { mapStore } = this.rootStore.crudDomainStore;
     let extractedModel = toJS(model);
-    console.log(extractedModel);
     Object.keys(updateValues).map(key => {
       model[key] = updateValues[key];
     });
     return axios
       .put(`${SERVER.host}:${SERVER.port}/${modelName}`, model)
       .then(res => {
-        let updatedModel = this.mapStore
+        let updatedModel = mapStore
           .get(modelName)
           .map(cModel => (cModel._id === model._id ? model : cModel));
-        this.mapStore.set(modelName, updatedModel);
+        mapStore.set(modelName, updatedModel);
         return res.data;
       })
       .catch(err => {
@@ -71,14 +72,15 @@ export class CrudDomain {
   }
   @action
   deleteModel(modelName, model) {
+    let { mapStore } = this.rootStore.crudDomainStore;
     model.deleted = true;
     return axios
       .delete(`${SERVER.host}:${SERVER.port}/${modelName}/${model._id}`)
       .then(res => {
-        let notDeleted = this.mapStore.get(modelName).filter(cModel => {
+        let notDeleted = mapStore.get(modelName).filter(cModel => {
           return !cModel.deleted;
         });
-        this.mapStore.set(modelName, notDeleted);
+        mapStore.set(modelName, notDeleted);
         return res.data;
       })
       .catch(err => {
@@ -87,6 +89,7 @@ export class CrudDomain {
   }
   @action
   searchModel(modelName, query) {
+    let { mapStore } = this.rootStore.crudDomainStore;
     return axios
       .post(`${SERVER.host}:${SERVER.port}/${modelName}`, query)
       .then(res => {
@@ -97,43 +100,42 @@ export class CrudDomain {
       });
   }
   @action
-  setModelEdit(modelName, model, isEditing) {
-    this.editedModel.set(modelName, model);
-    this.isEditing.set(modelName, isEditing);
+  setModelEdit(modelName, model, isEdit) {
+    let { editedModel, isEditing } = this.rootStore.crudDomainStore;
+    editedModel.set(modelName, model);
+    isEditing.set(modelName, isEdit);
   }
 }
 
-//create the UI and Domain Stores
-let crudDomain = new CrudDomain();
-
 //determine the theme here and load the right login information?
 @observer
-export default class Crud extends React.Component {
+export class Crud extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props)
   }
   componentDidMount() {}
   componentWillReceiveProps(nextProps) {}
   componentDidUpdate() {}
   render() {
-    let { modelName, children } = this.props;
+    let { modelName, children, crudDomainStore } = this.props;
     if (modelName) {
-      crudDomain.getModel(modelName, false);
+      crudDomainStore.getModel(modelName, false);
     }
     console.log("rerender crud service");
-    crudDomain.mapStore.get(modelName);
+    crudDomainStore.mapStore.get(modelName);
     const childrenWithProps = React.Children.map(children, child => {
       return React.cloneElement(child, {
-        model: crudDomain.mapStore.get(modelName),
-        getModel: () => crudDomain.getModel(modelName, true),
-        createModel: model => crudDomain.createModel(modelName, model),
+        model: crudDomainStore.mapStore.get(modelName),
+        getModel: () => crudDomainStore.getModel(modelName, true),
+        createModel: model => crudDomainStore.createModel(modelName, model),
         updateModel: (model, updateValues) =>
-          crudDomain.updateModel(modelName, model, updateValues),
-        deleteModel: model => crudDomain.deleteModel(modelName, model),
+          crudDomainStore.updateModel(modelName, model, updateValues),
+        deleteModel: model => crudDomainStore.deleteModel(modelName, model),
         setModelEdit: (model, isEditing) =>
-          crudDomain.setModelEdit(modelName, model, isEditing),
-        isEditing: crudDomain.isEditing.get(modelName),
-        editedModel: crudDomain.editedModel.get(modelName),
+          crudDomainStore.setModelEdit(modelName, model, isEditing),
+        isEditing: crudDomainStore.isEditing.get(modelName),
+        editedModel: crudDomainStore.editedModel.get(modelName),
         ...child.props
       });
     });

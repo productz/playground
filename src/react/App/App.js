@@ -4,16 +4,26 @@ import { HashRouter as Router, Route } from "react-router-dom";
 import {
   LoginWithAuth,
   RegisterWithAuth,
-  PrivateRoute
+  PrivateRoute,
+  authDomainStore,
+  authUiStore
 } from "../auth-service/auth-service";
-import Crud from "../crud-service/crud-service";
+import { Crud, crudDomainStore } from "../crud-service/crud-service";
 import Home from "./Home";
 import User from "./User/User";
 import { ChatLog } from "./ChatLog";
 import Login from "./Login/MaterialLogin";
 import Register from "./Register/MaterialRegister";
+import Store from "./Store/Store";
+
+let rootStore = new Store({
+  authDomainStore,
+  authUiStore,
+  crudDomainStore
+});
 
 class App extends React.Component {
+  componentDidMount(props) {}
   render() {
     return (
       <Home>
@@ -25,6 +35,8 @@ class App extends React.Component {
                 return (
                   <LoginWithAuth
                     onRegister={() => props.history.push("/auth/register")}
+                    authUiStore={rootStore.authUiStore}
+                    authDomainStore={rootStore.authDomainStore}
                   >
                     <Login />
                   </LoginWithAuth>
@@ -35,7 +47,10 @@ class App extends React.Component {
               path="/auth/register"
               render={props => {
                 return (
-                  <RegisterWithAuth>
+                  <RegisterWithAuth
+                    authDomainStore={rootStore.authDomainStore}
+                    authUiStore={rootStore.authUiStore}
+                  >
                     <Register />
                   </RegisterWithAuth>
                 );
@@ -46,7 +61,10 @@ class App extends React.Component {
               path="/user"
               render={({ location, match, history }) => {
                 return (
-                  <Crud modelName="user">
+                  <Crud
+                    modelName="user"
+                    crudDomainStore={rootStore.crudDomainStore}
+                  >
                     <User location={location} match={match} history={history} />
                   </Crud>
                 );
