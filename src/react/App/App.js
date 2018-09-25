@@ -6,12 +6,10 @@ import {
   RegisterWithAuth,
   PrivateRoute,
   authDomainStore,
-  authUiStore
-} from "../../react+react-native/auth-service/auth-service";
-import {
+  authUiStore,
   Crud,
   crudDomainStore
-} from "../../react+react-native/crud-service/crud-service";
+} from "../../react+react-native";
 import Home from "./Home";
 import User from "./User/User";
 import Login from "./Login/MaterialLogin";
