@@ -17,16 +17,15 @@ export class crudDomainStore {
   }
   @action
   getModel(modelName, refresh) {
-    let { mapStore } = this.rootStore.crudDomainStore;
     //cached data, you don't have to hit up he end point
-    if (mapStore.get(modelName) && !refresh) {
+    if (this.mapStore.get(modelName) && !refresh) {
       return;
     }
     return axios
       .get(`${SERVER.host}:${SERVER.port}/${modelName}`)
       .then(res => {
         runInAction(() => {
-          mapStore.set(modelName, res.data);
+          this.mapStore.set(modelName, res.data);
         });
       })
       .catch(err => {
@@ -35,13 +34,12 @@ export class crudDomainStore {
   }
   @action
   createModel(modelName, model) {
-    let { mapStore } = this.rootStore.crudDomainStore;
     return axios
       .post(`${SERVER.host}:${SERVER.port}/${modelName}`, model)
       .then(res => {
         runInAction(() => {
           let current = mapStore.get(modelName);
-          mapStore.set(modelName, [...current, res.data]);
+          this.mapStore.set(modelName, [...current, res.data]);
         });
         return res.data;
       })
@@ -52,7 +50,6 @@ export class crudDomainStore {
   }
   @action
   updateModel(modelName, model, updateValues) {
-    let { mapStore } = this.rootStore.crudDomainStore;
     let extractedModel = toJS(model);
     Object.keys(updateValues).map(key => {
       model[key] = updateValues[key];
@@ -60,10 +57,10 @@ export class crudDomainStore {
     return axios
       .put(`${SERVER.host}:${SERVER.port}/${modelName}`, model)
       .then(res => {
-        let updatedModel = mapStore
+        let updatedModel = this.mapStore
           .get(modelName)
           .map(cModel => (cModel._id === model._id ? model : cModel));
-        mapStore.set(modelName, updatedModel);
+        this.mapStore.set(modelName, updatedModel);
         return res.data;
       })
       .catch(err => {
@@ -72,15 +69,14 @@ export class crudDomainStore {
   }
   @action
   deleteModel(modelName, model) {
-    let { mapStore } = this.rootStore.crudDomainStore;
     model.deleted = true;
     return axios
       .delete(`${SERVER.host}:${SERVER.port}/${modelName}/${model._id}`)
       .then(res => {
-        let notDeleted = mapStore.get(modelName).filter(cModel => {
+        let notDeleted = this.mapStore.get(modelName).filter(cModel => {
           return !cModel.deleted;
         });
-        mapStore.set(modelName, notDeleted);
+        this.mapStore.set(modelName, notDeleted);
         return res.data;
       })
       .catch(err => {
@@ -89,7 +85,6 @@ export class crudDomainStore {
   }
   @action
   searchModel(modelName, query) {
-    let { mapStore } = this.rootStore.crudDomainStore;
     return axios
       .post(`${SERVER.host}:${SERVER.port}/${modelName}`, query)
       .then(res => {
@@ -112,7 +107,7 @@ export class crudDomainStore {
 export class Crud extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props)
+    console.log(props);
   }
   componentDidMount() {}
   componentWillReceiveProps(nextProps) {}

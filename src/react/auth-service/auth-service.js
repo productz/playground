@@ -12,18 +12,17 @@ export class authDomainStore {
   @observable
   user;
   isLoggedIn = false;
-  localStorage;
+  offlineStorage;
   rootStore;
   constructor(rootStore, localStorage) {
     //set the local storage mechanism
     //could be async storage
     this.rootStore = rootStore;
     if (localStorage) {
-      this.localStorage = localStorage;
+      this.offlineStorage = localStorage;
     }
   }
   login(values) {
-    let { user, isLoggedIn, storeToken } = this.rootStore.authDomainStore;
     return axios
       .post(`${SERVER.host}:${SERVER.port}/auth`, values)
       .then(res => {
@@ -31,9 +30,9 @@ export class authDomainStore {
         //   user = res.data;
         //   isLoggedIn = true;
         // });
-        user = res.data;
-        isLoggedIn = true;
-        storeToken(user.jwtToken);
+        this.user = res.data;
+        this.isLoggedIn = true;
+        this.storeToken(user.jwtToken);
         return res.data;
       })
       .catch(err => {
@@ -44,19 +43,18 @@ export class authDomainStore {
       });
   }
   register(values) {
-    let { user, isLoggedIn, storeToken } = this.rootStore.authDomainStore;
     return axios
       .post(`${SERVER.host}:${SERVER.port}/auth/register`, values)
       .then(res => {
         runInAction(() => {
-          user = res.data;
-          isLoggedIn = true;
+          this.user = res.data;
+          this.isLoggedIn = true;
         });
         return res.data;
       })
       .catch(err => {
         runInAction(() => {
-          isLoggedIn = false;
+          this.isLoggedIn = false;
         });
         return err;
       });
@@ -73,26 +71,21 @@ export class authDomainStore {
     );
   }
   storeToken(jwtToken) {
-    let { localStorage } = this.rootStore.authDomainStore;
-    if (!jwtToken) {
-      jwtToken = queryString.parse(location.search).jwt;
-    }
     if (jwtToken) {
-      localStorage.setItem("jwtToken", jwtToken);
+      this.offlineStorage.setItem("jwtToken", jwtToken);
     }
   }
   isAuthenticated() {
-    let { user, isLoggedIn, storeToken } = this.rootStore.authDomainStore;
     return axios
       .post(`${SERVER.host}:${SERVER.port}/jwt/is-auth`, {
-        token: localStorage.getItem("jwtToken")
+        token: this.offlineStorage.getItem("jwtToken")
       })
       .then(res => {
-        isLoggedIn = true;
+        this.isLoggedIn = true;
         return res;
       })
       .catch(err => {
-        isLoggedIn = false;
+        this.isLoggedIn = false;
         return err;
       });
   }
@@ -161,7 +154,11 @@ export const RegisterWithAuth = observer(
   }
 );
 
-export const PrivateRoute = ({ component: Component, ...rest }) => (
+export const PrivateRoute = ({
+  component: Component,
+  authDomainStore,
+  ...rest
+}) => (
   <Route
     {...rest}
     render={props =>
