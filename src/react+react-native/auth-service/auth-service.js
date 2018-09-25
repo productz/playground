@@ -17,17 +17,9 @@ export class authDomainStore {
     //set the local storage mechanism
     //could be async storage
     this.rootStore = rootStore;
-    if (localStorage) {
+    if (offlineStorage) {
       this.offlineStorage = offlineStorage;
     }
-  }
-  async getItem(key) {
-    let val = await this.offlineStorage.getItem(key);
-    return val;
-  }
-  async setItem(key, value) {
-    let val = await this.offlineStorage.setItem(key);
-    return val;
   }
   login(values) {
     return axios
@@ -39,7 +31,7 @@ export class authDomainStore {
         // });
         this.user = res.data;
         this.isLoggedIn = true;
-        this.storeToken(user.jwtToken);
+        this.storeToken(this.user.jwtToken);
         return res.data;
       })
       .catch(err => {
@@ -79,22 +71,24 @@ export class authDomainStore {
   }
   storeToken(jwtToken) {
     if (jwtToken) {
-      this.setItem("jwtToken", jwtToken);
+      this.offlineStorage.setItem("jwtToken", jwtToken);
     }
   }
   isAuthenticated() {
-    return axios
-      .post(`${SERVER.host}:${SERVER.port}/jwt/is-auth`, {
-        token: this.getItem("jwtToken")
-      })
-      .then(res => {
-        this.isLoggedIn = true;
-        return res;
-      })
-      .catch(err => {
-        this.isLoggedIn = false;
-        return err;
-      });
+    this.offlineStorage.getItem("jwtToken").then(token => {
+      return axios
+        .post(`${SERVER.host}:${SERVER.port}/jwt/is-auth`, {
+          token
+        })
+        .then(res => {
+          this.isLoggedIn = true;
+          return res;
+        })
+        .catch(err => {
+          this.isLoggedIn = false;
+          return err;
+        });
+    });
   }
 }
 
