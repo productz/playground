@@ -118,7 +118,7 @@ export const Login = ({
                           maegin="normal"
                           required={field.required}
                           onKeyPress={event =>
-                            event.key === 13 ? handleSubmit(event) : ""
+                            event.key === 13 ? handleSubmit() : ""
                           }
                         />
                         {errors[field.name] &&
@@ -131,7 +131,7 @@ export const Login = ({
                   <Button
                     size="small"
                     color="primary"
-                    onClick={onSubmit}
+                    onClick={handleSubmit}
                     type="submit"
                     disabled={isSubmitting}
                   >

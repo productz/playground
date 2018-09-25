@@ -12,17 +12,22 @@ export class AuthDomain {
   isLoggedIn = false;
   constructor() {}
   login(values) {
+    console.log(values);
     return new Promise((resolve, reject) => {
-      resolve("");
+      setTimeout(() => resolve(""), 4000);
     });
   }
   register(values) {}
   loginWithProvider(providerName) {
-    window.location.replace(`${SERVER.host}:${SERVER.port}/auth/${providerName}`);
+    window.location.replace(
+      `${SERVER.host}:${SERVER.port}/auth/${providerName}`
+    );
   }
   registerWithProvider(providerName) {
     //information to register
-    window.location.replace(`${SERVER.host}:${SERVER.port}/auth/${providerName}`);
+    window.location.replace(
+      `${SERVER.host}:${SERVER.port}/auth/${providerName}`
+    );
   }
   storeToken() {
     let jwtToken = queryString.parse(location.search).jwt;
@@ -80,8 +85,8 @@ export const LoginWithAuth = observer(({ onRegister, children }) => {
         authUI[field] = value;
       },
       onRegister: () => onRegister(),
-      onSubmit: () => {
-        return authDomain.login(authUI);
+      onSubmit: values => {
+        return authDomain.login(values);
       },
       onProviderAuth: providerName => {
         authDomain.loginWithProvider(providerName);
