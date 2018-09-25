@@ -29,13 +29,11 @@ let userSchema = new Schema({
 });
 userSchema.plugin(findOrCreate);
 
-userSchema.methods.verifyPassword = function(password, callback) {
+userSchema.methods.verifyPassword = function(password) {
   if (bcrypt.compareSync(password, this.password)) {
-    callback(null, this);
-  } else {
-    // Something bad happened with MongoDB. You shouldn't run into this often.
-    callback(error, null);
+    return this;
   }
+  return false;
 };
 
 // set up a mongoose model

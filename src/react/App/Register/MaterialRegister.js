@@ -26,7 +26,7 @@ const styles = theme => ({
     }
   },
   paper: {
-    marginTop: theme.spacing.unit * 8,
+    marginTop: theme.spacing.unit * 1,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -61,8 +61,8 @@ const RegisterSchema = Yup.object().shape({
 let fields = [
   {
     type: "text",
-    name: "username",
-    placeholder: "Username",
+    name: "name",
+    placeholder: "Name",
     required: true
   },
   {

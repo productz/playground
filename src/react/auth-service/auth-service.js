@@ -27,7 +27,22 @@ export class AuthDomain {
         return err;
       });
   }
-  register(values) {}
+  register(values) {
+    return axios
+      .post(`${SERVER.host}:${SERVER.port}/auth/register`, values)
+      .then(res => {
+        runInAction(() => {
+          this.isLoggedIn = true;
+        });
+        return res.data;
+      })
+      .catch(err => {
+        runInAction(() => {
+          this.isLoggedIn = false;
+        });
+        return err;
+      });
+  }
   loginWithProvider(providerName) {
     window.location.replace(
       `${SERVER.host}:${SERVER.port}/auth/${providerName}`
@@ -112,8 +127,8 @@ export const RegisterWithAuth = observer(({ children }) => {
       onChange: (field, value) => {
         authUI[field] = value;
       },
-      onSubmit: () => {
-        return authDomain.register(authUI);
+      onSubmit: values => {
+        return authDomain.register(values);
       },
       onProviderAuth: providerName => {
         authDomain.loginWithProvider(providerName);

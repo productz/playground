@@ -108,10 +108,13 @@ const onVerify = ({
       if (!user.verifyPassword(password)) {
         return cb(null, false);
       }
+      //issue a new jwt token
+      let jwtToken = jwt.sign(user, config.get("secret"));
+      user.jwtToken = jwtToken;
       return cb(null, user);
     });
   }
-
+  //third party providers
   let providerId = `${providerName}Id`;
   let providerAccessToken = `${providerName}AccessToken`;
   let providerRefreshToken = `${providerName}RefreshToken`;
@@ -130,18 +133,25 @@ const onVerify = ({
     return cb(err, user);
   });
 };
+
 const onRegister = (values, req, res) => {
   let user = new userService(values);
+  console.log("registering");
+  console.log(user);
+  //do I generate an auth token?
+  //register a user
   user.save(err => {
     if (err) {
       return res.status(500).send(err);
     }
   });
 };
+
 const onSuccess = (providerName, user, res) => {
   let redirectUrl = `${config.get("redirectUrl")}?jwt=${user.jwtToken}`;
   res.redirect(redirectUrl);
 };
+
 const onLoginFail = (req, res, message) => {
   //in case the auth doesn't works
   res.status(401).send("Error logging in");
@@ -152,7 +162,8 @@ const passportApi = passportService({
   passport,
   onVerify,
   onSuccess,
-  onLoginFail
+  onLoginFail,
+  onRegister
 });
 
 // =================================================================
