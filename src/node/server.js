@@ -86,9 +86,33 @@ const chatApi = socketService({ app, onEvent, config });
 import passportService from "./passport-service/passport-service.js";
 
 //on verify, we generate a jwt token (for non-web clients) and then we just store the user
-const onVerify = ({ accessToken, refreshToken, profile, cb, providerName }) => {
+const onVerify = ({
+  accessToken,
+  refreshToken,
+  profile,
+  cb,
+  providerName,
+  username,
+  password
+}) => {
   //add a jwt token for mobile based authentication
   //store the id for providers
+  if ((providerName = "local")) {
+    userService.findOne({ username: username }, function(err, user) {
+      if (err) {
+        return cb(err);
+      }
+      if (!user) {
+        return cb(null, false);
+      }
+      if (!user.verifyPassword(password)) {
+        return cb(null, false);
+      }
+      return cb(null, user);
+    });
+    return;
+  }
+
   let providerId = `${providerName}Id`;
   let providerAccessToken = `${providerName}AccessToken`;
   let providerRefreshToken = `${providerName}RefreshToken`;
@@ -111,8 +135,9 @@ const onSuccess = (providerName, user, res) => {
   let redirectUrl = `${config.get("redirectUrl")}?jwt=${user.jwtToken}`;
   res.redirect(redirectUrl);
 };
-const onError = (providerName, user, res) => {
+const onLoginFail = (req, res, message) => {
   //in case the auth doesn't works
+  res.status(401).send("Error logging in");
 };
 const passportApi = passportService({
   app,
@@ -120,7 +145,7 @@ const passportApi = passportService({
   passport,
   onVerify,
   onSuccess,
-  onError
+  onLoginFail
 });
 
 // =================================================================

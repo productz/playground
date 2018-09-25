@@ -1,9 +1,9 @@
 var LocalStrategy = require("passport-local");
 
-export default function twitter({ passport, onVerify }) {
+export default function local({ passport, onVerify }) {
   passport.use(
-    new LocalStrategy((username, password, done) => {
-      onVerify({ username, password, done });
+    new LocalStrategy({ usernameField: "email" }, (username, password, cb) => {
+      onVerify({ username, password, cb, providerName: "local" });
     })
   );
 }

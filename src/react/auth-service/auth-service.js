@@ -12,10 +12,18 @@ export class AuthDomain {
   isLoggedIn = false;
   constructor() {}
   login(values) {
-    console.log(values);
-    return new Promise((resolve, reject) => {
-      setTimeout(() => resolve(""), 4000);
-    });
+    return axios
+      .post(`${SERVER.host}:${SERVER.port}/auth`, values)
+      .then(res => {
+        runInAction(() => {
+          this.isLoggedIn = true;
+        });
+        return res.data;
+      })
+      .catch(err => {
+        runInAction(() => {});
+        return err;
+      });
   }
   register(values) {}
   loginWithProvider(providerName) {

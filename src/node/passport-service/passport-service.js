@@ -1,6 +1,7 @@
 // basic route (http://localhost:8080)
 const express = require("express");
 import googlePassport from "./strategies/google.js";
+import localPassport from "./strategies/local.js";
 import twitterPassport from "./strategies/twitter.js";
 import facebookPassport from "./strategies/facebook.js";
 
@@ -15,7 +16,7 @@ export default function({
   passport,
   onVerify,
   onSuccess,
-  onError
+  onLoginFail
 }) {
   app.use(passport.initialize());
 
@@ -28,6 +29,20 @@ export default function({
   passport.deserializeUser(function(user, done) {
     done(null, user);
   });
+
+  //local strategy
+  localPassport({
+    passport,
+    onVerify
+  });
+
+  apiRoutes.post(
+    "/auth",
+    passport.authenticate("local", { failureRedirect: "/error" }),
+    (req, res) => {
+      onSuccess("local", req.user, res);
+    }
+  );
 
   //client ID and secret for google
   let googleClientId = config.get("auth.google.clientId");
@@ -44,7 +59,7 @@ export default function({
   });
 
   apiRoutes.get("/error", function(req, res) {
-    onError(req.user, res);
+    onLoginFail(req, res, "message");
   });
 
   apiRoutes.get(
@@ -57,7 +72,7 @@ export default function({
   apiRoutes.get(
     "/auth/google/callback",
     passport.authenticate("google", {
-      failureRedirect: "/google/error"
+      failureRedirect: "/error"
     }),
     (req, res) => {
       onSuccess("google", req.user, res);
@@ -79,7 +94,7 @@ export default function({
 
   app.get(
     "/auth/twitter/callback",
-    passport.authenticate("twitter", { failureRedirect: "/login" }),
+    passport.authenticate("twitter", { failureRedirect: "/error" }),
     function(req, res) {
       // Successful authentication, redirect home.
       let redirectUrl = `${config.get("redirectUrl")}?jwt=${req.user.jwtToken}`;
@@ -102,7 +117,7 @@ export default function({
 
   app.get(
     "/auth/facebook/callback",
-    passport.authenticate("facebook", { failureRedirect: "/login" }),
+    passport.authenticate("facebook", { failureRedirect: "/error" }),
     function(req, res) {
       // Successful authentication, redirect home.
       let redirectUrl = `${config.get("redirectUrl")}?jwt=${req.user.jwtToken}`;
