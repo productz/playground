@@ -152,7 +152,7 @@ export const Login = ({
             >
               Login with Google
             </Button>
-            <Button
+            {/* <Button
               onClick={() => onProviderAuth("facebook")}
               size="large"
               fullWidth
@@ -165,7 +165,7 @@ export const Login = ({
               fullWidth
             >
               Login with twitter
-            </Button>
+            </Button> */}
           </div>
         </Paper>
       </main>

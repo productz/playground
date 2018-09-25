@@ -166,7 +166,7 @@ export const Register = ({ onChange, onSubmit, onProviderAuth, classes }) => {
             >
               Register with Google
             </Button>
-            <Button
+            {/* <Button
               onClick={() => onProviderAuth("facebook")}
               size="large"
               fullWidth
@@ -179,7 +179,7 @@ export const Register = ({ onChange, onSubmit, onProviderAuth, classes }) => {
               fullWidth
             >
               Register with twitter
-            </Button>
+            </Button> */}
           </div>
         </Paper>
       </main>

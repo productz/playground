@@ -149,7 +149,11 @@ const onRegister = (values, req, res) => {
 
 const onSuccess = (providerName, user, res) => {
   let redirectUrl = `${config.get("redirectUrl")}?jwt=${user.jwtToken}`;
-  res.redirect(redirectUrl);
+  if (providerName !== "local") {
+    return res.redirect(redirectUrl);
+  }
+  user["password"] = "";
+  return res.status(200).send(user);
 };
 
 const onLoginFail = (req, res, message) => {

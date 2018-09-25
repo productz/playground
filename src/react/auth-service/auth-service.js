@@ -9,21 +9,27 @@ import axios from "axios";
 //export store
 export class AuthDomain {
   token;
+  @observable
+  user;
   isLoggedIn = false;
   constructor() {}
   login(values) {
     return axios
       .post(`${SERVER.host}:${SERVER.port}/auth`, values)
       .then(res => {
-        runInAction(() => {
-          this.isLoggedIn = true;
-        });
+        // runInAction(() => {
+        //   this.user = res.data;
+        //   this.isLoggedIn = true;
+        // });
+        this.user = res.data;
+        this.isLoggedIn = true;
+        this.storeToken(this.user.jwtToken);
         return res.data;
       })
       .catch(err => {
-        runInAction(() => {
-          this.isLoggedIn = false;
-        });
+        // runInAction(() => {
+        //   this.isLoggedIn = false;
+        // });
         return err;
       });
   }
@@ -32,6 +38,7 @@ export class AuthDomain {
       .post(`${SERVER.host}:${SERVER.port}/auth/register`, values)
       .then(res => {
         runInAction(() => {
+          this.user = res.data;
           this.isLoggedIn = true;
         });
         return res.data;
@@ -54,8 +61,10 @@ export class AuthDomain {
       `${SERVER.host}:${SERVER.port}/auth/${providerName}`
     );
   }
-  storeToken() {
-    let jwtToken = queryString.parse(location.search).jwt;
+  storeToken(jwtToken) {
+    if (!jwtToken) {
+      jwtToken = queryString.parse(location.search).jwt;
+    }
     if (jwtToken) {
       localStorage.setItem("jwtToken", jwtToken);
     }
