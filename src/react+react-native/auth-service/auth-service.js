@@ -1,8 +1,7 @@
 import { observer } from "mobx-react";
 import { observable } from "mobx";
-import queryString from "query-string";
 import React from "react";
-import { HashRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import { Route, Link, Redirect } from "react-router-dom";
 import { SERVER } from "../config";
 import axios from "axios";
 

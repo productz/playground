@@ -7,11 +7,13 @@ import {
   PrivateRoute,
   authDomainStore,
   authUiStore
-} from "../auth-service/auth-service";
-import { Crud, crudDomainStore } from "../crud-service/crud-service";
+} from "../../react+react-native/auth-service/auth-service";
+import {
+  Crud,
+  crudDomainStore
+} from "../../react+react-native/crud-service/crud-service";
 import Home from "./Home";
 import User from "./User/User";
-import { ChatLog } from "./ChatLog";
 import Login from "./Login/MaterialLogin";
 import Register from "./Register/MaterialRegister";
 import Store from "./Store/Store";
@@ -70,16 +72,6 @@ class App extends React.Component {
                     crudDomainStore={rootStore.crudDomainStore}
                   >
                     <User location={location} match={match} history={history} />
-                  </Crud>
-                );
-              }}
-            />
-            <Route
-              path="/chat-log"
-              render={props => {
-                return (
-                  <Crud>
-                    <ChatLog />
                   </Crud>
                 );
               }}
