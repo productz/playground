@@ -21,7 +21,9 @@ export class AuthDomain {
         return res.data;
       })
       .catch(err => {
-        runInAction(() => {});
+        runInAction(() => {
+          this.isLoggedIn = false;
+        });
         return err;
       });
   }

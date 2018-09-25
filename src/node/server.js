@@ -98,7 +98,7 @@ const onVerify = ({
   //add a jwt token for mobile based authentication
   //store the id for providers
   if ((providerName = "local")) {
-    userService.findOne({ username: username }, function(err, user) {
+    return userService.findOne({ email: username }, function(err, user) {
       if (err) {
         return cb(err);
       }
@@ -110,7 +110,6 @@ const onVerify = ({
       }
       return cb(null, user);
     });
-    return;
   }
 
   let providerId = `${providerName}Id`;
