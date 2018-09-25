@@ -15,39 +15,39 @@ import {
   Card,
   CardItem
 } from "native-base";
-import { LoginWithAuth, RegisterWithAuth } from "../auth-service/auth-service";
-import Crud from "../crud-service/crud-service";
+import {
+  LoginWithAuth,
+  RegisterWithAuth,
+  PrivateRoute,
+  authDomainStore,
+  authUiStore
+} from "../../react+react-native/auth-service/auth-service";
+import {
+  Crud,
+  crudDomainStore
+} from "../../react+react-native/crud-service/crud-service";
 import User from "./User/User";
-import { ChatLog } from "./ChatLog/ChatLog";
 import Login from "./Login/MaterialLogin";
 import Register from "./Register/MaterialRegister";
+
+let rootStore = new Store({
+  authDomainStore,
+  authUiStore,
+  crudDomainStore
+});
 
 export default class App extends React.Component {
   render() {
     return (
       <React.Fragment>
         <Route
-          path="/home"
-          render={props => {
-            return (
-              <Card>
-                <CardItem>
-                  <Body>
-                    <Text>home</Text>
-                  </Body>
-                </CardItem>
-              </Card>
-            );
-          }}
-        />
-        <Route
           path="/auth/login"
           render={props => {
             return (
               <LoginWithAuth
-                onRegister={() => {
-                  props.history.push("/auth/register");
-                }}
+                onRegister={() => props.history.push("/auth/register")}
+                authUiStore={rootStore.authUiStore}
+                authDomainStore={rootStore.authDomainStore}
               >
                 <Login />
               </LoginWithAuth>
@@ -58,26 +58,31 @@ export default class App extends React.Component {
           path="/auth/register"
           render={props => {
             return (
-              <RegisterWithAuth>
+              <RegisterWithAuth
+                authDomainStore={rootStore.authDomainStore}
+                authUiStore={rootStore.authUiStore}
+              >
                 <Register />
               </RegisterWithAuth>
             );
           }}
         />
-        <Route
-          path="/"
-          render={props => {
-            return (
-              <Crud modelName="user">
-                <User />
-              </Crud>
-            );
-          }}
+        <PrivateRoute
+          path="/admin"
+          component={Admin}
+          authDomainStore={rootStore.authDomainStore}
         />
         <Route
-          path="/chat-log"
-          render={props => {
-            return <ChatLog />;
+          path="/user"
+          render={({ location, match, history }) => {
+            return (
+              <Crud
+                modelName="user"
+                crudDomainStore={rootStore.crudDomainStore}
+              >
+                <User location={location} match={match} history={history} />
+              </Crud>
+            );
           }}
         />
       </React.Fragment>
