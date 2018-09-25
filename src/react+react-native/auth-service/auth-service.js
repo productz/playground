@@ -94,7 +94,7 @@ export class AuthDomain {
 
 export class AuthUI {
   @observable
-  username;
+  name;
   @observable
   password;
   @observable
