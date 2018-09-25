@@ -13,13 +13,21 @@ export class authDomainStore {
   isLoggedIn = false;
   offlineStorage;
   rootStore;
-  constructor(rootStore, localStorage) {
+  constructor(rootStore, offlineStorage) {
     //set the local storage mechanism
     //could be async storage
     this.rootStore = rootStore;
     if (localStorage) {
-      this.offlineStorage = localStorage;
+      this.offlineStorage = offlineStorage;
     }
+  }
+  async getItem(key) {
+    let val = await this.offlineStorage.getItem(key);
+    return val;
+  }
+  async setItem(key, value) {
+    let val = await this.offlineStorage.setItem(key);
+    return val;
   }
   login(values) {
     return axios
@@ -71,13 +79,13 @@ export class authDomainStore {
   }
   storeToken(jwtToken) {
     if (jwtToken) {
-      this.offlineStorage.setItem("jwtToken", jwtToken);
+      this.setItem("jwtToken", jwtToken);
     }
   }
   isAuthenticated() {
     return axios
       .post(`${SERVER.host}:${SERVER.port}/jwt/is-auth`, {
-        token: this.offlineStorage.getItem("jwtToken")
+        token: this.getItem("jwtToken")
       })
       .then(res => {
         this.isLoggedIn = true;

@@ -16,7 +16,8 @@ module.exports = {
         test: /\.js$/, //Check for all js files
         use: [
           {
-            loader: "babel-loader"
+            loader: "babel-loader",
+            options: { babelrcRoots: [".", "../"] }
           }
         ],
         exclude: /(node_modules|bower_compontents)/
