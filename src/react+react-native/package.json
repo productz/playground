@@ -1,8 +1,8 @@
 {
-  "name": "itechdom-playground",
+  "name": "playground-react-services",
   "version": "1.0.0",
   "description": "A way to get up and running quickly with any programming task.",
-  "main": "src/javascript/index.js",
+  "main": "./lib/bundle.js",
   "scripts": {
     "start": "node_modules/.bin/webpack-dev-server --mode=development --port 8085",
     "start:cloud9": "node_modules/.bin/webpack-dev-server --mode=development --port $PORT --host $IP",
@@ -20,7 +20,6 @@
   },
   "homepage": "https://github.com/itechdom/playground#readme",
   "dependencies": {
-    "@babel/plugin-proposal-decorators": "^7.1.0",
     "axios": "^0.18.0",
     "mobx": "^5.1.1",
     "mobx-react": "^5.2.8",
@@ -33,6 +32,7 @@
     "@babel/core": "^7.0.1",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-transform-async-to-generator": "^7.1.0",
+    "@babel/plugin-proposal-decorators": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.2",
