@@ -125,7 +125,7 @@ class App extends React.Component {
                   history={history}
                 >
                   <Socket
-                    modelName="chat"
+                    channel="chat"
                     socketDomainStore={rootStore.socketDomainStore}
                   >
                     <Chat />

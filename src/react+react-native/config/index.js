@@ -1,4 +1,4 @@
 export const SERVER = {
   host: "http://localhost",
-  port: "8086"
+  port: 8086
 };

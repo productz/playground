@@ -14,7 +14,6 @@ import { fade } from "@material-ui/core/styles/colorManipulator";
 import Input from "@material-ui/core/Input";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Route, Link } from "react-router-dom";
-import ChatEdit from "./ChatEdit";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -80,108 +79,102 @@ const styles = theme => ({
   }
 });
 
-const Chat = ({
-  model,
-  createModel,
-  getModel,
-  updateModel,
-  deleteModel,
-  searchModel,
-  setModelEdit,
-  isEditing,
-  editedModel,
-  location,
-  match,
-  history,
-  classes
-}) => {
-  let chat = model;
-  if (chat && chat.length > 0) {
-    let chatView = chat.map(user => {
-      return (
-        <ListItem key={user._id}>
-          <ListItemText>
-            <p>{user.name}</p>
-          </ListItemText>
-          <ListItemSecondaryAction>
-            <Link to={`${match.url}/${user._id}`}>
-              <Button
-                onClick={() => {
-                  setModelEdit(user, true);
-                }}
-              >
-                <p>Edit</p>
-              </Button>
-            </Link>
-            <Button
-              onClick={() => {
-                deleteModel(user);
-              }}
-            >
-              <p>Delete</p>
-            </Button>
-          </ListItemSecondaryAction>
-        </ListItem>
-      );
+class Chat extends React.Component {
+  componentDidMount() {
+    let { subscribe, channel } = this.props;
+    subscribe({
+      channel,
+      onInit: value => {
+        console.log(value);
+      },
+      onConnect: () => {
+        console.log("connected");
+      },
+      onDisconnect: () => {
+        console.log("disconnectd");
+      },
+      onEvent: value => {
+        console.log("new value", value);
+      }
     });
-    return (
-      <div className={classes.root}>
-        <header>
-          <AppBar position="static">
-            <Toolbar>
-              <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon />
-                </div>
-                <Input
-                  placeholder="Search…"
-                  disableUnderline
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput
-                  }}
-                />
-              </div>
-            </Toolbar>
-          </AppBar>
-        </header>
-        <Route
-          path={`${match.path}/:id`}
-          render={({ match }) => {
-            return (
-              <ChatEdit
-                onCancel={() => setModelEdit(false)}
-                onSave={(updatedChat, values) => {
-                  updateModel(updatedChat, values);
-                }}
-                user={chat.find(({ _id }) => _id === match.params.id)}
-                isVisible={isEditing}
-              />
-            );
-          }}
-        />
-        <Route
-          exact
-          path={`${match.path}`}
-          render={props => {
-            return (
-              <List>
-                {chatView}
+  }
+  render() {
+    let {
+      model,
+      publish,
+      subscribe,
+      location,
+      match,
+      history,
+      classes
+    } = this.props;
+    let chatList = model;
+    console.log(chatList);
+    if (chatList && chatList.length > 0) {
+      let chatView = chatList.map(user => {
+        return (
+          <ListItem key={chat._id}>
+            <ListItemText>
+              <p>{user.name}</p>
+            </ListItemText>
+            <ListItemSecondaryAction>
+              <Link to={`${match.url}/${chat._id}`}>
                 <Button
                   onClick={() => {
-                    createModel({ name: "Zee" });
+                    setModelEdit(chat, true);
                   }}
                 >
-                  <p>Create Chat</p>
+                  <p>Edit</p>
                 </Button>
-              </List>
-            );
-          }}
-        />
-      </div>
-    );
+              </Link>
+              <Button
+                onClick={() => {
+                  deleteModel(chat);
+                }}
+              >
+                <p>Delete</p>
+              </Button>
+            </ListItemSecondaryAction>
+          </ListItem>
+        );
+      });
+      return (
+        <div className={classes.root}>
+          <header>
+            <AppBar position="static">
+              <Toolbar>
+                <div className={classes.search}>
+                  <div className={classes.searchIcon}>
+                    <SearchIcon />
+                  </div>
+                  <Input
+                    placeholder="Search…"
+                    disableUnderline
+                    classes={{
+                      root: classes.inputRoot,
+                      input: classes.inputInput
+                    }}
+                  />
+                </div>
+              </Toolbar>
+            </AppBar>
+          </header>
+          <List>
+            {chatView}
+            <Button
+              onClick={() => {
+                createModel({ name: "Zee" });
+              }}
+            >
+              <p>Create Chat</p>
+            </Button>
+          </List>
+          );
+        </div>
+      );
+    }
+    return <CircularProgress />;
   }
-  return <CircularProgress />;
-};
+}
 
 export default withStyles(styles)(Chat);

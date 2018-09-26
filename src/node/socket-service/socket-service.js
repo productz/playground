@@ -16,15 +16,14 @@ export default function socketIO({ app, config, onEvent, channel }) {
   ioServer.on("connection", function(socket) {
     ioServer.emit("init", { message: "you have connected" });
     socket.on(channel, function(msg) {
-      ioServer.emit("chat", msg);
-      let eventName = "chat";
+      ioServer.emit(channel, msg);
+      let eventName = channel;
       let eventData = msg;
       if (onEvent) {
         onEvent(eventName, eventData);
       }
     });
   });
-
   server.listen(config.get("server.port") + 1);
 
   return apiRoutes;

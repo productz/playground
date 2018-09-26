@@ -137,8 +137,6 @@ const onVerify = ({
 
 const onRegister = (values, req, res) => {
   let user = new userService(values);
-  console.log("registering");
-  console.log(user);
   //do I generate an auth token?
   //register a user
   user.save(err => {
