@@ -68,17 +68,16 @@ class App extends React.Component {
               );
             }}
           />
-          <PrivateRoute
-            path="/admin"
-            render={props => {
-              return (
-                <MainWrapper>
-                  <Admin />
-                </MainWrapper>
-              );
-            }}
-            authDomainStore={rootStore.authDomainStore}
-          />
+
+          <MainWrapper>
+            <PrivateRoute
+              path="/admin"
+              render={props => {
+                return <Admin />;
+              }}
+              authDomainStore={rootStore.authDomainStore}
+            />
+          </MainWrapper>
           <Route
             path="/user"
             render={({ location, match, history }) => {
