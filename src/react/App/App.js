@@ -77,9 +77,13 @@ class App extends React.Component {
           <Route
             path="/"
             exact
-            render={props => {
+            render={({ location, history, match }) => {
               return (
-                <MainWrapper>
+                <MainWrapper
+                  location={location}
+                  match={match}
+                  history={history}
+                >
                   <Home />
                 </MainWrapper>
               );
@@ -88,9 +92,13 @@ class App extends React.Component {
           <Route
             path="/admin"
             exact
-            render={props =>
+            render={({ location, history, match }) =>
               rootStore.authDomainStore.isLoggedIn ? (
-                <MainWrapper>
+                <MainWrapper
+                  location={location}
+                  match={match}
+                  history={history}
+                >
                   <Admin />
                 </MainWrapper>
               ) : (
@@ -107,9 +115,13 @@ class App extends React.Component {
           <Route
             path="/chat"
             exact
-            render={props =>
+            render={({ location, history, match }) =>
               rootStore.authDomainStore.isLoggedIn ? (
-                <MainWrapper>
+                <MainWrapper
+                  location={location}
+                  match={match}
+                  history={history}
+                >
                   <Crud
                     modelName="chat"
                     crudDomainStore={rootStore.crudDomainStore}
@@ -132,7 +144,11 @@ class App extends React.Component {
             path="/user"
             render={({ location, match, history }) => {
               return (
-                <MainWrapper>
+                <MainWrapper
+                  location={location}
+                  match={match}
+                  history={history}
+                >
                   <Crud
                     modelName="user"
                     crudDomainStore={rootStore.crudDomainStore}
@@ -147,7 +163,11 @@ class App extends React.Component {
             path="*"
             render={props => {
               return (
-                <MainWrapper>
+                <MainWrapper
+                  location={location}
+                  match={match}
+                  history={history}
+                >
                   <NotFound />
                 </MainWrapper>
               );

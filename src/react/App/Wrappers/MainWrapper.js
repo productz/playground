@@ -14,7 +14,7 @@ import Badge from "@material-ui/core/Badge";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import { Routes } from "../Routes/Routes";
+import { Routes, routeList } from "../Routes/Routes";
 
 const drawerWidth = 240;
 
@@ -106,8 +106,10 @@ class MainWrapper extends React.Component {
   };
 
   render() {
-    const { classes, children } = this.props;
-
+    const { classes, children, location, match, history } = this.props;
+    let route = routeList.find(({ name, url }) => {
+      return url.indexOf(match.path.replace("/", "/")) !== -1;
+    });
     return (
       <React.Fragment>
         <CssBaseline />
@@ -140,6 +142,7 @@ class MainWrapper extends React.Component {
                 noWrap
                 className={classes.title}
               >
+                {route.name}
               </Typography>
               <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">

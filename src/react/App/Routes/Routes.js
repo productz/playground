@@ -5,7 +5,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 
-export const routes = [
+export const routeList = [
   { url: "/#/", name: "Home" },
   { url: "/#/auth/login", name: "Login" },
   { url: "/#/auth/register", name: "Register" },
@@ -16,7 +16,7 @@ export const routes = [
 
 export const Routes = (
   <div>
-    {routes.map(route => {
+    {routeList.map(route => {
       return (
         <a href={route.url}>
           <ListItem button>
