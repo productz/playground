@@ -13,7 +13,9 @@ import {
   authDomainStore,
   authUiStore,
   Crud,
-  crudDomainStore
+  crudDomainStore,
+  Socket,
+  socketDomainStore
 } from "../../react+react-native";
 import MainWrapper from "./Wrappers/MainWrapper";
 import User from "./User/User";
@@ -106,7 +108,7 @@ class App extends React.Component {
                   to={{
                     pathname:
                       "/auth/login?message='please login to view this page'",
-                    state: { from: props.location }
+                    state: { from: location }
                   }}
                 />
               )
@@ -134,7 +136,7 @@ class App extends React.Component {
                   to={{
                     pathname:
                       "/auth/login?message='please login to view this page'",
-                    state: { from: props.location }
+                    state: { from: location }
                   }}
                 />
               )

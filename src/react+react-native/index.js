@@ -5,10 +5,9 @@ import {
   authDomainStore,
   authUiStore
 } from "./auth-service/auth-service";
-import {
-  Crud,
-  crudDomainStore
-} from "./crud-service/crud-service";
+import { Crud, crudDomainStore } from "./crud-service/crud-service";
+
+import { Socket, socketDomainStore } from "./socket-srevice/socket-service";
 
 export {
   LoginWithAuth,
@@ -17,5 +16,7 @@ export {
   authDomainStore,
   authUiStore,
   Crud,
-  crudDomainStore
+  crudDomainStore,
+  Socket,
+  socketDomainStore
 };

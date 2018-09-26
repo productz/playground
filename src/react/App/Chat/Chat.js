@@ -95,9 +95,10 @@ const Chat = ({
   history,
   classes
 }) => {
-  let users = model;
-  if (users) {
-    let usersView = users.map(user => {
+  let chat = model;
+  console.log(chat);
+  if (chat) {
+    let chatView = chat.map(user => {
       return (
         <ListItem key={user._id}>
           <ListItemText>
@@ -154,7 +155,7 @@ const Chat = ({
                 onSave={(updatedChat, values) => {
                   updateModel(updatedChat, values);
                 }}
-                user={users.find(({ _id }) => _id === match.params.id)}
+                user={chat.find(({ _id }) => _id === match.params.id)}
                 isVisible={isEditing}
               />
             );
@@ -166,7 +167,7 @@ const Chat = ({
           render={props => {
             return (
               <List>
-                {usersView}
+                {chatView}
                 <Button
                   onClick={() => {
                     createModel({ name: "Zee" });

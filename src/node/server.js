@@ -77,7 +77,8 @@ import socketService from "./socket-service/socket-service.js";
 const onEvent = (eventName, eventData) => {
   console.log(eventName, eventData);
 };
-const chatApi = socketService({ app, onEvent, config });
+const channel = "chat";
+const chatApi = socketService({ app, onEvent, config, channel });
 
 // =================================================================
 // Setup Auth ========================================
@@ -178,6 +179,7 @@ app.use("/hello", helloApi);
 app.use("/", passportApi);
 app.use("/jwt", jwtApi);
 app.use("/user", userApi);
+app.use("/chat", chatApi);
 app.use("/chat-log", chatLogApi);
 
 // =================================================================

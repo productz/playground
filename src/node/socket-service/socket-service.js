@@ -4,9 +4,8 @@ const express = require("express");
 // ---------------------------------------------------------
 // get an instance of the router for api routes
 // ---------------------------------------------------------
-var apiRoutes = express.Router();
-
-export default function auth({ app, config, onEvent }) {
+export default function socketIO({ app, config, onEvent, channel }) {
+  var apiRoutes = express.Router();
   var server = http.Server(app);
   var ioServer = io(server);
 
@@ -16,7 +15,7 @@ export default function auth({ app, config, onEvent }) {
 
   ioServer.on("connection", function(socket) {
     ioServer.emit("init", { message: "you have connected" });
-    socket.on("chat", function(msg) {
+    socket.on(channel, function(msg) {
       ioServer.emit("chat", msg);
       let eventName = "chat";
       let eventData = msg;
