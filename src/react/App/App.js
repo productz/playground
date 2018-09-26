@@ -86,6 +86,8 @@ class App extends React.Component {
             }}
           />
           <Route
+            path="/admin"
+            exact
             render={props =>
               rootStore.authDomainStore.isLoggedIn ? (
                 <MainWrapper>
@@ -103,6 +105,8 @@ class App extends React.Component {
             }
           />
           <Route
+            path="/chat"
+            exact
             render={props =>
               rootStore.authDomainStore.isLoggedIn ? (
                 <MainWrapper>
@@ -126,6 +130,7 @@ class App extends React.Component {
           />
           <Route
             path="/user"
+            exact
             render={({ location, match, history }) => {
               return (
                 <MainWrapper>
