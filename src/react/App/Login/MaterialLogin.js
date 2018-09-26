@@ -74,7 +74,10 @@ export const Login = ({
   onSubmit,
   onProviderAuth,
   onRegister,
-  classes
+  classes,
+  location,
+  history,
+  match
 }) => {
   return (
     <React.Fragment>
@@ -90,9 +93,12 @@ export const Login = ({
             onSubmit={(values, actions) => {
               onSubmit(values)
                 .then(() => {
+                  history.push("/");
                   actions.setSubmitting(false);
                 })
-                .catch(err => {});
+                .catch(err => {
+                  console.log(err);
+                });
             }}
             validationSchema={LoginSchema}
             render={({

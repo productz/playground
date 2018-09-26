@@ -36,7 +36,15 @@ let fields = [
   }
 ];
 
-const Login = ({ onChange, onSubmit, onProviderAuth, onRegister }) => {
+const Login = ({
+  onChange,
+  onSubmit,
+  onProviderAuth,
+  onRegister,
+  Location,
+  match,
+  history
+}) => {
   return (
     <React.Fragment>
       <Formik

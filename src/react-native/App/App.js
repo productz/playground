@@ -42,27 +42,27 @@ export default class App extends React.Component {
       <React.Fragment>
         <Route
           path="/auth/login"
-          render={props => {
+          render={({ location, match, history }) => {
             return (
               <LoginWithAuth
                 onRegister={() => props.history.push("/auth/register")}
                 authUiStore={rootStore.authUiStore}
                 authDomainStore={rootStore.authDomainStore}
               >
-                <Login />
+                <Login location match history />
               </LoginWithAuth>
             );
           }}
         />
         <Route
           path="/auth/register"
-          render={props => {
+          render={({ location, match, history }) => {
             return (
               <RegisterWithAuth
                 authDomainStore={rootStore.authDomainStore}
                 authUiStore={rootStore.authUiStore}
               >
-                <Register />
+                <Register location match history />
               </RegisterWithAuth>
             );
           }}

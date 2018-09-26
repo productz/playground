@@ -14,6 +14,8 @@ import MainWrapper from "./Wrappers/MainWrapper";
 import User from "./User/User";
 import Login from "./Login/MaterialLogin";
 import Register from "./Register/MaterialRegister";
+import Admin from "./Admin/Admin";
+import Home from "./Home/Home";
 import Store from "./Store/Store";
 
 let rootStore = new Store({
@@ -30,14 +32,14 @@ class App extends React.Component {
         <div>
           <Route
             path="/auth/login"
-            render={props => {
+            render={({ location, history, match }) => {
               return (
                 <LoginWithAuth
                   onRegister={() => props.history.push("/auth/register")}
                   authUiStore={rootStore.authUiStore}
                   authDomainStore={rootStore.authDomainStore}
                 >
-                  <Login />
+                  <Login location={location} history={history} match={match} />
                 </LoginWithAuth>
               );
             }}
@@ -52,6 +54,17 @@ class App extends React.Component {
                 >
                   <Register />
                 </RegisterWithAuth>
+              );
+            }}
+          />
+          <Route
+            path="/"
+            exact
+            render={props => {
+              return (
+                <MainWrapper>
+                  <Home />
+                </MainWrapper>
               );
             }}
           />
@@ -87,9 +100,5 @@ class App extends React.Component {
   }
   componentWillReceiveProps(nextProps) {}
 }
-
-export const Admin = ({}) => {
-  return <p>Admin Page</p>;
-};
 
 ReactDOM.render(<App />, document.getElementById("app"));
