@@ -124,12 +124,12 @@ class App extends React.Component {
                   match={match}
                   history={history}
                 >
-                  <Crud
+                  <Socket
                     modelName="chat"
-                    crudDomainStore={rootStore.crudDomainStore}
+                    socketDomainStore={rootStore.crudDomainStore}
                   >
                     <Chat />
-                  </Crud>
+                  </Socket>
                 </MainWrapper>
               ) : (
                 <Redirect
