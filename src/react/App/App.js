@@ -130,7 +130,6 @@ class App extends React.Component {
           />
           <Route
             path="/user"
-            exact
             render={({ location, match, history }) => {
               return (
                 <MainWrapper>
@@ -144,7 +143,16 @@ class App extends React.Component {
               );
             }}
           />
-          <Route path="*" component={NotFound} />
+          <Route
+            path="*"
+            render={props => {
+              return (
+                <MainWrapper>
+                  <NotFound />
+                </MainWrapper>
+              );
+            }}
+          />
         </Switch>
       </Router>
     );
