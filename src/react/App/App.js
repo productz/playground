@@ -1,6 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { HashRouter as Router, Route } from "react-router-dom";
+import {
+  HashRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
 import {
   LoginWithAuth,
   RegisterWithAuth,
@@ -15,8 +20,11 @@ import User from "./User/User";
 import Login from "./Login/MaterialLogin";
 import Register from "./Register/MaterialRegister";
 import Admin from "./Admin/Admin";
+import NotFound from "./NotFound/NotFound";
 import Home from "./Home/Home";
+import Chat from "./Chat/Chat";
 import Store from "./Store/Store";
+import { observer } from "mobx-react";
 
 let rootStore = new Store({
   authDomainStore,
@@ -25,11 +33,20 @@ let rootStore = new Store({
 });
 
 class App extends React.Component {
-  componentDidMount(props) {}
+  state = {
+    isLoggedIn: false
+  };
+  componentDidMount(props) {
+    rootStore.authDomainStore.isAuthenticated().then(res => {
+      if (res.status === 200) {
+        this.setState({ isLoggedIn: true });
+      }
+    });
+  }
   render() {
     return (
       <Router>
-        <div>
+        <Switch>
           <Route
             path="/auth/login"
             render={({ location, history, match }) => {
@@ -68,16 +85,45 @@ class App extends React.Component {
               );
             }}
           />
-
-          <MainWrapper>
-            <PrivateRoute
-              path="/admin"
-              render={props => {
-                return <Admin />;
-              }}
-              authDomainStore={rootStore.authDomainStore}
-            />
-          </MainWrapper>
+          <Route
+            render={props =>
+              rootStore.authDomainStore.isLoggedIn ? (
+                <MainWrapper>
+                  <Admin />
+                </MainWrapper>
+              ) : (
+                <Redirect
+                  to={{
+                    pathname:
+                      "/auth/login?message='please login to view this page'",
+                    state: { from: props.location }
+                  }}
+                />
+              )
+            }
+          />
+          <Route
+            render={props =>
+              rootStore.authDomainStore.isLoggedIn ? (
+                <MainWrapper>
+                  <Crud
+                    modelName="chat"
+                    crudDomainStore={rootStore.crudDomainStore}
+                  >
+                    <Chat />
+                  </Crud>
+                </MainWrapper>
+              ) : (
+                <Redirect
+                  to={{
+                    pathname:
+                      "/auth/login?message='please login to view this page'",
+                    state: { from: props.location }
+                  }}
+                />
+              )
+            }
+          />
           <Route
             path="/user"
             render={({ location, match, history }) => {
@@ -93,7 +139,8 @@ class App extends React.Component {
               );
             }}
           />
-        </div>
+          <Route path="*" component={NotFound} />
+        </Switch>
       </Router>
     );
   }

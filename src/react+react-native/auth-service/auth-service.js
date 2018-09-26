@@ -75,7 +75,7 @@ export class authDomainStore {
     }
   }
   isAuthenticated() {
-    this.offlineStorage.getItem("jwtToken").then(token => {
+    return this.offlineStorage.getItem("jwtToken").then(token => {
       return axios
         .post(`${SERVER.host}:${SERVER.port}/jwt/is-auth`, {
           token
@@ -153,26 +153,4 @@ export const RegisterWithAuth = observer(
     );
     return <React.Fragment>{decoratedRegister}</React.Fragment>;
   }
-);
-
-export const PrivateRoute = ({
-  component: Component,
-  authDomainStore,
-  ...rest
-}) => (
-  <Route
-    {...rest}
-    render={props =>
-      authDomainStore.isLoggedIn ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{
-            pathname: "/auth/login?message='please login to view this page'",
-            state: { from: props.location }
-          }}
-        />
-      )
-    }
-  />
 );

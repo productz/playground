@@ -1,5 +1,5 @@
 import React from "react";
-const Admin = ({}) => {
+const NotFound = ({}) => {
   return <p>Admin Page</p>;
 };
-export default Admin;
+export default NotFound;

@@ -11,7 +11,7 @@ export const routes = [
   { url: "/#/auth/register", name: "Register" },
   { url: "/#/admin", name: "Admin" },
   { url: "/#/user", name: "User" },
-  { url: "/#/chat-log", name: "Chat log" }
+  { url: "/#/chat", name: "Chat" }
 ];
 
 export const Routes = (
