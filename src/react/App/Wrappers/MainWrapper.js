@@ -142,7 +142,7 @@ class MainWrapper extends React.Component {
                 noWrap
                 className={classes.title}
               >
-                {route.name}
+                {route && route.name}
               </Typography>
               <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">

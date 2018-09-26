@@ -96,8 +96,7 @@ const Chat = ({
   classes
 }) => {
   let chat = model;
-  console.log(chat);
-  if (chat) {
+  if (chat && chat.length > 0) {
     let chatView = chat.map(user => {
       return (
         <ListItem key={user._id}>

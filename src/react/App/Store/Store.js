@@ -14,10 +14,16 @@ let offlineStorage = {
 };
 
 export default class RootStore {
-  constructor({ authUiStore, authDomainStore, crudDomainStore }) {
+  constructor({
+    authUiStore,
+    authDomainStore,
+    crudDomainStore,
+    socketDomainStore
+  }) {
     this.authUiStore = new authUiStore(this);
     this.authDomainStore = new authDomainStore(this, offlineStorage);
     this.crudDomainStore = new crudDomainStore(this);
+    this.socketDomainStore = new socketDomainStore(this);
     this.authDomainStore.storeToken();
     this.authDomainStore.isAuthenticated();
   }

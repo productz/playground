@@ -9,7 +9,6 @@ import {
 import {
   LoginWithAuth,
   RegisterWithAuth,
-  PrivateRoute,
   authDomainStore,
   authUiStore,
   Crud,
@@ -31,7 +30,8 @@ import { observer } from "mobx-react";
 let rootStore = new Store({
   authDomainStore,
   authUiStore,
-  crudDomainStore
+  crudDomainStore,
+  socketDomainStore
 });
 
 class App extends React.Component {
@@ -54,7 +54,7 @@ class App extends React.Component {
             render={({ location, history, match }) => {
               return (
                 <LoginWithAuth
-                  onRegister={() => props.history.push("/auth/register")}
+                  onRegister={() => history.push("/auth/register")}
                   authUiStore={rootStore.authUiStore}
                   authDomainStore={rootStore.authDomainStore}
                 >
@@ -126,7 +126,7 @@ class App extends React.Component {
                 >
                   <Socket
                     modelName="chat"
-                    socketDomainStore={rootStore.crudDomainStore}
+                    socketDomainStore={rootStore.socketDomainStore}
                   >
                     <Chat />
                   </Socket>
@@ -163,7 +163,7 @@ class App extends React.Component {
           />
           <Route
             path="*"
-            render={props => {
+            render={({ location, match, history }) => {
               return (
                 <MainWrapper
                   location={location}

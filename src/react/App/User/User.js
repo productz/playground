@@ -96,7 +96,7 @@ const User = ({
   classes
 }) => {
   let users = model;
-  if (users) {
+  if (users && users.length > 0) {
     let usersView = users.map(user => {
       return (
         <ListItem key={user._id}>
