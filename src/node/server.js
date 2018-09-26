@@ -78,7 +78,13 @@ const onEvent = (eventName, eventData) => {
   console.log(eventName, eventData);
 };
 const channel = "chat";
-const chatApi = socketService({ app, onEvent, config, channel });
+const chatApi = socketService({
+  app,
+  onEvent,
+  config,
+  channel,
+  Model: chatLogService
+});
 
 // =================================================================
 // Setup Auth ========================================

@@ -4,7 +4,7 @@ const express = require("express");
 // ---------------------------------------------------------
 // get an instance of the router for api routes
 // ---------------------------------------------------------
-export default function socketIO({ app, config, onEvent, channel }) {
+export default function socketIO({ app, config, onEvent, channel, Model }) {
   var apiRoutes = express.Router();
   var server = http.Server(app);
   var ioServer = io(server);
@@ -14,7 +14,15 @@ export default function socketIO({ app, config, onEvent, channel }) {
   });
 
   ioServer.on("connection", function(socket) {
-    ioServer.emit("init", { message: "you have connected" });
+    Model.find({})
+      .sort("-date")
+      .exec((err, data) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send(err);
+        }
+        ioServer.emit("init", data);
+      });
     socket.on(channel, function(msg) {
       ioServer.emit(channel, msg);
       let eventName = channel;

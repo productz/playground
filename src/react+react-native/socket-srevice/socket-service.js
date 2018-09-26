@@ -18,6 +18,7 @@ export class socketDomainStore {
   subscribe({ onInit, onConnect, onEvent, onDisconnect, channel }) {
     let newSocket = io(`${SERVER.host}:${SERVER.port + 1}`);
     newSocket.on("init", data => {
+      this.mapStore.set(channel, data);
       onInit(data);
     });
     newSocket.on("connect", () => {
@@ -59,7 +60,8 @@ export class Socket extends React.Component {
     let { channel, children, socketDomainStore } = this.props;
     const childrenWithProps = React.Children.map(children, child => {
       return React.cloneElement(child, {
-        model: socketDomainStore.mapStore.get(channel),
+        model: toJS(socketDomainStore.mapStore.get(channel)),
+        channel: channel,
         publish: value => socketDomainStore.publish({ value, channel }),
         subscribe: ({ onConnect, onEvent, onDisconnect, channel, onInit }) =>
           socketDomainStore.subscribe({

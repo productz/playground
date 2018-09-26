@@ -18,6 +18,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import SearchIcon from "@material-ui/icons/Search";
+import {toJS} from "mobx";
 
 const styles = theme => ({
   root: {
@@ -109,8 +110,8 @@ class Chat extends React.Component {
       classes
     } = this.props;
     let chatList = model;
-    console.log(chatList);
-    if (chatList && chatList.length > 0) {
+    console.log(model);
+    if (chatList) {
       let chatView = chatList.map(user => {
         return (
           <ListItem key={chat._id}>
@@ -169,7 +170,6 @@ class Chat extends React.Component {
               <p>Create Chat</p>
             </Button>
           </List>
-          );
         </div>
       );
     }

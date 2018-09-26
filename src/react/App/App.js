@@ -36,12 +36,12 @@ let rootStore = new Store({
 
 class App extends React.Component {
   state = {
-    isLoggedIn: false
+    isLoggedIn: true
   };
   componentDidMount(props) {
     rootStore.authDomainStore.isAuthenticated().then(res => {
-      if (res.status === 200) {
-        this.setState({ isLoggedIn: true });
+      if (res.status !== 200) {
+        this.setState({ isLoggedIn: false });
       }
     });
   }
@@ -95,7 +95,7 @@ class App extends React.Component {
             path="/admin"
             exact
             render={({ location, history, match }) =>
-              rootStore.authDomainStore.isLoggedIn ? (
+              this.state.isLoggedIn ? (
                 <MainWrapper
                   location={location}
                   match={match}
@@ -118,7 +118,7 @@ class App extends React.Component {
             path="/chat"
             exact
             render={({ location, history, match }) =>
-              rootStore.authDomainStore.isLoggedIn ? (
+              this.state.isLoggedIn ? (
                 <MainWrapper
                   location={location}
                   match={match}
