@@ -14,7 +14,7 @@ import Badge from "@material-ui/core/Badge";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import { Routes } from "./Routes";
+import { Routes } from "../Routes";
 
 const drawerWidth = 240;
 
@@ -92,7 +92,7 @@ const styles = theme => ({
   }
 });
 
-class Home extends React.Component {
+class MainWrapper extends React.Component {
   state = {
     open: true
   };
@@ -177,8 +177,8 @@ class Home extends React.Component {
   }
 }
 
-Home.propTypes = {
+MainWrapper.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Home);
+export default withStyles(styles)(MainWrapper);

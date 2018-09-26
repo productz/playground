@@ -10,7 +10,7 @@ import {
   Crud,
   crudDomainStore
 } from "../../react+react-native";
-import Home from "./Home";
+import MainWrapper from "./Wrappers/MainWrapper";
 import User from "./User/User";
 import Login from "./Login/MaterialLogin";
 import Register from "./Register/MaterialRegister";
@@ -26,57 +26,63 @@ class App extends React.Component {
   componentDidMount(props) {}
   render() {
     return (
-      <Home>
-        <Router>
-          <div>
-            <Route
-              path="/auth/login"
-              render={props => {
-                return (
-                  <LoginWithAuth
-                    onRegister={() => props.history.push("/auth/register")}
-                    authUiStore={rootStore.authUiStore}
-                    authDomainStore={rootStore.authDomainStore}
-                  >
-                    <Login />
-                  </LoginWithAuth>
-                );
-              }}
-            />
-            <Route
-              path="/auth/register"
-              render={props => {
-                return (
-                  <RegisterWithAuth
-                    authDomainStore={rootStore.authDomainStore}
-                    authUiStore={rootStore.authUiStore}
-                  >
-                    <Register />
-                  </RegisterWithAuth>
-                );
-              }}
-            />
-            <PrivateRoute
-              path="/admin"
-              component={Admin}
-              authDomainStore={rootStore.authDomainStore}
-            />
-            <Route
-              path="/user"
-              render={({ location, match, history }) => {
-                return (
+      <Router>
+        <div>
+          <Route
+            path="/auth/login"
+            render={props => {
+              return (
+                <LoginWithAuth
+                  onRegister={() => props.history.push("/auth/register")}
+                  authUiStore={rootStore.authUiStore}
+                  authDomainStore={rootStore.authDomainStore}
+                >
+                  <Login />
+                </LoginWithAuth>
+              );
+            }}
+          />
+          <Route
+            path="/auth/register"
+            render={props => {
+              return (
+                <RegisterWithAuth
+                  authDomainStore={rootStore.authDomainStore}
+                  authUiStore={rootStore.authUiStore}
+                >
+                  <Register />
+                </RegisterWithAuth>
+              );
+            }}
+          />
+          <PrivateRoute
+            path="/admin"
+            render={props => {
+              return (
+                <MainWrapper>
+                  <Admin />
+                </MainWrapper>
+              );
+            }}
+            authDomainStore={rootStore.authDomainStore}
+          />
+          <Route
+            path="/user"
+            render={({ location, match, history }) => {
+              return (
+                <MainWrapper>
                   <Crud
                     modelName="user"
                     crudDomainStore={rootStore.crudDomainStore}
                   >
                     <User location={location} match={match} history={history} />
                   </Crud>
-                );
-              }}
-            />
-          </div>
-        </Router>
-      </Home>
+                </MainWrapper>
+              );
+            }}
+          />
+        </div>
+      </Router>
     );
   }
   componentWillReceiveProps(nextProps) {}
