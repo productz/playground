@@ -74,17 +74,16 @@ const chatLogApi = crudService({ Model: chatLogModel });
 //socket service
 import socketService from "./socket-service/socket-service.js";
 //onEvent is called everytime we recieve a message from a socket
-const onEvent = (eventName, eventData) => {
+const channel = "chat";
+const onEvent = (eventData, socket) => {
   let chat = new chatLogModel({ text: eventData });
   chat.save(err => {
     if (err) {
       return console.error(err);
     }
-    console.log("success saving");
-    return;
+    return socket.emit("chat", chat);
   });
 };
-const channel = "chat";
 const chatApi = socketService({
   app,
   onEvent,

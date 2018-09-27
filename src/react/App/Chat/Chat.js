@@ -18,7 +18,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import SearchIcon from "@material-ui/icons/Search";
-import { toJS } from "mobx";
+import { toJS, isObservableObject } from "mobx";
 
 const styles = theme => ({
   root: {
@@ -98,6 +98,13 @@ class Chat extends React.Component {
     let { currentMessage } = this.state;
     publish(currentMessage);
   }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.model) {
+      this.setState({
+        incomingChats: [...nextProps.model]
+      });
+    }
+  }
   componentDidMount() {
     let { subscribe, channel, getModel } = this.props;
     subscribe({
@@ -111,17 +118,34 @@ class Chat extends React.Component {
       onDisconnect: () => {
         console.log("disconnectd");
       },
-      onEvent: value => {
+      onEvent: chat => {
+        console.log(chat);
         this.setState({
-          incomingChats: [...this.state.incomingChats, value]
+          incomingChats: [...this.state.incomingChats, chat]
         });
-        console.log("new value", value);
       }
     });
   }
+  renderListItem(chat, deleteModel, getModel) {
+    return (
+      <ListItem key={chat._id}>
+        <ListItemText>
+          <p>{chat.text}</p>
+        </ListItemText>
+        <ListItemSecondaryAction>
+          <Button
+            onClick={() => {
+              deleteModel(chat);
+            }}
+          >
+            <p>Delete</p>
+          </Button>
+        </ListItemSecondaryAction>
+      </ListItem>
+    );
+  }
   render() {
     let {
-      model,
       match,
       classes,
       createModel,
@@ -129,27 +153,9 @@ class Chat extends React.Component {
       getModel,
       deleteModel
     } = this.props;
-    let chatList = model;
-    console.log(model);
-    if (chatList && Array.isArray(chatList)) {
-      let incomingMessagesView = this.state.incomingChats.map(message => {});
-      let chatView = chatList.map(chat => {
-        return (
-          <ListItem key={chat._id}>
-            <ListItemText>
-              <p>{chat.text}</p>
-            </ListItemText>
-            <ListItemSecondaryAction>
-              <Button
-                onClick={() => {
-                  deleteModel(chat);
-                }}
-              >
-                <p>Delete</p>
-              </Button>
-            </ListItemSecondaryAction>
-          </ListItem>
-        );
+    if (this.state.incomingChats && Array.isArray(this.state.incomingChats)) {
+      let chatView = this.state.incomingChats.map(chat => {
+        return this.renderListItem(chat, deleteModel);
       });
       return (
         <div className={classes.root}>
@@ -185,7 +191,6 @@ class Chat extends React.Component {
             </Button>
           </div>
           <List>{chatView}</List>
-          <List>{this.state.incomingChats}</List>
         </div>
       );
     }
