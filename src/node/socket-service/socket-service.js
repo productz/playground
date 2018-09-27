@@ -16,6 +16,7 @@ export default function socketIO({ app, config, onEvent, channel }) {
   ioServer.on("connection", function(socket) {
     ioServer.emit("init", "connected");
     socket.on(channel, function(msg) {
+      console.log("got a message", msg);
       ioServer.emit(channel, msg);
       let eventName = channel;
       let eventData = msg;

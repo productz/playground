@@ -81,8 +81,25 @@ const styles = theme => ({
 });
 
 class Chat extends React.Component {
+  state = {
+    currentMessage: "",
+    incomingChats: []
+  };
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleChange(event) {
+    this.setState({ currentMessage: event.target.value });
+  }
+  handleSubmit() {
+    let { createModel, publish } = this.props;
+    let { currentMessage } = this.state;
+    publish(currentMessage);
+  }
   componentDidMount() {
-    let { subscribe, channel } = this.props;
+    let { subscribe, channel, getModel } = this.props;
     subscribe({
       channel,
       onInit: value => {
@@ -95,6 +112,9 @@ class Chat extends React.Component {
         console.log("disconnectd");
       },
       onEvent: value => {
+        this.setState({
+          incomingChats: [...this.state.incomingChats, value]
+        });
         console.log("new value", value);
       }
     });
@@ -109,9 +129,10 @@ class Chat extends React.Component {
       getModel,
       deleteModel
     } = this.props;
-    console.log(toJS(model));
     let chatList = model;
+    console.log(model);
     if (chatList && Array.isArray(chatList)) {
+      let incomingMessagesView = this.state.incomingChats.map(message => {});
       let chatView = chatList.map(chat => {
         return (
           <ListItem key={chat._id}>
@@ -151,16 +172,20 @@ class Chat extends React.Component {
               </Toolbar>
             </AppBar>
           </header>
-          <List>
-            {chatView}
-            <Button
-              onClick={() => {
-                createModel({ name: "Zee" });
-              }}
-            >
-              <p>Create Chat</p>
+          <div>
+            <TextField
+              id="standard-name"
+              label="Name"
+              className={classes.textField}
+              onChange={this.handleChange}
+              margin="normal"
+            />
+            <Button onClick={this.handleSubmit}>
+              <p>Submit</p>
             </Button>
-          </List>
+          </div>
+          <List>{chatView}</List>
+          <List>{this.state.incomingChats}</List>
         </div>
       );
     }
