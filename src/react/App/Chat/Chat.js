@@ -18,7 +18,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import SearchIcon from "@material-ui/icons/Search";
-import {toJS} from "mobx";
+import { toJS } from "mobx";
 
 const styles = theme => ({
   root: {
@@ -103,26 +103,22 @@ class Chat extends React.Component {
     let {
       model,
       match,
-      classes
+      classes,
+      createModel,
+      updateModel,
+      getModel,
+      deleteModel
     } = this.props;
+    console.log(toJS(model));
     let chatList = model;
     if (chatList && Array.isArray(chatList)) {
-      let chatView = chatList.map(user => {
+      let chatView = chatList.map(chat => {
         return (
           <ListItem key={chat._id}>
             <ListItemText>
-              <p>{user.name}</p>
+              <p>{chat.text}</p>
             </ListItemText>
             <ListItemSecondaryAction>
-              <Link to={`${match.url}/${chat._id}`}>
-                <Button
-                  onClick={() => {
-                    setModelEdit(chat, true);
-                  }}
-                >
-                  <p>Edit</p>
-                </Button>
-              </Link>
               <Button
                 onClick={() => {
                   deleteModel(chat);
