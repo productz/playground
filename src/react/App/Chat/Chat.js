@@ -102,11 +102,7 @@ class Chat extends React.Component {
   render() {
     let {
       model,
-      publish,
-      subscribe,
-      location,
       match,
-      history,
       classes
     } = this.props;
     let chatList = model;
@@ -148,7 +144,7 @@ class Chat extends React.Component {
                     <SearchIcon />
                   </div>
                   <Input
-                    placeholder="Search…"
+                    placeholder="Search"
                     disableUnderline
                     classes={{
                       root: classes.inputRoot,

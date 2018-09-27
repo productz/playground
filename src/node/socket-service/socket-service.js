@@ -4,7 +4,7 @@ const express = require("express");
 // ---------------------------------------------------------
 // get an instance of the router for api routes
 // ---------------------------------------------------------
-export default function socketIO({ app, config, onEvent, channel, Model }) {
+export default function socketIO({ app, config, onEvent, channel }) {
   var apiRoutes = express.Router();
   var server = http.Server(app);
   var ioServer = io(server);

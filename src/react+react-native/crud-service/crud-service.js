@@ -37,15 +37,12 @@ export class crudDomainStore {
     return axios
       .post(`${SERVER.host}:${SERVER.port}/${modelName}`, model)
       .then(res => {
-        runInAction(() => {
-          let current = mapStore.get(modelName);
-          this.mapStore.set(modelName, [...current, res.data]);
-        });
+        let current = this.mapStore.get(modelName);
+        this.mapStore.set(modelName, [...current, res.data]);
         return res.data;
       })
       .catch(err => {
-        runInAction(() => {});
-        return err;
+        return this.setError(err);
       });
   }
   @action
@@ -64,7 +61,7 @@ export class crudDomainStore {
         return res.data;
       })
       .catch(err => {
-        return err;
+        return this.setError(err);
       });
   }
   @action
@@ -80,7 +77,7 @@ export class crudDomainStore {
         return res.data;
       })
       .catch(err => {
-        return err;
+        return this.setError(err);
       });
   }
   @action
@@ -91,7 +88,7 @@ export class crudDomainStore {
         return res.data;
       })
       .catch(err => {
-        return err;
+        return this.setError(err);
       });
   }
   @action
@@ -99,6 +96,10 @@ export class crudDomainStore {
     let { editedModel, isEditing } = this.rootStore.crudDomainStore;
     editedModel.set(modelName, model);
     isEditing.set(modelName, isEdit);
+  }
+  @action
+  setError(err) {
+    console.error(err);
   }
 }
 
