@@ -7,9 +7,9 @@ import io from "socket.io-client";
 
 //export store
 export class socketDomainStore {
-  mapStore = observable.map();
   @observable
   isConnected = false;
+  socket;
   rootStore;
   constructor(rootStore) {
     this.rootStore = rootStore;
@@ -18,30 +18,22 @@ export class socketDomainStore {
   subscribe({ onInit, onConnect, onEvent, onDisconnect, channel }) {
     let newSocket = io(`${SERVER.host}:${SERVER.port + 1}`);
     newSocket.on("init", data => {
-      this.mapStore.set(channel, data);
       onInit(data);
     });
     newSocket.on("connect", () => {
       onConnect();
     });
     newSocket.on(channel, data => {
-      let list = this.mapStore.get(this.channel);
-      list.push(data);
-      this.mapStore.set(channel, list);
       onEvent(data);
     });
     newSocket.on("disconnect", () => {
       onDisconnect();
     });
+    this.socket = newSocket;
   }
   @action
   publish({ channel, value }) {
-    //cached data, you don't have to hit up he end point
-    this.channel = channel;
-    if (this.mapStore.get(channel) && !refresh) {
-      return;
-    }
-    return this.socket.emit(`${channel}:get`, value, data => {
+    return this.socket.emit(`${channel}`, value, data => {
       console.log(data);
     });
   }
@@ -60,7 +52,6 @@ export class Socket extends React.Component {
     let { channel, children, socketDomainStore } = this.props;
     const childrenWithProps = React.Children.map(children, child => {
       return React.cloneElement(child, {
-        model: toJS(socketDomainStore.mapStore.get(channel)),
         channel: channel,
         publish: value => socketDomainStore.publish({ value, channel }),
         subscribe: ({ onConnect, onEvent, onDisconnect, channel, onInit }) =>
@@ -71,6 +62,7 @@ export class Socket extends React.Component {
             channel,
             onInit
           }),
+        ...this.props,
         ...child.props
       });
     });

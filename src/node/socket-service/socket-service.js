@@ -14,15 +14,7 @@ export default function socketIO({ app, config, onEvent, channel, Model }) {
   });
 
   ioServer.on("connection", function(socket) {
-    Model.find({})
-      .sort("-date")
-      .exec((err, data) => {
-        if (err) {
-          console.log(err);
-          return res.status(500).send(err);
-        }
-        ioServer.emit("init", data);
-      });
+    ioServer.emit("init", "connected");
     socket.on(channel, function(msg) {
       ioServer.emit(channel, msg);
       let eventName = channel;

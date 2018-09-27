@@ -49,11 +49,11 @@ app.use(morgan("dev"));
 // =================================================================
 // Import web services ========================================
 // ================================================================
-import userService from "./db-service/models/user.js";
-import chatLogService from "./db-service/models/chat-log";
+import userModel from "./db-service/models/user.js";
+import chatLogModel from "./db-service/models/chat-log";
 
 import helloService from "./hello-service/hello-service.js";
-const helloApi = helloService({ app, userService });
+const helloApi = helloService({ app, userModel });
 
 import jwtService from "./jwt-service/jwt-service.js";
 const jwtApi = jwtService({ secret: config.get("secret") });
@@ -64,8 +64,8 @@ const jwtApi = jwtService({ secret: config.get("secret") });
 
 //the crud service creates [create, read, update, delete] endpoints for a mongoose model
 import crudService from "./crud-service/crud-service.js";
-const userApi = crudService({ Model: userService });
-const chatLogApi = crudService({ Model: chatLogService });
+const userApi = crudService({ Model: userModel });
+const chatLogApi = crudService({ Model: chatLogModel });
 
 // =================================================================
 // Open a socket ========================================
@@ -82,8 +82,7 @@ const chatApi = socketService({
   app,
   onEvent,
   config,
-  channel,
-  Model: chatLogService
+  channel
 });
 
 // =================================================================
@@ -105,7 +104,7 @@ const onVerify = ({
   //add a jwt token for mobile based authentication
   //store the id for providers
   if ((providerName = "local")) {
-    return userService.findOne({ email: username }, function(err, user) {
+    return userModel.findOne({ email: username }, function(err, user) {
       if (err) {
         return cb(err);
       }
@@ -136,13 +135,13 @@ const onVerify = ({
   user.id = profile.id;
   let jwtToken = jwt.sign(user, config.get("secret"));
   user.jwtToken = jwtToken;
-  userService.findOrCreate(check, user, function(err, user) {
+  userModel.findOrCreate(check, user, function(err, user) {
     return cb(err, user);
   });
 };
 
 const onRegister = (values, req, res) => {
-  let user = new userService(values);
+  let user = new userModel(values);
   //do I generate an auth token?
   //register a user
   user.save(err => {

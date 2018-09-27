@@ -110,8 +110,7 @@ class Chat extends React.Component {
       classes
     } = this.props;
     let chatList = model;
-    console.log(model);
-    if (chatList) {
+    if (chatList && Array.isArray(chatList)) {
       let chatView = chatList.map(user => {
         return (
           <ListItem key={chat._id}>

@@ -117,7 +117,6 @@ export class Crud extends React.Component {
       crudDomainStore.getModel(modelName, false);
     }
     console.log("rerender crud service");
-    crudDomainStore.mapStore.get(modelName);
     const childrenWithProps = React.Children.map(children, child => {
       return React.cloneElement(child, {
         model: crudDomainStore.mapStore.get(modelName),
@@ -130,6 +129,7 @@ export class Crud extends React.Component {
           crudDomainStore.setModelEdit(modelName, model, isEditing),
         isEditing: crudDomainStore.isEditing.get(modelName),
         editedModel: crudDomainStore.editedModel.get(modelName),
+        ...this.props,
         ...child.props
       });
     });
