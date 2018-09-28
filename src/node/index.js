@@ -1,2 +1,2 @@
 require('babel-register');
-var server = require('./server.js');
+var server = require('./App/server.js');
