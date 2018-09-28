@@ -107,6 +107,7 @@ class Chat extends React.Component {
   }
   componentDidMount() {
     let { subscribe, channel, getModel } = this.props;
+    getModel();
     subscribe({
       channel,
       onInit: value => {
