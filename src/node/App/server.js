@@ -53,9 +53,9 @@ const { authApiRoutes, chatApiRoutes, userApiRoutes, jwtApiRoutes } = Api({
 });
 
 app.use("/", authApiRoutes);
-app.use("/", jwtApiRoutes);
+app.use("/jwt", jwtApiRoutes);
 app.use("/user", userApiRoutes);
-app.use("/chat", chatApiRoutes);
+app.use("/chat-log", chatApiRoutes);
 
 // =================================================================
 // start the server ================================================
