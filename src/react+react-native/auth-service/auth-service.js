@@ -38,6 +38,7 @@ export class authDomainStore {
         // runInAction(() => {
         //   isLoggedIn = false;
         // });
+        console.log(err);
         return err;
       });
   }

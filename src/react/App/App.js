@@ -38,10 +38,13 @@ class App extends React.Component {
   state = {
     isLoggedIn: true
   };
+  componentWillReceiveProps(nextProps) {}
   componentDidMount(props) {
     rootStore.authDomainStore.isAuthenticated().then(res => {
       if (res.status !== 200) {
         this.setState({ isLoggedIn: false });
+      } else {
+        this.setState({ isLoggedIn: true });
       }
     });
   }
