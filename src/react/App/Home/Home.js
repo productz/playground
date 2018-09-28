@@ -69,15 +69,6 @@ function Home(props) {
 
   return (
     <React.Fragment>
-      <CssBaseline />
-      <AppBar position="static" className={classes.appBar}>
-        <Toolbar>
-          <CameraIcon className={classes.icon} />
-          <Typography variant="title" color="inherit" noWrap>
-            Home layout
-          </Typography>
-        </Toolbar>
-      </AppBar>
       <main>
         {/* Hero unit */}
         <div className={classes.heroUnit}>
