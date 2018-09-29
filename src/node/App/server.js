@@ -44,16 +44,20 @@ app.use(bodyParser.json());
 // use morgan to log requests to the console
 app.use(morgan("dev"));
 
+//models: mongoose models
+//schemas: the schema of each model
 const onInit = (models, schemas) => {
   const { authApiRoutes, chatApiRoutes, userApiRoutes, jwtApiRoutes } = Api({
     app,
     config
   });
-
   app.use("/", authApiRoutes);
   app.use("/jwt", jwtApiRoutes);
   app.use("/user", userApiRoutes);
   app.use("/chat-log", chatApiRoutes);
+  app.use("/schemas", (req, res, next) => {
+    res.send(schemas);
+  });
 };
 
 const onError = err => {

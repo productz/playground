@@ -4,14 +4,21 @@ const MongoDb = ({ app, config, onInit, onError, onDisconnect }) => {
   const connection = mongoose.connect(
     `${config.get("db.host")}:${config.get("db.port")}`,
     function(err) {
-      if (err) onError(err);
+      if (err) return onError(err);
+      console.log("connected to db");
     }
   ); // connect to database
   const schemas = {};
+  //extract resource and format mongodb schema
   Object.keys(connection.models).map(modelName => {
-    schemas[modelName] = connection.models[modelName].schema.paths;
+    let pathObject = connection.models[modelName].schema.paths;
+    schemas[modelName] = pathObject;
   });
-  onInit(schemas);
+  onInit(connection.models, schemas);
+
+  mongoose.connection.on("connection", function() {
+    console.log("connected to db");
+  });
 
   // If the connection throws an error
   mongoose.connection.on("error", function(err) {
