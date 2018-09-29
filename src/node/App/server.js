@@ -45,7 +45,6 @@ app.use(bodyParser.json());
 app.use(morgan("dev"));
 
 const onInit = (models, schemas) => {
-  console.log(models, schemas);
   const { authApiRoutes, chatApiRoutes, userApiRoutes, jwtApiRoutes } = Api({
     app,
     config
@@ -56,13 +55,18 @@ const onInit = (models, schemas) => {
   app.use("/user", userApiRoutes);
   app.use("/chat-log", chatApiRoutes);
 };
+
 const onError = err => {
   //routes that don't require db connection
-  app.use("/", (req, res) => {
-    res.status(500).send(err);
+  app.use("/", (req, res, next) => {
+    return res.status(500).send(err);
   });
 };
-const dbConnection = MongoDb({ app, config, onInit, onError });
+
+const onDisconnect = () => {
+  console.log("db disconnected");
+};
+const dbConnection = MongoDb({ app, config, onInit, onError, onDisconnect });
 
 // =================================================================
 // start the server ================================================
