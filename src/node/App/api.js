@@ -1,7 +1,7 @@
 import authApi from "./Auth";
 import chatApi from "./Chat";
-import userModel from "./db/models/user";
-import chatLogModel from "./db/models/chat-log";
+import userModel from "./MongoDb/models/user";
+import chatLogModel from "./MongoDb/models/chat-log";
 import userApi from "./User";
 import jwtApi from "./Jwt";
 

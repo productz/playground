@@ -4,10 +4,10 @@
 import express from "express";
 import bodyParser from "body-parser";
 import morgan from "morgan";
-import mongoose from "mongoose";
 import config from "config"; // get our config file
 import session from "express-session";
 import Api from "./api";
+import MongoDb from "./MongoDb";
 
 // =================================================================
 // App ===================================================
@@ -17,12 +17,9 @@ const app = express();
 // =================================================================
 // configuration ===================================================
 // =================================================================
-var port = config.get("server.port"); // used to create, sign, and verify tokens
-var ip = config.get("server.host");
-mongoose.connect(`${config.get("db.host")}:${config.get("db.port")}`); // connect to database
 app.set("superSecret", config.secret); // secret variable
 
-// required for passport session
+// required for passport session auth
 app.use(
   session({
     secret: "secrettexthere",
@@ -47,18 +44,30 @@ app.use(bodyParser.json());
 // use morgan to log requests to the console
 app.use(morgan("dev"));
 
-const { authApiRoutes, chatApiRoutes, userApiRoutes, jwtApiRoutes } = Api({
-  app,
-  config
-});
+const onInit = (models, schemas) => {
+  console.log(models, schemas);
+  const { authApiRoutes, chatApiRoutes, userApiRoutes, jwtApiRoutes } = Api({
+    app,
+    config
+  });
 
-app.use("/", authApiRoutes);
-app.use("/jwt", jwtApiRoutes);
-app.use("/user", userApiRoutes);
-app.use("/chat-log", chatApiRoutes);
+  app.use("/", authApiRoutes);
+  app.use("/jwt", jwtApiRoutes);
+  app.use("/user", userApiRoutes);
+  app.use("/chat-log", chatApiRoutes);
+};
+const onError = err => {
+  //routes that don't require db connection
+  app.use("/", (req, res) => {
+    res.status(500).send(err);
+  });
+};
+const dbConnection = MongoDb({ app, config, onInit, onError });
 
 // =================================================================
 // start the server ================================================
 // =================================================================
+var port = config.get("server.port"); // used to create, sign, and verify tokens
+var ip = config.get("server.host");
 app.listen(port, ip);
 console.log("Magic happens at http://localhost:" + port);
