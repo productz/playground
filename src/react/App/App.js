@@ -20,7 +20,7 @@ import MainWrapper from "./Wrappers/MainWrapper";
 import User from "./User/User";
 import Login from "./Login/MaterialLogin";
 import Register from "./Register/MaterialRegister";
-import Admin from "./Admin/Admin";
+// import Admin from "./Admin/Admin";
 import NotFound from "./NotFound/NotFound";
 import Home from "./Home/Home";
 import Chat from "./Chat/Chat";

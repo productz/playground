@@ -16,7 +16,7 @@ export class adminDomainStore {
     this.rootStore = rootStore;
   }
   @action
-  getModel(modelName, refresh) {
+  getModels(modelName, refresh) {
     //cached data, you don't have to hit up he end point
     if (this.mapStore.get(modelName) && !refresh) {
       return;
@@ -48,25 +48,12 @@ export class Admin extends React.Component {
   componentWillReceiveProps(nextProps) {}
   componentDidUpdate() {}
   render() {
-    let { modelName, children, adminDomainStore, crudComponent } = this.props;
-    if (modelName) {
-      adminDomainStore.getModel(modelName, false);
-    }
-    console.log("rerender admin service");
+    let { children, adminDomainStore, crudComponent } = this.props;
+    adminDomainStore.getModel(modelName, false);
     const childrenWithProps = React.Children.map(children, child => {
       return React.cloneElement(child, {
-        model: adminDomainStore.mapStore.get(modelName),
-        getModel: () => adminDomainStore.getModel(modelName, true),
-        createModel: model => adminDomainStore.createModel(modelName, model),
-        updateModel: (model, updateValues) =>
-          adminDomainStore.updateModel(modelName, model, updateValues),
-        deleteModel: model => adminDomainStore.deleteModel(modelName, model),
-        setModelEdit: (model, isEditing) =>
-          adminDomainStore.setModelEdit(modelName, model, isEditing),
-        isEditing: adminDomainStore.isEditing.get(modelName),
-        editedModel: adminDomainStore.editedModel.get(modelName),
-        ...this.props,
-        ...child.props
+        models: adminDomainStore.mapStore.get(modelName),
+        getModels: () => adminDomainStore.getModel(modelName, true)
       });
     });
     return <React.Fragment>{childrenWithProps}</React.Fragment>;
