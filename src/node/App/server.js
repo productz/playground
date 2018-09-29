@@ -46,7 +46,9 @@ app.use(morgan("dev"));
 
 //models: mongoose models
 //schemas: the schema of each model
+//onDb init
 const onInit = (models, schemas) => {
+
   const { authApiRoutes, chatApiRoutes, userApiRoutes, jwtApiRoutes } = Api({
     app,
     config
@@ -66,7 +68,6 @@ const onError = err => {
     return res.status(500).send(err);
   });
 };
-
 const onDisconnect = () => {
   console.log("db disconnected");
 };
