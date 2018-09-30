@@ -7,7 +7,7 @@ let chatLogSchema = new Schema({
   translations: Object,
   text: String,
   date: Date,
-  resource: { type: String, default: "chat" }
+  resource: { type: String, default: "chat-log" }
 });
 // chatLogSchema.plugin(autoIncrement.plugin, {
 //   model: "ChatLog",

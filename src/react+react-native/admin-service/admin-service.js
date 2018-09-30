@@ -3,29 +3,37 @@ import { observable, action, runInAction, toJS } from "mobx";
 import React from "react";
 import axios from "axios";
 import { SERVER } from "../config";
+import { Crud } from "../crud-service/crud-service";
 
 //export store
 export class adminDomainStore {
-  modelName;
-  isEditing = observable.map();
-  mapStore = observable.map();
-  searchResults = observable.map();
-  editedModel = observable.map();
   rootStore;
+  schemas = observable.map();
   constructor(rootStore) {
     this.rootStore = rootStore;
   }
   @action
-  getModels(modelName, refresh) {
+  getSchemas(refresh) {
     //cached data, you don't have to hit up he end point
-    if (this.mapStore.get(modelName) && !refresh) {
+    // console.log(this.schemas.length);
+    if (this.schemas.get("schemas") && !refresh) {
       return;
     }
     return axios
-      .get(`${SERVER.host}:${SERVER.port}/${modelName}`)
+      .get(`${SERVER.host}:${SERVER.port}/schemas`)
       .then(res => {
         runInAction(() => {
-          this.mapStore.set(modelName, res.data);
+          let schemas = Object.keys(res.data).map(key => {
+            let nameObject = {
+              modelName: key
+            };
+            let schemas = {
+              ...nameObject,
+              ...res.data[key]
+            };
+            return schemas;
+          });
+          this.schemas.set("schemas", schemas);
         });
       })
       .catch(err => {
@@ -48,12 +56,12 @@ export class Admin extends React.Component {
   componentWillReceiveProps(nextProps) {}
   componentDidUpdate() {}
   render() {
-    let { children, adminDomainStore, crudComponent } = this.props;
-    adminDomainStore.getModel(modelName, false);
+    let { children, adminDomainStore, CrudComponent } = this.props;
+    adminDomainStore.getSchemas(false);
     const childrenWithProps = React.Children.map(children, child => {
       return React.cloneElement(child, {
-        models: adminDomainStore.mapStore.get(modelName),
-        getModels: () => adminDomainStore.getModel(modelName, true)
+        schemas: adminDomainStore.schemas.get("schemas"),
+        ...child.props
       });
     });
     return <React.Fragment>{childrenWithProps}</React.Fragment>;
