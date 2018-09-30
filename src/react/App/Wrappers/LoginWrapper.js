@@ -32,6 +32,7 @@ class LoginWrapper extends React.Component {
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             width:"100%",
+            height:"1000px",
             objectFit:"cover"
           }}
         >
