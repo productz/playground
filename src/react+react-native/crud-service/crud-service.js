@@ -12,8 +12,12 @@ export class crudDomainStore {
   searchResults = observable.map();
   editedModel = observable.map();
   rootStore;
-  constructor(rootStore) {
+  offlineStorage;
+  constructor(rootStore, offlineStorage) {
     this.rootStore = rootStore;
+    if (offlineStorage) {
+      this.offlineStorage = offlineStorage;
+    }
   }
   @action
   getModel(modelName, refresh) {
@@ -21,16 +25,20 @@ export class crudDomainStore {
     if (this.mapStore.get(modelName) && !refresh) {
       return;
     }
-    return axios
-      .get(`${SERVER.host}:${SERVER.port}/${modelName}`)
-      .then(res => {
-        runInAction(() => {
-          this.mapStore.set(modelName, res.data);
+    return this.offlineStorage.getItem("jwtToken").then(token => {
+      return axios
+        .get(`${SERVER.host}:${SERVER.port}/${modelName}`, {
+          params: { token }
+        })
+        .then(res => {
+          runInAction(() => {
+            this.mapStore.set(modelName, res.data);
+          });
+        })
+        .catch(err => {
+          runInAction(() => {});
         });
-      })
-      .catch(err => {
-        runInAction(() => {});
-      });
+    });
   }
   @action
   createModel(modelName, model) {

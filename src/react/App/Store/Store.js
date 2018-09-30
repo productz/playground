@@ -23,7 +23,7 @@ export default class RootStore {
   }) {
     this.authUiStore = new authUiStore(this);
     this.authDomainStore = new authDomainStore(this, offlineStorage);
-    this.crudDomainStore = new crudDomainStore(this);
+    this.crudDomainStore = new crudDomainStore(this, offlineStorage);
     this.socketDomainStore = new socketDomainStore(this);
     this.adminDomainStore = new adminDomainStore(this);
     this.authDomainStore.storeToken();

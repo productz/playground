@@ -8,7 +8,6 @@ const User = ({ app, config, userModel }) => {
   let domainLogic = {
     c: user => {},
     r: (currentUser) => {
-      console.log("current user is",currentUser);
       return true;
     },
     u: () => {},

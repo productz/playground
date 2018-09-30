@@ -5,8 +5,9 @@ const express = require("express");
 export default function({ Model, domainLogic: { c, r, u, d } }) {
   var apiRoutes = express.Router();
   apiRoutes.get("/", function(req, res) {
-    if(r(req.decoded)){
-      console.log("you shall pass");
+    let shallIPass = r(req.decoded);
+    if(shallIPass){
+      console.log("you shall pass bitch!");
     }
     Model.find({})
       .sort("-date")
