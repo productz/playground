@@ -7,7 +7,6 @@ export default function({ Model, domainLogic: { c, r, u, d } }) {
   apiRoutes.get("/", function(req, res) {
     let shallIPass = r(req.decoded);
     if(shallIPass){
-      console.log("you shall pass bitch!");
     }
     Model.find({})
       .sort("-date")

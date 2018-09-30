@@ -22,6 +22,12 @@ export default function jwtService({ secret }) {
     var token =
       req.body.token || req.query.token || req.headers["x-access-token"];
 
+    if (req.method === "OPTIONS") {
+      return res.send(200);
+    }
+
+    console.log(req.body);
+
     // decode token
     if (token) {
       // verifies secret and checks exp
@@ -33,7 +39,6 @@ export default function jwtService({ secret }) {
           });
         } else {
           // if everything is good, save to request for use in other routes
-          console.log(decoded);
           req.decoded = decoded;
           next();
         }
@@ -48,16 +53,8 @@ export default function jwtService({ secret }) {
     }
   });
 
-  apiRoutes.post("/is-auth", (req, res) => {
-    var token =
-      req.body.token || req.query.token || req.headers["x-access-token"];
-    isAuthenticated(token, secret)
-      .then(() => {
-        res.status(200).send("success");
-      })
-      .catch(err => {
-        res.status(401).send(err);
-      });
+  apiRoutes.post("/", (req, res) => {
+    res.status(200).send("success");
   });
   return apiRoutes;
 }

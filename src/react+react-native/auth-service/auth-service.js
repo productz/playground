@@ -78,7 +78,7 @@ export class authDomainStore {
   isAuthenticated() {
     return this.offlineStorage.getItem("jwtToken").then(token => {
       return axios
-        .post(`${SERVER.host}:${SERVER.port}/jwt/is-auth`, {
+        .post(`${SERVER.host}:${SERVER.port}/jwt`, {
           token
         })
         .then(res => {
