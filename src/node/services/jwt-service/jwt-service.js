@@ -17,7 +17,7 @@ export const isAuthenticated = (token, secret) => {
 
 export default function jwtService({ secret }) {
   // route middleware to verify a token
-  apiRoutes.use("/api", function(req, res, next) {
+  apiRoutes.use("/", function(req, res, next) {
     // check header or url parameters or post parameters for token
     var token =
       req.body.token || req.query.token || req.headers["x-access-token"];

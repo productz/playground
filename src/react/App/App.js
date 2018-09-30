@@ -99,7 +99,6 @@ class App extends React.Component {
           />
           <Route
             path="/admin"
-            exact
             render={({ location, history, match }) =>
               this.state.isLoggedIn ? (
                 <MainWrapper

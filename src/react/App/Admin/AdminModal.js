@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
-export default class AdminDetail extends React.Component {
+export default class AdminModal extends React.Component {
   componentWillReceiveProps(nextProps) {}
   render() {
     console.log("rerender model edit");

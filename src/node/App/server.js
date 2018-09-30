@@ -48,14 +48,13 @@ app.use(morgan("dev"));
 //schemas: the schema of each model
 //onDb init
 const onInit = (models, schemas) => {
-
   const { authApiRoutes, chatApiRoutes, userApiRoutes, jwtApiRoutes } = Api({
     app,
     config
   });
   app.use("/", authApiRoutes);
   app.use("/jwt", jwtApiRoutes);
-  app.use("/user", userApiRoutes);
+  app.use("/user", jwtApiRoutes, userApiRoutes);
   app.use("/chat-log", chatApiRoutes);
   app.use("/schemas", (req, res, next) => {
     res.send(schemas);

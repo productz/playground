@@ -26,7 +26,8 @@ let userSchema = new Schema({
   twitterId: String,
   twitterAccessToken: String,
   twitterRefreshToken: String,
-  resource: { type: String, default: "user" }
+  resource: { type: String, default: "user" },
+  acl: Array
 });
 userSchema.plugin(findOrCreate);
 

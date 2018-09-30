@@ -1,6 +1,5 @@
 import React from "react";
 import { toJS } from "mobx";
-import { Crud } from "../../../react+react-native/index";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
@@ -15,7 +14,7 @@ import Button from "@material-ui/core/Button";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import Input from "@material-ui/core/Input";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { Route, Link } from "react-router-dom";
+import { Route, Link, Switch } from "react-router-dom";
 import AdminDetail from "./AdminDetail";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -28,42 +27,43 @@ const AdminPage = ({ schemas, crudDomainStore, location, match, history }) => {
   if (Array.isArray(schemas)) {
     let schemasView = schemas.map((schema, index) => {
       return (
-        <Crud
-          crudDomainStore={crudDomainStore}
+        <AdminListItem
+          location={location}
+          match={match}
+          history={history}
           modelName={schema.resource.defaultValue}
-        >
-          <AdminListItem
-            location={location}
-            match={match}
-            history={history}
-            modelName={schema.resource.defaultValue}
-            index={index}
-          />
-        </Crud>
+          index={index}
+        />
       );
     });
-    return <List>{schemasView}</List>;
+    return (
+      <div>
+        <Route
+          path={`${match.path}/:modelName`}
+          render={({ match }) => {
+            return (
+              <AdminDetail
+                crudDomainStore={crudDomainStore}
+                schema={schemas.find(schema => {
+                  return (
+                    schema.modelName.toLowerCase() ===
+                    match.params.modelName.toLowerCase()
+                  );
+                })}
+              />
+            );
+          }}
+        />
+        <Route exact path={`${match.path}`}>
+          <List>{schemasView}</List>
+        </Route>
+      </div>
+    );
   }
   return CircularProgress;
 };
 
-const AdminListItem = ({
-  model,
-  modelName,
-  createModel,
-  getModel,
-  updateModel,
-  deleteModel,
-  searchModel,
-  setModelEdit,
-  isEditing,
-  editedModel,
-  location,
-  match,
-  history,
-  classes,
-  index
-}) => {
+const AdminListItem = ({ modelName, match, classes, index }) => {
   return (
     <ListItem key={index}>
       <ListItemText>
@@ -71,13 +71,7 @@ const AdminListItem = ({
       </ListItemText>
       <ListItemSecondaryAction>
         <Link to={`${match.url}/${modelName}`}>
-          <Button
-            onClick={() => {
-              setModelEdit(model, true);
-            }}
-          >
-            <p>Edit</p>
-          </Button>
+          <p>Edit</p>
         </Link>
       </ListItemSecondaryAction>
     </ListItem>

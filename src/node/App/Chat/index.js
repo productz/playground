@@ -19,7 +19,15 @@ const Chat = ({ app, config, userModel, chatLogModel }) => {
     channel
   });
 
-  const chatLogApi = crudService({ Model: chatLogModel });
+  //you can pass domain logic here that prevents the user from doing something based on some domain logic?
+  //we can also include ACL (access control list) as part of that domain logic
+  let domainLogic = {
+    c: chat => {},
+    r: () => {},
+    u: () => {},
+    d: () => {}
+  };
+  const chatLogApi = crudService({ Model: chatLogModel, domainLogic });
 
   chatLogApi.use("/socket", chatApi);
 
