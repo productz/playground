@@ -26,12 +26,10 @@ const styles = theme => ({
     }
   },
   paper: {
-    marginTop: theme.spacing.unit * 1,
+    paddingTop: "1em",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`
+    alignItems: "center"
   },
   avatar: {
     margin: theme.spacing.unit,
