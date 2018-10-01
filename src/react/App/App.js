@@ -34,6 +34,7 @@ import { observer } from "mobx-react";
 import LoginWrapper from "./Wrappers/LoginWrapper";
 import loginBG from "./Login/login-bg.jpg";
 import registerBG from "./Register/register-bg.jpg";
+import logo from "./Assets/logos/Markab@full.svg";
 
 let rootStore = new Store({
   authDomainStore,
@@ -109,8 +110,9 @@ class App extends React.Component {
                   history={history}
                   auth={this.state.isLoggedIn}
                   user={this.state.currentUser}
+                  logo={logo}
                 >
-                  <Home />
+                  <Home logo={logo} />
                 </MainWrapper>
               );
             }}
@@ -125,6 +127,7 @@ class App extends React.Component {
                   history={history}
                   auth={this.state.isLoggedIn}
                   user={this.state.currentUser}
+                  logo={logo}
                 >
                   <Admin adminDomainStore={rootStore.adminDomainStore}>
                     <AdminPage
@@ -157,6 +160,7 @@ class App extends React.Component {
                   history={history}
                   auth={this.state.isLoggedIn}
                   user={this.state.currentUser}
+                  logo={logo}
                 >
                   <Crud
                     modelName="chat-log"
@@ -192,6 +196,7 @@ class App extends React.Component {
                   history={history}
                   auth={this.state.isLoggedIn}
                   user={this.state.currentUser}
+                  logo={logo}
                 >
                   <Crud
                     modelName="settings"
@@ -223,6 +228,7 @@ class App extends React.Component {
                   history={history}
                   auth={this.state.isLoggedIn}
                   user={this.state.currentUser}
+                  logo={logo}
                 >
                   <Crud
                     modelName="user"
@@ -244,6 +250,7 @@ class App extends React.Component {
                   history={history}
                   auth={this.state.isLoggedIn}
                   user={this.state.currentUser}
+                  logo={logo}
                 >
                   <NotFound />
                 </MainWrapper>

@@ -41,7 +41,9 @@ const styles = theme => ({
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
-    })
+    }),
+    backgroundColor: "white",
+    color: "black"
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -131,7 +133,8 @@ class MainWrapper extends React.Component {
       match,
       history,
       auth,
-      user
+      user,
+      logo
     } = this.props;
     const { anchorEl, menuOpen, open } = this.state;
     const isAnchor = Boolean(anchorEl);
@@ -154,6 +157,7 @@ class MainWrapper extends React.Component {
               disableGutters={!this.state.open}
               className={classes.toolbar}
             >
+              <img src={logo} width="50px" height="auto" />
               <IconButton
                 color="inherit"
                 aria-label="Open drawer"

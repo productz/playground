@@ -65,7 +65,7 @@ const styles = theme => ({
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 function Home(props) {
-  const { classes } = props;
+  const { classes, logo } = props;
 
   return (
     <React.Fragment>
@@ -73,13 +73,18 @@ function Home(props) {
         {/* Hero unit */}
         <div className={classes.heroUnit}>
           <div className={classes.heroContent}>
+            <Grid container spacing={16} justify="center">
+              <Grid item>
+                <img src={logo} />
+              </Grid>
+            </Grid>
             <Typography
               variant="display3"
               align="center"
               color="textPrimary"
               gutterBottom
             >
-              Home layout
+              Welcome to Markab!
             </Typography>
             <Typography
               variant="title"
@@ -87,20 +92,20 @@ function Home(props) {
               color="textSecondary"
               paragraph
             >
-              Something short and leading about the collection below—its
-              contents, the creator, etc. Make it short and sweet, but not too
-              short so folks don&apos;t simply skip over it entirely.
+              Markab is a tool that helps you create other systems. We use best
+              practices from the industry to create modular and beautiful web
+              and mobile apps.
             </Typography>
             <div className={classes.heroButtons}>
               <Grid container spacing={16} justify="center">
                 <Grid item>
                   <Button variant="contained" color="primary">
-                    Main call to action
+                    Sign up today for a demo
                   </Button>
                 </Grid>
                 <Grid item>
                   <Button variant="outlined" color="primary">
-                    Secondary action
+                    Check out our Portfolio
                   </Button>
                 </Grid>
               </Grid>
@@ -143,16 +148,13 @@ function Home(props) {
       </main>
       {/* Footer */}
       <footer className={classes.footer}>
-        <Typography variant="title" align="center" gutterBottom>
-          Footer
-        </Typography>
         <Typography
           variant="subheading"
           align="center"
           color="textSecondary"
           component="p"
         >
-          Something here to give the footer a purpose!
+          Markab is brought to you by Osama Alghanmi (oalghnmi@gmail.com)
         </Typography>
       </footer>
       {/* End footer */}
