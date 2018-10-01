@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="250px" height="250px" viewBox="0 0 250 250" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>Markab@full</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Markab" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Markab-logo" transform="translate(25.000000, 13.000000)">
+            <path d="M0,117 L100,93 L200,117 C200.231953,117 197.935211,122.111191 194.270369,129.962465 C182.135253,155.959805 155,212 155,212 L100,224 L44,212" id="Shape" fill="#4A90E2"></path>
+            <polygon id="Shape" fill="#4A90E2" points="37 51 100 31 163 51 163 97 100 82 37 97"></polygon>
+            <polygon id="Shape" fill="#4A90E2" points="60 14 100 0 140 14 140 33 100 20 60 33"></polygon>
+            <path d="M101.5,0.673950055 L101.5,19.9343705 L140.5,32.316657 L140.5,12.4910548 L101.5,0.673950055 Z" id="Rectangle-3" stroke="#1A4678" fill="#1A4678"></path>
+            <path d="M101.5,93.6278003 L101.5,223.385109 L157.56806,211.705282 L200.294875,116.309575 L101.5,93.6278003 Z" id="Rectangle" stroke="#1A4678" fill="#1A4678"></path>
+            <path d="M101.5,31.6788035 L101.5,82.0236656 L162.5,97.3587448 L162.5,50.6198124 L101.5,31.6788035 Z" id="Rectangle-2" stroke="#1A4678" fill="#1A4678"></path>
+        </g>
+    </g>
+</svg>
