@@ -26,6 +26,7 @@ import AdminPage from "./Admin/Admin";
 import NotFound from "./NotFound/NotFound";
 import Home from "./Home/Home";
 import Chat from "./Chat/Chat";
+import Settings from "./Settings/Settings";
 import Store from "./Store/Store";
 import { observer } from "mobx-react";
 import LoginWrapper from "./Wrappers/LoginWrapper";
@@ -164,6 +165,36 @@ class App extends React.Component {
                     >
                       <Chat />
                     </Socket>
+                  </Crud>
+                </MainWrapper>
+              ) : (
+                <Redirect
+                  to={{
+                    pathname:
+                      "/auth/login?message='please login to view this page'",
+                    state: { from: location }
+                  }}
+                />
+              )
+            }
+          />
+          <Route
+            path="/settings"
+            exact
+            render={({ location, history, match }) =>
+              this.state.isLoggedIn ? (
+                <MainWrapper
+                  location={location}
+                  match={match}
+                  history={history}
+                  auth={this.state.isLoggedIn}
+                  user={this.state.currentUser}
+                >
+                  <Crud
+                    modelName="settings"
+                    crudDomainStore={rootStore.crudDomainStore}
+                  >
+                    <Settings />
                   </Crud>
                 </MainWrapper>
               ) : (
