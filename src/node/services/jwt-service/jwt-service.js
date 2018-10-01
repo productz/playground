@@ -26,8 +26,6 @@ export default function jwtService({ secret }) {
       return res.send(200);
     }
 
-    console.log(req.body);
-
     // decode token
     if (token) {
       // verifies secret and checks exp

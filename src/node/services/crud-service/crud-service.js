@@ -1,14 +1,16 @@
 // basic route (http://localhost:8080)
 const express = require("express");
 
-//c,r,u,d is domain logic hooks (before creation);
-export default function({ Model, domainLogic: { c, r, u, d } }) {
+//c,r,u,d is domain logic hooks (before creation, read, update or delete);
+//params is something we use to attach this resource to (for example, the current user id so we don't return resources for other users)
+export default function({ Model, domainLogic: { c, r, u, d, s } }) {
   var apiRoutes = express.Router();
   apiRoutes.get("/", function(req, res) {
-    let shallIPass = r(req.decoded);
-    if(shallIPass){
+    let user = req.decoded._doc;
+    let { shallIPass, criteria } = r(user);
+    if (shallIPass) {
     }
-    Model.find({})
+    Model.find(criteria)
       .sort("-date")
       .exec((err, data) => {
         if (err) {
@@ -20,6 +22,8 @@ export default function({ Model, domainLogic: { c, r, u, d } }) {
   });
 
   apiRoutes.post("/", function(req, res) {
+    let user = req.decoded._doc;
+    let shallIPass = c(user);
     let newModel = new Model(req.body);
     newModel.save(err => {
       if (err) {
@@ -32,6 +36,8 @@ export default function({ Model, domainLogic: { c, r, u, d } }) {
 
   apiRoutes.put("/", (req, res) => {
     //take the imported Model, format it and add it to the Models collection
+    let user = req.decoded._doc;
+    let shallIPass = u(user);
     let requestModel = req.body;
     let newModel = Object.assign({}, requestModel);
     Model.findOneAndUpdate(
@@ -48,8 +54,9 @@ export default function({ Model, domainLogic: { c, r, u, d } }) {
   });
 
   apiRoutes.delete("/:_id", (req, res) => {
+    let user = req.decoded._doc;
+    let shallIPass = d(user);
     let requestModelID = req.params._id;
-    console.log(req.params);
     //remove the imported Model
     Model.find({
       _id: requestModelID
@@ -65,6 +72,7 @@ export default function({ Model, domainLogic: { c, r, u, d } }) {
 
   apiRoutes.post("/search", (req, res) => {
     let query = req.body;
+    let shallIPass = s(user);
     Model.find(query).exec((err, results) => {
       if (err) {
         return res.status(500).send(err);

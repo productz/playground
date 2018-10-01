@@ -61,6 +61,9 @@ const onInit = (models, schemas) => {
   });
 };
 
+//if there is an error connecting to db, there is no point in mounting routes
+//just display to the user there is an error connecting to db
+// we could also use this to fall back to some local storage
 const onError = err => {
   //routes that don't require db connection
   app.use("/", (req, res, next) => {
