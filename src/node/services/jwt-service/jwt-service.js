@@ -52,7 +52,7 @@ export default function jwtService({ secret }) {
   });
 
   apiRoutes.post("/", (req, res) => {
-    res.status(200).send("success");
+    res.status(200).send(req.decoded._doc);
   });
   return apiRoutes;
 }

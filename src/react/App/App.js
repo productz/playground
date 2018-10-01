@@ -42,16 +42,16 @@ let rootStore = new Store({
 
 class App extends React.Component {
   state = {
-    isLoggedIn: true
+    isLoggedIn: true,
+    currentUser: {}
   };
   componentWillReceiveProps(nextProps) {}
   componentDidMount(props) {
     rootStore.authDomainStore.isAuthenticated().then(res => {
-      console.log(res);
       if (res.status !== 200) {
         this.setState({ isLoggedIn: false });
       } else {
-        this.setState({ isLoggedIn: true });
+        this.setState({ isLoggedIn: true, currentUser: res.data });
       }
     });
   }
@@ -104,6 +104,7 @@ class App extends React.Component {
                   match={match}
                   history={history}
                   auth={this.state.isLoggedIn}
+                  user={this.state.currentUser}
                 >
                   <Home />
                 </MainWrapper>
@@ -119,6 +120,7 @@ class App extends React.Component {
                   match={match}
                   history={history}
                   auth={this.state.isLoggedIn}
+                  user={this.state.currentUser}
                 >
                   <Admin adminDomainStore={rootStore.adminDomainStore}>
                     <AdminPage
@@ -150,6 +152,7 @@ class App extends React.Component {
                   match={match}
                   history={history}
                   auth={this.state.isLoggedIn}
+                  user={this.state.currentUser}
                 >
                   <Crud
                     modelName="chat-log"
@@ -183,6 +186,7 @@ class App extends React.Component {
                   match={match}
                   history={history}
                   auth={this.state.isLoggedIn}
+                  user={this.state.currentUser}
                 >
                   <Crud
                     modelName="user"
@@ -203,6 +207,7 @@ class App extends React.Component {
                   match={match}
                   history={history}
                   auth={this.state.isLoggedIn}
+                  user={this.state.currentUser}
                 >
                   <NotFound />
                 </MainWrapper>

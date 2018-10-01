@@ -28,8 +28,8 @@ let userSchema = new Schema({
   twitterRefreshToken: String,
   resource: { type: String, default: "user" },
   acl: Array,
-  hasSeenTutorial: Boolean,
-  hasConfirmedEmail: Boolean
+  hasSeenTutorial: { type: Boolean, default: false },
+  hasConfirmedEmail: { type: Boolean, default: false }
 });
 userSchema.plugin(findOrCreate);
 

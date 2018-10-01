@@ -18,6 +18,7 @@ import { Routes, routeList } from "../Routes/Routes";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const drawerWidth = 240;
 
@@ -123,7 +124,15 @@ class MainWrapper extends React.Component {
   };
 
   render() {
-    const { classes, children, location, match, history, auth } = this.props;
+    const {
+      classes,
+      children,
+      location,
+      match,
+      history,
+      auth,
+      user
+    } = this.props;
     const { anchorEl, menuOpen, open } = this.state;
     const isAnchor = Boolean(anchorEl);
     console.log(isAnchor);
@@ -171,14 +180,16 @@ class MainWrapper extends React.Component {
               </IconButton>
               {auth && (
                 <div>
-                  <IconButton
-                    aria-owns={isAnchor ? "menu-appbar" : null}
-                    aria-haspopup="true"
-                    onClick={this.handleMenu}
-                    color="inherit"
-                  >
-                    <AccountCircle />
-                  </IconButton>
+                  <Tooltip title={user.name}>
+                    <IconButton
+                      aria-owns={isAnchor ? "menu-appbar" : null}
+                      aria-haspopup="true"
+                      onClick={this.handleMenu}
+                      color="inherit"
+                    >
+                      <AccountCircle />
+                    </IconButton>
+                  </Tooltip>
                   <Menu
                     id="menu-appbar"
                     anchorEl={anchorEl}
