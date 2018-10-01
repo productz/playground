@@ -29,7 +29,8 @@ import Chat from "./Chat/Chat";
 import Store from "./Store/Store";
 import { observer } from "mobx-react";
 import LoginWrapper from "./Wrappers/LoginWrapper";
-import loginBG from "./Login/login-bg-2.jpg";
+import loginBG from "./Login/login-bg.jpg";
+import registerBG from "./Register/register-bg.jpg";
 
 let rootStore = new Store({
   authDomainStore,
@@ -82,12 +83,14 @@ class App extends React.Component {
             path="/auth/register"
             render={props => {
               return (
-                <RegisterWithAuth
-                  authDomainStore={rootStore.authDomainStore}
-                  authUiStore={rootStore.authUiStore}
-                >
-                  <Register />
-                </RegisterWithAuth>
+                <LoginWrapper backgroundImage={registerBG}>
+                  <RegisterWithAuth
+                    authDomainStore={rootStore.authDomainStore}
+                    authUiStore={rootStore.authUiStore}
+                  >
+                    <Register />
+                  </RegisterWithAuth>
+                </LoginWrapper>
               );
             }}
           />

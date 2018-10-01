@@ -21,12 +21,43 @@ const Chat = ({ app, config, userModel, chatLogModel }) => {
 
   //you can pass domain logic here that prevents the user from doing something based on some domain logic?
   //we can also include ACL (access control list) as part of that domain logic
+
   let domainLogic = {
-    c: chat => {},
-    r: () => {},
-    u: () => {},
-    d: () => {}
+    c: (user, chatData) => {
+      //check if this user has acl
+      console.log(user.acl);
+      return {
+        shallIPass: true,
+        criteria: {}
+      };
+    },
+    r: user => {
+      console.log("acl is", user.acl);
+      return {
+        shallIPass: true,
+        criteria: {}
+      };
+    },
+    u: (user, chatData) => {
+      return {
+        shallIPass: true,
+        criteria: {}
+      };
+    },
+    d: (user, chatId) => {
+      return {
+        shallIPass: true,
+        criteria: {}
+      };
+    },
+    s: (user, searchCriteria) => {
+      return {
+        shallIPass: true,
+        criteria: {}
+      };
+    }
   };
+
   const chatLogApi = crudService({ Model: chatLogModel, domainLogic });
 
   chatLogApi.use("/socket", chatApi);

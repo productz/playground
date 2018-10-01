@@ -9,12 +9,15 @@ const User = ({ app, config, userModel }) => {
   //resource.action is allowed
   let domainLogic = {
     c: (user, userData) => {
+      //check if this user has acl
+      console.log("acl is", user.acl);
       return {
         shallIPass: true,
         criteria: {}
       };
     },
     r: user => {
+      console.log(user.acl);
       return {
         shallIPass: true,
         criteria: {}

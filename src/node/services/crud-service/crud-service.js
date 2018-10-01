@@ -1,14 +1,15 @@
-// basic route (http://localhost:8080)
 const express = require("express");
 
 //c,r,u,d is domain logic hooks (before creation, read, update or delete);
 //params is something we use to attach this resource to (for example, the current user id so we don't return resources for other users)
 export default function({ Model, domainLogic: { c, r, u, d, s } }) {
   var apiRoutes = express.Router();
+
   apiRoutes.get("/", function(req, res) {
     let user = req.decoded._doc;
     let { shallIPass, criteria } = r(user);
-    if (shallIPass) {
+    if (!shallIPass) {
+      return res.status(403).send("Sorry, you don't have the right privileges");
     }
     Model.find(criteria)
       .sort("-date")
@@ -25,6 +26,9 @@ export default function({ Model, domainLogic: { c, r, u, d, s } }) {
     let user = req.decoded._doc;
     let shallIPass = c(user);
     let newModel = new Model(req.body);
+    if (!shallIPass) {
+      return res.status(403).send("Sorry, you don't have the right privileges");
+    }
     newModel.save(err => {
       if (err) {
         console.log(err);
@@ -40,6 +44,9 @@ export default function({ Model, domainLogic: { c, r, u, d, s } }) {
     let shallIPass = u(user);
     let requestModel = req.body;
     let newModel = Object.assign({}, requestModel);
+    if (!shallIPass) {
+      return res.status(403).send("Sorry, you don't have the right privileges");
+    }
     Model.findOneAndUpdate(
       { _id: requestModel._id },
       newModel,
@@ -58,6 +65,9 @@ export default function({ Model, domainLogic: { c, r, u, d, s } }) {
     let shallIPass = d(user);
     let requestModelID = req.params._id;
     //remove the imported Model
+    if (!shallIPass) {
+      return res.status(403).send("Sorry, you don't have the right privileges");
+    }
     Model.find({
       _id: requestModelID
     })
