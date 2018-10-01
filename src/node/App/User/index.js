@@ -53,7 +53,7 @@ const User = ({ app, config, userModel }) => {
   };
   const fileUploadApi = mediaService({ fileName: "avatar", mediaDomainLogic });
 
-  return { ...userApi, ...fileUploadApi };
+  return [userApi, fileUploadApi];
 };
 
 export default User;
