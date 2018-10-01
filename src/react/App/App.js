@@ -103,6 +103,7 @@ class App extends React.Component {
                   location={location}
                   match={match}
                   history={history}
+                  auth={this.state.isLoggedIn}
                 >
                   <Home />
                 </MainWrapper>
@@ -117,6 +118,7 @@ class App extends React.Component {
                   location={location}
                   match={match}
                   history={history}
+                  auth={this.state.isLoggedIn}
                 >
                   <Admin adminDomainStore={rootStore.adminDomainStore}>
                     <AdminPage
@@ -147,6 +149,7 @@ class App extends React.Component {
                   location={location}
                   match={match}
                   history={history}
+                  auth={this.state.isLoggedIn}
                 >
                   <Crud
                     modelName="chat-log"
@@ -179,6 +182,7 @@ class App extends React.Component {
                   location={location}
                   match={match}
                   history={history}
+                  auth={this.state.isLoggedIn}
                 >
                   <Crud
                     modelName="user"
@@ -198,6 +202,7 @@ class App extends React.Component {
                   location={location}
                   match={match}
                   history={history}
+                  auth={this.state.isLoggedIn}
                 >
                   <NotFound />
                 </MainWrapper>

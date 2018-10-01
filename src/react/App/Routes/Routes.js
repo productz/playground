@@ -7,8 +7,6 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 
 export const routeList = [
   { url: "/#/", name: "Home" },
-  { url: "/#/auth/login", name: "Login" },
-  { url: "/#/auth/register", name: "Register" },
   { url: "/#/admin", name: "Admin" },
   { url: "/#/user", name: "User" },
   { url: "/#/chat", name: "Chat" }

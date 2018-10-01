@@ -15,6 +15,9 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { Routes, routeList } from "../Routes/Routes";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 
 const drawerWidth = 240;
 
@@ -48,8 +51,12 @@ const styles = theme => ({
     })
   },
   menuButton: {
-    marginLeft: 12,
-    marginRight: 36
+    marginLeft: 30,
+    marginRight: 20
+  },
+  menuDropdown: {
+    marginLeft: -12,
+    marginRight: 20
   },
   menuButtonHidden: {
     display: "none"
@@ -94,7 +101,9 @@ const styles = theme => ({
 
 class MainWrapper extends React.Component {
   state = {
-    open: true
+    open: true,
+    menuOpen: false,
+    anchorEl: null
   };
 
   handleDrawerOpen = () => {
@@ -105,8 +114,19 @@ class MainWrapper extends React.Component {
     this.setState({ open: false });
   };
 
+  handleMenu = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleMenuClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
   render() {
-    const { classes, children, location, match, history } = this.props;
+    const { classes, children, location, match, history, auth } = this.props;
+    const { anchorEl, menuOpen, open } = this.state;
+    const isAnchor = Boolean(anchorEl);
+    console.log(isAnchor);
     let route = routeList.find(({ name, url }) => {
       return url.indexOf(match.path.replace("/", "/")) !== -1;
     });
@@ -149,6 +169,45 @@ class MainWrapper extends React.Component {
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
+              {auth && (
+                <div>
+                  <IconButton
+                    aria-owns={isAnchor ? "menu-appbar" : null}
+                    aria-haspopup="true"
+                    onClick={this.handleMenu}
+                    color="inherit"
+                  >
+                    <AccountCircle />
+                  </IconButton>
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "left"
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right"
+                    }}
+                    open={isAnchor}
+                    onClose={this.handleMenuClose}
+                  >
+                    <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
+                    <MenuItem onClick={this.handleMenuClose}>
+                      My account
+                    </MenuItem>
+                    <MenuItem
+                      onClick={event => {
+                        this.handleMenuClose(event);
+                        history.push("/auth/login");
+                      }}
+                    >
+                      Log out
+                    </MenuItem>
+                  </Menu>
+                </div>
+              )}
             </Toolbar>
           </AppBar>
           <Drawer
