@@ -19,13 +19,15 @@ export default class RootStore {
     authDomainStore,
     crudDomainStore,
     socketDomainStore,
-    adminDomainStore
+    adminDomainStore,
+    mediaDomainStore
   }) {
     this.authUiStore = new authUiStore(this);
     this.authDomainStore = new authDomainStore(this, offlineStorage);
     this.crudDomainStore = new crudDomainStore(this, offlineStorage);
     this.socketDomainStore = new socketDomainStore(this);
     this.adminDomainStore = new adminDomainStore(this);
+    this.mediaDomainStore = new mediaDomainStore(this);
     this.authDomainStore.storeToken();
     this.authDomainStore.isAuthenticated();
   }

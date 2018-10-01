@@ -40,6 +40,8 @@ export class mediaDomainStore {
       });
   }
   @action
+  uploadImages(modelName, files) {}
+  @action
   setError(err) {
     console.error(err);
   }
@@ -55,12 +57,12 @@ export class Media extends React.Component {
   componentWillReceiveProps(nextProps) {}
   componentDidUpdate() {}
   render() {
-    let { children, mediaDomainStore, CrudComponent } = this.props;
-    mediaDomainStore.getSchemas(false);
+    let { children, mediaDomainStore, modelName } = this.props;
     const childrenWithProps = React.Children.map(children, child => {
       return React.cloneElement(child, {
-        schemas: mediaDomainStore.schemas.get("schemas"),
-        ...child.props
+        uploadImages: files => mediaDomainStore.uploadImages(modelName, files),
+        ...child.props,
+        ...this.props
       });
     });
     return <React.Fragment>{childrenWithProps}</React.Fragment>;

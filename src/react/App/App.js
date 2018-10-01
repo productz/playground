@@ -16,7 +16,9 @@ import {
   Socket,
   socketDomainStore,
   Admin,
-  adminDomainStore
+  adminDomainStore,
+  Media,
+  mediaDomainStore
 } from "../../react+react-native/index";
 import MainWrapper from "./Wrappers/MainWrapper";
 import User from "./User/User";
@@ -38,7 +40,8 @@ let rootStore = new Store({
   authUiStore,
   crudDomainStore,
   socketDomainStore,
-  adminDomainStore
+  adminDomainStore,
+  mediaDomainStore
 });
 
 class App extends React.Component {
@@ -194,7 +197,9 @@ class App extends React.Component {
                     modelName="settings"
                     crudDomainStore={rootStore.crudDomainStore}
                   >
-                    <Settings />
+                    <Media>
+                      <Settings />
+                    </Media>
                   </Crud>
                 </MainWrapper>
               ) : (

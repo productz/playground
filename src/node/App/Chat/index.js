@@ -62,7 +62,7 @@ const Chat = ({ app, config, userModel, chatLogModel }) => {
 
   chatLogApi.use("/socket", chatApi);
 
-  return chatLogApi;
+  return [chatLogApi];
 };
 
 export default Chat;
