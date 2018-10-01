@@ -2,7 +2,7 @@ const express = require("express");
 
 //c,r,u,d is domain logic hooks (before creation, read, update or delete);
 //params is something we use to attach this resource to (for example, the current user id so we don't return resources for other users)
-export default function({ Model, domainLogic: { c, r, u, d, s } }) {
+export default function({ Model, crudDomainLogic: { c, r, u, d, s } }) {
   var apiRoutes = express.Router();
 
   apiRoutes.get("/", function(req, res) {
