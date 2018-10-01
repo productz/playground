@@ -24,7 +24,7 @@ export default function({ Model, domainLogic: { c, r, u, d, s } }) {
 
   apiRoutes.post("/", function(req, res) {
     let user = req.decoded._doc;
-    let shallIPass = c(user);
+    let { shallIPass, criteria } = c(user);
     let newModel = new Model(req.body);
     if (!shallIPass) {
       return res.status(403).send("Sorry, you don't have the right privileges");
@@ -41,7 +41,7 @@ export default function({ Model, domainLogic: { c, r, u, d, s } }) {
   apiRoutes.put("/", (req, res) => {
     //take the imported Model, format it and add it to the Models collection
     let user = req.decoded._doc;
-    let shallIPass = u(user);
+    let { shallIPass, criteria } = u(user);
     let requestModel = req.body;
     let newModel = Object.assign({}, requestModel);
     if (!shallIPass) {
@@ -62,7 +62,7 @@ export default function({ Model, domainLogic: { c, r, u, d, s } }) {
 
   apiRoutes.delete("/:_id", (req, res) => {
     let user = req.decoded._doc;
-    let shallIPass = d(user);
+    let { shallIPass, criteria } = d(user);
     let requestModelID = req.params._id;
     //remove the imported Model
     if (!shallIPass) {

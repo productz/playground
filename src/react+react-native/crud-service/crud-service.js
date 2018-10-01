@@ -42,16 +42,18 @@ export class crudDomainStore {
   }
   @action
   createModel(modelName, model) {
-    return axios
-      .post(`${SERVER.host}:${SERVER.port}/${modelName}`, model)
-      .then(res => {
-        let current = this.mapStore.get(modelName);
-        this.mapStore.set(modelName, [...current, res.data]);
-        return res.data;
-      })
-      .catch(err => {
-        return this.setError(err);
-      });
+    return this.offlineStorage.getItem("jwtToken").then(token => {
+      return axios
+        .post(`${SERVER.host}:${SERVER.port}/${modelName}`, { model, token })
+        .then(res => {
+          let current = this.mapStore.get(modelName);
+          this.mapStore.set(modelName, [...current, res.data]);
+          return res.data;
+        })
+        .catch(err => {
+          return this.setError(err);
+        });
+    });
   }
   @action
   updateModel(modelName, model, updateValues) {
@@ -59,34 +61,41 @@ export class crudDomainStore {
     Object.keys(updateValues).map(key => {
       model[key] = updateValues[key];
     });
-    return axios
-      .put(`${SERVER.host}:${SERVER.port}/${modelName}`, model)
-      .then(res => {
-        let updatedModel = this.mapStore
-          .get(modelName)
-          .map(cModel => (cModel._id === model._id ? model : cModel));
-        this.mapStore.set(modelName, updatedModel);
-        return res.data;
-      })
-      .catch(err => {
-        return this.setError(err);
-      });
+
+    return this.offlineStorage.getItem("jwtToken").then(token => {
+      return axios
+        .put(`${SERVER.host}:${SERVER.port}/${modelName}`, { model, token })
+        .then(res => {
+          let updatedModel = this.mapStore
+            .get(modelName)
+            .map(cModel => (cModel._id === model._id ? model : cModel));
+          this.mapStore.set(modelName, updatedModel);
+          return res.data;
+        })
+        .catch(err => {
+          return this.setError(err);
+        });
+    });
   }
   @action
   deleteModel(modelName, model) {
     model.deleted = true;
-    return axios
-      .delete(`${SERVER.host}:${SERVER.port}/${modelName}/${model._id}`)
-      .then(res => {
-        let notDeleted = this.mapStore.get(modelName).filter(cModel => {
-          return !cModel.deleted;
+    return this.offlineStorage.getItem("jwtToken").then(token => {
+      return axios
+        .delete(`${SERVER.host}:${SERVER.port}/${modelName}/${model._id}`, {
+          params: { token }
+        })
+        .then(res => {
+          let notDeleted = this.mapStore.get(modelName).filter(cModel => {
+            return !cModel.deleted;
+          });
+          this.mapStore.set(modelName, notDeleted);
+          return res.data;
+        })
+        .catch(err => {
+          return this.setError(err);
         });
-        this.mapStore.set(modelName, notDeleted);
-        return res.data;
-      })
-      .catch(err => {
-        return this.setError(err);
-      });
+    });
   }
   @action
   searchModel(modelName, query) {
