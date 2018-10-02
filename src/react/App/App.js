@@ -129,6 +129,7 @@ class App extends React.Component {
                   auth={this.state.isLoggedIn}
                   user={this.state.currentUser}
                   logo={logo}
+                  hasPadding={true}
                 >
                   <Admin adminDomainStore={rootStore.adminDomainStore}>
                     <AdminPage
@@ -162,6 +163,7 @@ class App extends React.Component {
                   auth={this.state.isLoggedIn}
                   user={this.state.currentUser}
                   logo={logo}
+                  hasPadding={true}
                 >
                   <Crud
                     modelName="chat-log"
@@ -198,6 +200,7 @@ class App extends React.Component {
                   auth={this.state.isLoggedIn}
                   user={this.state.currentUser}
                   logo={logo}
+                  hasPadding={true}
                 >
                   <Crud
                     modelName="settings"
@@ -230,6 +233,7 @@ class App extends React.Component {
                   auth={this.state.isLoggedIn}
                   user={this.state.currentUser}
                   logo={logo}
+                  hasPadding={true}
                 >
                   <Crud
                     modelName="user"
@@ -252,6 +256,7 @@ class App extends React.Component {
                   auth={this.state.isLoggedIn}
                   user={this.state.currentUser}
                   logo={logo}
+                  hasPadding={true}
                 >
                   <NotFound />
                 </MainWrapper>

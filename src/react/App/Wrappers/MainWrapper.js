@@ -98,6 +98,12 @@ const styles = theme => ({
   },
   tableContainer: {
     height: 320
+  },
+  hasPadding: {
+    padding: theme.spacing.unit * 3,
+    flexGrow: 1,
+    height: "100vh",
+    overflow: "auto"
   }
 });
 
@@ -133,11 +139,11 @@ class MainWrapper extends React.Component {
       history,
       auth,
       user,
-      logo
+      logo,
+      hasPadding
     } = this.props;
-    const { anchorEl, menuOpen, open, hasPadding } = this.state;
+    const { anchorEl, menuOpen, open } = this.state;
     const isAnchor = Boolean(anchorEl);
-    console.log(isAnchor);
     let route = routeList.find(({ name, url }) => {
       return url.indexOf(match.path.replace("/", "/")) !== -1;
     });
@@ -242,7 +248,11 @@ class MainWrapper extends React.Component {
             <Divider />
             <List>{Routes}</List>
           </Drawer>
-          <main className={classes.content}>
+          <main
+            className={
+              hasPadding ? classes.hasPadding : classes.content
+            }
+          >
             <div className={classes.appBarSpacer} />
             {children}
           </main>

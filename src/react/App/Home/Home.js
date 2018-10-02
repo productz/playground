@@ -21,8 +21,6 @@ const styles = theme => ({
   icon: {
     marginRight: theme.spacing.unit * 2
   },
-  heroUnit: {
-  },
   heroContent: {
     maxWidth: 600,
     margin: "0 auto"
