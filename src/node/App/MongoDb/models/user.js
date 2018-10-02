@@ -29,7 +29,8 @@ let userSchema = new Schema({
   resource: { type: String, default: "user" },
   acl: Array,
   hasSeenTutorial: { type: Boolean, default: false },
-  hasConfirmedEmail: { type: Boolean, default: false }
+  hasConfirmedEmail: { type: Boolean, default: false },
+  settings: Object
 });
 userSchema.plugin(findOrCreate);
 
