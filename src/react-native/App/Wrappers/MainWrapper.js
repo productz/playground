@@ -1,6 +1,5 @@
 import React, { Children } from "react";
 import PropTypes from "prop-types";
-import classNames from "classnames";
 import { Routes, routeList } from "../Routes/Routes";
 import {
   Container,

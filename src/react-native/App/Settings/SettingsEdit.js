@@ -2,37 +2,33 @@ import React from "react";
 import { toJS } from "mobx";
 import { Formik } from "formik";
 import {
-  Container,
-  Drawer,
-  Content,
-  H1,
-  H2,
-  H3,
+  Card,
+  CardItem,
+  Form,
+  Item,
+  Input,
+  Label,
   Text,
-  Header,
-  List,
-  ListItem,
-  Left,
-  Right,
+  Button,
   Body
 } from "native-base";
 
-export default class AdminModal extends React.Component {
+export default class SettingsEdit extends React.Component {
   componentWillReceiveProps(nextProps) {}
   render() {
-    console.log("rerender model edit");
-    let { model, onSave, onCancel } = this.props;
+    console.log("rerender settings edit");
+    let { settings, onSave, onCancel } = this.props;
     let fields = [];
-    let editableProperties = [""];
-    if (model) {
-      fields = Object.keys(model)
-        .filter(key => editableProperties.indexOf(key) === -1)
+    let editablePropeerties = ["name"];
+    if (settings) {
+      fields = Object.keys(settings)
+        .filter(key => editablePropeerties.indexOf(key) !== -1)
         .map(key => {
           return {
             type: "text",
             name: key,
             placeholder: key,
-            value: model[key]
+            value: settings[key]
           };
         });
     }
@@ -40,9 +36,9 @@ export default class AdminModal extends React.Component {
       <div style={{ flex: 1 }}>
         <Formik
           onSubmit={(values, actions) => {
-            onSave(model, values);
+            onSave(settings, values);
           }}
-          initialValues={toJS(model)}
+          initialValues={toJS(settings)}
           enableReinitialize={true}
           render={({
             values,
