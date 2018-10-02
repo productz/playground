@@ -1,5 +1,10 @@
 import React from "react";
-import { Route, NativeRouter as Router, Switch, Redirect } from "react-router-native";
+import {
+  Route,
+  NativeRouter as Router,
+  Switch,
+  Redirect
+} from "react-router-native";
 import {
   LoginWithAuth,
   RegisterWithAuth,
@@ -13,7 +18,7 @@ import {
   adminDomainStore,
   Media,
   mediaDomainStore
-} from "../../react+react-native/index";
+} from "./react+react-native";
 import MainWrapper from "./Wrappers/MainWrapper";
 import User from "./User/User";
 import Login from "./Login/MaterialLogin";

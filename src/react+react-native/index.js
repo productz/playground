@@ -6,7 +6,7 @@ import {
   authUiStore
 } from "./auth-service/auth-service";
 import { Crud, crudDomainStore } from "./crud-service/crud-service";
-import { Socket, socketDomainStore } from "./socket-srevice/socket-service";
+import { Socket, socketDomainStore } from "./socket-service/socket-service";
 import { Admin, adminDomainStore } from "./admin-service/admin-service";
 import { Media, mediaDomainStore } from "./media-service/media-service";
 

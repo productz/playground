@@ -1,14 +1,22 @@
 "use strict";
 var webpack = require("webpack");
+var path = require("path");
 
 module.exports = {
   entry: {
-    app: "./index.js"
+    crudService: "./crud-service/crud-service.js",
+    authService: "./auth-service/auth-service.js",
+    mediaService: "./media-service/media-service.js",
+    adminService: "./admin-service/admin-service.js",
+    socketService: "./socket-service/socket-service.js",
+    index: "./index.js"
   },
   output: {
-    path: __dirname + "/lib", // `dist` is the destination
-    filename: "bundle.js",
-    publicPath: "/lib/"
+    path: path.join(__dirname, "lib"),
+    filename: "[name].js",
+    publicPath: "/lib/",
+    library: ["react-services", "[name]"],
+    libraryTarget: "umd"
   },
   module: {
     rules: [

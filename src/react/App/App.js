@@ -6,7 +6,7 @@ import {
   Switch,
   Redirect
 } from "react-router-dom";
-import {
+import services, {
   LoginWithAuth,
   RegisterWithAuth,
   authDomainStore,
@@ -19,7 +19,7 @@ import {
   adminDomainStore,
   Media,
   mediaDomainStore
-} from "../../react+react-native/index";
+} from "./react+react-native/";
 import MainWrapper from "./Wrappers/MainWrapper";
 import User from "./User/User";
 import Login from "./Login/MaterialLogin";
@@ -36,6 +36,8 @@ import loginBG from "./Login/login-bg.jpg";
 import registerBG from "./Register/register-bg.jpg";
 import logo from "./Assets/logos/Markab@full.svg";
 import clouds from "./Assets/css/clouds.css";
+
+console.log(services, authUiStore, authDomainStore);
 
 let rootStore = new Store({
   authDomainStore,
