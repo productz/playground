@@ -8,6 +8,7 @@ let houseSchema = new Schema({
   baths: Number,
   bedrooms: Number,
   size: Number,
+  isASeed: { type: Boolean, default: false },
   resource: { type: String, default: "house" }
 });
 module.exports = mongoose.model("House", houseSchema);
