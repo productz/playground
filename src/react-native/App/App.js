@@ -26,9 +26,9 @@ import Settings from "./Settings/Settings";
 import Store from "./Store/Store";
 import { observer } from "mobx-react";
 import LoginWrapper from "./Wrappers/LoginWrapper";
-import loginBG from "./Login/login-bg.jpg";
-import registerBG from "./Register/register-bg.jpg";
-import logo from "./Assets/logos/Markab@full.svg";
+// import loginBG from "./Login/login-bg.jpg";
+// import registerBG from "./Register/register-bg.jpg";
+// import logo from "./Assets/logos/Markab@full.svg";
 
 let rootStore = new Store({
   authDomainStore,
@@ -62,7 +62,7 @@ class App extends React.Component {
             path="/auth/login"
             render={({ location, history, match }) => {
               return (
-                <LoginWrapper backgroundImage={loginBG}>
+                <LoginWrapper>
                   <LoginWithAuth
                     onRegister={() => history.push("/auth/register")}
                     authUiStore={rootStore.authUiStore}
@@ -106,7 +106,7 @@ class App extends React.Component {
                   user={this.state.currentUser}
                   logo={logo}
                 >
-                  <Home logo={logo} />
+                  <Home />
                 </MainWrapper>
               );
             }}
