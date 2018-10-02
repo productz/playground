@@ -6,7 +6,7 @@ export default function({ Model, crudDomainLogic: { c, r, u, d, s } }) {
   var apiRoutes = express.Router();
 
   apiRoutes.get("/", function(req, res) {
-    let user = req.decoded._doc;
+    let user = req.decoded && req.decoded._doc;
     let { shallIPass, criteria } = r(user);
     if (!shallIPass) {
       return res.status(403).send("Sorry, you don't have the right privileges");
@@ -23,7 +23,7 @@ export default function({ Model, crudDomainLogic: { c, r, u, d, s } }) {
   });
 
   apiRoutes.post("/", function(req, res) {
-    let user = req.decoded._doc;
+    let user = req.decoded && req.decoded._doc;
     let { shallIPass, criteria } = c(user);
     let newModel = new Model(req.body);
     if (!shallIPass) {
@@ -40,7 +40,7 @@ export default function({ Model, crudDomainLogic: { c, r, u, d, s } }) {
 
   apiRoutes.put("/", (req, res) => {
     //take the imported Model, format it and add it to the Models collection
-    let user = req.decoded._doc;
+    let user = req.decoded && req.decoded._doc;
     let { shallIPass, criteria } = u(user);
     let requestModel = req.body;
     let newModel = Object.assign({}, requestModel);
@@ -61,7 +61,7 @@ export default function({ Model, crudDomainLogic: { c, r, u, d, s } }) {
   });
 
   apiRoutes.delete("/:_id", (req, res) => {
-    let user = req.decoded._doc;
+    let user = req.decoded && req.decoded._doc;
     let { shallIPass, criteria } = d(user);
     let requestModelID = req.params._id;
     //remove the imported Model
@@ -81,6 +81,7 @@ export default function({ Model, crudDomainLogic: { c, r, u, d, s } }) {
   });
 
   apiRoutes.post("/search", (req, res) => {
+    let user = req.decoded && req.decoded._doc;
     let query = req.body;
     let shallIPass = s(user);
     Model.find(query).exec((err, results) => {

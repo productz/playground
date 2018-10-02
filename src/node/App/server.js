@@ -54,7 +54,7 @@ const onInit = (models, schemas) => {
   });
   app.use("/", authApiRoutes);
   app.use("/jwt", jwtApiRoutes);
-  app.use("/user", jwtApiRoutes, ...userApiRoutes);
+  app.use("/user", ...userApiRoutes);
   app.use("/chat-log", jwtApiRoutes, ...chatApiRoutes);
   app.use("/schemas", (req, res, next) => {
     res.send(schemas);
