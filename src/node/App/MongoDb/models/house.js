@@ -8,6 +8,7 @@ let houseSchema = new Schema({
   baths: Number,
   bedrooms: Number,
   size: Number,
+  image: String,
   isASeed: { type: Boolean, default: false },
   resource: { type: String, default: "house" }
 });

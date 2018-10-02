@@ -3,33 +3,48 @@ import { toJS } from "mobx";
 import { Formik } from "formik";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import moonlighter from "./moonlighter.jpg";
+import nook from "./nook.jpg";
 
 export default class HouseEdit extends React.Component {
   componentWillReceiveProps(nextProps) {}
   render() {
-    console.log("rerender user edit");
-    let { user, onSave, onCancel } = this.props;
+    console.log("rerender house edit");
+    let { house, onSave, onCancel } = this.props;
     let fields = [];
-    let editablePropeerties = ["name"];
-    if (user) {
-      fields = Object.keys(user)
-        .filter(key => editablePropeerties.indexOf(key) !== -1)
+    let images = [
+      { name: "Nook", image: nook },
+      { name: "Noonglifhter", image: nook }
+    ];
+    let image;
+    let editableProperties = [
+      "name",
+      "description",
+      "bedrooms",
+      "baths",
+      "size"
+    ];
+    if (house) {
+      image = images.find(({ name }) => name === house.name);
+      fields = Object.keys(house)
+        .filter(key => editableProperties.indexOf(key) !== -1)
         .map(key => {
           return {
             type: "text",
             name: key,
             placeholder: key,
-            value: user[key]
+            value: house[key]
           };
         });
     }
     return (
       <div style={{ flex: 1 }}>
+        <img width="500px" height="auto" src={image && image.image} />
         <Formik
           onSubmit={(values, actions) => {
-            onSave(user, values);
+            onSave(house, values);
           }}
-          initialValues={toJS(user)}
+          initialValues={toJS(house)}
           enableReinitialize={true}
           render={({
             values,

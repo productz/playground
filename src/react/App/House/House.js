@@ -98,17 +98,17 @@ const House = ({
 }) => {
   let houses = model;
   if (houses && houses.length > 0) {
-    let housesView = houses.map(user => {
+    let housesView = houses.map(house => {
       return (
-        <ListItem key={user._id}>
+        <ListItem key={house._id}>
           <ListItemText>
-            <p>{user.name}</p>
+            <p>{house.name}</p>
           </ListItemText>
           <ListItemSecondaryAction>
-            <Link to={`${match.url}/${user._id}`}>
+            <Link to={`${match.url}/${house._id}`}>
               <Button
                 onClick={() => {
-                  setModelEdit(user, true);
+                  setModelEdit(house, true);
                 }}
               >
                 <p>Edit</p>
@@ -116,7 +116,7 @@ const House = ({
             </Link>
             <Button
               onClick={() => {
-                deleteModel(user);
+                deleteModel(house);
               }}
             >
               <p>Delete</p>
@@ -127,25 +127,6 @@ const House = ({
     });
     return (
       <div className={classes.root}>
-        <header>
-          <AppBar position="static">
-            <Toolbar>
-              <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon />
-                </div>
-                <Input
-                  placeholder="Search…"
-                  disableUnderline
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput
-                  }}
-                />
-              </div>
-            </Toolbar>
-          </AppBar>
-        </header>
         <Route
           path={`${match.path}/:id`}
           render={({ match }) => {
@@ -155,7 +136,7 @@ const House = ({
                 onSave={(updatedHouse, values) => {
                   updateModel(updatedHouse, values);
                 }}
-                user={houses.find(({ _id }) => _id === match.params.id)}
+                house={houses.find(({ _id }) => _id === match.params.id)}
                 isVisible={isEditing}
               />
             );
@@ -166,16 +147,37 @@ const House = ({
           path={`${match.path}`}
           render={props => {
             return (
-              <List>
-                {housesView}
-                <Button
-                  onClick={() => {
-                    createModel({ name: "Zee" });
-                  }}
-                >
-                  <p>Create House</p>
-                </Button>
-              </List>
+              <div>
+                <header>
+                  <AppBar position="static">
+                    <Toolbar>
+                      <div className={classes.search}>
+                        <div className={classes.searchIcon}>
+                          <SearchIcon />
+                        </div>
+                        <Input
+                          placeholder="Search…"
+                          disableUnderline
+                          classes={{
+                            root: classes.inputRoot,
+                            input: classes.inputInput
+                          }}
+                        />
+                      </div>
+                    </Toolbar>
+                  </AppBar>
+                </header>
+                <List>
+                  {housesView}
+                  <Button
+                    onClick={() => {
+                      createModel({ name: "Zee" });
+                    }}
+                  >
+                    <p>Create House</p>
+                  </Button>
+                </List>
+              </div>
             );
           }}
         />
