@@ -14,7 +14,7 @@ export default class HouseEdit extends React.Component {
     let fields = [];
     let images = [
       { name: "Nook", image: nook },
-      { name: "Noonglifhter", image: nook }
+      { name: "Moonlighter", image: moonlighter }
     ];
     let image;
     let editableProperties = [
