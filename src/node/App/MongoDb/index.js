@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const MongoDb = ({ app, config, onInit, onError, onDisconnect }) => {
+  //run seeds
   const connection = mongoose.connect(
     `${config.get("db.host")}:${config.get("db.port")}`,
     function(err) {

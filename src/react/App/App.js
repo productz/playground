@@ -28,6 +28,7 @@ import AdminPage from "./Admin/Admin";
 import NotFound from "./NotFound/NotFound";
 import Home from "./Home/Home";
 import Chat from "./Chat/Chat";
+import House from "./House/House";
 import Settings from "./Settings/Settings";
 import Store from "./Store/Store";
 import { observer } from "mobx-react";
@@ -223,6 +224,29 @@ class App extends React.Component {
                 />
               )
             }
+          />
+          <Route
+            path="/house"
+            render={({ location, match, history }) => {
+              return (
+                <MainWrapper
+                  location={location}
+                  match={match}
+                  history={history}
+                  auth={this.state.isLoggedIn}
+                  user={this.state.currentUser}
+                  logo={logo}
+                  hasPadding={true}
+                >
+                  <Crud
+                    modelName="house"
+                    crudDomainStore={rootStore.crudDomainStore}
+                  >
+                    <House location={location} match={match} history={history} />
+                  </Crud>
+                </MainWrapper>
+              );
+            }}
           />
           <Route
             path="/user"

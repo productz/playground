@@ -10,7 +10,8 @@ export const routeList = [
   { url: "/#/admin", name: "Admin" },
   { url: "/#/user", name: "User" },
   { url: "/#/chat", name: "Chat" },
-  { url: "/#/settings", name: "Settings" },
+  { url: "/#/house", name: "Houses" },
+  { url: "/#/settings", name: "Settings" }
 ];
 
 export const Routes = (
