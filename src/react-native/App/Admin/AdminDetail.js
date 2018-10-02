@@ -1,5 +1,4 @@
 import React from "react";
-import { Crud } from "../../../react+react-native/index";
 import { toJS } from "mobx";
 import {
   Container,

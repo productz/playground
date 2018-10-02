@@ -19,7 +19,7 @@ export const Routes = (
               <Icon name="plane" />
             </Left>
             <Body>
-              <ListItemText primary={route.name} />
+              <ListItem primary={route.name} />
             </Body>
           </ListItem>
         </a>

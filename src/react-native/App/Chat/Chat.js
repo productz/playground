@@ -130,4 +130,4 @@ class Chat extends React.Component {
   }
 }
 
-export default withStyles(styles)(Chat);
+export default Chat;

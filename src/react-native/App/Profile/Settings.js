@@ -172,4 +172,4 @@ const Settings = ({
   return <CircularProgress />;
 };
 
-export default withStyles(styles)(Settings);
+export default Settings;
