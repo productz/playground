@@ -90,7 +90,6 @@ const styles = theme => ({
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
     height: "100vh",
     overflow: "auto"
   },
@@ -136,7 +135,7 @@ class MainWrapper extends React.Component {
       user,
       logo
     } = this.props;
-    const { anchorEl, menuOpen, open } = this.state;
+    const { anchorEl, menuOpen, open, hasPadding } = this.state;
     const isAnchor = Boolean(anchorEl);
     console.log(isAnchor);
     let route = routeList.find(({ name, url }) => {
