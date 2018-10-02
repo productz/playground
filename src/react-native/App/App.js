@@ -30,7 +30,6 @@ import LoginWrapper from "./Wrappers/LoginWrapper";
 import loginBG from "./Login/login-bg.jpg";
 import registerBG from "./Register/register-bg.jpg";
 import logo from "./Assets/logos/Markab@full.svg";
-import clouds from "./Assets/css/clouds.css";
 
 let rootStore = new Store({
   authDomainStore,
