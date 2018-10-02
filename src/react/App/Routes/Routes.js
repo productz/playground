@@ -4,29 +4,28 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import DashboardIcon from "@material-ui/icons/Dashboard";
+import Icon from "@material-ui/core/Icon";
 
 export const routeList = [
-  { url: "/#/", name: "Home" },
-  { url: "/#/admin", name: "Admin" },
-  { url: "/#/user", name: "User" },
-  { url: "/#/chat", name: "Chat" },
-  { url: "/#/house", name: "Houses" },
-  { url: "/#/settings", name: "Settings" }
+  { url: "/", name: "Home", icon: "dashboard" },
+  { url: "/user", name: "Users", icon: "supervised_user_circle" },
+  { url: "/chat", name: "Chat", icon: "chat" },
+  { url: "/house", name: "Houses", icon: "home" },
+  { url: "/settings", name: "Settings", icon: "settings" },
+  { url: "/admin", name: "Admin", icon: "supervisor_account" }
 ];
 
-export const Routes = (
-  <div>
-    {routeList.map(route => {
-      return (
-        <a href={route.url}>
-          <ListItem button>
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
+export const Routes = ({ onClick }) => {
+  return (
+    <React.Fragment>
+      {routeList.map(route => {
+        return (
+          <ListItem onClick={event => onClick(route)} button>
+            <Icon>{route.icon}</Icon>
             <ListItemText primary={route.name} />
           </ListItem>
-        </a>
-      );
-    })}
-  </div>
-);
+        );
+      })}
+    </React.Fragment>
+  );
+};

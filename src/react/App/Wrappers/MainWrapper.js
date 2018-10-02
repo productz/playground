@@ -182,11 +182,11 @@ class MainWrapper extends React.Component {
               >
                 {route && route.name}
               </Typography>
-              <IconButton color="inherit">
+              {/* <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <NotificationsIcon />
                 </Badge>
-              </IconButton>
+              </IconButton> */}
               {auth && (
                 <div>
                   <Tooltip title={user.name}>
@@ -213,10 +213,10 @@ class MainWrapper extends React.Component {
                     open={isAnchor}
                     onClose={this.handleMenuClose}
                   >
-                    <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
+                    {/* <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
                     <MenuItem onClick={this.handleMenuClose}>
                       My account
-                    </MenuItem>
+                    </MenuItem> */}
                     <MenuItem
                       onClick={event => {
                         this.handleMenuClose(event);
@@ -246,13 +246,11 @@ class MainWrapper extends React.Component {
               </IconButton>
             </div>
             <Divider />
-            <List>{Routes}</List>
+            <List>
+              <Routes onClick={route => history.push(route.url)} />
+            </List>
           </Drawer>
-          <main
-            className={
-              hasPadding ? classes.hasPadding : classes.content
-            }
-          >
+          <main className={hasPadding ? classes.hasPadding : classes.content}>
             <div className={classes.appBarSpacer} />
             {children}
           </main>
