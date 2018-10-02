@@ -18,6 +18,9 @@ const styles = theme => ({
   appBar: {
     position: "relative"
   },
+  content:{
+    padding: theme.spacing.unit * 3
+  },
   icon: {
     marginRight: theme.spacing.unit * 2
   },
@@ -71,7 +74,7 @@ function Home(props) {
         <div className="cloud x3" />
         <div className="cloud x4" />
         <div className="cloud x5" />
-        <main>
+        <main className={classes.content}>
           {/* Hero unit */}
           <div className={classes.heroUnit}>
             <div className={classes.heroContent}>
