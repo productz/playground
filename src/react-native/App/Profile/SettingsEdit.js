@@ -1,8 +1,6 @@
 import React from "react";
 import { toJS } from "mobx";
 import { Formik } from "formik";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 
 export default class SettingsEdit extends React.Component {
   componentWillReceiveProps(nextProps) {}

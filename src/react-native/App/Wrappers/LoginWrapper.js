@@ -1,10 +1,8 @@
 import React, { Children } from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import {Container} from "native-base";
+import { Container } from "native-base";
 
-const styles = theme => ({
-});
+const styles = theme => ({});
 
 class LoginWrapper extends React.Component {
   render() {
@@ -19,9 +17,9 @@ class LoginWrapper extends React.Component {
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
-            width:"100%",
-            height:"1000px",
-            objectFit:"cover"
+            width: "100%",
+            height: "1000px",
+            objectFit: "cover"
           }}
         >
           {children}
@@ -35,4 +33,4 @@ LoginWrapper.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(LoginWrapper);
+export default LoginWrapper;

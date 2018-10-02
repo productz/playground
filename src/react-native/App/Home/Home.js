@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  Button,
   Text,
   Card,
   CardItem,
@@ -9,7 +8,6 @@ import {
   Item,
   Input,
   Label,
-  Text,
   Button,
   Body
 } from "native-base";
