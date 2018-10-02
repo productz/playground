@@ -1,12 +1,21 @@
 import React from "react";
-import { ListItem, Icon, Left, Body, Right, Switch, Button, Text } from "native-base";
+import {
+  ListItem,
+  Icon,
+  Left,
+  Body,
+  Right,
+  Switch,
+  Button,
+  Text
+} from "native-base";
 
 export const routeList = [
   { url: "/", name: "Home" },
-  { url: "/admin", name: "Admin" },
   { url: "/user", name: "User" },
   { url: "/chat", name: "Chat" },
-  { url: "/settings", name: "Settings" }
+  { url: "/auth/login", name: "Login" },
+  { url: "/auth/register", name: "Register" }
 ];
 
 export const Routes = ({ onPress }) => (

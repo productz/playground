@@ -88,7 +88,7 @@ export default class App extends React.Component {
             path="/auth/login"
             render={({ location, history, match }) => {
               return (
-                <LoginWrapper backgroundImage={loginBG}>
+                <LoginWrapper title="Login" backgroundImage={loginBG}>
                   <LoginWithAuth
                     onRegister={() => history.push("/auth/register")}
                     authUiStore={rootStore.authUiStore}
@@ -108,7 +108,7 @@ export default class App extends React.Component {
             path="/auth/register"
             render={props => {
               return (
-                <LoginWrapper backgroundImage={registerBG}>
+                <LoginWrapper title="Login" backgroundImage={registerBG}>
                   <RegisterWithAuth
                     authDomainStore={rootStore.authDomainStore}
                     authUiStore={rootStore.authUiStore}
