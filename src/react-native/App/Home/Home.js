@@ -9,7 +9,8 @@ import {
   Input,
   Label,
   Button,
-  Body
+  Body,
+  Container
 } from "native-base";
 import { Image } from "react-native";
 

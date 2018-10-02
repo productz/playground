@@ -30,10 +30,31 @@ import Settings from "./Settings/Settings";
 import Store from "./Store/Store";
 import { observer } from "mobx-react";
 import LoginWrapper from "./Wrappers/LoginWrapper";
-import { Text } from "react-native";
 import loginBG from "./Login/login-bg.jpg";
 import registerBG from "./Register/register-bg.jpg";
 import logo from "./Assets/logos/Markab@full.svg";
+import {
+  Drawer,
+  H1,
+  H2,
+  H3,
+  Text,
+  Header,
+  List,
+  ListItem,
+  Container,
+  Title,
+  Button,
+  Left,
+  Content,
+  Right,
+  Body,
+  Icon,
+  Tab,
+  Tabs,
+  Footer,
+  FooterTab
+} from "native-base";
 
 let rootStore = new Store({
   authDomainStore,
@@ -44,7 +65,7 @@ let rootStore = new Store({
   mediaDomainStore
 });
 
-class App extends React.Component {
+export default class App extends React.Component {
   state = {
     isLoggedIn: true,
     currentUser: {}
@@ -267,5 +288,3 @@ class App extends React.Component {
   }
   componentWillReceiveProps(nextProps) {}
 }
-
-ReactDOM.render(<App />, document.getElementById("app"));

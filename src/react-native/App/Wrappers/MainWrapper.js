@@ -2,16 +2,26 @@ import React, { Children } from "react";
 import PropTypes from "prop-types";
 import { Routes, routeList } from "../Routes/Routes";
 import {
-  Container,
   Drawer,
-  Content,
   H1,
   H2,
   H3,
   Text,
   Header,
   List,
-  ListItem
+  ListItem,
+  Container,
+  Title,
+  Button,
+  Left,
+  Content,
+  Right,
+  Body,
+  Icon,
+  Tab,
+  Tabs,
+  Footer,
+  FooterTab
 } from "native-base";
 
 class MainWrapper extends React.Component {
@@ -39,24 +49,16 @@ class MainWrapper extends React.Component {
       logo,
       hasPadding
     } = this.props;
-    const { anchorEl } = this.state;
-    const isAnchor = Boolean(anchorEl);
     let route = routeList.find(({ name, url }) => {
       return url.indexOf(match.path.replace("/", "/")) !== -1;
     });
     return (
       <React.Fragment>
-        <div className={classes.root}>
-          <Header
-            position="absolute"
-            className={classNames(
-              classes.appBar,
-              this.state.open && classes.appBarShift
-            )}
-          >
+        <Container>
+          <Header>
             <Text>Home</Text>
           </Header>
-          <Drawer
+          {/* <Drawer
             variant="permanent"
             open={this.state.open}
             ref={ref => {
@@ -68,16 +70,16 @@ class MainWrapper extends React.Component {
               </List>
             }
           >
-            <Container>{children}</Container>
-          </Drawer>
-        </div>
+          </Drawer> */}
+          <Content>{children}</Content>
+          <Footer />
+        </Container>
       </React.Fragment>
     );
   }
 }
 
 MainWrapper.propTypes = {
-  classes: PropTypes.object.isRequired
 };
 
 export default MainWrapper;
