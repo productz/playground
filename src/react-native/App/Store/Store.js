@@ -1,17 +1,4 @@
-//add localStorage
-let offlineStorage = {
-  setItem: (key, value) => {
-    return new Promise((resolve, reject) => {
-      localStorage.setItem(key, value);
-      resolve({ key, value });
-    });
-  },
-  getItem: key => {
-    return new Promise((resolve, reject) => {
-      resolve(localStorage.getItem(key));
-    });
-  }
-};
+import { AsyncStorage } from "react-native"
 
 export default class RootStore {
   constructor({
@@ -23,8 +10,8 @@ export default class RootStore {
     mediaDomainStore
   }) {
     this.authUiStore = new authUiStore(this);
-    this.authDomainStore = new authDomainStore(this, offlineStorage);
-    this.crudDomainStore = new crudDomainStore(this, offlineStorage);
+    this.authDomainStore = new authDomainStore(this, AsyncStorage);
+    this.crudDomainStore = new crudDomainStore(this, AsyncStorage);
     this.socketDomainStore = new socketDomainStore(this);
     this.adminDomainStore = new adminDomainStore(this);
     this.mediaDomainStore = new mediaDomainStore(this);

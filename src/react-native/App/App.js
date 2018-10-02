@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import { Route, NativeRouter as Router, Switch, Redirect } from "react-router-native";
 import {
   LoginWithAuth,

@@ -1,6 +1,7 @@
 import React, { Children } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
+import {Container} from "native-base";
 
 const styles = theme => ({
 });
@@ -10,7 +11,7 @@ class LoginWrapper extends React.Component {
     const { classes, children, backgroundImage } = this.props;
     return (
       <React.Fragment>
-        <main
+        <Container
           style={{
             backgroundImage: `url(${backgroundImage})`,
             backgroundRepeat: "no-repeat",
@@ -24,7 +25,7 @@ class LoginWrapper extends React.Component {
           }}
         >
           {children}
-        </main>
+        </Container>
       </React.Fragment>
     );
   }

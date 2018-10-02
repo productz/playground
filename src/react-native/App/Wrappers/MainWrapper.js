@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import { Routes, routeList } from "../Routes/Routes";
 import {
+  Container,
   Drawer,
   Content,
   H1,
@@ -15,26 +16,16 @@ import {
 } from "native-base";
 
 class MainWrapper extends React.Component {
+  drawer;
   state = {
-    open: true,
-    menuOpen: false,
-    anchorEl: null
+    open: true
   };
 
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
+  closeDrawer = () => {
+    this.drawer._root.close();
   };
-
-  handleDrawerClose = () => {
-    this.setState({ open: false });
-  };
-
-  handleMenu = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
-  handleMenuClose = () => {
-    this.setState({ anchorEl: null });
+  openDrawer = () => {
+    this.drawer._root.open();
   };
 
   render() {
@@ -49,7 +40,7 @@ class MainWrapper extends React.Component {
       logo,
       hasPadding
     } = this.props;
-    const { anchorEl, menuOpen, open } = this.state;
+    const { anchorEl } = this.state;
     const isAnchor = Boolean(anchorEl);
     let route = routeList.find(({ name, url }) => {
       return url.indexOf(match.path.replace("/", "/")) !== -1;
@@ -64,100 +55,22 @@ class MainWrapper extends React.Component {
               this.state.open && classes.appBarShift
             )}
           >
-            <Toolbar
-              disableGutters={!this.state.open}
-              className={classes.toolbar}
-            >
-              <img src={logo} width="50px" height="auto" />
-              <IconButton
-                color="inherit"
-                aria-label="Open drawer"
-                onClick={this.handleDrawerOpen}
-                className={classNames(
-                  classes.menuButton,
-                  this.state.open && classes.menuButtonHidden
-                )}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Text
-                variant="title"
-                color="inherit"
-                noWrap
-                className={classes.title}
-              >
-                {route && route.name}
-              </Text>
-              <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-              {auth && (
-                <div>
-                  <Tooltip title={user.name}>
-                    <IconButton
-                      aria-owns={isAnchor ? "menu-appbar" : null}
-                      aria-haspopup="true"
-                      onClick={this.handleMenu}
-                      color="inherit"
-                    >
-                      <AccountCircle />
-                    </IconButton>
-                  </Tooltip>
-                  <Menu
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                      vertical: "bottom",
-                      horizontal: "left"
-                    }}
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "right"
-                    }}
-                    open={isAnchor}
-                    onClose={this.handleMenuClose}
-                  >
-                    <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-                    <MenuItem onClick={this.handleMenuClose}>
-                      My account
-                    </MenuItem>
-                    <MenuItem
-                      onClick={event => {
-                        this.handleMenuClose(event);
-                        history.push("/auth/login");
-                      }}
-                    >
-                      Log out
-                    </MenuItem>
-                  </Menu>
-                </div>
-              )}
-            </Toolbar>
+            <Text>Home</Text>
           </Header>
           <Drawer
             variant="permanent"
-            classes={{
-              paper: classNames(
-                classes.drawerPaper,
-                !this.state.open && classes.drawerPaperClose
-              )
-            }}
             open={this.state.open}
+            ref={ref => {
+              this.drawer = ref;
+            }}
+            content={
+              <List>
+                <Routes />
+              </List>
+            }
           >
-            <div className={classes.toolbarIcon}>
-              <IconButton onClick={this.handleDrawerClose}>
-                <ChevronLeftIcon />
-              </IconButton>
-            </div>
-            <Divider />
-            <List>{Routes}</List>
+            <Container>{children}</Container>
           </Drawer>
-          <main className={hasPadding ? classes.hasPadding : classes.content}>
-            <div className={classes.appBarSpacer} />
-            {children}
-          </main>
         </div>
       </React.Fragment>
     );

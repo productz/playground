@@ -149,13 +149,13 @@ const Register = ({ onProviderAuth, onSubmit, onChange, gender }) => {
           );
         }}
       />
-      <Button onClick={() => onProviderAuth("google")} block secondary>
+      <Button onPress={() => onProviderAuth("google")} block secondary>
         <Text>Login with Google</Text>
       </Button>
-      <Button onClick={() => onProviderAuth("facebook")} block secondary>
+      <Button onPress={() => onProviderAuth("facebook")} block secondary>
         <Text>Login with facebook</Text>
       </Button>
-      <Button onClick={() => onProviderAuth("twitter")} block secondary>
+      <Button onPress={() => onProviderAuth("twitter")} block secondary>
         <Text>Login with twitter</Text>
       </Button>
     </React.Fragment>
