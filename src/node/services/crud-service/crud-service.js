@@ -25,7 +25,7 @@ export default function({ Model, crudDomainLogic: { c, r, u, d, s } }) {
   apiRoutes.post("/", function(req, res) {
     let user = req.decoded && req.decoded._doc;
     let { shallIPass, criteria } = c(user);
-    let newModel = new Model(req.body);
+    let newModel = new Model(req.body.model);
     if (!shallIPass) {
       return res.status(403).send("Sorry, you don't have the right privileges");
     }
@@ -42,7 +42,7 @@ export default function({ Model, crudDomainLogic: { c, r, u, d, s } }) {
     //take the imported Model, format it and add it to the Models collection
     let user = req.decoded && req.decoded._doc;
     let { shallIPass, criteria } = u(user);
-    let requestModel = req.body;
+    let requestModel = req.body.model;
     let newModel = Object.assign({}, requestModel);
     if (!shallIPass) {
       return res.status(403).send("Sorry, you don't have the right privileges");
