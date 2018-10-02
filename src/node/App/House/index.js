@@ -41,7 +41,7 @@ const House = ({ app, config, userModel, houseModel }) => {
       };
     }
   };
-  const houseApi = crudService({ Model: userModel, crudDomainLogic });
+  const houseApi = crudService({ Model: houseModel, crudDomainLogic });
 
   //file upoad api
   let mediaDomainLogic = {

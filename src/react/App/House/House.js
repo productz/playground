@@ -96,9 +96,9 @@ const House = ({
   history,
   classes
 }) => {
-  let users = model;
-  if (users && users.length > 0) {
-    let usersView = users.map(user => {
+  let houses = model;
+  if (houses && houses.length > 0) {
+    let housesView = houses.map(user => {
       return (
         <ListItem key={user._id}>
           <ListItemText>
@@ -155,7 +155,7 @@ const House = ({
                 onSave={(updatedHouse, values) => {
                   updateModel(updatedHouse, values);
                 }}
-                user={users.find(({ _id }) => _id === match.params.id)}
+                user={houses.find(({ _id }) => _id === match.params.id)}
                 isVisible={isEditing}
               />
             );
@@ -167,7 +167,7 @@ const House = ({
           render={props => {
             return (
               <List>
-                {usersView}
+                {housesView}
                 <Button
                   onClick={() => {
                     createModel({ name: "Zee" });
