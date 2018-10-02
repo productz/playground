@@ -72,14 +72,19 @@ class MainWrapper extends React.Component {
           >
           </Drawer> */}
           <Content>{children}</Content>
-          <Footer />
+          <Footer>
+            <FooterTab>
+              <Routes onPress={(route)=>{
+                history.push(route.url);
+              }} />
+            </FooterTab>
+          </Footer>
         </Container>
       </React.Fragment>
     );
   }
 }
 
-MainWrapper.propTypes = {
-};
+MainWrapper.propTypes = {};
 
 export default MainWrapper;
