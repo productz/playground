@@ -92,7 +92,14 @@ let fields = [
   }
 ];
 
-export const Register = ({ onChange, onSubmit, onProviderAuth, classes }) => {
+export const Register = ({
+  onChange,
+  onSuccess,
+  onSubmit,
+  onProviderAuth,
+  history,
+  classes
+}) => {
   return (
     <React.Fragment>
       <CssBaseline />
@@ -107,6 +114,8 @@ export const Register = ({ onChange, onSubmit, onProviderAuth, classes }) => {
             onSubmit={(values, actions) => {
               onSubmit(values)
                 .then(() => {
+                  console.log("done");
+                  history.push("/");
                   actions.setSubmitting(false);
                 })
                 .catch(err => {});
@@ -148,7 +157,7 @@ export const Register = ({ onChange, onSubmit, onProviderAuth, classes }) => {
                   <Button
                     size="small"
                     color="primary"
-                    onClick={onSubmit}
+                    onClick={handleSubmit}
                     type="submit"
                     disabled={isSubmitting}
                   >

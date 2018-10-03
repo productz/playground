@@ -27,19 +27,12 @@ export class authDomainStore {
     return axios
       .post(`${SERVER.host}:${SERVER.port}/auth`, values)
       .then(res => {
-        // runInAction(() => {
-        //   user = res.data;
-        //   isLoggedIn = true;
-        // });
         this.user = res.data;
         this.isLoggedIn = true;
         this.storeToken(this.user.jwtToken);
         return res.data;
       })
       .catch(err => {
-        // runInAction(() => {
-        //   isLoggedIn = false;
-        // });
         console.log(err);
         return err;
       });
@@ -48,10 +41,9 @@ export class authDomainStore {
     return axios
       .post(`${SERVER.host}:${SERVER.port}/auth/register`, values)
       .then(res => {
-        runInAction(() => {
-          this.user = res.data;
-          this.isLoggedIn = true;
-        });
+        this.user = res.data;
+        this.isLoggedIn = true;
+        this.storeToken(this.user.jwtToken);
         return res.data;
       })
       .catch(err => {
@@ -123,19 +115,19 @@ export const api = {
 
 //determine the theme here and load the right login information?
 export const LoginWithAuth = observer(
-  ({ onRegister, children, authUiStore, authDomainStore }) => {
+  ({ children, authUiStore, authDomainStore }) => {
     let decoratedLogin = React.Children.map(children, child =>
       React.cloneElement(child, {
         onChange: (field, value) => {
           authUiStore[field] = value;
         },
-        onRegister: () => onRegister(),
         onSubmit: values => {
           return authDomainStore.login(values);
         },
         onProviderAuth: providerName => {
           authDomainStore.loginWithProvider(providerName);
-        }
+        },
+        ...child.props
       })
     );
     return <React.Fragment>{decoratedLogin}</React.Fragment>;
@@ -154,7 +146,8 @@ export const RegisterWithAuth = observer(
         },
         onProviderAuth: providerName => {
           authDomainStore.loginWithProvider(providerName);
-        }
+        },
+        ...child.props
       })
     );
     return <React.Fragment>{decoratedRegister}</React.Fragment>;

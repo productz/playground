@@ -89,11 +89,15 @@ class App extends React.Component {
             return (
               <LoginWrapper backgroundImage={loginBG}>
                 <LoginWithAuth
-                  onRegister={() => history.push("/auth/register")}
                   authUiStore={rootStore.authUiStore}
                   authDomainStore={rootStore.authDomainStore}
                 >
-                  <Login location={location} history={history} match={match} />
+                  <Login
+                    onRegister={() => history.push("/auth/register")}
+                    location={location}
+                    history={history}
+                    match={match}
+                  />
                 </LoginWithAuth>
               </LoginWrapper>
             );
@@ -101,14 +105,19 @@ class App extends React.Component {
         />
         <Route
           path="/auth/register"
-          render={props => {
+          render={({ location, history, match }) => {
             return (
               <LoginWrapper backgroundImage={registerBG}>
                 <RegisterWithAuth
                   authDomainStore={rootStore.authDomainStore}
                   authUiStore={rootStore.authUiStore}
                 >
-                  <Register />
+                  <Register
+                    onLogin={() => history.push("/auth/login")}
+                    location={location}
+                    history={history}
+                    match={match}
+                  />
                 </RegisterWithAuth>
               </LoginWrapper>
             );

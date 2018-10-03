@@ -57,12 +57,15 @@ const Auth = ({ app, config, userModel }) => {
 
   const onRegister = (values, req, res) => {
     let user = new userModel(values);
+    let jwtToken = jwt.sign(user, config.get("secret"));
+    user.jwtToken = jwtToken;
     //do I generate an auth token?
     //register a user
     user.save(err => {
       if (err) {
         return res.status(500).send(err);
       }
+      res.send(user);
     });
   };
 
