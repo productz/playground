@@ -30,15 +30,11 @@ let theme = createMuiTheme({
   },
   typography: {
     // Use the system font instead of the default Roboto font.
-    fontFamily: [
-      "Open Sans",
-      "Roboto",
-      "sans-serif",
-    ].join(",")
+    fontFamily: ["Open Sans", "Roboto", "sans-serif"].join(",")
   }
 });
 
-const drawerWidth = 240;
+const drawerWidth = 180;
 
 const styles = theme => ({
   root: {
@@ -179,7 +175,12 @@ class MainWrapper extends React.Component {
                 disableGutters={!this.state.open}
                 className={classes.toolbar}
               >
-                <img src={logo} width="50px" height="auto" />
+                <img
+                  style={{ margin: "0 20px" }}
+                  src={logo}
+                  width="50px"
+                  height="auto"
+                />
                 <IconButton
                   color="inherit"
                   aria-label="Open drawer"
