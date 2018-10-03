@@ -118,7 +118,9 @@ export const Register = ({
                   history.push("/");
                   actions.setSubmitting(false);
                 })
-                .catch(err => {});
+                .catch(err => {
+                  console.log(err);
+                });
             }}
             validationSchema={RegisterSchema}
             render={({

@@ -61,11 +61,20 @@ const Auth = ({ app, config, userModel }) => {
     user.jwtToken = jwtToken;
     //do I generate an auth token?
     //register a user
-    user.save(err => {
+    userModel.find({ email: user.email }, (err, user) => {
       if (err) {
         return res.status(500).send(err);
       }
-      res.send(user);
+      if (user) {
+        //found a user
+        return res.status(409).send("User already exists");
+      }
+      return user.save(err => {
+        if (err) {
+          return res.status(500).send(err);
+        }
+        return res.send(user);
+      });
     });
   };
 

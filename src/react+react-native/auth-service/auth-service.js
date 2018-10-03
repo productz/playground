@@ -24,34 +24,35 @@ export class authDomainStore {
     return this.clearToken();
   }
   login(values) {
-    return axios
-      .post(`${SERVER.host}:${SERVER.port}/auth`, values)
-      .then(res => {
-        this.user = res.data;
-        this.isLoggedIn = true;
-        this.storeToken(this.user.jwtToken);
-        return res.data;
-      })
-      .catch(err => {
-        console.log(err);
-        return err;
-      });
+    return new Promise((resolve, reject) => {
+      return axios
+        .post(`${SERVER.host}:${SERVER.port}/auth`, values)
+        .then(res => {
+          this.user = res.data;
+          this.isLoggedIn = true;
+          this.storeToken(this.user.jwtToken);
+          return resolve(res.data);
+        })
+        .catch(err => {
+          return reject(err);
+        });
+    });
   }
   register(values) {
-    return axios
-      .post(`${SERVER.host}:${SERVER.port}/auth/register`, values)
-      .then(res => {
-        this.user = res.data;
-        this.isLoggedIn = true;
-        this.storeToken(this.user.jwtToken);
-        return res.data;
-      })
-      .catch(err => {
-        runInAction(() => {
+    return new Promise((resolve, reject) => {
+      return axios
+        .post(`${SERVER.host}:${SERVER.port}/auth/register`, values)
+        .then(res => {
+          this.user = res.data;
+          this.isLoggedIn = true;
+          this.storeToken(this.user.jwtToken);
+          return resolve(res.data);
+        })
+        .catch(err => {
           this.isLoggedIn = false;
+          return reject(err);
         });
-        return err;
-      });
+    });
   }
   loginWithProvider(providerName) {
     window.location.replace(

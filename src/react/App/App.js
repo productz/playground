@@ -6,7 +6,7 @@ import {
   Redirect,
   withRouter
 } from "react-router-dom";
-import services, {
+import {
   LoginWithAuth,
   RegisterWithAuth,
   authDomainStore,
