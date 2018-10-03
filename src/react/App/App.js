@@ -146,7 +146,7 @@ class App extends React.Component {
                   user={this.state.currentUser}
                   isLoggedIn={this.state.isLoggedIn}
                   onSignUp={() => history.push("/auth/register")}
-                  onDashboard={() => history.push("/chat")}
+                  onDashboard={() => history.push("/house")}
                   logo={logoAlt}
                 />
               </MainWrapper>
