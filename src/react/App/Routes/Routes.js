@@ -5,6 +5,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import Icon from "@material-ui/core/Icon";
+import { runInContext } from "vm";
 
 export const routeList = [
   { url: "/", name: "Home", icon: "dashboard" },
@@ -21,13 +22,18 @@ export const routeListLoggedOut = [
   { url: "/auth/login", name: "Sign In", icon: "register" }
 ];
 
-export const Routes = ({ onClick, isLoggedIn }) => {
+export const Routes = ({ onClick, isLoggedIn, currentRoute }) => {
+  console.log(currentRoute);
   return (
     <React.Fragment>
       {isLoggedIn
         ? routeList.map(route => {
             return (
-              <ListItem onClick={event => onClick(route)} button>
+              <ListItem
+                selected={currentRoute === route.url}
+                onClick={event => onClick(route)}
+                button
+              >
                 <Icon>{route.icon}</Icon>
                 <ListItemText primary={route.name} />
               </ListItem>
