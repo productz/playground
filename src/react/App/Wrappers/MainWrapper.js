@@ -19,6 +19,24 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Tooltip from "@material-ui/core/Tooltip";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+
+let theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#FFFFFF"
+    },
+    secondary: { main: "#d3d3d3" }
+  },
+  typography: {
+    // Use the system font instead of the default Roboto font.
+    fontFamily: [
+      "Open Sans",
+      "Roboto",
+      "sans-serif",
+    ].join(",")
+  }
+});
 
 const drawerWidth = 240;
 
@@ -41,9 +59,7 @@ const styles = theme => ({
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
-    }),
-    backgroundColor: "white",
-    color: "black"
+    })
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -149,112 +165,114 @@ class MainWrapper extends React.Component {
     });
     return (
       <React.Fragment>
-        <CssBaseline />
-        <div className={classes.root}>
-          <AppBar
-            position="absolute"
-            className={classNames(
-              classes.appBar,
-              this.state.open && classes.appBarShift
-            )}
-          >
-            <Toolbar
-              disableGutters={!this.state.open}
-              className={classes.toolbar}
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline />
+          <div className={classes.root}>
+            <AppBar
+              position="absolute"
+              className={classNames(
+                classes.appBar,
+                this.state.open && classes.appBarShift
+              )}
             >
-              <img src={logo} width="50px" height="auto" />
-              <IconButton
-                color="inherit"
-                aria-label="Open drawer"
-                onClick={this.handleDrawerOpen}
-                className={classNames(
-                  classes.menuButton,
-                  this.state.open && classes.menuButtonHidden
-                )}
+              <Toolbar
+                disableGutters={!this.state.open}
+                className={classes.toolbar}
               >
-                <MenuIcon />
-              </IconButton>
-              <Typography
-                variant="title"
-                color="inherit"
-                noWrap
-                className={classes.title}
-              >
-                {route && route.name}
-              </Typography>
-              {/* <IconButton color="inherit">
+                <img src={logo} width="50px" height="auto" />
+                <IconButton
+                  color="inherit"
+                  aria-label="Open drawer"
+                  onClick={this.handleDrawerOpen}
+                  className={classNames(
+                    classes.menuButton,
+                    this.state.open && classes.menuButtonHidden
+                  )}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Typography
+                  variant="title"
+                  color="inherit"
+                  noWrap
+                  className={classes.title}
+                >
+                  {route && route.name}
+                </Typography>
+                {/* <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <NotificationsIcon />
                 </Badge>
               </IconButton> */}
-              {auth && (
-                <div>
-                  <Tooltip title={user.name}>
-                    <IconButton
-                      aria-owns={isAnchor ? "menu-appbar" : null}
-                      aria-haspopup="true"
-                      onClick={this.handleMenu}
-                      color="inherit"
+                {auth && (
+                  <div>
+                    <Tooltip title={user.name}>
+                      <IconButton
+                        aria-owns={isAnchor ? "menu-appbar" : null}
+                        aria-haspopup="true"
+                        onClick={this.handleMenu}
+                        color="inherit"
+                      >
+                        <AccountCircle />
+                      </IconButton>
+                    </Tooltip>
+                    <Menu
+                      id="menu-appbar"
+                      anchorEl={anchorEl}
+                      anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "left"
+                      }}
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "right"
+                      }}
+                      open={isAnchor}
+                      onClose={this.handleMenuClose}
                     >
-                      <AccountCircle />
-                    </IconButton>
-                  </Tooltip>
-                  <Menu
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                      vertical: "bottom",
-                      horizontal: "left"
-                    }}
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "right"
-                    }}
-                    open={isAnchor}
-                    onClose={this.handleMenuClose}
-                  >
-                    {/* <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
+                      {/* <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
                     <MenuItem onClick={this.handleMenuClose}>
                       My account
                     </MenuItem> */}
-                    <MenuItem
-                      onClick={event => {
-                        this.handleMenuClose(event);
-                        history.push("/auth/login");
-                      }}
-                    >
-                      Log out
-                    </MenuItem>
-                  </Menu>
-                </div>
-              )}
-            </Toolbar>
-          </AppBar>
-          <Drawer
-            variant="permanent"
-            classes={{
-              paper: classNames(
-                classes.drawerPaper,
-                !this.state.open && classes.drawerPaperClose
-              )
-            }}
-            open={this.state.open}
-          >
-            <div className={classes.toolbarIcon}>
-              <IconButton onClick={this.handleDrawerClose}>
-                <ChevronLeftIcon />
-              </IconButton>
-            </div>
-            <Divider />
-            <List>
-              <Routes onClick={route => history.push(route.url)} />
-            </List>
-          </Drawer>
-          <main className={hasPadding ? classes.hasPadding : classes.content}>
-            <div className={classes.appBarSpacer} />
-            {children}
-          </main>
-        </div>
+                      <MenuItem
+                        onClick={event => {
+                          this.handleMenuClose(event);
+                          history.push("/auth/login");
+                        }}
+                      >
+                        Log out
+                      </MenuItem>
+                    </Menu>
+                  </div>
+                )}
+              </Toolbar>
+            </AppBar>
+            <Drawer
+              variant="permanent"
+              classes={{
+                paper: classNames(
+                  classes.drawerPaper,
+                  !this.state.open && classes.drawerPaperClose
+                )
+              }}
+              open={this.state.open}
+            >
+              <div className={classes.toolbarIcon}>
+                <IconButton onClick={this.handleDrawerClose}>
+                  <ChevronLeftIcon />
+                </IconButton>
+              </div>
+              <Divider />
+              <List>
+                <Routes onClick={route => history.push(route.url)} />
+              </List>
+            </Drawer>
+            <main className={hasPadding ? classes.hasPadding : classes.content}>
+              <div className={classes.appBarSpacer} />
+              {children}
+            </main>
+          </div>
+        </MuiThemeProvider>
       </React.Fragment>
     );
   }

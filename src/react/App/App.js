@@ -59,9 +59,6 @@ class App extends React.Component {
     }
   }
   onRouteChanged() {
-    console.log("ROUTE CHANGED");
-  }
-  componentDidMount(props) {
     rootStore.authDomainStore.isAuthenticated().then(res => {
       if (res.status !== 200) {
         this.setState({ isLoggedIn: false });
@@ -69,6 +66,15 @@ class App extends React.Component {
         this.setState({ isLoggedIn: true, currentUser: res.data });
       }
     });
+  }
+  componentDidMount(props) {
+    // rootStore.authDomainStore.isAuthenticated().then(res => {
+    //   if (res.status !== 200) {
+    //     this.setState({ isLoggedIn: false });
+    //   } else {
+    //     this.setState({ isLoggedIn: true, currentUser: res.data });
+    //   }
+    // });
   }
   render() {
     return (
