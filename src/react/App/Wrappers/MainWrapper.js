@@ -152,7 +152,8 @@ class MainWrapper extends React.Component {
       auth,
       user,
       logo,
-      hasPadding
+      hasPadding,
+      onLogout
     } = this.props;
     const { anchorEl, menuOpen, open } = this.state;
     const isAnchor = Boolean(anchorEl);
@@ -237,6 +238,7 @@ class MainWrapper extends React.Component {
                     </MenuItem> */}
                       <MenuItem
                         onClick={event => {
+                          onLogout();
                           this.handleMenuClose(event);
                           history.push("/auth/login");
                         }}

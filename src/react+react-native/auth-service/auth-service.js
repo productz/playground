@@ -1,7 +1,6 @@
 import { observer } from "mobx-react";
 import { observable } from "mobx";
 import React from "react";
-import { Route, Link, Redirect } from "react-router-dom";
 import { SERVER } from "../config";
 import axios from "axios";
 
@@ -20,6 +19,9 @@ export class authDomainStore {
     if (offlineStorage) {
       this.offlineStorage = offlineStorage;
     }
+  }
+  logout() {
+    return this.clearToken();
   }
   login(values) {
     return axios
@@ -72,8 +74,11 @@ export class authDomainStore {
   }
   storeToken(jwtToken) {
     if (jwtToken) {
-      this.offlineStorage.setItem("jwtToken", jwtToken);
+      return this.offlineStorage.setItem("jwtToken", jwtToken);
     }
+  }
+  clearToken() {
+    return this.offlineStorage.removeItem("jwtToken");
   }
   isAuthenticated() {
     return this.offlineStorage.getItem("jwtToken").then(token => {

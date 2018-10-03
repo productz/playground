@@ -77,6 +77,9 @@ class App extends React.Component {
       }
     });
   }
+  onLogout() {
+    rootStore.authDomainStore.logout();
+  }
   render() {
     return (
       <Switch>
@@ -123,6 +126,7 @@ class App extends React.Component {
                 auth={this.state.isLoggedIn}
                 user={this.state.currentUser}
                 logo={logo}
+                onLogout={this.onLogout}
               >
                 <Home
                   title={`Welcome ${
