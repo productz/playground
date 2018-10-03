@@ -1,10 +1,10 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import {
   HashRouter as Router,
   Route,
   Switch,
-  Redirect
+  Redirect,
+  withRouter
 } from "react-router-dom";
 import services, {
   LoginWithAuth,
@@ -38,8 +38,6 @@ import registerBG from "./Register/register-bg.jpg";
 import logo from "./Assets/logos/Markab@full.svg";
 import clouds from "./Assets/css/clouds.css";
 
-console.log(services, authUiStore, authDomainStore);
-
 let rootStore = new Store({
   authDomainStore,
   authUiStore,
@@ -55,6 +53,14 @@ class App extends React.Component {
     currentUser: {}
   };
   componentWillReceiveProps(nextProps) {}
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.onRouteChanged();
+    }
+  }
+  onRouteChanged() {
+    console.log("ROUTE CHANGED");
+  }
   componentDidMount(props) {
     rootStore.authDomainStore.isAuthenticated().then(res => {
       if (res.status !== 200) {
@@ -66,234 +72,228 @@ class App extends React.Component {
   }
   render() {
     return (
-      <Router>
-        <Switch>
-          <Route
-            path="/auth/login"
-            render={({ location, history, match }) => {
-              return (
-                <LoginWrapper backgroundImage={loginBG}>
-                  <LoginWithAuth
-                    onRegister={() => history.push("/auth/register")}
-                    authUiStore={rootStore.authUiStore}
-                    authDomainStore={rootStore.authDomainStore}
-                  >
-                    <Login
-                      location={location}
-                      history={history}
-                      match={match}
-                    />
-                  </LoginWithAuth>
-                </LoginWrapper>
-              );
-            }}
-          />
-          <Route
-            path="/auth/register"
-            render={props => {
-              return (
-                <LoginWrapper backgroundImage={registerBG}>
-                  <RegisterWithAuth
-                    authDomainStore={rootStore.authDomainStore}
-                    authUiStore={rootStore.authUiStore}
-                  >
-                    <Register />
-                  </RegisterWithAuth>
-                </LoginWrapper>
-              );
-            }}
-          />
-          <Route
-            path="/"
-            exact
-            render={({ location, history, match }) => {
-              return (
-                <MainWrapper
-                  location={location}
-                  match={match}
-                  history={history}
-                  auth={this.state.isLoggedIn}
-                  user={this.state.currentUser}
-                  logo={logo}
+      <Switch>
+        <Route
+          path="/auth/login"
+          render={({ location, history, match }) => {
+            return (
+              <LoginWrapper backgroundImage={loginBG}>
+                <LoginWithAuth
+                  onRegister={() => history.push("/auth/register")}
+                  authUiStore={rootStore.authUiStore}
+                  authDomainStore={rootStore.authDomainStore}
                 >
-                  <Home logo={logo} />
-                </MainWrapper>
-              );
-            }}
-          />
-          <Route
-            path="/admin"
-            render={({ location, history, match }) =>
-              this.state.isLoggedIn ? (
-                <MainWrapper
-                  location={location}
-                  match={match}
-                  history={history}
-                  auth={this.state.isLoggedIn}
-                  user={this.state.currentUser}
-                  logo={logo}
-                  hasPadding={true}
+                  <Login location={location} history={history} match={match} />
+                </LoginWithAuth>
+              </LoginWrapper>
+            );
+          }}
+        />
+        <Route
+          path="/auth/register"
+          render={props => {
+            return (
+              <LoginWrapper backgroundImage={registerBG}>
+                <RegisterWithAuth
+                  authDomainStore={rootStore.authDomainStore}
+                  authUiStore={rootStore.authUiStore}
                 >
-                  <Admin adminDomainStore={rootStore.adminDomainStore}>
-                    <AdminPage
-                      crudDomainStore={rootStore.crudDomainStore}
-                      location={location}
-                      match={match}
-                      history={history}
-                    />
-                  </Admin>
-                </MainWrapper>
-              ) : (
-                <Redirect
-                  to={{
-                    pathname:
-                      "/auth/login?message='please login to view this page'",
-                    state: { from: location }
-                  }}
-                />
-              )
-            }
-          />
-          <Route
-            path="/chat"
-            exact
-            render={({ location, history, match }) =>
-              this.state.isLoggedIn ? (
-                <MainWrapper
-                  location={location}
-                  match={match}
-                  history={history}
-                  auth={this.state.isLoggedIn}
-                  user={this.state.currentUser}
-                  logo={logo}
-                  hasPadding={true}
-                >
-                  <Crud
-                    modelName="chat-log"
+                  <Register />
+                </RegisterWithAuth>
+              </LoginWrapper>
+            );
+          }}
+        />
+        <Route
+          path="/"
+          exact
+          render={({ location, history, match }) => {
+            return (
+              <MainWrapper
+                location={location}
+                match={match}
+                history={history}
+                auth={this.state.isLoggedIn}
+                user={this.state.currentUser}
+                logo={logo}
+              >
+                <Home logo={logo} />
+              </MainWrapper>
+            );
+          }}
+        />
+        <Route
+          path="/admin"
+          render={({ location, history, match }) =>
+            this.state.isLoggedIn ? (
+              <MainWrapper
+                location={location}
+                match={match}
+                history={history}
+                auth={this.state.isLoggedIn}
+                user={this.state.currentUser}
+                logo={logo}
+                hasPadding={true}
+              >
+                <Admin adminDomainStore={rootStore.adminDomainStore}>
+                  <AdminPage
                     crudDomainStore={rootStore.crudDomainStore}
-                  >
-                    <Socket
-                      channel="chat"
-                      socketDomainStore={rootStore.socketDomainStore}
-                    >
-                      <Chat />
-                    </Socket>
-                  </Crud>
-                </MainWrapper>
-              ) : (
-                <Redirect
-                  to={{
-                    pathname:
-                      "/auth/login?message='please login to view this page'",
-                    state: { from: location }
-                  }}
-                />
-              )
-            }
-          />
-          <Route
-            path="/settings"
-            exact
-            render={({ location, history, match }) =>
-              this.state.isLoggedIn ? (
-                <MainWrapper
-                  location={location}
-                  match={match}
-                  history={history}
-                  auth={this.state.isLoggedIn}
-                  user={this.state.currentUser}
-                  logo={logo}
-                  hasPadding={true}
+                    location={location}
+                    match={match}
+                    history={history}
+                  />
+                </Admin>
+              </MainWrapper>
+            ) : (
+              <Redirect
+                to={{
+                  pathname:
+                    "/auth/login?message='please login to view this page'",
+                  state: { from: location }
+                }}
+              />
+            )
+          }
+        />
+        <Route
+          path="/chat"
+          exact
+          render={({ location, history, match }) =>
+            this.state.isLoggedIn ? (
+              <MainWrapper
+                location={location}
+                match={match}
+                history={history}
+                auth={this.state.isLoggedIn}
+                user={this.state.currentUser}
+                logo={logo}
+                hasPadding={true}
+              >
+                <Crud
+                  modelName="chat-log"
+                  crudDomainStore={rootStore.crudDomainStore}
                 >
-                  <Crud
-                    modelName="settings"
-                    crudDomainStore={rootStore.crudDomainStore}
+                  <Socket
+                    channel="chat"
+                    socketDomainStore={rootStore.socketDomainStore}
                   >
-                    <Media>
-                      <Settings />
-                    </Media>
-                  </Crud>
-                </MainWrapper>
-              ) : (
-                <Redirect
-                  to={{
-                    pathname:
-                      "/auth/login?message='please login to view this page'",
-                    state: { from: location }
-                  }}
-                />
-              )
-            }
-          />
-          <Route
-            path="/house"
-            render={({ location, match, history }) => {
-              return (
-                <MainWrapper
-                  location={location}
-                  match={match}
-                  history={history}
-                  auth={this.state.isLoggedIn}
-                  user={this.state.currentUser}
-                  logo={logo}
-                  hasPadding={true}
+                    <Chat />
+                  </Socket>
+                </Crud>
+              </MainWrapper>
+            ) : (
+              <Redirect
+                to={{
+                  pathname:
+                    "/auth/login?message='please login to view this page'",
+                  state: { from: location }
+                }}
+              />
+            )
+          }
+        />
+        <Route
+          path="/settings"
+          exact
+          render={({ location, history, match }) =>
+            this.state.isLoggedIn ? (
+              <MainWrapper
+                location={location}
+                match={match}
+                history={history}
+                auth={this.state.isLoggedIn}
+                user={this.state.currentUser}
+                logo={logo}
+                hasPadding={true}
+              >
+                <Crud
+                  modelName="settings"
+                  crudDomainStore={rootStore.crudDomainStore}
                 >
-                  <Crud
-                    modelName="house"
-                    crudDomainStore={rootStore.crudDomainStore}
-                  >
-                    <House location={location} match={match} history={history} />
-                  </Crud>
-                </MainWrapper>
-              );
-            }}
-          />
-          <Route
-            path="/user"
-            render={({ location, match, history }) => {
-              return (
-                <MainWrapper
-                  location={location}
-                  match={match}
-                  history={history}
-                  auth={this.state.isLoggedIn}
-                  user={this.state.currentUser}
-                  logo={logo}
-                  hasPadding={true}
+                  <Media>
+                    <Settings />
+                  </Media>
+                </Crud>
+              </MainWrapper>
+            ) : (
+              <Redirect
+                to={{
+                  pathname:
+                    "/auth/login?message='please login to view this page'",
+                  state: { from: location }
+                }}
+              />
+            )
+          }
+        />
+        <Route
+          path="/house"
+          render={({ location, match, history }) => {
+            return (
+              <MainWrapper
+                location={location}
+                match={match}
+                history={history}
+                auth={this.state.isLoggedIn}
+                user={this.state.currentUser}
+                logo={logo}
+                hasPadding={true}
+              >
+                <Crud
+                  modelName="house"
+                  crudDomainStore={rootStore.crudDomainStore}
                 >
-                  <Crud
-                    modelName="user"
-                    crudDomainStore={rootStore.crudDomainStore}
-                  >
-                    <User location={location} match={match} history={history} />
-                  </Crud>
-                </MainWrapper>
-              );
-            }}
-          />
-          <Route
-            path="*"
-            render={({ location, match, history }) => {
-              return (
-                <MainWrapper
-                  location={location}
-                  match={match}
-                  history={history}
-                  auth={this.state.isLoggedIn}
-                  user={this.state.currentUser}
-                  logo={logo}
-                  hasPadding={true}
+                  <House location={location} match={match} history={history} />
+                </Crud>
+              </MainWrapper>
+            );
+          }}
+        />
+        <Route
+          path="/user"
+          render={({ location, match, history }) => {
+            return (
+              <MainWrapper
+                location={location}
+                match={match}
+                history={history}
+                auth={this.state.isLoggedIn}
+                user={this.state.currentUser}
+                logo={logo}
+                hasPadding={true}
+              >
+                <Crud
+                  modelName="user"
+                  crudDomainStore={rootStore.crudDomainStore}
                 >
-                  <NotFound />
-                </MainWrapper>
-              );
-            }}
-          />
-        </Switch>
-      </Router>
+                  <User location={location} match={match} history={history} />
+                </Crud>
+              </MainWrapper>
+            );
+          }}
+        />
+        <Route
+          path="*"
+          render={({ location, match, history }) => {
+            return (
+              <MainWrapper
+                location={location}
+                match={match}
+                history={history}
+                auth={this.state.isLoggedIn}
+                user={this.state.currentUser}
+                logo={logo}
+                hasPadding={true}
+              >
+                <NotFound />
+              </MainWrapper>
+            );
+          }}
+        />
+      </Switch>
     );
   }
   componentWillReceiveProps(nextProps) {}
 }
 
-ReactDOM.render(<App />, document.getElementById("app"));
+export default withRouter(App);
