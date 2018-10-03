@@ -265,7 +265,7 @@ class MainWrapper extends React.Component {
               </div>
               <Divider />
               <List>
-                <Routes onClick={route => history.push(route.url)} />
+                <Routes isLoggedIn={!!user.name} onClick={route => history.push(route.url)} />
               </List>
             </Drawer>
             <main className={hasPadding ? classes.hasPadding : classes.content}>

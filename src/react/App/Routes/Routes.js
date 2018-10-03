@@ -15,17 +15,32 @@ export const routeList = [
   { url: "/admin", name: "Admin", icon: "supervisor_account" }
 ];
 
-export const Routes = ({ onClick }) => {
+export const routeListLoggedOut = [
+  { url: "/", name: "Home", icon: "dashboard" },
+  { url: "/auth/register", name: "Sign Up", icon: "login" },
+  { url: "/auth/login", name: "Sign In", icon: "register" }
+];
+
+export const Routes = ({ onClick, isLoggedIn }) => {
   return (
     <React.Fragment>
-      {routeList.map(route => {
-        return (
-          <ListItem onClick={event => onClick(route)} button>
-            <Icon>{route.icon}</Icon>
-            <ListItemText primary={route.name} />
-          </ListItem>
-        );
-      })}
+      {isLoggedIn
+        ? routeList.map(route => {
+            return (
+              <ListItem onClick={event => onClick(route)} button>
+                <Icon>{route.icon}</Icon>
+                <ListItemText primary={route.name} />
+              </ListItem>
+            );
+          })
+        : routeListLoggedOut.map(route => {
+            return (
+              <ListItem onClick={event => onClick(route)} button>
+                <Icon>{route.icon}</Icon>
+                <ListItemText primary={route.name} />
+              </ListItem>
+            );
+          })}
     </React.Fragment>
   );
 };
