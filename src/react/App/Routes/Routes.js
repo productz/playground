@@ -23,7 +23,6 @@ export const routeListLoggedOut = [
 ];
 
 export const Routes = ({ onClick, isLoggedIn, currentRoute }) => {
-  console.log(currentRoute);
   return (
     <React.Fragment>
       {isLoggedIn
