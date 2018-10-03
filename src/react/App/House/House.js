@@ -114,13 +114,6 @@ const House = ({
                 <p>Edit</p>
               </Button>
             </Link>
-            <Button
-              onClick={() => {
-                deleteModel(house);
-              }}
-            >
-              <p>Delete</p>
-            </Button>
           </ListItemSecondaryAction>
         </ListItem>
       );
