@@ -35,7 +35,7 @@ import { observer } from "mobx-react";
 import LoginWrapper from "./Wrappers/LoginWrapper";
 import loginBG from "./Login/login-bg.jpg";
 import registerBG from "./Register/register-bg.jpg";
-import logo from "./Assets/logos/Markab@full.svg";
+import logo from "./Assets/logos/module-logo.svg";
 import clouds from "./Assets/css/clouds.css";
 
 let rootStore = new Store({
@@ -68,13 +68,13 @@ class App extends React.Component {
     });
   }
   componentDidMount(props) {
-    // rootStore.authDomainStore.isAuthenticated().then(res => {
-    //   if (res.status !== 200) {
-    //     this.setState({ isLoggedIn: false });
-    //   } else {
-    //     this.setState({ isLoggedIn: true, currentUser: res.data });
-    //   }
-    // });
+    rootStore.authDomainStore.isAuthenticated().then(res => {
+      if (res.status !== 200) {
+        this.setState({ isLoggedIn: false });
+      } else {
+        this.setState({ isLoggedIn: true, currentUser: res.data });
+      }
+    });
   }
   render() {
     return (
@@ -123,7 +123,18 @@ class App extends React.Component {
                 user={this.state.currentUser}
                 logo={logo}
               >
-                <Home logo={logo} />
+                <Home
+                  title={`Welcome to Module ${
+                    this.state.currentUser && this.state.currentUser.name
+                      ? ", " + this.state.currentUser.name + "!"
+                      : "!"
+                  }`}
+                  user={this.state.currentUser}
+                  isLoggedIn={this.state.isLoggedIn}
+                  onSignUp={() => history.push("/auth/register")}
+                  onDashboard={() => history.push("/chat")}
+                  logo={logo}
+                />
               </MainWrapper>
             );
           }}

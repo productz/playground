@@ -152,7 +152,7 @@ body {
 }
 .sky-gradient {
   position: relative;
-  z-index: 1;
+  z-index: -999;
   float: left;
   width: 4%;
   height: 20%;
@@ -160,7 +160,7 @@ body {
   transition: box-shadow 150ms, z-index 0ms;
 }
 .sky-gradient:hover {
-  z-index: 2;
+  z-index: -999;
   box-shadow: 0 -5px 10px black;
 }
 .sky-gradient::after {
