@@ -114,13 +114,13 @@ const User = ({
                 <p>Edit</p>
               </Button>
             </Link>
-            <Button
+            {/* <Button
               onClick={() => {
                 deleteModel(user);
               }}
             >
               <p>Delete</p>
-            </Button>
+            </Button> */}
           </ListItemSecondaryAction>
         </ListItem>
       );
