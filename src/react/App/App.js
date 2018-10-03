@@ -35,7 +35,8 @@ import { observer } from "mobx-react";
 import LoginWrapper from "./Wrappers/LoginWrapper";
 import loginBG from "./Login/login-bg.jpg";
 import registerBG from "./Register/register-bg.jpg";
-import logo from "./Assets/logos/module-logo.svg";
+import logoAlt from "./Assets/logos/module-logo-alt.svg";
+import logo from "./Assets/logos/module-just-logo.svg";
 import clouds from "./Assets/css/clouds.css";
 
 let rootStore = new Store({
@@ -124,7 +125,7 @@ class App extends React.Component {
                 logo={logo}
               >
                 <Home
-                  title={`Welcome to Module ${
+                  title={`Welcome ${
                     this.state.currentUser && this.state.currentUser.name
                       ? ", " + this.state.currentUser.name + "!"
                       : "!"
@@ -133,7 +134,7 @@ class App extends React.Component {
                   isLoggedIn={this.state.isLoggedIn}
                   onSignUp={() => history.push("/auth/register")}
                   onDashboard={() => history.push("/chat")}
-                  logo={logo}
+                  logo={logoAlt}
                 />
               </MainWrapper>
             );

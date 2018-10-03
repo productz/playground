@@ -131,7 +131,7 @@ function Home(props) {
           color="textSecondary"
           component="p"
         >
-          Markab is brought to you by Osama Alghanmi (oalghnmi@gmail.com)
+          Module
         </Typography>
       </footer>
       {/* End footer */}
