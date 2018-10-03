@@ -89,7 +89,7 @@ const Auth = ({ app, config, userModel }) => {
 
   const onLoginFail = (req, res, message) => {
     //in case the auth doesn't works
-    res.status(401).send("Error logging in");
+    res.status(401).send("Login Failed");
   };
 
   const passportApi = passportService({
