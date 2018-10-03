@@ -132,8 +132,12 @@ const House = ({
           render={({ match }) => {
             return (
               <HouseEdit
-                onCancel={() => setModelEdit(false)}
+                onCancel={() => {
+                  history.goBack();
+                  setModelEdit(false);
+                }}
                 onSave={(updatedHouse, values) => {
+                  history.goBack();
                   updateModel(updatedHouse, values);
                 }}
                 house={houses.find(({ _id }) => _id === match.params.id)}
