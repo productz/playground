@@ -1,0 +1,16 @@
+{
+    "server":{
+        "port":8081,
+        "ip":"ec2-34-217-82-107.us-west-2.compute.amazonaws.com"
+    },
+    "db":{
+        "host":"mongodb://localhost",
+        "port":27017,
+        "name":"playground"
+    },
+    "auth":{
+        "google":{
+            "callbackURL":"http://localhost:8082/google/auth/callback"
+        }
+    }
+}

@@ -5,8 +5,9 @@
   "main": "src/javascript/index.js",
   "scripts": {
     "start:node": "node index.js",
-    "start:mongo": "./scripts/run-mongo.sh",
+    "start:mongo": "./scripts/mongo-start.sh",
     "start:dev": "nodemon index.js",
+    "start:ec2": "NODE_ENV=qa nodemon ./src/node/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,6 +26,7 @@
     "config": "^1.25.1",
     "express": "^4.14.1",
     "express-graphql": "^0.6.3",
+    "express-session": "^1.15.6",
     "google-spreadsheets": "^0.5.1",
     "googleapis": "^18.0.0",
     "graphql": "^0.9.1",

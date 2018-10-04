@@ -88,4 +88,4 @@ const dbConnection = MongoDb({ app, config, onInit, onError, onDisconnect });
 var port = config.get("server.port"); // used to create, sign, and verify tokens
 var ip = config.get("server.host");
 app.listen(port, ip);
-console.log("Magic happens at http://localhost:" + port);
+console.log(`Magic happens at ${ip}:${port}`);
