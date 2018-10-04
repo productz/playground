@@ -133,7 +133,9 @@ export const Login = ({
                         />
                         {errors[field.name] &&
                           touched[field.name] && (
-                            <div>{errors[field.name]}</div>
+                            <Typography color="error">
+                              {errors[field.name]}
+                            </Typography>
                           )}
                       </div>
                     );
@@ -155,13 +157,13 @@ export const Login = ({
             You don't have an account? register here
           </Button>
           <div>
-            <Button
+            {/* <Button
               onClick={() => onProviderAuth("google")}
               size="large"
               fullWidth
             >
               Login with Google
-            </Button>
+            </Button> */}
             {/* <Button
               onClick={() => onProviderAuth("facebook")}
               size="large"

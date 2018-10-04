@@ -98,6 +98,7 @@ export const Register = ({
   onSubmit,
   onProviderAuth,
   history,
+  onLogin,
   classes
 }) => {
   return (
@@ -154,7 +155,9 @@ export const Register = ({
                         />
                         {errors[field.name] &&
                           touched[field.name] && (
-                            <div>{errors[field.name]}</div>
+                            <Typography color="error">
+                              {errors[field.name]}
+                            </Typography>
                           )}
                       </div>
                     );
@@ -168,18 +171,26 @@ export const Register = ({
                   >
                     Register
                   </Button>
+                  <Button
+                    size="small"
+                    color="primary"
+                    onClick={onLogin}
+                    type="submit"
+                  >
+                    Login here
+                  </Button>
                 </form>
               );
             }}
           />
           <div>
-            <Button
+            {/* <Button
               onClick={() => onProviderAuth("google")}
               size="large"
               fullWidth
             >
               Register with Google
-            </Button>
+            </Button> */}
             {/* <Button
               onClick={() => onProviderAuth("facebook")}
               size="large"
