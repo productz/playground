@@ -1,4 +1,5 @@
 //add localStorage
+import { SERVER } from "../../config";
 let offlineStorage = {
   setItem: (key, value) => {
     return new Promise((resolve, reject) => {
@@ -28,11 +29,11 @@ export default class RootStore {
     mediaDomainStore
   }) {
     this.authUiStore = new authUiStore(this);
-    this.authDomainStore = new authDomainStore(this, offlineStorage);
-    this.crudDomainStore = new crudDomainStore(this, offlineStorage);
-    this.socketDomainStore = new socketDomainStore(this);
-    this.adminDomainStore = new adminDomainStore(this);
-    this.mediaDomainStore = new mediaDomainStore(this);
+    this.authDomainStore = new authDomainStore(this, offlineStorage, SERVER);
+    this.crudDomainStore = new crudDomainStore(this, offlineStorage, SERVER);
+    this.socketDomainStore = new socketDomainStore(this, SERVER);
+    this.adminDomainStore = new adminDomainStore(this, SERVER);
+    this.mediaDomainStore = new mediaDomainStore(this, SERVER);
     this.authDomainStore.storeToken();
     this.authDomainStore.isAuthenticated();
   }

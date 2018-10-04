@@ -2,14 +2,15 @@ import { observer } from "mobx-react";
 import { observable, action, runInAction, toJS } from "mobx";
 import React from "react";
 import axios from "axios";
-import { SERVER } from "../config";
 
 //export store
 export class adminDomainStore {
   rootStore;
+  SERVER;
   schemas = observable.map();
-  constructor(rootStore) {
+  constructor(rootStore, SERVER) {
     this.rootStore = rootStore;
+    this.SERVER = SERVER;
   }
   @action
   getSchemas(refresh) {
@@ -19,7 +20,7 @@ export class adminDomainStore {
       return;
     }
     return axios
-      .get(`${SERVER.host}:${SERVER.port}/schemas`)
+      .get(`${this.SERVER.host}:${this.SERVER.port}/schemas`)
       .then(res => {
         runInAction(() => {
           let schemas = Object.keys(res.data).map(key => {

@@ -2,7 +2,6 @@ import { observer } from "mobx-react";
 import { observable, action, runInAction, toJS } from "mobx";
 import React from "react";
 import axios from "axios";
-import { SERVER } from "../config";
 import io from "socket.io-client";
 
 //export store
@@ -11,12 +10,14 @@ export class socketDomainStore {
   isConnected = false;
   socket;
   rootStore;
-  constructor(rootStore) {
+  SERVER;
+  constructor(rootStore, SERVER) {
     this.rootStore = rootStore;
+    this.SERVER = SERVER;
   }
   @action
   subscribe({ onInit, onConnect, onEvent, onDisconnect, channel }) {
-    let newSocket = io(`${SERVER.host}:${SERVER.port + 1}`);
+    let newSocket = io(`${this.SERVER.host}:${this.SERVER.port + 1}`);
     newSocket.on("init", data => {
       onInit(data);
     });

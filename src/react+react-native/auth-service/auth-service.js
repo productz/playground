@@ -1,7 +1,6 @@
 import { observer } from "mobx-react";
 import { observable } from "mobx";
 import React from "react";
-import { SERVER } from "../config";
 import axios from "axios";
 
 //export store
@@ -12,13 +11,15 @@ export class authDomainStore {
   isLoggedIn = false;
   offlineStorage;
   rootStore;
-  constructor(rootStore, offlineStorage) {
+  SERVER;
+  constructor(rootStore, offlineStorage, SERVER) {
     //set the local storage mechanism
     //could be async storage
     this.rootStore = rootStore;
     if (offlineStorage) {
       this.offlineStorage = offlineStorage;
     }
+    this.SERVER = SERVER;
   }
   logout() {
     return this.clearToken();
@@ -26,7 +27,7 @@ export class authDomainStore {
   login(values) {
     return new Promise((resolve, reject) => {
       return axios
-        .post(`${SERVER.host}:${SERVER.port}/auth`, values)
+        .post(`${this.SERVER.host}:${this.SERVER.port}/auth`, values)
         .then(res => {
           this.user = res.data;
           this.isLoggedIn = true;
@@ -41,7 +42,7 @@ export class authDomainStore {
   register(values) {
     return new Promise((resolve, reject) => {
       return axios
-        .post(`${SERVER.host}:${SERVER.port}/auth/register`, values)
+        .post(`${this.SERVER.host}:${this.SERVER.port}/auth/register`, values)
         .then(res => {
           this.user = res.data;
           this.isLoggedIn = true;
@@ -56,13 +57,13 @@ export class authDomainStore {
   }
   loginWithProvider(providerName) {
     window.location.replace(
-      `${SERVER.host}:${SERVER.port}/auth/${providerName}`
+      `${this.SERVER.host}:${this.SERVER.port}/auth/${providerName}`
     );
   }
   registerWithProvider(providerName) {
     //information to register
     window.location.replace(
-      `${SERVER.host}:${SERVER.port}/auth/${providerName}`
+      `${this.SERVER.host}:${this.SERVER.port}/auth/${providerName}`
     );
   }
   storeToken(jwtToken) {
@@ -76,7 +77,7 @@ export class authDomainStore {
   isAuthenticated() {
     return this.offlineStorage.getItem("jwtToken").then(token => {
       return axios
-        .post(`${SERVER.host}:${SERVER.port}/jwt`, {
+        .post(`${this.SERVER.host}:${this.SERVER.port}/jwt`, {
           token
         })
         .then(res => {

@@ -2,7 +2,6 @@ import { observer } from "mobx-react";
 import { observable, action, runInAction, toJS } from "mobx";
 import React from "react";
 import axios from "axios";
-import { SERVER } from "../config";
 
 //export store
 export class crudDomainStore {
@@ -12,12 +11,14 @@ export class crudDomainStore {
   searchResults = observable.map();
   editedModel = observable.map();
   rootStore;
+  SERVER;
   offlineStorage;
-  constructor(rootStore, offlineStorage) {
+  constructor(rootStore, offlineStorage, SERVER) {
     this.rootStore = rootStore;
     if (offlineStorage) {
       this.offlineStorage = offlineStorage;
     }
+    this.SERVER = SERVER;
   }
   @action
   getModel(modelName, refresh) {
@@ -27,7 +28,7 @@ export class crudDomainStore {
     }
     return this.offlineStorage.getItem("jwtToken").then(token => {
       return axios
-        .get(`${SERVER.host}:${SERVER.port}/${modelName}`, {
+        .get(`${this.SERVER.host}:${this.SERVER.port}/${modelName}`, {
           params: { token }
         })
         .then(res => {
@@ -44,7 +45,10 @@ export class crudDomainStore {
   createModel(modelName, model) {
     return this.offlineStorage.getItem("jwtToken").then(token => {
       return axios
-        .post(`${SERVER.host}:${SERVER.port}/${modelName}`, { model, token })
+        .post(`${this.SERVER.host}:${this.SERVER.port}/${modelName}`, {
+          model,
+          token
+        })
         .then(res => {
           let current = this.mapStore.get(modelName);
           this.mapStore.set(modelName, [...current, res.data]);
@@ -64,7 +68,10 @@ export class crudDomainStore {
 
     return this.offlineStorage.getItem("jwtToken").then(token => {
       return axios
-        .put(`${SERVER.host}:${SERVER.port}/${modelName}`, { model, token })
+        .put(`${this.SERVER.host}:${this.SERVER.port}/${modelName}`, {
+          model,
+          token
+        })
         .then(res => {
           let updatedModel = this.mapStore
             .get(modelName)
@@ -82,9 +89,12 @@ export class crudDomainStore {
     model.deleted = true;
     return this.offlineStorage.getItem("jwtToken").then(token => {
       return axios
-        .delete(`${SERVER.host}:${SERVER.port}/${modelName}/${model._id}`, {
-          params: { token }
-        })
+        .delete(
+          `${this.SERVER.host}:${this.SERVER.port}/${modelName}/${model._id}`,
+          {
+            params: { token }
+          }
+        )
         .then(res => {
           let notDeleted = this.mapStore.get(modelName).filter(cModel => {
             return !cModel.deleted;
@@ -100,7 +110,7 @@ export class crudDomainStore {
   @action
   searchModel(modelName, query) {
     return axios
-      .post(`${SERVER.host}:${SERVER.port}/${modelName}`, query)
+      .post(`${this.SERVER.host}:${this.SERVER.port}/${modelName}`, query)
       .then(res => {
         return res.data;
       })
