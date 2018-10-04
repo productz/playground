@@ -80,16 +80,9 @@ let fields = [
   {
     type: "password",
     name: "confirmPassword",
-    placeholder: "Password",
+    placeholder: "Confirm password",
     required: true
   },
-  {
-    type: "dropdown",
-    name: "gender",
-    items: ["male", "female"],
-    placeholder: "Gender",
-    required: false
-  }
 ];
 
 export const Register = ({
