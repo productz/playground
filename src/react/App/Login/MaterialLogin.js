@@ -24,8 +24,8 @@ const styles = theme => ({
       marginLeft: "auto",
       marginRight: "auto"
     },
-    position:"relative",
-    top:"7em"
+    position: "relative",
+    top: "7em"
   },
   paper: {
     paddingTop: "1em",
@@ -97,7 +97,8 @@ export const Login = ({
                   actions.setSubmitting(false);
                 })
                 .catch(err => {
-                  console.log(err);
+                  actions.setErrors({ server: err });
+                  actions.setSubmitting(false);
                 });
             }}
             validationSchema={LoginSchema}
@@ -112,6 +113,9 @@ export const Login = ({
             }) => {
               return (
                 <form onSubmit={handleSubmit}>
+                  {errors.server && (
+                    <Typography color="error">{errors.server}</Typography>
+                  )}
                   {fields.map((field, index) => {
                     return (
                       <div key={index}>

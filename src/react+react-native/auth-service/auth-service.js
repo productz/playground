@@ -34,7 +34,7 @@ export class authDomainStore {
           return resolve(res.data);
         })
         .catch(err => {
-          return reject(err);
+          return reject(err.response.data);
         });
     });
   }
@@ -50,7 +50,7 @@ export class authDomainStore {
         })
         .catch(err => {
           this.isLoggedIn = false;
-          return reject(err);
+          return reject(err.response.data);
         });
     });
   }

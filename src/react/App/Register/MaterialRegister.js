@@ -114,12 +114,12 @@ export const Register = ({
             onSubmit={(values, actions) => {
               onSubmit(values)
                 .then(() => {
-                  console.log("done");
                   history.push("/");
                   actions.setSubmitting(false);
                 })
                 .catch(err => {
-                  console.log(err);
+                  actions.setErrors({ server: err });
+                  actions.setSubmitting(false);
                 });
             }}
             validationSchema={RegisterSchema}
@@ -134,6 +134,9 @@ export const Register = ({
             }) => {
               return (
                 <form onSubmit={handleSubmit}>
+                  {errors.server && (
+                    <Typography color="error">{errors.server}</Typography>
+                  )}
                   {fields.map((field, index) => {
                     return (
                       <div key={index}>
