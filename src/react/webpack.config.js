@@ -37,7 +37,7 @@ module.exports = env => {
               loader: "file-loader",
               options: {
                 name: "[name].[ext]",
-                publicPath: env.production ? "/dist/" : "dist/"
+                publicPath: env.production ? "/playground/dist/" : "dist/"
               }
             },
             {
