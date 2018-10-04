@@ -102,7 +102,7 @@ const House = ({
       return (
         <ListItem key={house._id}>
           <ListItemText>
-            <p>{house.name}</p>
+            <Typography>{house.name}</Typography>
           </ListItemText>
           <ListItemSecondaryAction>
             <Link to={`${match.url}/${house._id}`}>
@@ -111,9 +111,16 @@ const House = ({
                   setModelEdit(house, true);
                 }}
               >
-                <p>Edit</p>
+                <Typography>Edit</Typography>
               </Button>
             </Link>
+            <Button
+              onClick={() => {
+                deleteModel(house);
+              }}
+            >
+              <Typography>Delete</Typography>
+            </Button>
           </ListItemSecondaryAction>
         </ListItem>
       );
@@ -168,10 +175,18 @@ const House = ({
                   {housesView}
                   <Button
                     onClick={() => {
-                      createModel({ name: "Zee" });
+                      createModel({
+                        name: "Moonlighter",
+                        description:
+                          "With a compact footprint and thoughtfully proportioned spaces, the Haven has been designed with first-time homebuyers in mind. Starting at a manageable 1,000 sq. ft., yet able to expand to a comfortable 2,000+ the Haven combines scalability with first-class design for a home that is both efficient and accommodating.",
+                        bedrooms: 2,
+                        baths: 1.5,
+                        size: 1280,
+                        isASeed: true
+                      });
                     }}
                   >
-                    <p>Create House</p>
+                    <Typography>Create House</Typography>
                   </Button>
                 </List>
               </div>

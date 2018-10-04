@@ -9,12 +9,13 @@ import { runInContext } from "vm";
 
 export const routeList = [
   { url: "/", name: "Home", icon: "dashboard" },
-  { url: "/user", name: "Users", icon: "supervised_user_circle" },
-  { url: "/chat", name: "Chat", icon: "chat" },
   { url: "/house", name: "Houses", icon: "home" },
-  { url: "/settings", name: "Settings", icon: "settings" },
   { url: "/admin", name: "Admin", icon: "supervisor_account" }
 ];
+
+// { url: "/settings", name: "Settings", icon: "settings" },
+// { url: "/user", name: "Users", icon: "supervised_user_circle" },
+// { url: "/chat", name: "Chat", icon: "chat" },
 
 export const routeListLoggedOut = [
   { url: "/", name: "Home", icon: "dashboard" },
