@@ -10,8 +10,14 @@ const i18nService = () => {
     .use(i18nextExpress.LanguageDetector)
     .use(FilesystemBackend)
     .init({
-      preload: ["en", "ar"]
-    })
+      preload: ["en", "ar"],
+      saveMissing: true,
+      debug: true,
+      backend: {
+        loadPath: __dirname + "/locales/{{lng}}/{{ns}}.json",
+        addPath: __dirname + "/locales/{{lng}}/{{ns}}.missing.json"
+      }
+    });
 
   apiRoutes.use(
     i18nextExpress.handle(i18next, {
