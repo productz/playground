@@ -13,19 +13,6 @@ export default function({ Model }) {
     });
   });
 
-  apiRoutes.get("/average/:field", function(req, res) {
-    let field = req.params.field;
-    Model.find({})
-      .sort(`-${field}`)
-      .exec((err, data) => {
-        if (err) {
-          console.log(err);
-          return res.status(500).send(err);
-        }
-        res.send(data);
-      });
-  });
-
   apiRoutes.get("/max/:field", function(req, res) {
     let field = req.params.field;
     Model.findOne({})
@@ -53,23 +40,37 @@ export default function({ Model }) {
   });
 
   apiRoutes.get("/sum/:field", function(req, res) {
-    Model.count({}).exec((err, data) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).send(err);
+    let field = req.params.field;
+    Model.aggregate(
+      [
+        {
+          $group: {
+            _id: {},
+            sum: { $sum: `$${field}` },
+            count: { $sum: 1 }
+          }
+        }
+      ],
+      (err, data) => {
+        if (err) {
+          return res.status(500).send(err);
+        }
+        return res.send(data[0]);
       }
-      res.send(data);
-    });
+    );
   });
 
-  apiRoutes.get("/distinct/:field", function(req, res) {
-    Model.count({}).exec((err, data) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).send(err);
-      }
-      res.send(data);
-    });
+  apiRoutes.get("/average/:field", function(req, res) {
+    let field = req.params.field;
+    Model.find({})
+      .sort(`-${field}`)
+      .exec((err, data) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send(err);
+        }
+        res.send(data);
+      });
   });
 
   return apiRoutes;
