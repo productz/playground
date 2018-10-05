@@ -1,10 +1,15 @@
 const express = require("express");
+import { executeDomain } from "../utils/utils";
 
-export default function({ Model }) {
+export default function({
+  Model,
+  domainLogic: { average, min, max, count, distinct, sum }
+}) {
   var apiRoutes = express.Router();
 
   apiRoutes.get("/count", function(req, res) {
-    Model.count({}).exec((err, data) => {
+    let criteria = executeDomain(req, count);
+    Model.count(criteria).exec((err, data) => {
       if (err) {
         console.log(err);
         return res.status(500).send(err);
@@ -14,8 +19,9 @@ export default function({ Model }) {
   });
 
   apiRoutes.get("/max/:field", function(req, res) {
+    let criteria = executeDomain(req, max);
     let field = req.params.field;
-    Model.findOne({})
+    Model.findOne(criteria)
       .sort(`-${field}`)
       .exec((err, data) => {
         if (err) {
@@ -27,8 +33,9 @@ export default function({ Model }) {
   });
 
   apiRoutes.get("/min/:field", function(req, res) {
+    let criteria = executeDomain(req, min);
     let field = req.params.field;
-    Model.findOne({})
+    Model.findOne(criteria)
       .sort(`+${field}`)
       .exec((err, data) => {
         if (err) {
@@ -40,6 +47,7 @@ export default function({ Model }) {
   });
 
   apiRoutes.get("/sum/:field", function(req, res) {
+    let criteria = executeDomain(req, sum);
     let field = req.params.field;
     Model.aggregate(
       [
@@ -60,6 +68,7 @@ export default function({ Model }) {
   });
 
   apiRoutes.get("/average/:field", function(req, res) {
+    let criteria = executeDomain(req, average);
     let field = req.params.field;
     Model.aggregate(
       [
@@ -80,8 +89,9 @@ export default function({ Model }) {
   });
 
   apiRoutes.get("/distinct/:field", function(req, res) {
+    let criteria = executeDomain(req, distinct);
     let field = req.params.field;
-    Model.find().distinct(field, function(err, data) {
+    Model.find(criteria).distinct(field, function(err, data) {
       if (err) {
         return res.status(500).send(err);
       }

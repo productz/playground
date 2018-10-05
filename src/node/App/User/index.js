@@ -10,42 +10,46 @@ const User = ({ app, config, userModel }) => {
   //in this case we need the acl service to tell use wether this user is allowed or not
   //resource.action is allowed
   let crudDomainLogic = {
-    c: (user, userData) => {
-      //check if this user has acl
-      return {
-        shallIPass: true,
-        criteria: {}
-      };
+    c: (user, req) => {
+      return {};
     },
-    r: user => {
-      return {
-        shallIPass: true,
-        criteria: {}
-      };
+    r: (user, req) => {
+      return {};
     },
-    u: (user, userData) => {
-      return {
-        shallIPass: true,
-        criteria: {}
-      };
+    u: (user, req) => {
+      return {};
     },
-    d: (user, userId) => {
-      return {
-        shallIPass: true,
-        criteria: {}
-      };
+    d: (user, req) => {
+      return {};
     },
-    s: (user, criteria) => {
-      return {
-        shallIPass: true,
-        criteria: {}
-      };
+    s: (user, req) => {
+      return {};
     }
   };
-
   const userApi = crudService({ Model: userModel, crudDomainLogic });
 
-  const vizApi = vizService({ Model: userModel });
+  let vizDomainLogic = {
+    average: (user, req, res) => {
+      //this should return a criteria
+      return {};
+    },
+    min: (user, req, res) => {
+      return {};
+    },
+    max: (user, req, res) => {
+      return {};
+    },
+    sum: (user, req, res) => {
+      return {};
+    },
+    count: (user, req, res) => {
+      return {};
+    },
+    distinct: (user, req, res) => {
+      return {};
+    }
+  };
+  const vizApi = vizService({ Model: userModel, domainLogic: vizDomainLogic });
 
   //file upoad api
   let mediaDomainLogic = {
