@@ -60,7 +60,7 @@ const onInit = (models, schemas) => {
     config
   });
   app.use("/", authApiRoutes);
-  app.use("/", localizationApiRoutes);
+  app.use("/", ...localizationApiRoutes);
   app.use("/jwt", jwtApiRoutes);
   app.use("/user", ...userApiRoutes);
   app.use("/house", ...houseApiRoutes);

@@ -31,6 +31,8 @@ import Chat from "./Chat/Chat";
 import House from "./House/House";
 import Settings from "./Settings/Settings";
 import Store from "./Store/Store";
+import { withNamespaces, NamespacesConsumer, Trans } from 'react-i18next';
+import i18n from "./i18n/i18n";
 import { observer } from "mobx-react";
 import LoginWrapper from "./Wrappers/LoginWrapper";
 import loginBG from "./Login/login-bg.jpg";

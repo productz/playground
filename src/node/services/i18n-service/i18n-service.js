@@ -12,7 +12,6 @@ const i18nService = () => {
     .init({
       preload: ["en", "ar"],
       saveMissing: true,
-      debug: true,
       backend: {
         loadPath: __dirname + "/locales/{{lng}}/{{ns}}.json",
         addPath: __dirname + "/locales/{{lng}}/{{ns}}.missing.json"
