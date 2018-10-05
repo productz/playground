@@ -32,25 +32,22 @@ const House = ({ app, config, userModel, houseModel }) => {
 
   let vizDomainLogic = {
     average: (user, req, res) => {
-      //this should return a criteria
-      return req.query;
+      return parseNumberQuery(req.query);
     },
     min: (user, req, res) => {
-      return req.query;
+      return parseNumberQuery(req.query);
     },
     max: (user, req, res) => {
-      return req.query;
+      return parseNumberQuery(req.query);
     },
     sum: (user, req, res) => {
-      //query, this is a type
-      console.log(parseNumberQuery(req.query));
-      return req.query;
+      return parseNumberQuery(req.query);
     },
     count: (user, req, res) => {
-      return req.query;
+      return parseNumberQuery(req.query);
     },
     distinct: (user, req, res) => {
-      return req.query;
+      return parseNumberQuery(req.query);
     }
   };
   const vizApi = vizService({ Model: houseModel, domainLogic: vizDomainLogic });
