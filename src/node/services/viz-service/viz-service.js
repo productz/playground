@@ -62,5 +62,15 @@ export default function({ Model }) {
     });
   });
 
+  apiRoutes.get("/distinct/:field", function(req, res) {
+    Model.count({}).exec((err, data) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send(err);
+      }
+      res.send(data);
+    });
+  });
+
   return apiRoutes;
 }

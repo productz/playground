@@ -42,6 +42,7 @@ const House = ({ app, config, userModel, houseModel }) => {
       };
     }
   };
+
   const houseApi = crudService({ Model: houseModel, crudDomainLogic });
 
   const vizApi = vizService({ Model: houseModel });
