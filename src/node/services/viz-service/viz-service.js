@@ -46,8 +46,7 @@ export default function({ Model }) {
         {
           $group: {
             _id: {},
-            sum: { $sum: `$${field}` },
-            count: { $sum: 1 }
+            sum: { $sum: `$${field}` }
           }
         }
       ],
@@ -62,15 +61,32 @@ export default function({ Model }) {
 
   apiRoutes.get("/average/:field", function(req, res) {
     let field = req.params.field;
-    Model.find({})
-      .sort(`-${field}`)
-      .exec((err, data) => {
+    Model.aggregate(
+      [
+        {
+          $group: {
+            _id: {},
+            average: { $avg: `$${field}` }
+          }
+        }
+      ],
+      (err, data) => {
         if (err) {
-          console.log(err);
           return res.status(500).send(err);
         }
-        res.send(data);
-      });
+        return res.send(data[0]);
+      }
+    );
+  });
+
+  apiRoutes.get("/distinct/:field", function(req, res) {
+    let field = req.params.field;
+    Model.find().distinct(field, function(err, data) {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      return res.send(data);
+    });
   });
 
   return apiRoutes;
