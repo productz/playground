@@ -2,6 +2,7 @@
 import crudService from "../../services/crud-service/crud-service.js";
 import mediaService from "../../services/media-service/media-service.js";
 import vizService from "../../services/viz-service/viz-service.js";
+import { parseNumberQuery } from "../../services/utils/utils";
 
 const House = ({ app, config, userModel, houseModel }) => {
   //you can pass domain logic here that prevents the user from doing something based on some domain logic?
@@ -32,22 +33,24 @@ const House = ({ app, config, userModel, houseModel }) => {
   let vizDomainLogic = {
     average: (user, req, res) => {
       //this should return a criteria
-      return {};
+      return req.query;
     },
     min: (user, req, res) => {
-      return {};
+      return req.query;
     },
     max: (user, req, res) => {
-      return {};
+      return req.query;
     },
     sum: (user, req, res) => {
-      return {};
+      //query, this is a type
+      console.log(parseNumberQuery(req.query));
+      return req.query;
     },
     count: (user, req, res) => {
-      return {};
+      return req.query;
     },
     distinct: (user, req, res) => {
-      return {};
+      return req.query;
     }
   };
   const vizApi = vizService({ Model: houseModel, domainLogic: vizDomainLogic });

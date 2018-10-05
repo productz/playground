@@ -8,7 +8,7 @@ export default function({
   var apiRoutes = express.Router();
 
   apiRoutes.get("/count", function(req, res) {
-    let criteria = executeDomain(req, count);
+    let criteria = executeDomain(req, res, count);
     Model.count(criteria).exec((err, data) => {
       if (err) {
         console.log(err);
@@ -19,7 +19,7 @@ export default function({
   });
 
   apiRoutes.get("/max/:field", function(req, res) {
-    let criteria = executeDomain(req, max);
+    let criteria = executeDomain(req, res, max);
     let field = req.params.field;
     Model.findOne(criteria)
       .sort(`-${field}`)
@@ -33,7 +33,7 @@ export default function({
   });
 
   apiRoutes.get("/min/:field", function(req, res) {
-    let criteria = executeDomain(req, min);
+    let criteria = executeDomain(req, res, min);
     let field = req.params.field;
     Model.findOne(criteria)
       .sort(`+${field}`)
@@ -47,10 +47,11 @@ export default function({
   });
 
   apiRoutes.get("/sum/:field", function(req, res) {
-    let criteria = executeDomain(req, sum);
+    let criteria = executeDomain(req, res, sum);
     let field = req.params.field;
     Model.aggregate(
       [
+        { $match: criteria },
         {
           $group: {
             _id: {},
@@ -62,16 +63,17 @@ export default function({
         if (err) {
           return res.status(500).send(err);
         }
-        return res.send(data[0]);
+        return res.send({ res: data[0] });
       }
     );
   });
 
   apiRoutes.get("/average/:field", function(req, res) {
-    let criteria = executeDomain(req, average);
+    let criteria = executeDomain(req, res, average);
     let field = req.params.field;
     Model.aggregate(
       [
+        { $match: criteria },
         {
           $group: {
             _id: {},
@@ -83,13 +85,13 @@ export default function({
         if (err) {
           return res.status(500).send(err);
         }
-        return res.send(data[0]);
+        return res.send({ res: data[0] });
       }
     );
   });
 
   apiRoutes.get("/distinct/:field", function(req, res) {
-    let criteria = executeDomain(req, distinct);
+    let criteria = executeDomain(req, res, distinct);
     let field = req.params.field;
     Model.find(criteria).distinct(field, function(err, data) {
       if (err) {
