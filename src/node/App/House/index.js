@@ -1,6 +1,7 @@
 //the crud service creates [create, read, update, delete] endpoints for a mongoose model
 import crudService from "../../services/crud-service/crud-service.js";
 import mediaService from "../../services/media-service/media-service.js";
+import vizService from "../../services/viz-service/viz-service.js";
 
 const House = ({ app, config, userModel, houseModel }) => {
   //you can pass domain logic here that prevents the user from doing something based on some domain logic?
@@ -43,6 +44,8 @@ const House = ({ app, config, userModel, houseModel }) => {
   };
   const houseApi = crudService({ Model: houseModel, crudDomainLogic });
 
+  const vizApi = vizService({ Model: houseModel });
+
   //file upoad api
   let mediaDomainLogic = {
     c: (user, files) => {
@@ -51,7 +54,7 @@ const House = ({ app, config, userModel, houseModel }) => {
   };
   const fileUploadApi = mediaService({ fileName: "house", mediaDomainLogic });
 
-  return [houseApi, fileUploadApi];
+  return [houseApi, fileUploadApi, vizApi];
 };
 
 export default House;
