@@ -21,14 +21,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import SearchIcon from "@material-ui/icons/Search";
 
-const AdminDetail = ({
-  schema,
-  location,
-  match,
-  history,
-  classes,
-  detail
-}) => {
+const AdminDetail = ({ schema, location, match, history, classes, detail }) => {
   if (false) {
     return models.map(model => {
       return (

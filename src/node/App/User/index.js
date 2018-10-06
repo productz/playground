@@ -42,7 +42,6 @@ const User = ({ app, config, userModel, permissionsModel }) => {
       };
     }
   };
-
   const userApi = crudService({ Model: userModel, crudDomainLogic });
 
   let vizDomainLogic = {
@@ -72,8 +71,9 @@ const User = ({ app, config, userModel, permissionsModel }) => {
   let mediaDomainLogic = {
     saveMedia: (user, files) => {}
   };
+  const fileUploadApi = mediaService({ fileName: "avatar", mediaDomainLogic });
 
-  //register actions to configure acls
+  //register actions to configure acls in the future (namespace is user here and it will register every action into a permissions table)
   registerAction({
     key: "user",
     domainLogic: crudDomainLogic,
@@ -86,7 +86,6 @@ const User = ({ app, config, userModel, permissionsModel }) => {
     permissionsModel
   });
 
-  const fileUploadApi = mediaService({ fileName: "avatar", mediaDomainLogic });
 
   return [userApi, fileUploadApi, vizApi];
 };
