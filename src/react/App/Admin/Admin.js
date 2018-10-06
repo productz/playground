@@ -50,6 +50,9 @@ const AdminPage = ({ schemas, crudDomainStore, location, match, history }) => {
                     match.params.modelName.toLowerCase()
                   );
                 })}
+                location={location}
+                match={match}
+                history={history}
               />
             );
           }}

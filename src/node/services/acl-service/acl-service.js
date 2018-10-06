@@ -49,15 +49,5 @@ export const isPermitted = ({ key }) => {
 
 export const aclService = ({ permissionsModel }) => {
   const apiRoutes = express.Router();
-  apiRoutes.get("/", (req, res) => {
-    let user = req.decoded;
-    res.status(200).send(user.permissions);
-  });
-  apiRoutes.post("/", (req, res) => {
-    let user = req.deocded;
-  });
-  apiRoutes.put("/", (req, res) => {
-    let user = req.deocded;
-  });
   return apiRoutes;
 };
