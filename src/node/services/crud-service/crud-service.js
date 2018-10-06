@@ -11,7 +11,6 @@ export default function({
 
   apiRoutes.get("/", function(req, res) {
     let { criteria, isPermitted } = executeDomain(req, res, read);
-    console.log(Model);
     if (!isPermitted) {
       return res
         .status(409)
