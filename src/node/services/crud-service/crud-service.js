@@ -7,7 +7,7 @@ export default function({ Model, crudDomainLogic: { c, r, u, d, s } }) {
   var apiRoutes = express.Router();
 
   apiRoutes.get("/", function(req, res) {
-    let criteria = executeDomain(req, res, r);
+    let { criteria } = executeDomain(req, res, r);
     Model.find(criteria)
       .sort("-date")
       .exec((err, data) => {
@@ -32,7 +32,7 @@ export default function({ Model, crudDomainLogic: { c, r, u, d, s } }) {
 
   apiRoutes.put("/", (req, res) => {
     //take the imported Model, format it and add it to the Models collection
-    let criteria = executeDomain(req, res, u);
+    let { criteria } = executeDomain(req, res, u);
     let requestModel = req.body.model;
     let newModel = Object.assign({}, requestModel);
     Model.findOneAndUpdate(
@@ -50,7 +50,7 @@ export default function({ Model, crudDomainLogic: { c, r, u, d, s } }) {
 
   apiRoutes.delete("/:_id", (req, res) => {
     let requestModelID = req.params._id;
-    let criteria = executeDomain(req, res, d);
+    let { criteria } = executeDomain(req, res, d);
     Model.find({
       _id: requestModelID,
       ...criteria
@@ -66,7 +66,7 @@ export default function({ Model, crudDomainLogic: { c, r, u, d, s } }) {
 
   apiRoutes.post("/search", (req, res) => {
     let query = req.body;
-    let criteria = executeDomain(req, res, s);
+    let { criteria } = executeDomain(req, res, s);
     Model.find({ ...query, ...criteria }).exec((err, results) => {
       if (err) {
         return res.status(500).send(err);

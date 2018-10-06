@@ -21,38 +21,35 @@ const Chat = ({ app, config, userModel, chatLogModel }) => {
 
   //you can pass domain logic here that prevents the user from doing something based on some domain logic?
   //we can also include ACL (access control list) as part of that domain logic
-
   let crudDomainLogic = {
-    c: (user, chatData) => {
-      //check if this user has acl
-      console.log(user.acl);
+    create: (user, req) => {
+      //we need to include is permitted in here
       return {
-        shallIPass: true,
+        isPermitted: isPermitted({ key: "user.create", user }),
         criteria: {}
       };
     },
-    r: user => {
-      console.log("acl is", user.acl);
+    read: (user, req) => {
       return {
-        shallIPass: true,
+        isPermitted: isPermitted({ key: "user.read", user }),
         criteria: {}
       };
     },
-    u: (user, chatData) => {
+    update: (user, req) => {
       return {
-        shallIPass: true,
+        isPermitted: isPermitted({ key: "user.update", user }),
         criteria: {}
       };
     },
-    d: (user, chatId) => {
+    delete: (user, req) => {
       return {
-        shallIPass: true,
+        isPermitted: isPermitted({ key: "user.delete", user }),
         criteria: {}
       };
     },
-    s: (user, searchCriteria) => {
+    search: (user, req) => {
       return {
-        shallIPass: true,
+        isPermitted: isPermitted({ key: "user.search", user }),
         criteria: {}
       };
     }

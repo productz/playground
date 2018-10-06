@@ -12,31 +12,31 @@ const User = ({ app, config, userModel, permissionsModel }) => {
     create: (user, req) => {
       //we need to include is permitted in here
       return {
-        isPermitted: isPermitted({ key: "user.create", user }),
+        isPermitted: isPermitted({ key: "user_create", user }),
         criteria: {}
       };
     },
     read: (user, req) => {
       return {
-        isPermitted: isPermitted({ key: "user.read", user }),
+        isPermitted: isPermitted({ key: "user_read", user }),
         criteria: {}
       };
     },
     update: (user, req) => {
       return {
-        isPermitted: isPermitted({ key: "user.update", user }),
+        isPermitted: isPermitted({ key: "user_update", user }),
         criteria: {}
       };
     },
     delete: (user, req) => {
       return {
-        isPermitted: isPermitted({ key: "user.delete", user }),
+        isPermitted: isPermitted({ key: "user_delete", user }),
         criteria: {}
       };
     },
     search: (user, req) => {
       return {
-        isPermitted: isPermitted({ key: "user.search", user }),
+        isPermitted: isPermitted({ key: "user_search", user }),
         criteria: {}
       };
     }

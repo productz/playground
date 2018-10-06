@@ -8,7 +8,7 @@ export default function({
   var apiRoutes = express.Router();
 
   apiRoutes.get("/count", function(req, res) {
-    let criteria = executeDomain(req, res, count);
+    let { criteria } = executeDomain(req, res, count);
     Model.count(criteria).exec((err, data) => {
       if (err) {
         console.log(err);
@@ -19,7 +19,7 @@ export default function({
   });
 
   apiRoutes.get("/max/:field", function(req, res) {
-    let criteria = executeDomain(req, res, max);
+    let { criteria } = executeDomain(req, res, max);
     let field = req.params.field;
     Model.findOne(criteria)
       .sort(`-${field}`)
@@ -33,7 +33,7 @@ export default function({
   });
 
   apiRoutes.get("/min/:field", function(req, res) {
-    let criteria = executeDomain(req, res, min);
+    let { criteria } = executeDomain(req, res, min);
     let field = req.params.field;
     Model.findOne(criteria)
       .sort(`+${field}`)
@@ -47,7 +47,7 @@ export default function({
   });
 
   apiRoutes.get("/sum/:field", function(req, res) {
-    let criteria = executeDomain(req, res, sum);
+    let { criteria } = executeDomain(req, res, sum);
     let field = req.params.field;
     Model.aggregate(
       [
@@ -69,7 +69,7 @@ export default function({
   });
 
   apiRoutes.get("/average/:field", function(req, res) {
-    let criteria = executeDomain(req, res, average);
+    let { criteria } = executeDomain(req, res, average);
     let field = req.params.field;
     Model.aggregate(
       [
@@ -91,7 +91,7 @@ export default function({
   });
 
   apiRoutes.get("/distinct/:field", function(req, res) {
-    let criteria = executeDomain(req, res, distinct);
+    let { criteria } = executeDomain(req, res, distinct);
     let field = req.params.field;
     Model.find(criteria).distinct(field, function(err, data) {
       if (err) {
