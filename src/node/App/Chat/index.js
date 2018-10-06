@@ -1,5 +1,9 @@
 import crudService from "../../services/crud-service/crud-service.js";
 import socketService from "../../services/socket-service/socket-service.js";
+import {
+  registerAction,
+  isPermitted
+} from "../../services/acl-service/acl-service";
 
 const Chat = ({ app, config, userModel, chatLogModel }) => {
   const channel = "chat";
@@ -25,31 +29,31 @@ const Chat = ({ app, config, userModel, chatLogModel }) => {
     create: (user, req) => {
       //we need to include is permitted in here
       return {
-        isPermitted: isPermitted({ key: "user.create", user }),
+        isPermitted: isPermitted({ key: "chat.create", user }),
         criteria: {}
       };
     },
     read: (user, req) => {
       return {
-        isPermitted: isPermitted({ key: "user.read", user }),
+        isPermitted: isPermitted({ key: "chat.read", user }),
         criteria: {}
       };
     },
     update: (user, req) => {
       return {
-        isPermitted: isPermitted({ key: "user.update", user }),
+        isPermitted: isPermitted({ key: "chat.update", user }),
         criteria: {}
       };
     },
     del: (user, req) => {
       return {
-        isPermitted: isPermitted({ key: "user.delete", user }),
+        isPermitted: isPermitted({ key: "chat.delete", user }),
         criteria: {}
       };
     },
     search: (user, req) => {
       return {
-        isPermitted: isPermitted({ key: "user.search", user }),
+        isPermitted: isPermitted({ key: "chat.search", user }),
         criteria: {}
       };
     }

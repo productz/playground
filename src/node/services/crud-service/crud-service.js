@@ -10,7 +10,13 @@ export default function({
   var apiRoutes = express.Router();
 
   apiRoutes.get("/", function(req, res) {
-    let { criteria } = executeDomain(req, res, read);
+    let { criteria, isPermitted } = executeDomain(req, res, read);
+    console.log(Model);
+    if (!isPermitted) {
+      return res
+        .status(409)
+        .send({ message: `You are not authorized to read ${Model.modelName}s` });
+    }
     Model.find(criteria)
       .sort("-date")
       .exec((err, data) => {
@@ -18,12 +24,18 @@ export default function({
           console.log(err);
           return res.status(500).send(err);
         }
-        res.send(data);
+        res.status(200).send(data);
       });
   });
 
   apiRoutes.post("/", function(req, res) {
     let newModel = new Model(req.body.model);
+    let { criteria, isPermitted } = executeDomain(req, res, create);
+    if (!isPermitted) {
+      return res.status(409).send({
+        message: `You are not authorized to create this ${Model.modelName}`
+      });
+    }
     newModel.save(err => {
       if (err) {
         console.log(err);
@@ -35,7 +47,12 @@ export default function({
 
   apiRoutes.put("/", (req, res) => {
     //take the imported Model, format it and add it to the Models collection
-    let { criteria } = executeDomain(req, res, update);
+    let { criteria, isPermitted } = executeDomain(req, res, update);
+    if (!isPermitted) {
+      return res.status(409).send({
+        message: `You are not authorized to update this ${Model.modelName}`
+      });
+    }
     let requestModel = req.body.model;
     let newModel = Object.assign({}, requestModel);
     Model.findOneAndUpdate(
@@ -53,7 +70,12 @@ export default function({
 
   apiRoutes.delete("/:_id", (req, res) => {
     let requestModelID = req.params._id;
-    let { criteria } = executeDomain(req, res, del);
+    let { criteria, isPermitted } = executeDomain(req, res, del);
+    if (!isPermitted) {
+      return res.status(409).send({
+        message: `You are not authorized to delete this ${Model.modelName}`
+      });
+    }
     Model.find({
       _id: requestModelID,
       ...criteria
@@ -69,12 +91,17 @@ export default function({
 
   apiRoutes.post("/search", (req, res) => {
     let query = req.body;
-    let { criteria } = executeDomain(req, res, search);
+    let { criteria, isPermitted } = executeDomain(req, res, search);
+    if (!isPermitted) {
+      return res.status(409).send({
+        message: `You are not authorized to search ${Model.modelName}s`
+      });
+    }
     Model.find({ ...query, ...criteria }).exec((err, results) => {
       if (err) {
         return res.status(500).send(err);
       }
-      res.status(200).send(results);
+      return res.status(200).send(results);
     });
   });
 

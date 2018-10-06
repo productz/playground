@@ -44,7 +44,7 @@ const clearPermissions = permissionsModel => {
 };
 
 export const isPermitted = ({ key }) => {
-  return true;
+  return false;
 };
 
 export const aclService = ({ permissionsModel }) => {
