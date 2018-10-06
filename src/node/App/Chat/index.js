@@ -41,7 +41,7 @@ const Chat = ({ app, config, userModel, chatLogModel }) => {
         criteria: {}
       };
     },
-    delete: (user, req) => {
+    del: (user, req) => {
       return {
         isPermitted: isPermitted({ key: "user.delete", user }),
         criteria: {}

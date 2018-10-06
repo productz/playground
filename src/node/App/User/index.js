@@ -1,4 +1,4 @@
-//the crud service creates [create, read, update, delete] endpoints for a mongoose model
+//the crud service creates [create, read, update, del] endpoints for a mongoose model
 import crudService from "../../services/crud-service/crud-service.js";
 import mediaService from "../../services/media-service/media-service.js";
 import vizService from "../../services/viz-service/viz-service.js";
@@ -8,6 +8,7 @@ import {
 } from "../../services/acl-service/acl-service";
 
 const User = ({ app, config, userModel, permissionsModel }) => {
+
   let crudDomainLogic = {
     create: (user, req) => {
       //we need to include is permitted in here
@@ -28,7 +29,7 @@ const User = ({ app, config, userModel, permissionsModel }) => {
         criteria: {}
       };
     },
-    delete: (user, req) => {
+    del: (user, req) => {
       return {
         isPermitted: isPermitted({ key: "user_delete", user }),
         criteria: {}

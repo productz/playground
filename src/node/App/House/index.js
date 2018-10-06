@@ -30,7 +30,7 @@ const House = ({ app, config, userModel, houseModel, permissionsModel }) => {
         criteria: {}
       };
     },
-    delete: (user, req) => {
+    del: (user, req) => {
       return {
         isPermitted: isPermitted({ key: "house_delete", user }),
         criteria: {}
