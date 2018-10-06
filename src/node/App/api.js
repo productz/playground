@@ -5,6 +5,7 @@ import chatLogModel from "./MongoDb/models/chat-log";
 import houseModel from "./MongoDb/models/house";
 import userApi from "./User";
 import houseApi from "./House";
+import aclApi from "./Acl";
 import localizationApi from "./Localization";
 import jwtApi from "./Jwt";
 
@@ -19,6 +20,7 @@ const Api = ({ app, config }) => {
     chatLogModel,
     houseModel
   });
+  let aclApiRoutes = aclApi({ app, config, userModel });
   let localizationApiRoutes = localizationApi({ app, userModel });
   let jwtApiRoutes = jwtApi({ app, config, userModel, chatLogModel });
   return {
@@ -27,7 +29,8 @@ const Api = ({ app, config }) => {
     userApiRoutes,
     jwtApiRoutes,
     houseApiRoutes,
-    localizationApiRoutes
+    localizationApiRoutes,
+    aclApiRoutes
   };
 };
 

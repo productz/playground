@@ -1,3 +1,5 @@
+import express from "express";
+
 export const registerAction = ({ key, domainLogic, userModel }) => {
   //update permissions object for all users if it doesn't exist
   Object.keys(domainLogic).map(actionKey => {
@@ -28,4 +30,19 @@ export const registerAction = ({ key, domainLogic, userModel }) => {
 
 export const isPermitted = ({ key, user }) => {
   return user.permissions[key];
+};
+
+export const aclService = ({ userModel }) => {
+  const apiRoutes = express.Router();
+  apiRoutes.get("/", (req, res) => {
+    let user = req.deocded;
+    res.status(200).send(user.permissions);
+  });
+  apiRoutes.post("/", (req, res) => {
+    let user = req.deocded;
+  });
+  apiRoutes.put("/", (req, res) => {
+    let user = req.deocded;
+  });
+  return apiRoutes;
 };
