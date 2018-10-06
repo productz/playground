@@ -7,7 +7,7 @@ import {
   isPermitted
 } from "../../services/acl-service/acl-service";
 
-const User = ({ app, config, userModel }) => {
+const User = ({ app, config, userModel, permissionsModel }) => {
   let crudDomainLogic = {
     create: (user, req) => {
       //we need to include is permitted in here
@@ -41,7 +41,7 @@ const User = ({ app, config, userModel }) => {
       };
     }
   };
-  registerAction({ key: "user", domainLogic: crudDomainLogic, userModel });
+
   const userApi = crudService({ Model: userModel, crudDomainLogic });
 
   let vizDomainLogic = {
@@ -71,7 +71,19 @@ const User = ({ app, config, userModel }) => {
   let mediaDomainLogic = {
     saveMedia: (user, files) => {}
   };
-  registerAction({ key: "user", domainLogic: mediaDomainLogic, userModel });
+
+  //register actions to configure acls
+  registerAction({
+    key: "user",
+    domainLogic: crudDomainLogic,
+    permissionsModel,
+    defaultPermission: false
+  });
+  registerAction({
+    key: "user",
+    domainLogic: mediaDomainLogic,
+    permissionsModel
+  });
 
   const fileUploadApi = mediaService({ fileName: "avatar", mediaDomainLogic });
 

@@ -1,41 +1,56 @@
 import express from "express";
 
-export const registerAction = ({ key, domainLogic, userModel }) => {
+export const registerAction = ({
+  key,
+  domainLogic,
+  permissionsModel,
+  defaultPermission
+}) => {
   //update permissions object for all users if it doesn't exist
   Object.keys(domainLogic).map(actionKey => {
     //look for all user permissions
-    userModel.find({}).exec((err, users) => {
-      users.map(user => {
-        let permissions = user.permissions;
-        if (!permissions[key]) {
-          user.permissions[`${key}.${actionKey}`] = false;
-          userModel.findOneAndUpdate(
-            { _id: user._id },
-            user,
-            {
-              upsert: false
-            },
-            function(err, doc) {
-              if (err) {
-                return console.error(err);
-              }
-              return doc;
-            }
-          );
-        }
-      });
-    });
+    let lookUpKey = `${key}_${actionKey}`;
+    // clearPermissions(permissionsModel);
+    setPermissions(permissionsModel, lookUpKey, defaultPermission);
   });
+};
+
+const setPermissions = (permissionsModel, lookUpKey) => {
+  permissionsModel.update(
+    { key: lookUpKey },
+    { users: [] },
+    { multi: true, upsert: true },
+    (err, user) => {
+      if (err) {
+        console.error(err);
+      }
+      console.log("permissions set!");
+    }
+  );
+};
+
+const clearPermissions = permissionsModel => {
+  return permissionsModel.update(
+    {},
+    { obj: {} },
+    { multi: true },
+    (err, user) => {
+      if (err) {
+        return reject(err);
+      }
+      console.log("updated!");
+    }
+  );
 };
 
 export const isPermitted = ({ key, user }) => {
   return user.permissions[key];
 };
 
-export const aclService = ({ userModel }) => {
+export const aclService = ({ permissionsModel }) => {
   const apiRoutes = express.Router();
   apiRoutes.get("/", (req, res) => {
-    let user = req.deocded;
+    let user = req.decoded;
     res.status(200).send(user.permissions);
   });
   apiRoutes.post("/", (req, res) => {

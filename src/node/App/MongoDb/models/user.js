@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 var findOrCreate = require("mongoose-findorcreate");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const permissionsSchema = require("./permissions");
 
 var Schema = mongoose.Schema;
 let userSchema = new Schema({
@@ -32,7 +33,7 @@ let userSchema = new Schema({
   hasConfirmedEmail: { type: Boolean, default: false },
   settings: Object,
   isAdmin: { type: Boolean, default: false },
-  permissions: { type: Object, default: {} }
+  permissions: [{ type: Schema.Types.ObjectId, ref: "Permissions" }]
 });
 userSchema.plugin(findOrCreate);
 

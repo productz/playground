@@ -3,6 +3,7 @@ import chatApi from "./Chat";
 import userModel from "./MongoDb/models/user";
 import chatLogModel from "./MongoDb/models/chat-log";
 import houseModel from "./MongoDb/models/house";
+import permissionsModel from "./MongoDb/models/permissions";
 import userApi from "./User";
 import houseApi from "./House";
 import aclApi from "./Acl";
@@ -10,19 +11,44 @@ import localizationApi from "./Localization";
 import jwtApi from "./Jwt";
 
 const Api = ({ app, config }) => {
-  let authApiRoutes = authApi({ app, config, userModel, chatLogModel });
-  let chatApiRoutes = chatApi({ app, config, userModel, chatLogModel });
-  let userApiRoutes = userApi({ app, config, userModel, chatLogModel });
+  let authApiRoutes = authApi({
+    app,
+    config,
+    userModel,
+    chatLogModel,
+    permissionsModel
+  });
+  let chatApiRoutes = chatApi({
+    app,
+    config,
+    userModel,
+    chatLogModel,
+    permissionsModel
+  });
+  let userApiRoutes = userApi({
+    app,
+    config,
+    userModel,
+    chatLogModel,
+    permissionsModel
+  });
   let houseApiRoutes = houseApi({
     app,
     config,
     userModel,
     chatLogModel,
-    houseModel
+    houseModel,
+    permissionsModel
   });
-  let aclApiRoutes = aclApi({ app, config, userModel });
+  let aclApiRoutes = aclApi({ app, config, permissionsModel });
   let localizationApiRoutes = localizationApi({ app, userModel });
-  let jwtApiRoutes = jwtApi({ app, config, userModel, chatLogModel });
+  let jwtApiRoutes = jwtApi({
+    app,
+    config,
+    userModel,
+    chatLogModel,
+    permissionsModel
+  });
   return {
     authApiRoutes,
     chatApiRoutes,
