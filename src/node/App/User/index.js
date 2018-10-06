@@ -2,30 +2,46 @@
 import crudService from "../../services/crud-service/crud-service.js";
 import mediaService from "../../services/media-service/media-service.js";
 import vizService from "../../services/viz-service/viz-service.js";
+import {
+  registerAction,
+  isPermitted
+} from "../../services/acl-service/acl-service";
 
 const User = ({ app, config, userModel }) => {
-  //you can pass domain logic here that prevents the user from doing something based on some domain logic?
-  //we can also include ACL (access control list) as part of that domain logic
-  //domain logic will be something like, before you crud run this function and pass the model into
-  //in this case we need the acl service to tell use wether this user is allowed or not
-  //resource.action is allowed
   let crudDomainLogic = {
-    c: (user, req) => {
-      return {};
+    create: (user, req) => {
+      //we need to include is permitted in here
+      return {
+        isPermitted: isPermitted({ key: "user.create", user }),
+        criteria: {}
+      };
     },
-    r: (user, req) => {
-      return {};
+    read: (user, req) => {
+      return {
+        isPermitted: isPermitted({ key: "user.read", user }),
+        criteria: {}
+      };
     },
-    u: (user, req) => {
-      return {};
+    update: (user, req) => {
+      return {
+        isPermitted: isPermitted({ key: "user.update", user }),
+        criteria: {}
+      };
     },
-    d: (user, req) => {
-      return {};
+    delete: (user, req) => {
+      return {
+        isPermitted: isPermitted({ key: "user.delete", user }),
+        criteria: {}
+      };
     },
-    s: (user, req) => {
-      return {};
+    search: (user, req) => {
+      return {
+        isPermitted: isPermitted({ key: "user.search", user }),
+        criteria: {}
+      };
     }
   };
+  registerAction({ key: "user", domainLogic: crudDomainLogic, userModel });
   const userApi = crudService({ Model: userModel, crudDomainLogic });
 
   let vizDomainLogic = {
@@ -53,10 +69,10 @@ const User = ({ app, config, userModel }) => {
 
   //file upoad api
   let mediaDomainLogic = {
-    c: (user, files) => {
-      console.log(files);
-    }
+    saveMedia: (user, files) => {}
   };
+  registerAction({ key: "user", domainLogic: mediaDomainLogic, userModel });
+
   const fileUploadApi = mediaService({ fileName: "avatar", mediaDomainLogic });
 
   return [userApi, fileUploadApi, vizApi];

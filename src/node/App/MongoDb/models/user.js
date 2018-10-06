@@ -30,7 +30,9 @@ let userSchema = new Schema({
   acl: Array,
   hasSeenTutorial: { type: Boolean, default: false },
   hasConfirmedEmail: { type: Boolean, default: false },
-  settings: Object
+  settings: Object,
+  isAdmin: { type: Boolean, default: false },
+  permissions: { type: Object, default: {} }
 });
 userSchema.plugin(findOrCreate);
 

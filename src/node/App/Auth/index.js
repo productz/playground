@@ -30,7 +30,7 @@ const Auth = ({ app, config, userModel }) => {
           return cb(null, false);
         }
         //issue a new jwt token
-        let jwtToken = jwt.sign(user, config.get("secret"));
+        let jwtToken = jwt.sign(user._id.toString(), config.get("secret"));
         user.jwtToken = jwtToken;
         return cb(null, user);
       });

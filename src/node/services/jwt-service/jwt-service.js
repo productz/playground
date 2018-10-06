@@ -15,7 +15,7 @@ export const isAuthenticated = (token, secret) => {
   });
 };
 
-export default function jwtService({ secret }) {
+export default function jwtService({ secret, onVerify }) {
   // route middleware to verify a token
   apiRoutes.use("/", function(req, res, next) {
     // check header or url parameters or post parameters for token
@@ -37,8 +37,14 @@ export default function jwtService({ secret }) {
           });
         } else {
           // if everything is good, save to request for use in other routes
-          req.decoded = decoded;
-          next();
+          onVerify(decoded)
+            .then(user => {
+              req.decoded = user;
+              next();
+            })
+            .catch(err => {
+              res.status(500).send(err);
+            });
         }
       });
     } else {
@@ -52,7 +58,7 @@ export default function jwtService({ secret }) {
   });
 
   apiRoutes.post("/", (req, res) => {
-    res.status(200).send(req.decoded._doc);
+    res.status(200).send(req.decoded);
   });
   return apiRoutes;
 }
