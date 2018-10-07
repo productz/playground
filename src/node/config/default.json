@@ -1,12 +1,12 @@
 {
   "server": {
     "port": 8082,
-    "host": "0.0.0.0"
+    "host": "localhost"
   },
   "db": {
     "host": "mongodb://localhost",
     "port": 27017
   },
   "secret": "ijwtooo",
-  "redirectUrl": "http://localhost:8085"
+  "redirectUrl": "http://localhost:8082"
 }
