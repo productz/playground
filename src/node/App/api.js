@@ -3,6 +3,7 @@ import chatApi from "./Chat";
 import userModel from "./MongoDb/models/user";
 import chatLogModel from "./MongoDb/models/chat-log";
 import houseModel from "./MongoDb/models/house";
+import formsModel from "./MongoDb/models/forms";
 import permissionsModel from "./MongoDb/models/permissions";
 import userApi from "./User";
 import houseApi from "./House";
@@ -30,7 +31,8 @@ const Api = ({ app, config }) => {
     config,
     userModel,
     chatLogModel,
-    permissionsModel
+    permissionsModel,
+    formsModel
   });
   let houseApiRoutes = houseApi({
     app,

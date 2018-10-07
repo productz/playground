@@ -3,12 +3,15 @@ import crudService from "../../services/crud-service/crud-service.js";
 import mediaService from "../../services/media-service/media-service.js";
 import vizService from "../../services/viz-service/viz-service.js";
 import {
+  formsService,
+  registerForms
+} from "../../services/forms-service/forms-service.js";
+import {
   registerAction,
   isPermitted
 } from "../../services/acl-service/acl-service";
 
-const User = ({ app, config, userModel, permissionsModel }) => {
-
+const User = ({ app, config, userModel, permissionsModel, formsModel }) => {
   let crudDomainLogic = {
     create: (user, req) => {
       //we need to include is permitted in here
@@ -73,6 +76,17 @@ const User = ({ app, config, userModel, permissionsModel }) => {
   };
   const fileUploadApi = mediaService({ fileName: "avatar", mediaDomainLogic });
 
+  //forms api
+  let formsDomainLogic = {
+    read: user => {
+      return { criteria: {}, isPermitted: true };
+    }
+  };
+  const formsApi = formsService({
+    Model: formsModel,
+    formsDomainLogic
+  });
+
   //register actions to configure acls in the future (namespace is user here and it will register every action into a permissions table)
   registerAction({
     key: "user",
@@ -85,9 +99,13 @@ const User = ({ app, config, userModel, permissionsModel }) => {
     domainLogic: mediaDomainLogic,
     permissionsModel
   });
+  registerForms({
+    key: "user",
+    fields: ["name", "email"],
+    formsModel
+  });
 
-
-  return [userApi, fileUploadApi, vizApi];
+  return [userApi, fileUploadApi, vizApi, formsApi];
 };
 
 export default User;
