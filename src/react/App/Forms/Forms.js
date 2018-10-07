@@ -92,18 +92,22 @@ const Fields = ({ form, setFieldValue, errors, touched, values }) => {
             />
           )}
           {field.type === "select" && (
-            <TextField
-              id={field.name}
-              label={field.name}
-              type={field.type}
-              fullWidth={true}
-              onChange={event => {
-                setFieldValue(field.name, event.target.value);
-              }}
-              // onBlur={handleBlur}
-              value={values[field.name]}
-              required={field.required || false}
-            />
+            <div>
+              <InputLabel htmlFor="age-simple">{field.placeholder}</InputLabel>
+              <Select
+                id={field.name}
+                value={values[field.name]}
+                onChange={event => {
+                  setFieldValue(field.name, event.target.value);
+                }}
+                fullWidth={true}
+                required={field.required || false}
+              >
+                {field.options.map(option => {
+                  return <MenuItem value={option}>{option}</MenuItem>;
+                })}
+              </Select>
+            </div>
           )}
           {field.type === "image" && (
             <TextField
@@ -156,9 +160,13 @@ export const validate = (values, form) => {
       if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
         errors[field.name] = "Invalid Email";
       }
+    } else if (field.options) {
+      if (field.options.indexOf(values[field.name]) == -1) {
+        errors[field.name] = `Please select from ${field.options}`;
+      }
     }
   });
   return errors;
 };
- 
+
 export const FormFields = withStyles(styles)(FormContainer);
