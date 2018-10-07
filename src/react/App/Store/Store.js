@@ -28,7 +28,8 @@ export default class RootStore {
     crudDomainStore,
     socketDomainStore,
     adminDomainStore,
-    mediaDomainStore
+    mediaDomainStore,
+    formsDomainStore
   }) {
     this.authUiStore = new authUiStore(this);
     this.authDomainStore = new authDomainStore(this, offlineStorage, SERVER);
@@ -36,6 +37,7 @@ export default class RootStore {
     this.socketDomainStore = new socketDomainStore(this, SERVER);
     this.adminDomainStore = new adminDomainStore(this, SERVER);
     this.mediaDomainStore = new mediaDomainStore(this, SERVER);
+    this.formsDomainStore = new formsDomainStore(this, offlineStorage, SERVER);
     //get jwt token if it's in the route
     const jwtToken = queryString.parse(location.search).jwt;
     this.authDomainStore.storeToken(jwtToken);

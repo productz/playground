@@ -9,6 +9,7 @@ module.exports = {
     mediaService: "./media-service/media-service.js",
     adminService: "./admin-service/admin-service.js",
     socketService: "./socket-service/socket-service.js",
+    formsService: "./forms-service/forms-service.js",
     index: "./index.js"
   },
   output: {

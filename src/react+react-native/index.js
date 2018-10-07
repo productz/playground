@@ -9,6 +9,7 @@ import { Crud, crudDomainStore } from "./crud-service/crud-service";
 import { Socket, socketDomainStore } from "./socket-service/socket-service";
 import { Admin, adminDomainStore } from "./admin-service/admin-service";
 import { Media, mediaDomainStore } from "./media-service/media-service";
+import { Forms, formsDomainStore } from "./forms-service/forms-service";
 
 export {
   LoginWithAuth,
@@ -23,5 +24,7 @@ export {
   Admin,
   adminDomainStore,
   Media,
-  mediaDomainStore
+  mediaDomainStore,
+  Forms,
+  formsDomainStore
 };

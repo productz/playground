@@ -11,7 +11,7 @@ export function formsService({ Model, formsDomainLogic: { read } }) {
         message: `You are not authorized to read ${Model.modelName}s`
       });
     }
-    Model.find(criteria)
+    Model.findOne(criteria)
       .sort("-date")
       .exec((err, data) => {
         if (err) {

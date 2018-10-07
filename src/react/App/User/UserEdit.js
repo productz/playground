@@ -9,21 +9,7 @@ export default class UserEdit extends React.Component {
   componentWillReceiveProps(nextProps) {}
   render() {
     console.log("rerender user edit");
-    let { user, onSave, onCancel } = this.props;
-    let fields = [];
-    let editablePropeerties = ["name"];
-    if (user) {
-      fields = Object.keys(user)
-        // .filter(key => editablePropeerties.indexOf(key) !== -1)
-        .map(key => {
-          return {
-            type: "text",
-            name: key,
-            placeholder: key,
-            value: user[key]
-          };
-        });
-    }
+    let { user, onSave, onCancel, formsDomainStore } = this.props;
     return (
       <div style={{ flex: 1 }}>
         <Formik
@@ -46,28 +32,14 @@ export default class UserEdit extends React.Component {
           }) => {
             return (
               <form>
-                <FormFields fields={fields} />
-                {fields.map((field, index) => {
-                  let hasError =
-                    errors[field.name] && errors[field.name].length > 0;
-                  return (
-                    <div key={field.name}>
-                      <TextField
-                        id={field.name}
-                        label={field.name}
-                        type={field.type}
-                        onChange={event => {
-                          setFieldValue(field.name, event.target.value);
-                        }}
-                        // onBlur={handleBlur}
-                        value={values[field.name]}
-                        required={field.required}
-                      />
-                      {errors[field.name] &&
-                        touched[field.name] && <p>{errors[field.name]}</p>}
-                    </div>
-                  );
-                })}
+                <FormFields
+                  formsDomainStore={formsDomainStore}
+                  modelName="user"
+                  errors={errors}
+                  setFieldValue={setFieldValue}
+                  values={values}
+                  touched={touched}
+                />
                 <Button
                   onClick={event => {
                     handleSubmit(event);

@@ -18,7 +18,9 @@ import {
   Admin,
   adminDomainStore,
   Media,
-  mediaDomainStore
+  mediaDomainStore,
+  Forms,
+  formsDomainStore
 } from "./react+react-native/";
 import MainWrapper from "./Wrappers/MainWrapper";
 import User from "./User/User";
@@ -31,7 +33,7 @@ import Chat from "./Chat/Chat";
 import House from "./House/House";
 import Settings from "./Settings/Settings";
 import Store from "./Store/Store";
-import { withNamespaces, NamespacesConsumer, Trans } from 'react-i18next';
+import { withNamespaces, NamespacesConsumer, Trans } from "react-i18next";
 import i18n from "./i18n/i18n";
 import { observer } from "mobx-react";
 import LoginWrapper from "./Wrappers/LoginWrapper";
@@ -47,7 +49,8 @@ let rootStore = new Store({
   crudDomainStore,
   socketDomainStore,
   adminDomainStore,
-  mediaDomainStore
+  mediaDomainStore,
+  formsDomainStore
 });
 
 class App extends React.Component {
@@ -299,7 +302,12 @@ class App extends React.Component {
                   modelName="user"
                   crudDomainStore={rootStore.crudDomainStore}
                 >
-                  <User location={location} match={match} history={history} />
+                  <User
+                    formsDomainStore={rootStore.formsDomainStore}
+                    location={location}
+                    match={match}
+                    history={history}
+                  />
                 </Crud>
               </MainWrapper>
             );
