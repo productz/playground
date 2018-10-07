@@ -1,57 +1,93 @@
-//the crud service creates [create, read, update, delete] endpoints for a mongoose model
+//the crud service creates [create, read, update, del] endpoints for a mongoose model
 import crudService from "../../services/crud-service/crud-service.js";
 import mediaService from "../../services/media-service/media-service.js";
+import vizService from "../../services/viz-service/viz-service.js";
+import {
+  registerAction,
+  isPermitted
+} from "../../services/acl-service/acl-service";
 
-const User = ({ app, config, userModel }) => {
-  //you can pass domain logic here that prevents the user from doing something based on some domain logic?
-  //we can also include ACL (access control list) as part of that domain logic
-  //domain logic will be something like, before you crud run this function and pass the model into
-  //in this case we need the acl service to tell use wether this user is allowed or not
-  //resource.action is allowed
+const User = ({ app, config, userModel, permissionsModel }) => {
+
   let crudDomainLogic = {
-    c: (user, userData) => {
-      //check if this user has acl
+    create: (user, req) => {
+      //we need to include is permitted in here
       return {
-        shallIPass: true,
+        isPermitted: isPermitted({ key: "user_create", user }),
         criteria: {}
       };
     },
-    r: user => {
+    read: (user, req) => {
       return {
-        shallIPass: true,
+        isPermitted: isPermitted({ key: "user_read", user }),
         criteria: {}
       };
     },
-    u: (user, userData) => {
+    update: (user, req) => {
       return {
-        shallIPass: true,
+        isPermitted: isPermitted({ key: "user_update", user }),
         criteria: {}
       };
     },
-    d: (user, userId) => {
+    del: (user, req) => {
       return {
-        shallIPass: true,
+        isPermitted: isPermitted({ key: "user_delete", user }),
         criteria: {}
       };
     },
-    s: (user, criteria) => {
+    search: (user, req) => {
       return {
-        shallIPass: true,
+        isPermitted: isPermitted({ key: "user_search", user }),
         criteria: {}
       };
     }
   };
   const userApi = crudService({ Model: userModel, crudDomainLogic });
 
+  let vizDomainLogic = {
+    average: (user, req, res) => {
+      //this should return a criteria
+      return {};
+    },
+    min: (user, req, res) => {
+      return {};
+    },
+    max: (user, req, res) => {
+      return {};
+    },
+    sum: (user, req, res) => {
+      return {};
+    },
+    count: (user, req, res) => {
+      return {};
+    },
+    distinct: (user, req, res) => {
+      return {};
+    }
+  };
+  const vizApi = vizService({ Model: userModel, domainLogic: vizDomainLogic });
+
   //file upoad api
   let mediaDomainLogic = {
-    c: (user, files) => {
-      console.log(files);
-    }
+    saveMedia: (user, files) => {}
   };
   const fileUploadApi = mediaService({ fileName: "avatar", mediaDomainLogic });
 
-  return [userApi, fileUploadApi];
+  //register actions to configure acls in the future (namespace is user here and it will register every action into a permissions table)
+  registerAction({
+    key: "user",
+    domainLogic: crudDomainLogic,
+    permissionsModel,
+    defaultPermission: false
+  });
+  registerAction({
+    key: "user",
+    domainLogic: mediaDomainLogic,
+    permissionsModel
+  });
+
+
+  return [userApi, fileUploadApi, vizApi];
 };
 
 export default User;

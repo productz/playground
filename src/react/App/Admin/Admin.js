@@ -31,7 +31,7 @@ const AdminPage = ({ schemas, crudDomainStore, location, match, history }) => {
           location={location}
           match={match}
           history={history}
-          modelName={schema.resource.defaultValue}
+          modelName={schema.resource && schema.resource.defaultValue}
           index={index}
         />
       );
@@ -50,6 +50,9 @@ const AdminPage = ({ schemas, crudDomainStore, location, match, history }) => {
                     match.params.modelName.toLowerCase()
                   );
                 })}
+                location={location}
+                match={match}
+                history={history}
               />
             );
           }}

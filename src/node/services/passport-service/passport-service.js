@@ -10,6 +10,13 @@ import facebookPassport from "./strategies/facebook.js";
 // ---------------------------------------------------------
 var apiRoutes = express.Router();
 
+const parseCallbackHost = host => {
+  if (host.indexOf("http") === -1) {
+    return `http://${host}`;
+  }
+  return host;
+};
+
 export default function({
   app,
   config,
@@ -52,9 +59,10 @@ export default function({
   //client ID and secret for google
   let googleClientId = config.get("auth.google.clientId");
   let googleClientSecret = config.get("auth.google.clientSecret");
-  let googleCallbackURL = `${config.get("server.host")}:${config.get(
-    "server.port"
-  )}/auth/google/callback`;
+  let googleCallbackURL = `${parseCallbackHost(
+    config.get("server.host")
+  )}:${config.get("server.port")}/auth/google/callback`;
+
   googlePassport({
     passport,
     clientId: googleClientId,

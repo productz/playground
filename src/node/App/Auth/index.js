@@ -18,7 +18,7 @@ const Auth = ({ app, config, userModel }) => {
   }) => {
     //add a jwt token for mobile based authentication
     //store the id for providers
-    if ((providerName = "local")) {
+    if (providerName === "local") {
       return userModel.findOne({ email: username }, function(err, user) {
         if (err) {
           return cb(err);
@@ -29,27 +29,26 @@ const Auth = ({ app, config, userModel }) => {
         if (!user.verifyPassword(password)) {
           return cb(null, false);
         }
-        //issue a new jwt token
-        let jwtToken = jwt.sign(user, config.get("secret"));
-        user.jwtToken = jwtToken;
         return cb(null, user);
       });
     }
     //third party providers
+    let user = {};
+
+    //keys to be saved
     let providerId = `${providerName}Id`;
+    let providerProfile = `${providerName}Profile`;
     let providerAccessToken = `${providerName}AccessToken`;
     let providerRefreshToken = `${providerName}RefreshToken`;
-    let user = {
-      name: profile.displayName
-    };
-    let check = {};
-    check[providerId] = profile.id;
+
+    user.name = profile.displayName;
     user[providerId] = profile.id;
     user[providerAccessToken] = accessToken;
     user[providerRefreshToken] = refreshToken;
-    user.id = profile.id;
-    let jwtToken = jwt.sign(user, config.get("secret"));
-    user.jwtToken = jwtToken;
+    user[providerProfile] = profile;
+
+    let check = {};
+    check[providerId] = profile.id;
     userModel.findOrCreate(check, user, function(err, user) {
       return cb(err, user);
     });
@@ -79,10 +78,22 @@ const Auth = ({ app, config, userModel }) => {
   };
 
   const onSuccess = (providerName, user, res) => {
-    let redirectUrl = `${config.get("redirectUrl")}?jwt=${user.jwtToken}`;
+    let jwtToken = jwt.sign(user._id.toString(), config.get("secret"));
+    userModel.update(
+      { _id: user._id },
+      { jwtToken },
+      { multi: false },
+      (err, user) => {
+        if (err) {
+          return console.error(err);
+        }
+      }
+    );
+    let redirectUrl = `${config.get("redirectUrl")}?jwt=${jwtToken}`;
     if (providerName !== "local") {
       return res.redirect(redirectUrl);
     }
+    //delete password to prevent sending it back to the use
     user["password"] = "";
     return res.status(200).send(user);
   };

@@ -53,16 +53,20 @@ const onInit = (models, schemas) => {
     chatApiRoutes,
     userApiRoutes,
     jwtApiRoutes,
-    houseApiRoutes
+    houseApiRoutes,
+    localizationApiRoutes,
+    aclApiRoutes
   } = Api({
     app,
     config
   });
   app.use("/", authApiRoutes);
+  app.use("/", ...localizationApiRoutes);
   app.use("/jwt", jwtApiRoutes);
   app.use("/user", ...userApiRoutes);
   app.use("/house", ...houseApiRoutes);
   app.use("/chat-log", jwtApiRoutes, ...chatApiRoutes);
+  app.use("/acl", jwtApiRoutes, ...aclApiRoutes);
   app.use("/schemas", (req, res, next) => {
     res.send(schemas);
   });

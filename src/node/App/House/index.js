@@ -1,57 +1,95 @@
 //the crud service creates [create, read, update, delete] endpoints for a mongoose model
 import crudService from "../../services/crud-service/crud-service.js";
 import mediaService from "../../services/media-service/media-service.js";
+import vizService from "../../services/viz-service/viz-service.js";
+import { parseNumberQuery } from "../../services/utils/utils";
+import {
+  registerAction,
+  isPermitted
+} from "../../services/acl-service/acl-service";
 
-const House = ({ app, config, userModel, houseModel }) => {
-  //you can pass domain logic here that prevents the user from doing something based on some domain logic?
-  //we can also include ACL (access control list) as part of that domain logic
-  //domain logic will be something like, before you crud run this function and pass the model into
-  //in this case we need the acl service to tell use wether this user is allowed or not
-  //resource.action is allowed
+const House = ({ app, config, userModel, houseModel, permissionsModel }) => {
+
   let crudDomainLogic = {
-    c: (user, userData) => {
-      //check if this user has acl
+    create: (user, req) => {
+      //we need to include is permitted in here
       return {
-        shallIPass: true,
+        isPermitted: isPermitted({ key: "house_create", user }),
         criteria: {}
       };
     },
-    r: user => {
+    read: (user, req) => {
       return {
-        shallIPass: true,
+        isPermitted: isPermitted({ key: "house_read", user }),
         criteria: {}
       };
     },
-    u: (user, userData) => {
+    update: (user, req) => {
       return {
-        shallIPass: true,
+        isPermitted: isPermitted({ key: "house_update", user }),
         criteria: {}
       };
     },
-    d: (user, userId) => {
+    del: (user, req) => {
       return {
-        shallIPass: true,
+        isPermitted: isPermitted({ key: "house_delete", user }),
         criteria: {}
       };
     },
-    s: (user, criteria) => {
+    search: (user, req) => {
       return {
-        shallIPass: true,
+        isPermitted: isPermitted({ key: "house_search", user }),
         criteria: {}
       };
     }
   };
+
   const houseApi = crudService({ Model: houseModel, crudDomainLogic });
+
+  let vizDomainLogic = {
+    average: (user, req, res) => {
+      return parseNumberQuery(req.query);
+    },
+    min: (user, req, res) => {
+      return parseNumberQuery(req.query);
+    },
+    max: (user, req, res) => {
+      return parseNumberQuery(req.query);
+    },
+    sum: (user, req, res) => {
+      return parseNumberQuery(req.query);
+    },
+    count: (user, req, res) => {
+      return parseNumberQuery(req.query);
+    },
+    distinct: (user, req, res) => {
+      return parseNumberQuery(req.query);
+    }
+  };
+  const vizApi = vizService({ Model: houseModel, domainLogic: vizDomainLogic });
 
   //file upoad api
   let mediaDomainLogic = {
-    c: (user, files) => {
+    saveMedia: (user, files) => {
       console.log(files);
     }
   };
   const fileUploadApi = mediaService({ fileName: "house", mediaDomainLogic });
 
-  return [houseApi, fileUploadApi];
+  //register actions to configure acls
+  registerAction({
+    key: "house",
+    domainLogic: crudDomainLogic,
+    permissionsModel,
+    defaultPermission: false
+  });
+  registerAction({
+    key: "house",
+    domainLogic: mediaDomainLogic,
+    permissionsModel
+  });
+
+  return [houseApi, fileUploadApi, vizApi];
 };
 
 export default House;

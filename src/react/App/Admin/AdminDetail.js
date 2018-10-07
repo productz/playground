@@ -20,6 +20,71 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import SearchIcon from "@material-ui/icons/Search";
+import AdminEdit from "./AdminEdit";
+
+const ModelList = ({
+  model,
+  deleteModel,
+  createModel,
+  updateModel,
+  isEditing,
+  setModelEdit,
+  match,
+  history,
+  location
+}) => {
+  if (model && model.length > 0) {
+    return (
+      <div>
+        <Route
+          path={`${match.path}/:id`}
+          render={({ match }) => {
+            return (
+              <AdminEdit
+                onCancel={() => setModelEdit(false)}
+                onSave={(updatedUser, values) => {
+                  updateModel(updatedUser, values);
+                }}
+                model={model.find(({ _id }) => _id === match.params.id)}
+                isVisible={isEditing}
+              />
+            );
+          }}
+        />
+        <List>
+          {model.map(m => {
+            return (
+              <ListItem key={m._id}>
+                <ListItemText>
+                  <p>{m.name}</p>
+                </ListItemText>
+                <ListItemSecondaryAction>
+                  <Link to={`${match.url}/${m._id}`}>
+                    <Button
+                      onClick={() => {
+                        setModelEdit(m, true);
+                      }}
+                    >
+                      <p>Edit</p>
+                    </Button>
+                  </Link>
+                  <Button
+                    onClick={() => {
+                      deleteModel(m);
+                    }}
+                  >
+                    <p>Delete</p>
+                  </Button>
+                </ListItemSecondaryAction>
+              </ListItem>
+            );
+          })}
+        </List>
+      </div>
+    );
+  }
+  return <React.Fragment />;
+};
 
 const AdminDetail = ({
   schema,
@@ -27,36 +92,20 @@ const AdminDetail = ({
   match,
   history,
   classes,
-  detail
+  detail,
+  crudDomainStore
 }) => {
-  if (false) {
-    return models.map(model => {
-      return (
-        <ListItem key={model._id}>
-          <ListItemText>
-            <p>{model.name}</p>
-          </ListItemText>
-          <ListItemSecondaryAction>
-            <Link to={`${match.url}/${model._id}`}>
-              <Button
-                onClick={() => {
-                  setModelEdit(model, true);
-                }}
-              >
-                <p>Edit</p>
-              </Button>
-            </Link>
-            <Button
-              onClick={() => {
-                deleteModel(model);
-              }}
-            >
-              <p>Delete</p>
-            </Button>
-          </ListItemSecondaryAction>
-        </ListItem>
-      );
-    });
+  let modelName = match.params.modelName;
+  if (modelName) {
+    return (
+      <div>
+        <Route exact path={`${match.path}`}>
+          <Crud modelName={modelName} crudDomainStore={crudDomainStore}>
+            <ModelList match={match} history={history} location={location} />
+          </Crud>
+        </Route>
+      </div>
+    );
   }
   return <CircularProgress />;
 };
