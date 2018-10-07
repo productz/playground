@@ -99,9 +99,52 @@ const User = ({ app, config, userModel, permissionsModel, formsModel }) => {
     domainLogic: mediaDomainLogic,
     permissionsModel
   });
+  //translate here
   registerForms({
     key: "user",
-    fields: ["name", "email"],
+    fields: [
+      {
+        type: "text",
+        name: "name",
+        placeholder: "Name",
+        value: ""
+      },
+      {
+        type: "email",
+        name: "email",
+        placeholder: "Email",
+        value: ""
+      },
+      {
+        type: "password",
+        name: "password",
+        placeholder: "Password",
+        value: ""
+      },
+      {
+        type: "password",
+        name: "password",
+        placeholder: "Password",
+        value: ""
+      },
+      {
+        type: "select",
+        name: "gender",
+        placeholder: "Gender",
+        options: ["Male", "Female"]
+      },
+      {
+        type: "image",
+        name: "avatar",
+        placeholder: "Avatar"
+      },
+      {
+        type: "checkbox",
+        name: "isAdmin",
+        placeholder: "is admin?",
+        value: false
+      }
+    ],
     formsModel
   });
 

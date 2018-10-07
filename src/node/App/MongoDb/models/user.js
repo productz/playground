@@ -16,7 +16,7 @@ let userSchema = new Schema({
     }
   },
   gender: String,
-  image: String,
+  avatar: String,
   jwtToken: String,
   googleId: String,
   googleAccessToken: String,
@@ -33,7 +33,6 @@ let userSchema = new Schema({
   acl: Array,
   hasSeenTutorial: { type: Boolean, default: false },
   hasConfirmedEmail: { type: Boolean, default: false },
-  settings: Object,
   isAdmin: { type: Boolean, default: false },
   permissions: [{ type: Schema.Types.ObjectId, ref: "Permissions" }],
   resource: { type: String, default: "user" }

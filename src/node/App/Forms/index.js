@@ -8,7 +8,6 @@ import {
 
 const Forms = ({ app, config, permissionsModel, formsModel }) => {
 
-
   let formsDomainLogic = {
     read: user => {
       return { criteria: {}, isPermitted: true };
