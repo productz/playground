@@ -7,12 +7,16 @@ import {
 } from "../../services/acl-service/acl-service";
 
 const Forms = ({ app, config, permissionsModel, formsModel }) => {
+
+
   let formsDomainLogic = {
     read: user => {
       return { criteria: {}, isPermitted: true };
     }
   };
   const formsApi = formsService({ Model: formsModel, formsDomainLogic });
+
+
   //create a crud here too
   let crudDomainLogic = {
     create: (user, req) => {
@@ -48,6 +52,8 @@ const Forms = ({ app, config, permissionsModel, formsModel }) => {
     }
   };
   const crudApi = crudService({ Model: formsModel, crudDomainLogic });
+
+
   registerAction({
     key: "forms",
     domainLogic: crudDomainLogic,
