@@ -107,31 +107,36 @@ const User = ({ app, config, userModel, permissionsModel, formsModel }) => {
         type: "text",
         name: "name",
         placeholder: "Name",
-        value: ""
+        value: "",
+        required: true
       },
       {
         type: "email",
         name: "email",
         placeholder: "Email",
-        value: ""
+        value: "",
+        required: true
       },
-      {
-        type: "password",
-        name: "password",
-        placeholder: "Password",
-        value: ""
-      },
-      {
-        type: "password",
-        name: "password",
-        placeholder: "Password",
-        value: ""
-      },
+      // {
+      //   type: "password",
+      //   name: "password",
+      //   placeholder: "Password",
+      //   value: "",
+      //   required: true
+      // },
+      // {
+      //   type: "password",
+      //   name: "password",
+      //   placeholder: "Password",
+      //   value: "",
+      //   required: true
+      // },
       {
         type: "select",
         name: "gender",
         placeholder: "Gender",
-        options: ["Male", "Female"]
+        options: ["Male", "Female"],
+        required: true
       },
       {
         type: "image",

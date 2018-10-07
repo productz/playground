@@ -128,7 +128,7 @@ const Fields = ({ form, setFieldValue, errors, touched, values }) => {
   return <CircularProgress />;
 };
 
-const FormFields = ({
+const FormContainer = ({
   form,
   formsDomainStore,
   setFieldValue,
@@ -147,4 +147,18 @@ const FormFields = ({
   );
 };
 
-export default withStyles(styles)(FormFields);
+export const validate = (values, form) => {
+  let errors = {};
+  form.fields.map(field => {
+    if (field.required && !values[field.name]) {
+      errors[field.name] = "Required";
+    } else if (field.type === "email") {
+      if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        errors[field.name] = "Invalid Email";
+      }
+    }
+  });
+  return errors;
+};
+ 
+export const FormFields = withStyles(styles)(FormContainer);
