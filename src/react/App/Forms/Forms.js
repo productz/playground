@@ -9,6 +9,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Checkbox from "@material-ui/core/Checkbox";
 import { Forms } from "../react+react-native";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const styles = theme => ({
   root: {
@@ -26,11 +27,11 @@ const styles = theme => ({
 
 const Fields = ({ model, setFieldValue, errors, touched, values }) => {
   let form = model;
-  return (
-    <div>
-      {form.fields.map(field => {
-        {
-          field.type === "text" ||
+  if (form) {
+    let fieldsView = form.fields.map(field => {
+      return (
+        <div>
+          {field.type === "text" ||
             field.type === "email" ||
             (field.type === "password" && (
               <TextField
@@ -44,10 +45,8 @@ const Fields = ({ model, setFieldValue, errors, touched, values }) => {
                 value={values[field.name]}
                 required={field.required || false}
               />
-            ));
-        }
-        {
-          field.type === "select" && (
+            ))}
+          {field.type === "select" && (
             <TextField
               id={field.name}
               label={field.name}
@@ -59,10 +58,8 @@ const Fields = ({ model, setFieldValue, errors, touched, values }) => {
               value={values[field.name]}
               required={field.required || false}
             />
-          );
-        }
-        {
-          field.type === "image" && (
+          )}
+          {field.type === "image" && (
             <TextField
               id={field.name}
               label={field.name}
@@ -74,15 +71,15 @@ const Fields = ({ model, setFieldValue, errors, touched, values }) => {
               value={values[field.name]}
               required={field.required || false}
             />
-          );
-        }
-        {
-          errors[field.name] &&
-            touched[field.name] && <p>{errors[field.name]}</p>;
-        }
-      })}
-    </div>
-  );
+          )}
+          {errors[field.name] &&
+            touched[field.name] && <p>{errors[field.name]}</p>}
+        </div>
+      );
+    });
+    return <div>{fieldsView}</div>;
+  }
+  return <CircularProgress />;
 };
 
 const FormFields = ({
