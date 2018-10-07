@@ -8,6 +8,7 @@ import permissionsModel from "./MongoDb/models/permissions";
 import userApi from "./User";
 import houseApi from "./House";
 import aclApi from "./Acl";
+import formsApi from "./Forms";
 import localizationApi from "./Localization";
 import jwtApi from "./Jwt";
 
@@ -43,6 +44,7 @@ const Api = ({ app, config }) => {
     permissionsModel
   });
   let aclApiRoutes = aclApi({ app, config, permissionsModel });
+  let formsApiRoutes = formsApi({ app, config, formsModel, permissionsModel });
   let localizationApiRoutes = localizationApi({ app, userModel });
   let jwtApiRoutes = jwtApi({
     app,
@@ -58,7 +60,8 @@ const Api = ({ app, config }) => {
     jwtApiRoutes,
     houseApiRoutes,
     localizationApiRoutes,
-    aclApiRoutes
+    aclApiRoutes,
+    formsApiRoutes
   };
 };
 

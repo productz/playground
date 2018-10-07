@@ -4,7 +4,7 @@ import { executeDomain } from "../utils/utils";
 export function formsService({ Model, formsDomainLogic: { read } }) {
   var apiRoutes = express.Router();
 
-  apiRoutes.get("/", function(req, res) {
+  apiRoutes.get("/forms", function(req, res) {
     let { criteria, isPermitted } = executeDomain(req, res, read);
     if (!isPermitted) {
       return res.status(409).send({
