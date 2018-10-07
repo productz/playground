@@ -9,12 +9,31 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Checkbox from "@material-ui/core/Checkbox";
 import { Forms } from "../react+react-native";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const styles = theme => ({
   root: {
     display: "flex",
     flexWrap: "wrap"
+  },
+  layout: {
+    width: "auto",
+    display: "block", // Fix IE11 issue.
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: 750,
+      marginLeft: "auto",
+      marginRight: "auto"
+    }
+  },
+  textField: {
+    margin: "1em 0"
   },
   formControl: {
     margin: theme.spacing.unit,
@@ -25,32 +44,59 @@ const styles = theme => ({
   }
 });
 
-const Fields = ({ model, setFieldValue, errors, touched, values }) => {
-  let form = model;
+const Fields = ({ form, setFieldValue, errors, touched, values }) => {
   if (form) {
     let fieldsView = form.fields.map(field => {
       return (
-        <div>
-          {field.type === "text" ||
-            field.type === "email" ||
-            (field.type === "password" && (
-              <TextField
-                id={field.name}
-                label={field.name}
-                type={field.type}
-                onChange={event => {
-                  setFieldValue(field.name, event.target.value);
-                }}
-                // onBlur={handleBlur}
-                value={values[field.name]}
-                required={field.required || false}
-              />
-            ))}
+        <CardContent style={{ margin: "3em" }}>
+          {field.type === "text" && (
+            <TextField
+              id={field.name}
+              label={field.name}
+              type={field.type}
+              onChange={event => {
+                setFieldValue(field.name, event.target.value);
+              }}
+              fullWidth={true}
+              // onBlur={handleBlur}
+              value={values[field.name]}
+              required={field.required || false}
+            />
+          )}
+          {field.type === "email" && (
+            <TextField
+              id={field.name}
+              label={field.name}
+              type={field.type}
+              fullWidth={true}
+              onChange={event => {
+                setFieldValue(field.name, event.target.value);
+              }}
+              // onBlur={handleBlur}
+              value={values[field.name]}
+              required={field.required || false}
+            />
+          )}
+          {field.type === "password" && (
+            <TextField
+              id={field.name}
+              label={field.name}
+              type={field.type}
+              fullWidth={true}
+              onChange={event => {
+                setFieldValue(field.name, event.target.value);
+              }}
+              // onBlur={handleBlur}
+              value={values[field.name]}
+              required={field.required || false}
+            />
+          )}
           {field.type === "select" && (
             <TextField
               id={field.name}
               label={field.name}
               type={field.type}
+              fullWidth={true}
               onChange={event => {
                 setFieldValue(field.name, event.target.value);
               }}
@@ -74,16 +120,16 @@ const Fields = ({ model, setFieldValue, errors, touched, values }) => {
           )}
           {errors[field.name] &&
             touched[field.name] && <p>{errors[field.name]}</p>}
-        </div>
+        </CardContent>
       );
     });
-    return <div>{fieldsView}</div>;
+    return <Card>{fieldsView}</Card>;
   }
   return <CircularProgress />;
 };
 
 const FormFields = ({
-  modelName,
+  form,
   formsDomainStore,
   setFieldValue,
   errors,
@@ -91,14 +137,13 @@ const FormFields = ({
   touched
 }) => {
   return (
-    <Forms modelName={modelName} formsDomainStore={formsDomainStore}>
-      <Fields
-        errors={errors}
-        setFieldValue={setFieldValue}
-        values={values}
-        touched={touched}
-      />
-    </Forms>
+    <Fields
+      errors={errors}
+      setFieldValue={setFieldValue}
+      values={values}
+      touched={touched}
+      form={form}
+    />
   );
 };
 

@@ -302,12 +302,17 @@ class App extends React.Component {
                   modelName="user"
                   crudDomainStore={rootStore.crudDomainStore}
                 >
-                  <User
+                  <Forms
+                    modelName="user"
                     formsDomainStore={rootStore.formsDomainStore}
-                    location={location}
-                    match={match}
-                    history={history}
-                  />
+                  >
+                    <User
+                      formsDomainStore={rootStore.formsDomainStore}
+                      location={location}
+                      match={match}
+                      history={history}
+                    />
+                  </Forms>
                 </Crud>
               </MainWrapper>
             );

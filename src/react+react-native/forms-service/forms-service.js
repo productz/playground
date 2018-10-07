@@ -61,7 +61,7 @@ export class Forms extends React.Component {
     console.log("rerender crud service");
     const childrenWithProps = React.Children.map(children, child => {
       return React.cloneElement(child, {
-        model: formsDomainStore.mapStore.get(modelName),
+        form: formsDomainStore.mapStore.get(modelName),
         getModel: () => formsDomainStore.getModel(modelName, true),
         ...this.props,
         ...child.props

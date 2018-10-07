@@ -87,8 +87,8 @@ const User = ({
   location,
   match,
   history,
-  formsDomainStore,
-  classes
+  classes,
+  form
 }) => {
   let users = model;
   if (users && users.length > 0) {
@@ -149,7 +149,7 @@ const User = ({
                 onSave={(updatedUser, values) => {
                   updateModel(updatedUser, values);
                 }}
-                formsDomainStore={formsDomainStore}
+                form={form}
                 user={users.find(({ _id }) => _id === match.params.id)}
                 isVisible={isEditing}
               />

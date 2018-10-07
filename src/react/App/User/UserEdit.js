@@ -9,7 +9,7 @@ export default class UserEdit extends React.Component {
   componentWillReceiveProps(nextProps) {}
   render() {
     console.log("rerender user edit");
-    let { user, onSave, onCancel, formsDomainStore } = this.props;
+    let { user, onSave, onCancel, form } = this.props;
     return (
       <div style={{ flex: 1 }}>
         <Formik
@@ -33,8 +33,7 @@ export default class UserEdit extends React.Component {
             return (
               <form>
                 <FormFields
-                  formsDomainStore={formsDomainStore}
-                  modelName="user"
+                  form={form}
                   errors={errors}
                   setFieldValue={setFieldValue}
                   values={values}
