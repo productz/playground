@@ -12,6 +12,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import moonlighter from "./moonlighter.jpg";
 import nook from "./nook.jpg";
 import House from "./House";
+import FormFields from "../Forms/Forms";
 
 let styles = theme => ({
   layout: {
@@ -87,6 +88,7 @@ class HouseEdit extends React.Component {
             }) => {
               return (
                 <form>
+                  <FormFields fields={fields} />
                   {fields.map((field, index) => {
                     let hasError =
                       errors[field.name] && errors[field.name].length > 0;

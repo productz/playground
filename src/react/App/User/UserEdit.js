@@ -3,6 +3,7 @@ import { toJS } from "mobx";
 import { Formik } from "formik";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import FormFields from "../Forms/Forms";
 
 export default class UserEdit extends React.Component {
   componentWillReceiveProps(nextProps) {}
@@ -13,7 +14,7 @@ export default class UserEdit extends React.Component {
     let editablePropeerties = ["name"];
     if (user) {
       fields = Object.keys(user)
-        .filter(key => editablePropeerties.indexOf(key) !== -1)
+        // .filter(key => editablePropeerties.indexOf(key) !== -1)
         .map(key => {
           return {
             type: "text",
@@ -45,6 +46,7 @@ export default class UserEdit extends React.Component {
           }) => {
             return (
               <form>
+                <FormFields fields={fields} />
                 {fields.map((field, index) => {
                   let hasError =
                     errors[field.name] && errors[field.name].length > 0;
