@@ -1,7 +1,7 @@
 {
     "server":{
-        "port":8081,
-        "ip":"ec2-34-217-82-107.us-west-2.compute.amazonaws.com"
+        "port":8082,
+        "ip":"http://ec2-52-33-189-103.us-west-2.compute.amazonaws.com"
     },
     "db":{
         "host":"mongodb://localhost",
