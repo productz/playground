@@ -1,5 +1,7 @@
 //add localStorage
 import { SERVER } from "../../config";
+import queryString from "query-string";
+
 let offlineStorage = {
   setItem: (key, value) => {
     return new Promise((resolve, reject) => {
@@ -34,7 +36,9 @@ export default class RootStore {
     this.socketDomainStore = new socketDomainStore(this, SERVER);
     this.adminDomainStore = new adminDomainStore(this, SERVER);
     this.mediaDomainStore = new mediaDomainStore(this, SERVER);
-    this.authDomainStore.storeToken();
+    //get jwt token if it's in the route
+    const jwtToken = queryString.parse(location.search).jwt;
+    this.authDomainStore.storeToken(jwtToken);
     this.authDomainStore.isAuthenticated();
   }
 }

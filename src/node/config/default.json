@@ -8,5 +8,5 @@
     "port": 27017
   },
   "secret": "ijwtooo",
-  "redirectUrl": "http://localhost:8082"
+  "redirectUrl": "http://localhost:8085"
 }

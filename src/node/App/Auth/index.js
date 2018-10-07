@@ -93,6 +93,7 @@ const Auth = ({ app, config, userModel }) => {
     if (providerName !== "local") {
       return res.redirect(redirectUrl);
     }
+    //delete password to prevent sending it back to the use
     user["password"] = "";
     return res.status(200).send(user);
   };
