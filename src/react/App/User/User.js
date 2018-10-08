@@ -121,25 +121,6 @@ const User = ({
     });
     return (
       <div className={classes.root}>
-        <header>
-          <AppBar position="static">
-            <Toolbar>
-              <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon />
-                </div>
-                <Input
-                  placeholder="Search…"
-                  disableUnderline
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput
-                  }}
-                />
-              </div>
-            </Toolbar>
-          </AppBar>
-        </header>
         <Route
           path={`${match.path}/:id`}
           render={({ match }) => {
@@ -161,16 +142,37 @@ const User = ({
           path={`${match.path}`}
           render={props => {
             return (
-              <List>
-                {usersView}
-                <Button
-                  onClick={() => {
-                    createModel({ name: "Zee" });
-                  }}
-                >
-                  <p>Create User</p>
-                </Button>
-              </List>
+              <React.Fragment>
+                <header>
+                  <AppBar position="static">
+                    <Toolbar>
+                      <div className={classes.search}>
+                        <div className={classes.searchIcon}>
+                          <SearchIcon />
+                        </div>
+                        <Input
+                          placeholder="Search…"
+                          disableUnderline
+                          classes={{
+                            root: classes.inputRoot,
+                            input: classes.inputInput
+                          }}
+                        />
+                      </div>
+                    </Toolbar>
+                  </AppBar>
+                </header>
+                <List>
+                  {usersView}
+                  <Button
+                    onClick={() => {
+                      createModel({ name: "Zee" });
+                    }}
+                  >
+                    <p>Create User</p>
+                  </Button>
+                </List>
+              </React.Fragment>
             );
           }}
         />
